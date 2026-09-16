@@ -35,7 +35,7 @@ jobs:
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
       - name: Create Capacitor Android project
-        run: npx cap add android
+        run: npx cap add android --verbose
 
       - name: Sync Capacitor
         run: npx cap sync android
