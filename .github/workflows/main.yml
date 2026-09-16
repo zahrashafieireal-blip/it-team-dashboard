@@ -19,6 +19,18 @@ jobs:
         with:
           node-version: 22
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Check environment
+        run: |
+          node --version
+          npm --version
+          java -version
+
       - name: Prepare web files
         run: |
           mkdir -p www
@@ -30,9 +42,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Capacitor packages
-        run: |
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+      - name: Verify Capacitor
+        run: npx cap --version
 
       - name: Create Capacitor Android project
         run: npx cap add android --verbose
@@ -42,7 +53,9 @@ jobs:
 
       - name: Build APK
         working-directory: android
-        run: chmod +x gradlew && ./gradlew assembleDebug
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
