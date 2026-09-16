@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#116b52">
+<link rel="manifest" href="manifest.json">
+<title>داشبورد عملکرد تیم فناوری اطلاعات</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7f5;color:#17352d;font-family:Tahoma,Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.app{max-width:1050px;margin:auto}
+header{background:#116b52;color:#fff;padding:28px 18px 34px;border-radius:0 0 28px 28px;text-align:center}
+header h1{margin:0 0 8px;font-size:25px}header p{margin:0;opacity:.9}
+main{padding:18px}.panel{display:none;background:#fff;border-radius:22px;padding:20px;margin-bottom:18px;box-shadow:0 5px 20px #0000000c}.panel.active{display:block}
+.cardgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:#fff;border-radius:20px;padding:24px 15px;min-height:145px;box-shadow:0 4px 18px #0000000b;text-align:center}.card .ico{font-size:42px}.card h3{margin:10px 0 0}
+.userbox{background:#fff;border-radius:22px;padding:20px;margin-bottom:16px;box-shadow:0 4px 18px #0000000b}
+label{display:block;margin:12px 0 6px;font-weight:bold}input,select,textarea{width:100%;border:1px solid #d8e1dd;border-radius:12px;padding:12px;background:#fff;color:#17352d}textarea{min-height:100px;resize:vertical}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.primary,.secondary,.danger{padding:11px 16px;border-radius:12px}.primary{background:#116b52;color:#fff}.secondary{background:#e7f1ed;color:#116b52}.danger{background:#fbe7e7;color:#a62929}
+table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px;border:1px solid #dfe7e3;text-align:right;vertical-align:top}th{background:#edf4f1}
+.tablewrap{overflow:auto;border-radius:12px}.done{background:#e7f0ff}.progress{background:#e8f7eb}.deadline{background:#ffe7e7}.waiting{background:#fff8df}
+.badges{display:flex;gap:7px;flex-wrap:wrap}.badge{background:#edf4f1;border-radius:20px;padding:6px 10px;font-size:13px}.empty{text-align:center;padding:25px;color:#75847f}
+.teamitem{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f7faf8;border:1px solid #e2ebe7;padding:12px;border-radius:13px;margin:8px 0}
+.small{font-size:13px;color:#687873}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}.stat{background:#f5f9f7;border-radius:13px;padding:14px;text-align:center}.stat b{font-size:23px;display:block}
+.hidden{display:none!important}.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.back{background:#c62828!important;color:#fff!important;font-weight:bold;padding:10px 15px;border-radius:11px;box-shadow:0 2px 6px #0002}
+.back:hover{background:#a91f1f!important}
+.logout-btn{background:#c62828!important;color:#fff!important;font-weight:bold;padding:10px 15px;border-radius:11px;box-shadow:0 2px 6px #0002}
+.modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;z-index:50;padding:15px}.modal.show{display:flex}.modalbox{background:#fff;border-radius:20px;width:min(420px,96vw);padding:18px}
+.calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.calhead button{background:#edf4f1;border-radius:10px;padding:9px 14px}.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.weekdays{font-weight:bold;margin-bottom:6px}.days button,.blank{height:38px;border-radius:9px}.days button{border:0;background:#f4f6f5}.days button:hover,.days button.sel{background:#116b52;color:#fff}.closecal{width:100%;margin-top:12px;padding:10px;background:#eee;border-radius:10px}
+@media(max-width:650px){.cardgrid{grid-template-columns:1fr 1fr}.card{min-height:125px;padding:18px 8px}.card .ico{font-size:34px}.stats{grid-template-columns:1fr 1fr}header h1{font-size:21px}main{padding:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>ثبت و مدیریت گزارش کار — آفلاین</p></header>
+<main>
+<section id="login" class="panel active">
+<div class="userbox">
+<h2>👤 انتخاب کاربر</h2>
+<p class="small">کاربر را انتخاب کنید تا کارتابل مربوط به همان شخص نمایش داده شود.</p>
+<label>کاربر</label><select id="userSelect"></select>
+<div class="small" style="margin-top:8px">مدیر دپارتمان: آقای شریفی</div>
+<div class="actions"><button class="primary" onclick="enterApp()">ورود به کارتابل</button></div>
+</div>
+</section>
+
+<section id="home" class="panel">
+<div class="userbox">
+<div class="topline"><h2 id="welcome">کارتابل</h2><button class="logout-btn" onclick="logout()">⛔ خروج</button></div>
+<div id="homeStats"></div>
+</div>
+<div class="cardgrid">
+<button class="card" onclick="showPanel('add')"><div class="ico">➕</div><h3>ثبت فعالیت</h3></button>
+<button class="card" onclick="showPanel('today');renderToday()"><div class="ico">📋</div><h3>فعالیت‌های امروز</h3></button>
+<button class="card" onclick="showPanel('weekly');renderWeekly()"><div class="ico">📊</div><h3>گزارش هفتگی</h3></button>
+<button class="card" onclick="showPanel('monthly');renderMonthly()"><div class="ico">📅</div><h3>گزارش ماهانه</h3></button>
+<button class="card" onclick="showPanel('team');renderTeam()"><div class="ico">👥</div><h3>اعضای گروه</h3></button>
+<button class="card" onclick="showPanel('search');renderSearch()"><div class="ico">🔎</div><h3>جستجوی فعالیت‌ها</h3></button>
+<button class="card" onclick="showPanel('meetings');renderMeetings()"><div class="ico">🏛️</div><h3>نوبت هیئت عمومی</h3></button>
+<button class="card" onclick="showPanel('archive');renderArchive()"><div class="ico">🗂️</div><h3>آرشیو فعالیت‌ها</h3></button>
+<button class="card" onclick="showPanel('reviews');renderReviews()"><div class="ico">⭐</div><h3>ارزیابی مدیر</h3></button>
+<button class="card" onclick="showPanel('settings');renderSettings()"><div class="ico">⚙️</div><h3>تنظیمات</h3></button>
+</div>
+</section>
+
+<section id="add" class="panel">
+<div class="topline"><h2>➕ ثبت فعالیت</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
+<label>تاریخ</label><div class="actions" style="margin:0"><input id="aDate" placeholder="۱۴۰۵/۰۵/۱۲"><button class="secondary" type="button" onclick="openCalendar('aDate')">📅 تقویم</button></div>
+<label>کارشناس</label><select id="aOwner"></select>
+<label>نوع فعالیت</label><select id="aType"><option>تسک</option><option>نامه</option><option>پشتیبانی</option><option>جلسه</option><option>پیگیری</option><option>پروژه</option><option>سخت‌افزار</option><option>سایر</option></select>
+<label>شرح فعالیت</label><textarea id="aDesc"></textarea>
+<label>وضعیت</label><select id="aStatus"><option>انجام شد</option><option>در حال انجام</option><option>منتظر پاسخ</option><option>لغو شد</option></select>
+<label>مکاتبه</label><select id="aCorr"><option>خیر</option><option>بله</option></select>
+<label>شماره نامه</label><input id="aLetter">
+<label>تاریخ نامه</label><input id="aLetterDate" placeholder="۱۴۰۵/۰۵/۱۲">
+<label>واحد</label><input id="aUnit">
+<label>Deadline</label><input id="aDeadline" placeholder="۱۴۰۵/۰۵/۲۰">
+<label>یادداشت</label><textarea id="aNotes"></textarea>
+<div class="actions"><button class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div>
+</section>
+
+<section id="today" class="panel"><div class="topline"><h2>📋 فعالیت‌های امروز</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="todayContent"></div></section>
+
+<section id="weekly" class="panel"><div class="topline"><h2>📊 گزارش هفتگی</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
+<label>هفته موردنظر</label><select id="weekSelect" onchange="renderWeekly()"></select><div id="weeklyStats"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th></tr></thead><tbody id="weeklyBody"></tbody></table></div>
+<div class="actions"><button class="primary" onclick="exportActivities('week')">📊 خروجی Excel</button><button class="secondary" onclick="printActivities('week')">📄 چاپ / PDF</button></div></section>
+
+<section id="monthly" class="panel"><div class="topline"><h2>📅 گزارش ماهانه</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="monthlyStats"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>Deadline</th></tr></thead><tbody id="monthlyBody"></tbody></table></div><div class="actions"><button class="primary" onclick="exportActivities('month')">📊 خروجی Excel</button><button class="secondary" onclick="printActivities('month')">📄 چاپ / PDF</button></div></section>
+
+<section id="team" class="panel"><div class="topline"><h2>👥 اعضای گروه</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
+<div class="actions"><button class="primary" onclick="toggleTeamAdd(true)">➕ افزودن عضو جدید</button><button class="danger" onclick="deleteSelectedMember()">🗑️ حذف عضو</button></div>
+<div id="teamAdd" class="userbox hidden"><label>نام کارشناس</label><input id="newName"><label>سمت / مسئولیت</label><input id="newRole"><div class="actions"><button class="primary" onclick="addMember()">ثبت عضو</button><button class="secondary" onclick="toggleTeamAdd(false)">انصراف</button></div></div>
+<div id="teamList"></div><div class="teamitem"><div><b>آقای شریفی</b><div class="small">مدیر دپارتمان</div></div><span class="badge">مدیر</span></div>
+</section>
+
+<section id="search" class="panel"><div class="topline"><h2>🔎 جستجوی فعالیت‌ها</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><input id="searchInput" placeholder="نام کارشناس، شرح، نامه، واحد..." oninput="renderSearch()"><div id="searchContent"></div></section>
+
+<section id="meetings" class="panel"><div class="topline"><h2>🏛️ نوبت جلسه هیئت عمومی</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
+<p class="small">تاریخ را می‌توانید دستی وارد کنید یا از تقویم انتخاب کنید.</p>
+<label>تاریخ جلسه</label><div class="actions" style="margin:0"><input id="mDate" placeholder="۱۴۰۵/۰۶/۳۱"><button class="secondary" onclick="openCalendar('mDate')">📅 تقویم</button></div>
+<label>کارشناس</label><select id="mPerson"></select>
+<div class="actions"><button class="primary" onclick="saveMeeting()">💾 ثبت نوبت</button></div>
+<h3>📋 آرشیو شرکت در جلسات</h3><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>شرکت کرده</th></tr></thead><tbody id="meetingBody"></tbody></table></div>
+<div class="actions"><button class="primary" onclick="exportMeetings()">📥 خروجی آرشیو هیئت عمومی</button><button class="secondary" onclick="printMeetings()">📄 چاپ / PDF</button></div>
+</section>
+
+<section id="archive" class="panel"><div class="topline"><h2>🗂️ آرشیو فعالیت‌ها</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="archiveFilter"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th><th>عملیات</th></tr></thead><tbody id="archiveBody"></tbody></table></div><div class="actions"><button class="primary" onclick="exportActivities('all')">📊 خروجی Excel</button></div></section>
+
+<section id="reviews" class="panel"><div class="topline"><h2>⭐ ارزیابی مدیر</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="reviewContent"></div></section>
+
+<section id="settings" class="panel"><div class="topline"><h2>⚙️ تنظیمات و پشتیبان‌گیری</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
+<p class="small">اطلاعات در همین دستگاه و به‌صورت آفلاین ذخیره می‌شود.</p>
+<div class="actions"><button class="primary" onclick="backup()">📤 پشتیبان‌گیری</button><button class="secondary" onclick="document.getElementById('restoreFile').click()">📥 بازیابی</button><input id="restoreFile" class="hidden" type="file" accept=".json" onchange="restore(this.files[0])"><button class="danger" onclick="resetData()">حذف اطلاعات فعالیت‌ها</button></div>
+<div id="settingsContent"></div></section>
+</main>
+</div>
+
+<div id="calModal" class="modal" onclick="if(event.target===this)closeCalendar()"><div class="modalbox">
+<div class="calhead"><button onclick="changeMonth(-1)">‹</button><b id="calTitle"></b><button onclick="changeMonth(1)">›</button></div>
+<div class="weekdays"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div>
+<div id="calDays" class="days"></div><button class="closecal" onclick="closeCalendar()">بستن</button>
+</div></div>
+
+<script>
+const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings';
+const DEFAULT_TEAM=[
+{name:'شفیعی',role:'پشتیبان سمپ'},{name:'دری',role:'طراح نرم‌افزار'},
+{name:'عینی',role:'سخت‌افزار و پروژه دیتابیس'},{name:'عطاریان',role:'پشتیبان شبکه و ساپورت فنی'}];
+let team=JSON.parse(localStorage.getItem(TEAMKEY)||'null'); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM;
+let data=JSON.parse(localStorage.getItem(KEY)||'[]'); let meetings=JSON.parse(localStorage.getItem(MEETKEY)||'[]');
+let currentUser='', calTarget='', calY=1405, calM=1;
+const jmonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const fa='۰۱۲۳۴۵۶۷۸۹';
+
+function faDigits(v){return String(v??'').replace(/\d/g,d=>fa[d])}
+function enDigits(v){return String(v??'').replace(/[۰-۹]/g,d=>String(fa.indexOf(d)))}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function pad(n){return String(n).padStart(2,'0')}
+function today(){
+ let d=new Date();
+ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+function normalizeStoredDate(v){
+ let s=String(v??'').trim();
+ if(/^\\d{4}-\\d{1,2}-\\d{1,2}$/.test(s)){
+   let p=s.split('-'); return p[0]+'-'+pad(p[1])+'-'+pad(p[2]);
+ }
+ return s;
+}
+
+// Jalali conversion (Gregorian <-> Jalali)
+function div(a,b){return Math.floor(a/b)}
+function g2j(gy,gm,gd){
+ let gdm=[0,31,28,31,30,31,30,31,31,30,31,30,31], jy, days;
+ gy-=1600;gm-=1;gd-=1;days=365*gy+div(gy+3,4)-div(gy+99,100)+div(gy+399,400);
+ for(let i=0;i<gm;i++)days+=gdm[i]; if(gm>1&&((gy+1600)%4===0&&((gy+1600)%100!==0||(gy+1600)%400===0)))days++;
+ days+=gd; let jdays=days-79; let j_np=div(jdays,12053); jdays%=12053;
+ jy=979+33*j_np+4*div(jdays,1461); jdays%=1461;
+ if(jdays>=366){jy+=div(jdays-1,365);jdays=(jdays-1)%365}
+ let jm=jdays<186?1+div(jdays,31):7+div(jdays-186,30);let jd=1+(jdays<186?jdays%31:(jdays-186)%30);
+ return [jy,jm,jd]
+}
+function j2g(jy,jm,jd){
+ let gy=jy-979,jdays=365*gy+div(gy,33)*8+div((gy%33)+3,4);
+ for(let i=1;i<jm;i++)jdays+=i<=6?31:30;jdays+=jd-1;jdays+=79;
+ let gy2=1600+400*div(jdays,146097);jdays%=146097;let leap=true;
+ if(jdays>=36525){jdays--;gy2+=100*div(jdays,36524);jdays%=36524;if(jdays>=365)jdays++;else leap=false}
+ gy2+=4*div(jdays,1461);jdays%=1461;if(jdays>=366){leap=false;jdays--;gy2+=div(jdays,365);jdays%=365}
+ let gd=jdays+1,gdm=[31,(leap?29:28),31,30,31,30,31,31,30,31,30,31],gm=0;
+ while(gd>gdm[gm]){gd-=gdm[gm];gm++} return [gy2,gm+1,gd]
+}
+function jstrToG(s){let x=enDigits(s).replace(/-/g,'/').split('/').map(Number);if(x.length!==3||!x.every(Number.isFinite))return '';let g=j2g(x[0],x[1],x[2]);return g[0]+'-'+pad(g[1])+'-'+pad(g[2])}
+function gToJ(s){let x=s.split('-').map(Number),j=g2j(x[0],x[1],x[2]);return j[0]+'/'+pad(j[1])+'/'+pad(j[2])}
+function validDate(s){return !!jstrToG(s)}
+function fmtDate(v){if(!v)return '';let s=String(v);return /^\d{4}-\d{2}-\d{2}$/.test(s)?faDigits(gToJ(s)):faDigits(s)}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings))}
+function members(){return team.map(x=>x.name)}
+function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
+
+function fillSelectors(){
+ const us=document.getElementById('userSelect'),ao=document.getElementById('aOwner'),mp=document.getElementById('mPerson');
+ us.innerHTML='<option value="">انتخاب کنید...</option>'+team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)} — ${esc(x.role)}</option>`).join('')+'<option value="مدیر">مدیر دپارتمان — آقای شریفی</option>';
+ ao.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
+ mp.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
+}
+function enterApp(){let u=document.getElementById('userSelect').value;if(!u){alert('لطفاً کاربر را انتخاب کنید.');return}currentUser=u;document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان — آقای شریفی':'کارتابل '+u;showPanel('home');renderHome()}
+function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value=''}
+function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function renderHome(){
+ let a=ownerData(),done=a.filter(x=>x.status==='انجام شد').length,open=a.length-done,reviewed=a.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length;
+ document.getElementById('homeStats').innerHTML=`<div class="stats"><div class="stat"><b>${faDigits(a.length)}</b>کل فعالیت</div><div class="stat"><b>${faDigits(done)}</b>انجام‌شده</div><div class="stat"><b>${faDigits(open)}</b>باز</div><div class="stat"><b>${faDigits(reviewed)}</b>ارزیابی‌شده</div></div><div class="small">${currentUser==='مدیر'?'نمایش اطلاعات کل تیم':'نمایش فعالیت‌های ثبت‌شده برای '+esc(currentUser)}</div>`;
+}
+
+function rowClass(x){if(x.deadline)return 'deadline';if(x.status==='انجام شد')return 'done';if(x.status==='در حال انجام')return 'progress';return 'waiting'}
+function activityRows(arr,includeOwner=true){
+ if(!arr.length)return '<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+ return arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td>${includeOwner?`<td>${esc(x.owner)}</td>`:''}<td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td>${includeOwner?`<td>${esc(x.correspondence||'خیر')}</td>`:''}<td>${x.deadline?fmtDate(x.deadline):'—'}</td></tr>`).join('')
+}
+function renderToday(){
+ let t=normalizeStoredDate(today());
+ let a=ownerData().filter(x=>normalizeStoredDate(x.date)===t);
+ document.getElementById('todayContent').innerHTML=
+ '<div class="badges"><span class="badge">تاریخ امروز: '+fmtDate(t)+'</span><span class="badge">تعداد: '+faDigits(a.length)+'</span></div>'+
+ '<div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th></tr></thead><tbody>'+
+ activityRows(a)+'</tbody></table></div>';
+}
+function renderWeekly(){let v=document.getElementById('weekSelect').value;if(!v)return;let [a,b]=v.split('|');let arr=ownerData().filter(x=>x.date>=a&&x.date<=b);document.getElementById('weeklyStats').innerHTML=`<div class="badges"><span class="badge">کل: ${faDigits(arr.length)}</span><span class="badge">انجام‌شده: ${faDigits(arr.filter(x=>x.status==='انجام شد').length)}</span></div>`;document.getElementById('weeklyBody').innerHTML=activityRows(arr)}
+function renderMonthly(){let now=new Date(),a=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-01',b=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-31',arr=ownerData().filter(x=>x.date>=a&&x.date<=b);document.getElementById('monthlyStats').innerHTML=`<div class="badges"><span class="badge">کل فعالیت این ماه: ${faDigits(arr.length)}</span></div>`;document.getElementById('monthlyBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">در این ماه داده‌ای وجود ندارد.</td></tr>'}
+
+function saveActivity(){
+ let d=document.getElementById('aDate').value.trim(),g=validDate(d)?jstrToG(d):'';
+ if(!d){alert('لطفاً تاریخ را وارد کنید.');return} if(!g){alert('تاریخ واردشده معتبر نیست.');return}
+ let deadline=document.getElementById('aDeadline').value.trim(),dg=deadline?(validDate(deadline)?jstrToG(deadline):''):'';
+ if(deadline&&!dg){alert('تاریخ Deadline معتبر نیست.');return}
+ let ld=document.getElementById('aLetterDate').value.trim(),lg=ld?(validDate(ld)?jstrToG(ld):''):'';
+ if(ld&&!lg){alert('تاریخ نامه معتبر نیست.');return}
+ data.push({id:Date.now(),owner:document.getElementById('aOwner').value,date:normalizeStoredDate(g),type:document.getElementById('aType').value,desc:document.getElementById('aDesc').value.trim(),status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,letter:document.getElementById('aLetter').value.trim(),letterDate:lg,unit:document.getElementById('aUnit').value.trim(),deadline:dg,notes:document.getElementById('aNotes').value.trim(),managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});save();clearActivityForm();renderToday();alert('فعالیت با موفقیت ثبت شد.');showPanel('home');renderHome()
+}
+function clearActivityForm(){['aDesc','aLetter','aLetterDate','aUnit','aDeadline','aNotes'].forEach(id=>document.getElementById(id).value='');document.getElementById('aDate').value=gToJ(today())}
+
+function renderSearch(){let q=(document.getElementById('searchInput').value||'').trim().toLowerCase(),arr=ownerData().filter(x=>Object.values(x).join(' ').toLowerCase().includes(q));document.getElementById('searchContent').innerHTML='<div class="small" style="margin:12px 0">تعداد نتیجه: '+faDigits(arr.length)+'</div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr></thead><tbody>'+(arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">نتیجه‌ای پیدا نشد.</td></tr>')+'</tbody></table></div>'}
+
+function renderArchive(){
+ let arr=ownerData(),filter=document.getElementById('archiveFilter');
+ if(currentUser==='مدیر')filter.innerHTML='<label>فیلتر کارشناس</label><select id="archivePerson" onchange="renderArchive()"><option value="">همه اعضا</option>'+team.map(x=>`<option>${esc(x.name)}</option>`).join('')+'</select>';else filter.innerHTML='';
+ let u=document.getElementById('archivePerson')?.value;if(u)arr=arr.filter(x=>x.owner===u);
+ document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td><td><button class="danger" onclick="deleteActivity(${x.id})">حذف</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>'
+}
+function deleteActivity(id){if(currentUser!=='مدیر'&&!data.find(x=>x.id===id)?.owner===currentUser)return;if(!confirm('این فعالیت حذف شود؟'))return;data=data.filter(x=>x.id!==id);save();renderArchive();renderHome()}
+
+function renderTeam(){fillSelectors();document.getElementById('teamList').innerHTML=team.map((x,i)=>`<div class="teamitem"><div><b>${esc(x.name)}</b><div class="small">${esc(x.role)}</div></div><button class="danger" onclick="removeMember(${i})">حذف</button></div>`).join('')}
+function toggleTeamAdd(v){document.getElementById('teamAdd').classList.toggle('hidden',!v)}
+function addMember(){let n=document.getElementById('newName').value.trim(),r=document.getElementById('newRole').value.trim()||'کارشناس';if(!n){alert('نام را وارد کنید.');return}if(n==='شریفی'||team.some(x=>x.name===n)){alert('این نام قابل افزودن نیست یا قبلاً ثبت شده است.');return}team.push({name:n,role:r});save();document.getElementById('newName').value='';document.getElementById('newRole').value='';toggleTeamAdd(false);renderTeam();alert('عضو جدید اضافه شد.')}
+function removeMember(i){if(!confirm('این عضو حذف شود؟'))return;team.splice(i,1);save();fillSelectors();renderTeam()}
+function deleteSelectedMember(){if(!team.length){alert('عضوی وجود ندارد.');return}let n=prompt('نام کارشناس برای حذف را وارد کنید:\n'+team.map(x=>x.name).join('، '));if(!n)return;let i=team.findIndex(x=>x.name.trim()===n.trim());if(i<0){alert('نام پیدا نشد.');return}removeMember(i)}
+
+function saveMeeting(){let d=document.getElementById('mDate').value.trim();if(!d){alert('لطفاً تاریخ جلسه را وارد کنید.');return}let g=validDate(d)?jstrToG(d):'';if(g){let dt=new Date(g+'T12:00:00');if(dt.getDay()!==2&&!confirm('این تاریخ سه‌شنبه نیست. با این حال ثبت شود؟'))return}meetings.push({id:Date.now(),date:g||d,person:document.getElementById('mPerson').value,attended:false});localStorage.setItem(MEETKEY,JSON.stringify(meetings));document.getElementById('mDate').value='';renderMeetings();alert('نوبت جلسه ثبت شد.')}
+function renderMeetings(){let tb=document.getElementById('meetingBody');if(!meetings.length){tb.innerHTML='<tr><td colspan="3" class="empty">هنوز نوبتی ثبت نشده است.</td></tr>';return}tb.innerHTML=meetings.map((m,i)=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td style="text-align:center"><input type="checkbox" ${m.attended?'checked':''} onchange="toggleAttendance(${i},this.checked)" style="width:20px;height:20px"></td></tr>`).join('')}
+function toggleAttendance(i,v){meetings[i].attended=!!v;localStorage.setItem(MEETKEY,JSON.stringify(meetings))}
+function exportMeetings(){let rows=[['تاریخ','کارشناس','شرکت کرده'],...meetings.map(m=>[fmtDate(m.date),m.person,m.attended?'بله':'خیر'])];downloadCSV(rows,'آرشیو_هیئت_عمومی.csv')}
+function printMeetings(){let rows=meetings.map(m=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td>${m.attended?'بله':'خیر'}</td></tr>`).join('');printHTML('<h2>آرشیو شرکت در جلسات هیئت عمومی</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>شرکت کرده</th></tr>'+rows+'</table>')}
+
+function reviewAllowed(){return currentUser==='مدیر'}
+
+function renderReviews(){
+  const box=document.getElementById('reviewContent');
+  if(!box)return;
+
+  if(currentUser==='مدیر'){
+    box.innerHTML=data.map(x=>`<div class="userbox">
+      <div><b>${esc(x.owner)}</b> — ${fmtDate(x.date)}</div>
+      <p>${esc(x.desc)}</p>
+      <label>تأیید مدیر</label>
+      <select id="ap${x.id}">
+        <option ${x.managerApproval==='در انتظار بررسی'?'selected':''}>در انتظار بررسی</option>
+        <option ${x.managerApproval==='تأیید شد'?'selected':''}>تأیید شد</option>
+        <option ${x.managerApproval==='نیاز به اصلاح'?'selected':''}>نیاز به اصلاح</option>
+      </select>
+      <label>امتیاز</label>
+      <select id="sc${x.id}">
+        <option value="">بدون امتیاز</option>
+        ${[1,2,3,4,5].map(n=>`<option ${String(x.managerScore)===String(n)?'selected':''}>${n}</option>`).join('')}
+      </select>
+      <label>نظر مدیر</label>
+      <textarea id="cm${x.id}">${esc(x.managerComment||'')}</textarea>
+      <button class="primary" onclick="saveReview(${x.id})">ذخیره ارزیابی</button>
+    </div>`).join('')||'<div class="empty">فعالیتی برای ارزیابی وجود ندارد.</div>';
+    return;
+  }
+
+  const mine=data.filter(x=>x.owner===currentUser);
+  if(!mine.length){
+    box.innerHTML='<div class="empty">هنوز فعالیتی برای نمایش وجود ندارد.</div>';
+    return;
+  }
+
+  let cards=mine.map(x=>{
+    const score=x.managerScore
+      ? '<span class="badge">امتیاز: '+faDigits(x.managerScore)+' از ۵</span>'
+      : '<span class="badge">امتیاز: ثبت نشده</span>';
+    const comment=x.managerComment
+      ? esc(x.managerComment)
+      : '<span class="small">هنوز نظری ثبت نشده است.</span>';
+    const reviewed=x.reviewedAt
+      ? '<div class="small" style="margin-top:8px">تاریخ ارزیابی: '+fmtDate(x.reviewedAt)+'</div>'
+      : '';
+    return '<div class="userbox">'+
+      '<div><b>'+fmtDate(x.date)+'</b> — '+esc(x.type)+'</div>'+
+      '<p>'+esc(x.desc)+'</p>'+
+      '<div class="badges">'+
+        '<span class="badge">وضعیت فعالیت: '+esc(x.status)+'</span>'+
+        '<span class="badge">نظر مدیر: '+esc(x.managerApproval||'در انتظار بررسی')+'</span>'+
+        score+
+      '</div>'+
+      '<div style="margin-top:12px;background:#f5f9f7;border-radius:12px;padding:12px">'+
+        '<b>نظر مدیر:</b><div style="margin-top:7px">'+comment+'</div>'+
+      '</div>'+reviewed+
+    '</div>';
+  }).join('');
+
+  box.innerHTML=
+    '<div class="userbox">'+
+      '<h3>ارزیابی مدیر برای '+esc(currentUser)+'</h3>'+
+      '<div class="small">در این بخش فقط ارزیابی‌های مربوط به فعالیت‌های خودتان نمایش داده می‌شود.</div>'+
+    '</div>'+cards;
+}
+
+function saveReview(id){
+  if(currentUser!=='مدیر')return;
+  let x=data.find(a=>a.id===id);if(!x)return;
+  x.managerApproval=document.getElementById('ap'+id).value;
+  x.managerScore=document.getElementById('sc'+id).value;
+  x.managerComment=document.getElementById('cm'+id).value.trim();
+  x.reviewedAt=today();
+  save();
+  alert('ارزیابی ذخیره شد.');
+  renderReviews();
+}
+function renderSettings(){document.getElementById('settingsContent').innerHTML=`<div class="stats"><div class="stat"><b>${faDigits(data.length)}</b>فعالیت</div><div class="stat"><b>${faDigits(team.length)}</b>کارشناس</div><div class="stat"><b>${faDigits(meetings.length)}</b>نوبت جلسه</div></div>`}
+function backup(){let blob=new Blob([JSON.stringify({data,team,meetings},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='پشتیبان_داشبورد.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function restore(file){if(!file)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x.data)||!Array.isArray(x.team)||!Array.isArray(x.meetings))throw 0;data=x.data;team=x.team;meetings=x.meetings;save();fillSelectors();renderSettings();alert('بازیابی با موفقیت انجام شد.')}catch(e){alert('فایل پشتیبان معتبر نیست.')}};r.readAsText(file)}
+function resetData(){if(!confirm('فعالیت‌ها و ارزیابی‌ها حذف شوند؟ اعضای گروه و آرشیو هیئت عمومی باقی می‌مانند.'))return;data=[];save();renderSettings();renderHome()}
+
+function downloadCSV(rows,name){let csv='\uFEFF'+rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function exportActivities(kind){let arr=ownerData();if(kind==='week'){let v=document.getElementById('weekSelect').value;if(v){let [a,b]=v.split('|');arr=arr.filter(x=>x.date>=a&&x.date<=b)}}else if(kind==='month'){let now=new Date(),a=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-01',b=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-31';arr=arr.filter(x=>x.date>=a&&x.date<=b)}let rows=[['تاریخ','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline'],...arr.map(x=>[fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence,x.letter,fmtDate(x.letterDate),x.unit,fmtDate(x.deadline)])];downloadCSV(rows,'گزارش_فعالیت.csv')}
+function printActivities(kind){let arr=ownerData();if(kind==='week'){let [a,b]=document.getElementById('weekSelect').value.split('|');arr=arr.filter(x=>x.date>=a&&x.date<=b)}if(kind==='month'){let n=new Date(),a=n.getFullYear()+'-'+pad(n.getMonth()+1)+'-01',b=n.getFullYear()+'-'+pad(n.getMonth()+1)+'-31';arr=arr.filter(x=>x.date>=a&&x.date<=b)}let rows=arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${fmtDate(x.deadline)}</td></tr>`).join('');printHTML('<h2>گزارش فعالیت</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr>'+rows+'</table>')}
+function printHTML(content){let w=window.open('','_blank');if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}w.document.write('<html lang="fa" dir="rtl"><head><meta charset="utf-8"><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>'+content+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}
+
+function openCalendar(target){calTarget=target;let v=document.getElementById(target).value.trim(),m=enDigits(v).match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/);if(m){calY=+m[1];calM=+m[2]}else{let j=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());calY=j[0];calM=j[1]}renderCalendar();document.getElementById('calModal').classList.add('show')}
+function closeCalendar(){document.getElementById('calModal').classList.remove('show')}
+function changeMonth(d){calM+=d;if(calM<1){calM=12;calY--}if(calM>12){calM=1;calY++}renderCalendar()}
+function jalaliLeap(y){let g=j2g(y,12,30);let dt=new Date(g[0],g[1]-1,g[2]);return dt.getMonth()===11&&dt.getDate()===30}
+function renderCalendar(){document.getElementById('calTitle').textContent=jmonths[calM-1]+' '+faDigits(calY);let first=j2g(calY,calM,1),wd=(new Date(first[0],first[1]-1,first[2]).getDay()+1)%7,max=calM<=6?31:calM<=11?30:(jalaliLeap(calY)?30:29),box=document.getElementById('calDays');box.innerHTML='';for(let i=0;i<wd;i++)box.innerHTML+='<span class="blank"></span>';for(let d=1;d<=max;d++){let b=document.createElement('button');b.type='button';b.textContent=faDigits(d);b.onclick=()=>{document.getElementById(calTarget).value=faDigits(calY+'/'+pad(calM)+'/'+pad(d));closeCalendar()};box.appendChild(b)}}
+function seedDemo(){
+ if(data.length)return;
+ let specs={
+ 'شفیعی':[['2026-08-03','پشتیبانی','بررسی و رفع خطای ورود کاربران به سامانه سمپ','انجام شد'],['2026-08-07','تسک','کنترل و پایش سرویس‌های سامانه سمپ','انجام شد'],['2026-08-12','نامه','پیگیری پاسخ مکاتبه مربوط به مشکلات سامانه','منتظر پاسخ'],['2026-08-19','جلسه','شرکت در جلسه بررسی نیازمندی‌های سامانه آماری','انجام شد'],['2026-08-27','پیگیری','پیگیری رفع مغایرت گزارش‌های آماری شعب','در حال انجام']],
+ 'دری':[['2026-08-04','تسک','تحلیل نیازمندی‌های نسخه جدید سامانه ارجاع هوشمند','انجام شد'],['2026-08-09','جلسه','جلسه فنی طراحی گردش کار ارجاع پرونده‌ها','انجام شد'],['2026-08-14','تسک','اصلاح فرم ثبت اطلاعات و اعتبارسنجی داده‌ها','در حال انجام'],['2026-08-20','نامه','تهیه پاسخ فنی درباره خطای گزارش‌گیری','انجام شد'],['2026-08-29','پیگیری','بررسی وضعیت تست نسخه آزمایشی نرم‌افزار','منتظر پاسخ']],
+ 'عینی':[['2026-08-05','سخت‌افزار','بررسی وضعیت تجهیزات سرور و ثبت نیازهای تعمیراتی','انجام شد'],['2026-08-10','پروژه','بررسی ساختار پایگاه داده پروژه آماری','در حال انجام'],['2026-08-16','پشتیبانی','رفع مشکل اتصال ایستگاه کاری به پایگاه داده','انجام شد'],['2026-08-22','جلسه','جلسه هماهنگی برای بهینه‌سازی بانک اطلاعاتی','انجام شد'],['2026-08-31','تسک','تهیه گزارش وضعیت فضای ذخیره‌سازی و پشتیبان‌گیری','در حال انجام']],
+ 'عطاریان':[['2026-08-03','پشتیبانی','بررسی اختلال ارتباط شبکه یکی از واحدها','انجام شد'],['2026-08-08','تسک','کنترل وضعیت تجهیزات شبکه و سوئیچ‌ها','انجام شد'],['2026-08-13','پیگیری','پیگیری درخواست ارتقای پهنای باند واحدها','منتظر پاسخ'],['2026-08-19','جلسه','جلسه بررسی مشکلات دسترسی کاربران به سرویس‌ها','انجام شد'],['2026-08-28','نامه','ارسال گزارش وضعیت شبکه و اقدامات انجام‌شده','انجام شد']]};
+ let id=10000;Object.entries(specs).forEach(([o,arr])=>arr.forEach((x,i)=>data.push({id:id++,owner:o,date:x[0],type:x[1],desc:x[2],status:x[3],correspondence:i%2?'خیر':'بله',letter:i%2?'':String(100+i),letterDate:i%2?'':x[0],unit:team.find(t=>t.name===o)?.role||'فناوری اطلاعات',deadline:x[3]==='انجام شد'?'':(['2026-08-12','2026-08-14','2026-08-27','2026-08-29','2026-08-10','2026-08-13','2026-08-31'].includes(x[0])?'2026-09-05':''),notes:'اطلاعات کاملاً ساختگی و صرفاً برای آزمایش برنامه',managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''})));meetings=[{id:1,date:'2026-08-04',person:'شفیعی',attended:true},{id:2,date:'2026-08-11',person:'دری',attended:true},{id:3,date:'2026-08-18',person:'عینی',attended:false},{id:4,date:'2026-08-25',person:'عطاریان',attended:true}];save()
+}
+function init(){seedDemo();fillSelectors();weekOptions();document.getElementById('aDate').value=gToJ(today());document.getElementById('aOwner').value=currentUser||team[0]?.name;renderHome();renderTeam();renderMeetings()}
+init();
+</script>
+</body></html>

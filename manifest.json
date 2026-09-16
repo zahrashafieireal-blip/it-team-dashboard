@@ -1,0 +1,10 @@
+{
+  "name": "داشبورد عملکرد تیم فناوری اطلاعات",
+  "short_name": "داشبورد عملکرد تیم فناوری اطلاعات",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f3f7f5",
+  "theme_color": "#116b52",
+  "lang": "fa",
+  "dir": "rtl"
+}
