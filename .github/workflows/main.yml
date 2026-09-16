@@ -17,13 +17,17 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: '22'
+          cache: 'npm'
 
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
       - name: Prepare web files
         run: |
@@ -33,24 +37,20 @@ jobs:
             cp manifest.json www/manifest.json
           fi
 
-      - name: Install Capacitor
+      - name: Install dependencies
         run: |
           npm install
-          npm install --save-dev @capacitor/cli@7.4.5
           npm install @capacitor/core@7.4.5 @capacitor/android@7.4.5
+          npm install -g @capacitor/cli@7.4.5
 
-      - name: Check Capacitor
-        run: |
-          ls -la node_modules/.bin/
-          ./node_modules/.bin/cap --version
+      - name: Check Capacitor CLI
+        run: cap --version
 
       - name: Create Android project
-        run: |
-          ./node_modules/.bin/cap add android --verbose
+        run: cap add android
 
       - name: Sync Capacitor
-        run: |
-          ./node_modules/.bin/cap sync android
+        run: cap sync android
 
       - name: Build APK
         working-directory: android
