@@ -25,12 +25,6 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Check environment
-        run: |
-          node --version
-          npm --version
-          java -version
-
       - name: Prepare web files
         run: |
           mkdir -p www
@@ -39,17 +33,24 @@ jobs:
             cp manifest.json www/manifest.json
           fi
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Capacitor
+        run: |
+          npm install
+          npm install --save-dev @capacitor/cli@7.4.5
+          npm install @capacitor/core@7.4.5 @capacitor/android@7.4.5
 
-      - name: Check Capacitor CLI
-        run: ./node_modules/.bin/cap --version
+      - name: Check Capacitor
+        run: |
+          ls -la node_modules/.bin/
+          ./node_modules/.bin/cap --version
 
-      - name: Create Capacitor Android project
-        run: ./node_modules/.bin/cap add android --verbose
+      - name: Create Android project
+        run: |
+          ./node_modules/.bin/cap add android --verbose
 
       - name: Sync Capacitor
-        run: ./node_modules/.bin/cap sync android
+        run: |
+          ./node_modules/.bin/cap sync android
 
       - name: Build APK
         working-directory: android
