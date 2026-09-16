@@ -23,15 +23,18 @@ jobs:
         run: |
           mkdir -p www
           cp index.html www/index.html
-          if [ -f manifest.json ]; then cp manifest.json www/manifest.json; fi
+          if [ -f manifest.json ]; then
+            cp manifest.json www/manifest.json
+          fi
 
       - name: Install dependencies
         run: npm install
 
-      - name: Ensure Capacitor Android package
-        run: npm install @capacitor/android@^7.0.0
+      - name: Install Capacitor packages
+        run: |
+          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
-      - name: Add Android platform
+      - name: Create Capacitor Android project
         run: npx cap add android
 
       - name: Sync Capacitor
@@ -39,7 +42,7 @@ jobs:
 
       - name: Build APK
         working-directory: android
-        run: ./gradlew assembleDebug
+        run: chmod +x gradlew && ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
