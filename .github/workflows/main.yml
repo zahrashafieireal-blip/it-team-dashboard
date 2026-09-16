@@ -19,14 +19,17 @@ jobs:
         with:
           node-version: 22
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
+      - name: Prepare web files
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+          if [ -f manifest.json ]; then cp manifest.json www/manifest.json; fi
 
       - name: Install dependencies
         run: npm install
+
+      - name: Ensure Capacitor Android package
+        run: npm install @capacitor/android@^7.0.0
 
       - name: Add Android platform
         run: npx cap add android
@@ -43,3 +46,4 @@ jobs:
         with:
           name: it-team-dashboard-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
