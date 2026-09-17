@@ -1002,7 +1002,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button type="button" class="danger" data-delete-task="${esc(String(x.id))}">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button type="button" class="danger" data-delete-task="${esc(String(x.id))}" onclick="deleteActivity(this.dataset.deleteTask);return false;">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1026,65 +1026,69 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-delete-task="'+esc(String(x.id))+'">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-delete-task="'+esc(String(x.id))+'" onclick="deleteActivity(this.dataset.deleteTask);return false;">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
-function deleteActivityFromButton(id){ return deleteActivity(id); }
+function deleteActivityFromButton(id){
+  return deleteActivity(id);
+}
 function deleteActivity(id){
+  const normalizedId=String(id ?? '').trim();
+  if(!normalizedId){ alert('شناسه تسک نامعتبر است.'); return false; }
+
+  let latest=[];
   try{
-    const normalizedId=String(id).trim();
-    // Always reload the latest task list from localStorage before deleting.
-    // This prevents stale in-memory data from blocking deletion.
-    let latest=safeJSON(KEY,[]);
-    if(!Array.isArray(latest)) latest=[];
-    const item=latest.find(x=>String(x.id).trim()===normalizedId);
-    if(!item){ alert('تسک موردنظر پیدا نشد.'); return false; }
-    const user=String(currentUser||'').trim();
-    const owner=String(item.owner||'').trim();
-    if(user!=='مدیر' && owner!==user){
-      alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
-      return false;
-    }
-    if(!window.confirm('این تسک حذف شود؟')) return false;
-    const updated=latest.filter(x=>String(x.id).trim()!==normalizedId);
-    if(updated.length===latest.length){
-      alert('حذف تسک انجام نشد.');
-      return false;
-    }
-    // Write directly to the central browser storage, then sync memory/UI.
-    localStorage.setItem(KEY,JSON.stringify(updated));
-    data=updated;
-    try{ renderArchive(); }catch(e){ console.error(e); }
-    try{ renderHome(); }catch(e){ console.error(e); }
-    try{ closeDetail(); }catch(e){ }
-    alert('تسک با موفقیت حذف شد.');
-    return true;
-  }catch(err){
-    console.error('deleteActivity error:',err);
-    alert('حذف تسک انجام نشد. لطفاً دوباره تلاش کنید.');
+    const raw=localStorage.getItem(KEY);
+    latest=raw?JSON.parse(raw):[];
+  }catch(e){
+    alert('اطلاعات تسک قابل خواندن نیست.');
     return false;
   }
+  if(!Array.isArray(latest)) latest=[];
+
+  const index=latest.findIndex(x=>String(x && x.id).trim()===normalizedId);
+  if(index<0){
+    alert('تسک موردنظر پیدا نشد.');
+    return false;
+  }
+
+  const item=latest[index];
+  const user=String(currentUser||'').trim();
+  const owner=String(item.owner||'').trim();
+  if(user!=='مدیر' && owner!==user){
+    alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
+    return false;
+  }
+
+  // Use the native browser confirmation. If the browser does not expose it,
+  // the button still remains functional through the explicit delete action.
+  let approved=true;
+  try{ approved=window.confirm('این تسک حذف شود؟'); }catch(e){ approved=true; }
+  if(!approved) return false;
+
+  latest.splice(index,1);
+  localStorage.setItem(KEY,JSON.stringify(latest));
+  data=latest;
+
+  // Refresh every view that can show the task.
+  if(typeof renderArchive==='function') renderArchive();
+  if(typeof renderToday==='function') renderToday();
+  if(typeof renderHome==='function') renderHome();
+  closeDetail();
+  alert('تسک با موفقیت حذف شد.');
+  return true;
 }
 window.deleteActivity=deleteActivity;
-// Robust task-delete handler: works with mouse, touch and Android WebView.
-function bindTaskDeleteHandlers(){
-  if(window.__taskDeleteHandlersBound)return;
-  window.__taskDeleteHandlersBound=true;
-  const handler=function(e){
-    const btn=e.target && e.target.closest ? e.target.closest('[data-delete-task]') : null;
-    if(!btn)return;
-    e.preventDefault();
-    e.stopPropagation();
-    const id=btn.getAttribute('data-delete-task');
-    if(id!==null) deleteActivity(id);
-  };
-  document.addEventListener('click',handler,true);
-  document.addEventListener('pointerup',handler,true);
-  document.addEventListener('touchend',handler,true);
-}
-bindTaskDeleteHandlers();
-// Delete buttons intentionally use data-delete-task instead of inline onclick for reliable mobile/WebView clicks.
+
+// Direct click handler: no event delegation and no dependency on inline JS.
+document.addEventListener('click',function(e){
+  const btn=e.target.closest ? e.target.closest('[data-delete-task]') : null;
+  if(!btn) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  deleteActivity(btn.getAttribute('data-delete-task'));
+},true);
 
 
 function renderTeam(){
