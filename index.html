@@ -275,7 +275,7 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 
 <section id="home" class="panel">
 <div class="userbox">
-<div class="home-title-row"><div class="home-title-main"><h2 id="welcome">کارتابل</h2><div id="welcomeRole" class="home-user-role">کاربر</div></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⎋ خروج</button></div></div>
+<div class="home-title-row"><div class="home-title-main"><h2 id="welcome">آقای شریفی</h2><div id="welcomeRole" class="home-user-role">مدیر دپارتمان فناوری اطلاعات</div></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⎋ خروج</button></div></div>
 <div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
 </div>
 
@@ -320,7 +320,7 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 <label>واحد</label><input id="aUnit">
 <div id="deadlineFields"><label>Deadline</label><div class="actions" style="margin:0"><input id="aDeadline" placeholder="۱۴۰۵/۰۵/۲۰" inputmode="numeric"><button class="secondary" type="button" onclick="openCalendar('aDeadline')">📅 تقویم فارسی</button></div></div>
 <label>یادداشت</label><textarea id="aNotes"></textarea>
-<div class="actions"><button id="activitySaveBtn" class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button id="activityCancelEditBtn" class="danger hidden" onclick="cancelEditActivity()">لغو ویرایش</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div>
+<div class="actions"><button id="activitySaveBtn" class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button id="activityDeleteBtn" class="danger hidden" type="button" onclick="requestDeleteTask(editingActivityId)">🗑️ حذف این تسک</button><button id="activityCancelEditBtn" class="danger hidden" onclick="cancelEditActivity()">لغو ویرایش</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div>
 </section>
 
 <section id="today" class="panel"><div class="topline"><h2>📋 فعالیت‌های امروز</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="todayContent"></div></section>
@@ -409,6 +409,14 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 </div></section>
 </main>
 </div>
+
+<div id="deleteConfirmModal" class="modal" onclick="if(event.target===this)closeDeleteConfirm()"><div class="modalbox">
+<div class="topline"><h3 style="margin:0">⚠️ تأیید حذف تسک</h3><button class="closecal" style="width:auto;margin:0;padding:7px 12px" type="button" onclick="closeDeleteConfirm()">بستن</button></div>
+<div id="deleteConfirmContent" style="line-height:2"></div>
+<div class="actions" style="justify-content:flex-start;margin-top:14px">
+<button class="danger" type="button" onclick="confirmDeleteTask()">🗑️ تأیید و حذف</button>
+<button class="secondary" type="button" onclick="closeDeleteConfirm()">انصراف</button>
+</div></div></div>
 
 <div id="detailModal" class="modal" onclick="if(event.target===this)closeDetail()"><div class="modalbox">
 <div class="topline"><h3 style="margin:0">جزئیات فعالیت</h3><button class="closecal" style="width:auto;margin:0;padding:7px 12px" onclick="closeDetail()">بستن</button></div>
@@ -653,7 +661,7 @@ function toggleLoginPassword(){const p=document.getElementById('loginPassword');
  let accountPass=u==='مدیر'?managerPassword:(team.find(x=>x.name===u)?.password||'1');
  if(p!==accountPass){alert('رمز عبور نادرست است.');return}
  currentUser=u; document.getElementById('loginPassword').value='';
- document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان':'کارتابل '+u; const wr=document.getElementById('welcomeRole'); if(wr) wr.textContent=u==='مدیر'?'مدیر دپارتمان':(team.find(m=>m.name===u)?.role||'کاربر');
+ document.getElementById('welcome').textContent=u==='مدیر'?'آقای شریفی':u; const wr=document.getElementById('welcomeRole'); if(wr) wr.textContent=u==='مدیر'?'مدیر دپارتمان فناوری اطلاعات':(team.find(m=>m.name===u)?.role||'کاربر');
  showPanel('home'); renderHome()
 }
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value='';document.getElementById('loginPassword').value='';}
@@ -992,8 +1000,8 @@ function saveActivity(){
    const idx=data.findIndex(x=>String(x?.id)===String(editingActivityId));
    if(idx<0){alert('این فعالیت پیدا نشد.');cancelEditActivity();return}
    const old=data[idx];
-   if(currentUser!=='مدیر' && old.owner!==currentUser){alert('شما فقط می‌توانید فعالیت‌های خودتان را ویرایش کنید.');return}
-   if(currentUser!=='مدیر' && payload.owner!==currentUser){alert('شما نمی‌توانید مسئول فعالیت را تغییر دهید.');return}
+   if(currentUser!=='مدیر' && normalizeOwnerName(old.owner)!==normalizeOwnerName(currentUser)){alert('شما فقط می‌توانید فعالیت‌های خودتان را ویرایش کنید.');return}
+   if(currentUser!=='مدیر' && normalizeOwnerName(payload.owner)!==normalizeOwnerName(currentUser)){alert('شما نمی‌توانید مسئول فعالیت را تغییر دهید.');return}
    data[idx]={...old,...payload,id:old.id};
    save(); editingActivityId=null; clearActivityForm();
    renderArchive();renderToday();renderHome();renderReviews();
@@ -1027,12 +1035,13 @@ function clearActivityForm(){
  document.getElementById('activityFormTitle').textContent='➕ ثبت تسک جدید';
  document.getElementById('activitySaveBtn').textContent='💾 ثبت تسک جدید';
  document.getElementById('activityCancelEditBtn').classList.add('hidden');
+ const adb=document.getElementById('activityDeleteBtn'); if(adb)adb.classList.add('hidden');
  updateActivityFormVisibility();
 }
 function editActivity(id){
  const x=data.find(a=>String(a?.id)===String(id));
  if(!x){alert('این فعالیت پیدا نشد.');return}
- if(currentUser!=='مدیر' && x.owner!==currentUser){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
+ if(currentUser!=='مدیر' && normalizeOwnerName(x.owner)!==normalizeOwnerName(currentUser)){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
  const storedDate=canonicalStoredDate(x.date);
  if(!storedDate){alert('تاریخ این فعالیت معتبر نیست.');return}
  editingActivityId=x.id;
@@ -1051,6 +1060,7 @@ function editActivity(id){
  document.getElementById('activityFormTitle').textContent='✏️ ویرایش فعالیت';
  document.getElementById('activitySaveBtn').textContent='💾 ذخیره تغییرات';
  document.getElementById('activityCancelEditBtn').classList.remove('hidden');
+ const adb=document.getElementById('activityDeleteBtn'); if(adb)adb.classList.remove('hidden');
  updateActivityFormVisibility();
 }
 function cancelEditActivity(){clearActivityForm();showPanel('home');}
@@ -1096,7 +1106,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button class="danger" onclick="deleteActivity(${x.id})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button class="danger" onclick="requestDeleteTask(${x.id})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1115,27 +1125,79 @@ function showActivityDetail(id){
  ${x.letter||x.letterNo?`<div><b>شماره نامه</b><span>${esc(x.letter||x.letterNo)}</span></div>`:''}
  ${x.letterDate?`<div><b>تاریخ نامه</b><span>${fmtDate(x.letterDate)}</span></div>`:''}
  </div>`;
- document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?`<button class="primary" type="button" onclick="closeDetail();editActivityById('${String(x.id).replace(/'/g,"\\'")}')">✏️ ویرایش فعالیت</button><button class="danger" type="button" onclick="deleteActivityById('${String(x.id).replace(/'/g,"\\'")}')">🗑️ حذف فعالیت</button>`:'';
+ document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?`<button class="primary" type="button" onclick="closeDetail();editActivityById('${String(x.id).replace(/'/g,"\\'")}')">✏️ ویرایش فعالیت</button><button class="danger" type="button" onclick="requestDeleteTask('${String(x.id).replace(/'/g,"\\'")}')">🗑️ حذف این تسک</button>`:'';
  document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
-function deleteActivityById(id){
- const idx=data.findIndex(x=>String(x?.id)===String(id));
- if(idx<0){alert('تسک موردنظر پیدا نشد.');return}
- const item=data[idx];
- if(currentUser!=='مدیر' && item.owner!==currentUser){alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');return}
- if(!confirm('این تسک حذف شود؟'))return;
- data.splice(idx,1);
- try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){alert('ذخیره حذف تسک انجام نشد.');return}
- // Re-read the persisted data and rebuild every homepage statistic immediately.
- try{const persisted=safeJSON(KEY,[]); if(Array.isArray(persisted)) data=persisted;}catch(e){}
- selectedOverviewKind=(currentUser && currentUser!=='مدیر')?'my':'all';
- renderHome();
- refreshHomeStatistics();
- closeDetail();
- renderArchive();renderToday();renderReviews();
- alert('تسک با موفقیت حذف شد.');
+let pendingDeleteTaskId=null;
+
+function requestDeleteTask(id){
+ const ref=String(id??'').trim();
+ const x=findActivityById(ref);
+ if(!x){alert('تسک موردنظر پیدا نشد.');return false;}
+ if(currentUser!=='مدیر' && normalizeOwnerName(x.owner)!==normalizeOwnerName(currentUser)){
+   alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
+   return false;
+ }
+ pendingDeleteTaskId=ref;
+ const box=document.getElementById('deleteConfirmContent');
+ if(box){
+   box.innerHTML='<div><b>شرح تسک:</b> '+esc(x.desc||'—')+'</div>'+
+     '<div><b>مسئول:</b> '+esc(x.owner||'—')+'</div>'+
+     '<div><b>تاریخ:</b> '+esc(fmtDate(x.date)||'—')+'</div>'+
+     '<div><b>وضعیت:</b> '+esc(x.status||'—')+'</div>'+
+     '<div><b>ددلاین:</b> '+esc(taskDeadlineLabel(x)||'—')+'</div>'+
+     '<div style="margin-top:10px;font-weight:700">آیا از حذف این تسک مطمئن هستید؟</div>';
+ }
+ document.getElementById('deleteConfirmModal').classList.add('show');
+ return true;
 }
+
+function closeDeleteConfirm(){
+ pendingDeleteTaskId=null;
+ const m=document.getElementById('deleteConfirmModal');
+ if(m)m.classList.remove('show');
+}
+
+function confirmDeleteTask(){
+ const ref=String(pendingDeleteTaskId||'').trim();
+ const idx=data.findIndex(x=>String(x?.id)===ref);
+ if(idx<0){closeDeleteConfirm();alert('تسک موردنظر پیدا نشد.');return false;}
+ const item=data[idx];
+ if(currentUser!=='مدیر' && normalizeOwnerName(item.owner)!==normalizeOwnerName(currentUser)){
+   closeDeleteConfirm();alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');return false;
+ }
+ data.splice(idx,1);
+ try{
+   localStorage.setItem(KEY,JSON.stringify(data));
+   const persisted=safeJSON(KEY,[]);
+   if(!Array.isArray(persisted) || persisted.some(x=>String(x?.id)===ref)){
+     if(Array.isArray(persisted))data=persisted;
+     closeDeleteConfirm();
+     alert('حذف ذخیره نشد. لطفاً دوباره تلاش کنید.');
+     return false;
+   }
+   data=persisted;
+ }catch(e){
+   closeDeleteConfirm();
+   alert('ذخیره حذف تسک انجام نشد.');
+   return false;
+ }
+ editingActivityId=null;
+ clearActivityForm();
+ closeDeleteConfirm();
+ closeDetail();
+ refreshHomeStatistics();
+ renderHome();
+ renderArchive();
+ renderToday();
+ renderReviews();
+ alert('تسک با موفقیت حذف شد.');
+ showPanel('home');
+ return true;
+}
+
+function deleteActivityById(id){return requestDeleteTask(id);}
 function editActivityById(id){editActivity(id)}
 window.deleteActivityById=deleteActivityById; window.editActivityById=editActivityById;
 function deleteActivity(id){deleteActivityById(id)}
@@ -1491,10 +1553,4 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 @media(max-width:800px){.home-main-layout{grid-template-columns:1fr}.home-side-menu{order:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.home-main-content{order:1}.home-side-item{min-height:64px;font-size:11px}.side-ico{font-size:24px;flex-basis:31px}}
 @media(max-width:520px){.task-overview-filters{grid-template-columns:1fr;gap:8px}.home-task-summary{padding:8px}.summary-title{font-size:15px}.home-task-summary-head>b{font-size:24px}.home-task-sub strong{font-size:10px}.home-task-sub b{font-size:17px}.home-side-menu{grid-template-columns:1fr}.home-side-item{min-height:56px}}
 </style>
-</head><body>'+content+'<nav id="bottomNav" class="bottom-nav">
-  <button type="button" onclick="showPanel('home');renderHome()">🏠<span>خانه</span></button>
-  <button type="button" onclick="showTaskView('all')">📋<span>تسک‌ها</span></button>
-  <button type="button" onclick="showPanel('reports');initReports()">📊<span>گزارش</span></button>
-  <button type="button" onclick="showPanel('meetings');renderMeetings()">📅<span>جلسات</span></button>
-  <button type="button" onclick="showPanel('settings');renderSettings()">⚙️<span>تنظیمات</span></button>
-</nav></body></html>
+</head><body>'+content+'</body></html>
