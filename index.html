@@ -180,6 +180,72 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
  .home-register-btn{padding:8px 9px;font-size:10px;}
 }
 </style>
+<style id="requested-home-header">
+/* Home header: match the requested compact card layout */
+.home-title-row{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:22px!important;flex-wrap:nowrap!important;min-height:170px!important;padding:20px 18px!important;border:1px solid #dfeae5!important;border-radius:24px!important;background:linear-gradient(135deg,#eefaf5 0%,#ffffff 62%,#f1faf7 100%)!important;box-shadow:0 7px 22px rgba(18,89,66,.08)!important;overflow:hidden!important}
+.home-title-main{order:2!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:8px!important;flex:1!important;min-width:0!important}
+.home-title-main h2{padding-left:0!important;margin:0!important;font-size:27px!important;color:#123f31!important;line-height:1.45!important;white-space:nowrap!important}
+.home-user-role{display:inline-flex!important;align-items:center!important;gap:7px!important;padding:8px 18px!important;border-radius:24px!important;background:#e2f3ed!important;color:#146c56!important;font-size:15px!important;font-weight:700!important}
+.home-user-role::before{content:'👤';font-size:18px}
+.home-header-actions{order:1!important;width:245px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;gap:10px!important;margin:0!important;flex:0 0 245px!important}
+.home-header-actions .home-register-btn,.home-header-actions .home-action-btn{position:static!important;width:100%!important;min-height:48px!important;padding:11px 15px!important;border-radius:16px!important;font-size:14px!important;font-weight:800!important;box-shadow:0 4px 12px rgba(17,107,82,.10)!important}
+.home-header-actions .home-register-btn{order:1!important}
+.home-header-actions .secondary{order:2!important;background:#f7faf9!important;border:1px solid #d9e7e1!important;color:#116b52!important}
+.home-header-actions .logout-btn{order:3!important;background:#fff0f0!important;color:#b52b2b!important;border:1px solid #efbcbc!important;box-shadow:none!important}
+.home-register-btn .plus{font-size:26px!important;line-height:1}
+@media(max-width:650px){
+ .home-title-row{min-height:150px!important;padding:16px 14px!important;gap:12px!important;border-radius:22px!important}
+ .home-header-actions{width:150px!important;flex-basis:150px!important;gap:7px!important}
+ .home-header-actions .home-register-btn,.home-header-actions .home-action-btn{min-height:43px!important;padding:9px 8px!important;font-size:11px!important;border-radius:13px!important}
+ .home-register-btn .plus{font-size:22px!important}
+ .home-title-main h2{font-size:21px!important;white-space:normal!important}
+ .home-user-role{font-size:12px!important;padding:7px 12px!important}
+}
+@media(max-width:380px){
+ .home-title-row{min-height:140px!important;padding:13px 10px!important}
+ .home-header-actions{width:132px!important;flex-basis:132px!important}
+ .home-title-main h2{font-size:18px!important}
+ .home-user-role{font-size:11px!important;padding:6px 9px!important}
+ .home-header-actions .home-register-btn,.home-header-actions .home-action-btn{font-size:10px!important;min-height:39px!important}
+}
+</style>
+
+<style id="exact-home-overview-design">
+/* Approved home header/overview visual: five RTL statistic cards, no avatar. */
+.home-title-row{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:42px!important;min-height:178px!important;padding:24px 34px!important;border:1px solid #dbeae4!important;border-radius:28px!important;background:linear-gradient(135deg,#e8f8f1 0%,#f8fcfa 54%,#eefaf6 100%)!important;box-shadow:0 12px 30px rgba(18,89,66,.10)!important;overflow:hidden!important}
+.home-title-main{order:2!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:12px!important}
+.home-title-main h2{padding:0!important;margin:0!important;font-size:34px!important;font-weight:900!important;color:#103e31!important;line-height:1.35!important;white-space:nowrap!important}
+.home-user-role{font-size:20px!important;padding:10px 26px!important;border-radius:28px!important;background:#dff2ea!important;color:#12664f!important;font-weight:800!important;gap:8px!important}
+.home-user-role::before{content:'👤'!important;font-size:22px!important}
+.home-header-actions{order:1!important;width:360px!important;flex:0 0 360px!important;display:flex!important;flex-direction:column!important;gap:10px!important}
+.home-header-actions .home-register-btn,.home-header-actions .home-action-btn{width:100%!important;min-height:54px!important;border-radius:17px!important;font-size:17px!important;font-weight:900!important}
+.home-header-actions .home-register-btn{background:linear-gradient(135deg,#168b6c,#087055)!important;color:#fff!important}
+.home-header-actions .secondary{background:#fff!important;color:#116b52!important;border:1px solid #bcd8ce!important}
+.home-header-actions .logout-btn{background:#fff1f1!important;color:#b51f29!important;border:1px solid #f0bcbc!important}
+.management-box{border-radius:28px!important;padding:28px!important;background:#fff!important;box-shadow:0 10px 28px rgba(24,75,60,.08)!important}
+.management-box .attention-title{font-size:29px!important;font-weight:900!important;color:#102f27!important;text-align:right!important}
+.task-overview-filters{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;direction:rtl!important;gap:14px!important;margin:18px 0 16px!important}
+.overview-filter{min-height:148px!important;border:0!important;border-radius:24px!important;padding:18px 16px!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;align-items:center!important;text-align:center!important;gap:10px!important;font-size:17px!important;font-weight:800!important;box-shadow:none!important}
+.overview-filter:nth-child(1){background:#e5f6ee!important}.overview-filter:nth-child(2){background:#dff1fb!important}.overview-filter:nth-child(3){background:#fff6d9!important}.overview-filter:nth-child(4){background:#fde5e8!important}.overview-filter:nth-child(5){background:#eee8fb!important}
+.overview-filter.active{box-shadow:inset 0 0 0 2px #13785f,0 7px 18px rgba(19,120,95,.12)!important}
+.overview-filter .filter-label{display:flex!important;flex-direction:column!important;align-items:center!important;gap:7px!important;line-height:1.45!important;flex:none!important}
+.overview-filter .radio{display:none!important}
+.overview-filter b{order:-1!important;min-width:64px!important;border-radius:15px!important;padding:7px 12px!important;background:rgba(255,255,255,.58)!important;font-size:28px!important;color:#153d32!important}
+.overview-filter.active b{background:#13785f!important;color:#fff!important}
+.overview-filter:nth-child(1) b{color:#116b52!important}.overview-filter:nth-child(2) b{color:#1558a0!important}.overview-filter:nth-child(3) b{color:#9a6a00!important}.overview-filter:nth-child(4) b{color:#b51f29!important}.overview-filter:nth-child(5) b{color:#3e2c9a!important}
+@media(max-width:900px){.task-overview-filters{grid-template-columns:repeat(5,minmax(130px,1fr))!important;overflow-x:auto!important;padding-bottom:4px!important}.overview-filter{min-width:130px!important}.home-title-row{gap:20px!important}.home-header-actions{width:270px!important;flex-basis:270px!important}}
+@media(max-width:650px){
+ .home-title-row{min-height:150px!important;padding:16px 14px!important;gap:12px!important;border-radius:22px!important}
+ .home-title-main h2{font-size:24px!important;white-space:normal!important}
+ .home-user-role{font-size:14px!important;padding:8px 15px!important}
+ .home-header-actions{width:155px!important;flex-basis:155px!important;gap:7px!important}
+ .home-header-actions .home-register-btn,.home-header-actions .home-action-btn{min-height:44px!important;padding:9px 8px!important;font-size:11px!important;border-radius:13px!important}
+ .management-box{padding:16px!important;border-radius:22px!important}.management-box .attention-title{font-size:20px!important}
+ .task-overview-filters{grid-template-columns:repeat(5,130px)!important;gap:9px!important;margin-top:14px!important}
+ .overview-filter{min-height:125px!important;border-radius:18px!important;padding:12px 9px!important;font-size:12px!important}
+ .overview-filter b{min-width:48px!important;font-size:22px!important}
+}
+</style>
 </head>
 <body class="login-active">
 <div class="app">
@@ -209,7 +275,7 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 
 <section id="home" class="panel">
 <div class="userbox">
-<div class="home-title-row"><div class="home-title-main"><h2 id="welcome">کارتابل</h2></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⛔ خروج</button></div></div>
+<div class="home-title-row"><div class="home-title-main"><h2 id="welcome">کارتابل</h2><div id="welcomeRole" class="home-user-role">کاربر</div></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⎋ خروج</button></div></div>
 <div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
 </div>
 <div id="managementBox" class="management-box">
@@ -588,7 +654,7 @@ function toggleLoginPassword(){const p=document.getElementById('loginPassword');
  let accountPass=u==='مدیر'?managerPassword:(team.find(x=>x.name===u)?.password||'1');
  if(p!==accountPass){alert('رمز عبور نادرست است.');return}
  currentUser=u; document.getElementById('loginPassword').value='';
- document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان — آقای شریفی':'کارتابل '+u;
+ document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان':'کارتابل '+u; const wr=document.getElementById('welcomeRole'); if(wr) wr.textContent=u==='مدیر'?'مدیر دپارتمان':(team.find(m=>m.name===u)?.role||'کاربر');
  showPanel('home'); renderHome()
 }
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value='';document.getElementById('loginPassword').value='';}
@@ -641,11 +707,11 @@ function renderTaskOverview(tasks, todayG){
  if(!filters||!list)return;
  const defs=[];
  if(currentUser && currentUser!=='مدیر') defs.push(['my','👤','تسک‌های من',tasks.filter(x=>x.owner===currentUser).length]);
- defs.push(['all','📋','کل تسک‌ها',tasks.length],
-  ['current','🔄','تسک‌های جاری',tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length],
-  ['completed','✅','تسک‌های پایان‌یافته',tasks.filter(x=>x.status==='انجام شد').length],
-  ['overdue','⏰','تسک‌های دارای ددلاین گذشته',tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length],
-  ['reviewed','⭐','تسک‌های ارزیابی‌شده توسط مدیر',tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length]
+ else defs.push(['my','👤','تسک‌های من',tasks.filter(x=>x.owner===currentUser).length]);
+ defs.push(['all','📋','کل تسک‌های گروه',tasks.length],
+  ['current','🔄','تسک‌های جاری گروه',tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length],
+  ['overdue','⏰','تسک‌های تاریخ گذشته/ناتمام',tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length],
+  ['reviewed','⭐','تسک‌های ارزیابی شده توسط مدیر',tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length]
  );
  filters.innerHTML=defs.map(d=>`<button type="button" class="overview-filter ${selectedOverviewKind===d[0]?'active':''}" onclick="toggleOverviewKind('${d[0]}')"><span class="filter-label"><span class="radio" aria-hidden="true"></span><span>${d[1]} ${d[2]}</span></span><b>${faDigits(d[3])}</b></button>`).join('');
  let selected=[];
@@ -1047,10 +1113,15 @@ function deleteActivityById(id){
  const item=data[idx];
  if(currentUser!=='مدیر' && item.owner!==currentUser){alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');return}
  if(!confirm('این تسک حذف شود؟'))return;
- data.splice(idx,1); save();
- // Refresh the source data and every homepage counter immediately after deletion.
+ data.splice(idx,1);
+ try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){alert('ذخیره حذف تسک انجام نشد.');return}
+ // Re-read the persisted data and rebuild every homepage statistic immediately.
+ try{const persisted=safeJSON(KEY,[]); if(Array.isArray(persisted)) data=persisted;}catch(e){}
+ selectedOverviewKind=(currentUser && currentUser!=='مدیر')?'my':'all';
+ renderHome();
  refreshHomeStatistics();
- closeDetail(); renderArchive();renderToday();renderHome();renderReviews();
+ closeDetail();
+ renderArchive();renderToday();renderReviews();
  alert('تسک با موفقیت حذف شد.');
 }
 function editActivityById(id){editActivity(id)}
