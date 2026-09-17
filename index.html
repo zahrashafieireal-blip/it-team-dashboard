@@ -1297,7 +1297,8 @@ function deleteActivityFromButton(ref){return deleteActivity(ref);}
 function editActivityById(ref){ return editActivity(ref); }
 window.editActivityById=editActivityById;
 function deleteActivity(ref){
-  const index=findActivityIndex(ref);
+  const wanted=String(ref??'').trim();
+  const index=data.findIndex(t=>String(t?.id??'').trim()===wanted);
   if(index<0){alert('تسک موردنظر پیدا نشد.');return false;}
   return deleteActivityRecord(data,index);
 }
