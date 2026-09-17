@@ -278,26 +278,25 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 <div class="home-title-row"><div class="home-title-main"><h2 id="welcome">کارتابل</h2><div id="welcomeRole" class="home-user-role">کاربر</div></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⎋ خروج</button></div></div>
 <div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
 </div>
-<div id="managementBox" class="management-box">
-  <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
-  <div class="small" style="margin:6px 0 10px">یک یا چند مورد را انتخاب کنید تا لیست مربوط به آنها نمایش داده شود.</div>
-  <div id="taskOverviewFilters" class="task-overview-filters"></div>
-  <div id="taskOverviewList" class="task-overview-list"></div>
-  
-</div>
-<div class="quick-actions">
-  <button class="quick-btn" onclick="showTaskView('overdue')">⏰ ددلاین گذشته</button>
-  <button class="quick-btn" onclick="showTaskView('current')">🔄 تسک‌های جاری</button>
-  <button class="quick-btn" onclick="showTaskView('reviewed')">⭐ ارزیابی‌شده</button>
-</div>
-<div class="cardgrid">
-<button class="card" onclick="showPanel('today');renderToday()"><div class="ico">📋</div><h3>فعالیت‌های امروز</h3></button>
-<button class="card" onclick="showPanel('reports');initReports()"><div class="ico">📊</div><h3>گزارش‌گیری</h3></button>
-<button class="card" onclick="showPanel('team');renderTeam()"><div class="ico">👥</div><h3>اعضای گروه</h3></button>
-<button class="card" onclick="showPanel('meetings');renderMeetings()"><div class="ico">🏛️</div><h3>نوبت هیئت عمومی</h3></button>
-<button class="card" onclick="showPanel('archive');renderArchive()"><div class="ico">🗂️</div><h3>آرشیو فعالیت‌ها</h3></button>
-<button class="card" onclick="showPanel('reviews');renderReviews()"><div class="ico">📋✓</div><h3>ارزیابی و تایید تسک توسط مدیر</h3></button>
-<button class="card" onclick="showPanel('settings');renderSettings()"><div class="ico">⚙️</div><h3>تنظیمات</h3></button>
+
+<div class="home-main-layout">
+  <aside class="home-side-menu" aria-label="منوی اصلی">
+    <button type="button" class="home-side-item" onclick="showPanel('archive');renderArchive()"><span class="side-ico">🗂️</span><span>آرشیو فعالیت‌ها</span></button>
+    <button type="button" class="home-side-item" onclick="showPanel('reports');initReports()"><span class="side-ico">📊</span><span>گزارش‌گیری تسک‌ها</span></button>
+    <button type="button" class="home-side-item" onclick="showPanel('reviews');renderReviews()"><span class="side-ico">📋✓</span><span>انجام ارزیابی تسک‌ها توسط مدیر</span></button>
+    <button type="button" class="home-side-item" onclick="showPanel('meetings');renderMeetings()"><span class="side-ico">🏛️</span><span>نوبت هیئت عمومی</span></button>
+    <button type="button" class="home-side-item" onclick="showPanel('team');renderTeam()"><span class="side-ico">👥</span><span>حذف/اضافه اعضای گروه</span></button>
+    <button type="button" class="home-side-item" onclick="showPanel('settings');renderSettings()"><span class="side-ico">⚙️</span><span>تنظیمات</span></button>
+  </aside>
+
+  <div class="home-main-content">
+    <div id="managementBox" class="management-box">
+      <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
+      <div class="small" style="margin:6px 0 10px">وضعیت تسک‌های من و کل تسک‌های گروه</div>
+      <div id="taskOverviewFilters" class="task-overview-filters"></div>
+      <div id="taskOverviewList" class="task-overview-list"></div>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -701,37 +700,50 @@ function renderMyTasks(tasks){
  list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${x.id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
   decorateTaskDeadlineTexts();
 }
+function homeTaskStatusCounts(tasks,todayG){
+ const closed=tasks.filter(x=>x.status==='انجام شد').length;
+ const delayed=tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length;
+ const current=tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد'&&!(x.deadline&&normalizeStoredDate(x.deadline)<todayG)).length;
+ return {current,closed,delayed};
+}
+function showHomeTaskKind(scope,kind){
+ const todayG=normalizeStoredDate(today());
+ let arr=scope==='my'?ownerData():groupTasks();
+ const counts=homeTaskStatusCounts(arr,todayG);
+ if(kind==='current')arr=arr.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد'&&!(x.deadline&&normalizeStoredDate(x.deadline)<todayG));
+ if(kind==='completed')arr=arr.filter(x=>x.status==='انجام شد');
+ if(kind==='overdue')arr=arr.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد');
+ const title=scope==='my'?'تسک‌های من':'تسک‌های ثبت‌شده گروه';
+ const fullTitle=kind==='all'?title:(kind==='current'?title+' — جاری':kind==='completed'?title+' — مختومه':title+' — معوق');
+ document.getElementById('taskViewTitle').textContent=fullTitle;
+ document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">'+esc(title)+'</span>';
+ const cards=document.getElementById('groupTaskCards');
+ if(cards)cards.innerHTML=arr.length?arr.map(x=>`<article class="mobile-task-card ${rowClass(x)}"><div class="task-card-head"><span>${fmtDate(x.date)}</span><strong>${esc(x.owner)}</strong></div><div class="task-card-title">${esc(x.desc)}</div><div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div><div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}</div>${taskActionButtons(x)}</article>`).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
+ const body=document.getElementById('groupTaskBody');
+ body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}</td><td>${taskActionButtons(x)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
+ showPanel('groupTasks');
+}
 function renderTaskOverview(tasks, todayG){
  const filters=document.getElementById('taskOverviewFilters');
  const list=document.getElementById('taskOverviewList');
  if(!filters||!list)return;
- const defs=[];
- if(currentUser && currentUser!=='مدیر') defs.push(['my','👤','تسک‌های من',tasks.filter(x=>x.owner===currentUser).length]);
- else defs.push(['my','👤','تسک‌های من',tasks.filter(x=>x.owner===currentUser).length]);
- defs.push(['all','📋','کل تسک‌های گروه',tasks.length],
-  ['current','🔄','تسک‌های جاری گروه',tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length],
-  ['overdue','⏰','تسک‌های تاریخ گذشته/ناتمام',tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length],
-  ['reviewed','⭐','تسک‌های ارزیابی شده توسط مدیر',tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length]
- );
- filters.innerHTML=defs.map(d=>`<button type="button" class="overview-filter ${selectedOverviewKind===d[0]?'active':''}" onclick="toggleOverviewKind('${d[0]}')"><span class="filter-label"><span class="radio" aria-hidden="true"></span><span>${d[1]} ${d[2]}</span></span><b>${faDigits(d[3])}</b></button>`).join('');
- let selected=[];
- const add=(arr)=>arr.forEach(x=>{if(!selected.some(y=>y.id===x.id))selected.push(x)});
- const k=selectedOverviewKind;
- if(k==='my')add(tasks.filter(x=>x.owner===currentUser));
- if(k==='all')add(tasks);
- if(k==='current')add(tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد'));
- if(k==='completed')add(tasks.filter(x=>x.status==='انجام شد'));
- if(k==='overdue')add(tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد'));
- if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
- if(!selected.length){list.innerHTML='<div class="attention-empty">یک یا چند مورد را از بالا انتخاب کنید.</div>';return;}
- selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
- list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${x.id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+ const mine=tasks.filter(x=>x.owner===currentUser);
+ const group=tasks;
+ const mc=homeTaskStatusCounts(mine,todayG);
+ const gc=homeTaskStatusCounts(group,todayG);
+ const card=(scope,title,total,c,cls,icon)=>`<div class="home-task-summary ${cls}">
+   <button type="button" class="home-task-summary-head" onclick="showHomeTaskKind('${scope}','all')"><span class="summary-icon">${icon}</span><span class="summary-title">${title}</span><b>${faDigits(total)}</b></button>
+   <div class="home-task-subgrid">
+    <button type="button" class="home-task-sub ${cls}" onclick="showHomeTaskKind('${scope}','current')"><span>🔄</span><strong>جاری</strong><b>${faDigits(c.current)}</b></button>
+    <button type="button" class="home-task-sub ${cls}" onclick="showHomeTaskKind('${scope}','completed')"><span>✓</span><strong>مختومه</strong><b>${faDigits(c.closed)}</b></button>
+    <button type="button" class="home-task-sub ${cls}" onclick="showHomeTaskKind('${scope}','overdue')"><span>◷</span><strong>معوق</strong><b>${faDigits(c.delayed)}</b></button>
+   </div>
+ </div>`;
+ filters.innerHTML=card('my','تسک‌های من',mine.length,mc,'personal','👤')+card('all','کل تسک‌های گروه',group.length,gc,'group','📋');
+ list.innerHTML='<div class="home-summary-hint">برای مشاهده تسک‌ها، روی عنوان یا یکی از وضعیت‌ها کلیک کنید.</div>';
 }
-function toggleOverviewKind(kind){
- selectedOverviewKind=kind;
- const tasks=groupTasks();
- renderTaskOverview(tasks,normalizeStoredDate(today()));
-}
+
+function toggleOverviewKind(kind){ selectedOverviewKind=kind; renderTaskOverview(groupTasks(),normalizeStoredDate(today())); }
 
 function rowClass(x){
   const t=normalizeStoredDate(today());
@@ -778,7 +790,7 @@ function taskActionButtons(x){
 }
 function showTaskView(kind){
  const todayG=normalizeStoredDate(today()); let arr=data;
- const titles={all:'📋 کل تسک‌ها',current:'🔄 تسک‌های جاری',completed:'✅ تسک‌های پایان‌یافته',overdue:'⏰ تسک‌هایی که ددلاین آنها گذشته است',reviewed:'⭐ تسک‌های ارزیابی‌شده توسط مدیر'};
+ const titles={all:'📋 تسک‌های ثبت‌شده گروه',current:'🔄 تسک‌های جاری',completed:'✅ تسک‌های پایان‌یافته',overdue:'⏰ تسک‌هایی که ددلاین آنها گذشته است',reviewed:'⭐ تسک‌های ارزیابی‌شده توسط مدیر'};
  if(kind==='current')arr=data.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد');
  if(kind==='completed')arr=data.filter(x=>x.status==='انجام شد');
  if(kind==='overdue')arr=data.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد');
@@ -1461,6 +1473,23 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 
 <style id="task-actions-v2">
 .compact-actions{display:flex;gap:4px;flex-wrap:wrap;margin:0}.compact-actions button{padding:6px 8px!important;white-space:nowrap}.mobile-task-card .compact-actions{margin-top:8px}.mobile-task-card .compact-actions button{flex:1;min-width:0}
+
+/* Approved home redesign: two colored task summaries + vertical right navigation */
+.home-main-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:12px;align-items:stretch;direction:ltr}
+.home-main-content{min-width:0;direction:rtl}
+.home-side-menu{direction:rtl;background:#f7fbf9;border:1px solid #dfeae5;border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:8px;box-shadow:0 3px 14px #00000008}
+.home-side-item{width:100%;min-height:72px;border:1px solid #dce9e3;background:#fff;border-radius:15px;color:#17352d;font:inherit;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:flex-start;gap:10px;padding:10px 12px;text-align:right;cursor:pointer;box-shadow:0 2px 8px #00000006;transition:.15s}
+.home-side-item:active{transform:scale(.985);background:#eef7f3}.home-side-item:hover{border-color:#b9d9cc;background:#f5faf7}.side-ico{font-size:28px;line-height:1;flex:0 0 38px;text-align:center}
+.task-overview-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 0}
+.home-task-summary{border-radius:18px;padding:10px;border:1px solid transparent;min-width:0;box-shadow:0 3px 12px #00000008}
+.home-task-summary.personal{background:#e8f5ef;border-color:#d2e9df;color:#116b52}.home-task-summary.group{background:#e7f0ff;border-color:#d2e0f7;color:#1557a6}
+.home-task-summary-head{width:100%;border:0;background:transparent;color:inherit;display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:8px;padding:3px 3px 10px;font:inherit;cursor:pointer;text-align:right}
+.summary-icon{font-size:28px;text-align:center}.summary-title{font-size:16px;font-weight:900}.home-task-summary-head>b{font-size:27px;line-height:1}
+.home-task-subgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.home-task-sub{border:0;border-radius:14px;padding:9px 5px;display:grid;grid-template-columns:22px 1fr;grid-template-rows:auto auto;align-items:center;gap:1px 4px;font:inherit;cursor:pointer;color:inherit;text-align:center}.home-task-sub.personal{background:#d9eee4}.home-task-sub.group{background:#d7e7fc}.home-task-sub span{grid-row:1/3;font-size:20px}.home-task-sub strong{font-size:11px}.home-task-sub b{font-size:19px}.home-task-sub:active{transform:scale(.98)}
+.home-summary-hint{font-size:10px;color:#72817c;text-align:center;padding:8px 0 0}
+.quick-actions{display:none!important}
+@media(max-width:800px){.home-main-layout{grid-template-columns:1fr}.home-side-menu{order:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.home-main-content{order:1}.home-side-item{min-height:64px;font-size:11px}.side-ico{font-size:24px;flex-basis:31px}}
+@media(max-width:520px){.task-overview-filters{grid-template-columns:1fr;gap:8px}.home-task-summary{padding:8px}.summary-title{font-size:15px}.home-task-summary-head>b{font-size:24px}.home-task-sub strong{font-size:10px}.home-task-sub b{font-size:17px}.home-side-menu{grid-template-columns:1fr}.home-side-item{min-height:56px}}
 </style>
 </head><body>'+content+'<nav id="bottomNav" class="bottom-nav">
   <button type="button" onclick="showPanel('home');renderHome()">🏠<span>خانه</span></button>
