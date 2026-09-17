@@ -534,6 +534,27 @@ function clearArchiveFilters(){
   ids.forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
   renderArchive();
 }
+function showActivityDetail(id){
+  const x=data.find(a=>a.id===id);
+  if(!x)return;
+  if(currentUser!=='مدیر' && x.owner!==currentUser)return;
+  const review=x.review||{};
+  document.getElementById('detailContent').innerHTML=`<div class="detail-grid">
+    <div><b>تاریخ</b><span>${fmtDate(x.date)}</span></div>
+    <div><b>کارشناس</b><span>${esc(x.owner)}</span></div>
+    <div><b>نوع فعالیت</b><span>${esc(x.type)}</span></div>
+    <div><b>وضعیت</b><span>${esc(x.status)}</span></div>
+    <div><b>ددلاین</b><span>${x.deadline?fmtDate(x.deadline):'—'}</span></div>
+    <div><b>مکاتبه</b><span>${x.correspondence?'بله':'خیر'}</span></div>
+    <div style="grid-column:1/-1"><b>شرح فعالیت</b><span>${esc(x.desc)}</span></div>
+    ${x.letterNo?`<div><b>شماره نامه</b><span>${esc(x.letterNo)}</span></div>`:''}
+    ${x.letterDate?`<div><b>تاریخ نامه</b><span>${fmtDate(x.letterDate)}</span></div>`:''}
+    ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
+    ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
+  </div>`;
+  document.getElementById('detailModal').classList.add('show');
+}
+function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
 function deleteActivity(id){
   const item=data.find(x=>x.id===id);
   if(!item)return;
