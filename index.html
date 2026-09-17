@@ -444,7 +444,7 @@ header p{display:none !important;}
 <label>واحد</label><input id="aUnit">
 <div id="deadlineFields"><label>Deadline</label><div class="actions" style="margin:0"><input id="aDeadline" placeholder="۱۴۰۵/۰۵/۲۰" inputmode="numeric"><button class="secondary" type="button" onclick="openCalendar('aDeadline')">📅 تقویم فارسی</button></div></div>
 <label>یادداشت</label><textarea id="aNotes"></textarea>
-<div class="actions"><button id="activitySaveBtn" class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button id="activityCancelEditBtn" class="danger hidden" onclick="cancelEditActivity()">لغو ویرایش</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div>
+<div class="actions"><button id="activitySaveBtn" class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button id="activityDeleteBtn" class="danger hidden" type="button" onclick="deleteEditingActivity();return false;">🗑️ حذف این تسک</button><button id="activityCancelEditBtn" class="danger hidden" onclick="cancelEditActivity()">لغو ویرایش</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div>
 </section>
 
 <section id="today" class="panel"><div class="topline"><h2>📋 فعالیت‌های امروز</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="todayContent"></div></section>
@@ -1175,6 +1175,7 @@ function clearActivityForm(){
  document.getElementById('activityFormTitle').textContent='➕ ثبت تسک جدید';
  document.getElementById('activitySaveBtn').textContent='💾 ثبت تسک جدید';
  document.getElementById('activityCancelEditBtn').classList.add('hidden');
+ const delBtn=document.getElementById('activityDeleteBtn');if(delBtn)delBtn.classList.add('hidden');
  updateActivityFormVisibility();
 }
 function editActivity(id){
@@ -1200,7 +1201,33 @@ function editActivity(id){
  document.getElementById('activityFormTitle').textContent='✏️ ویرایش فعالیت';
  document.getElementById('activitySaveBtn').textContent='💾 ذخیره تغییرات';
  document.getElementById('activityCancelEditBtn').classList.remove('hidden');
+ const delBtn=document.getElementById('activityDeleteBtn');if(delBtn)delBtn.classList.remove('hidden');
  updateActivityFormVisibility();
+}
+function deleteEditingActivity(){
+ const ref=editingActivityId;
+ if(ref===null || ref===''){alert('ابتدا یک تسک را برای ویرایش انتخاب کنید.');return false;}
+ const idx=findActivityIndex(ref);
+ if(idx<0){alert('این تسک پیدا نشد.');return false;}
+ const item=data[idx];
+ const owner=normalizeOwnerName(item?.owner), user=normalizeOwnerName(currentUser);
+ if(currentUser!=='مدیر' && owner!==user){alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');return false;}
+ const details=['شرح: '+String(item?.desc||'—'),'مسئول: '+String(item?.owner||'—'),'تاریخ: '+String(item?.date||'—'),'نوع: '+String(item?.type||'تسک'),'وضعیت: '+String(item?.status||'—'),item?.deadline?'ددلاین: '+String(item.deadline):''].filter(Boolean).join('\n');
+ if(!window.confirm('⚠️ تأیید حذف تسک\n\nمشخصات تسک:\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟\n\nبا انتخاب «تأیید»، تسک برای همیشه حذف می‌شود.'))return false;
+ data.splice(idx,1);
+ try{
+   save();
+   const verify=JSON.parse(localStorage.getItem(KEY)||'[]');
+   if(verify.some(t=>String(t?.id??'')===String(item?.id??''))){alert('حذف در حافظه ذخیره نشد.');return false;}
+ }catch(e){alert('ذخیره حذف تسک انجام نشد.');return false;}
+ editingActivityId=null;
+ clearActivityForm();
+ renderToday();renderHome();renderArchive();
+ if(typeof renderReviews==='function')renderReviews();
+ if(typeof renderGroupTasks==='function')renderGroupTasks();
+ showPanel('home');
+ alert('تسک با موفقیت حذف شد.');
+ return true;
 }
 function cancelEditActivity(){clearActivityForm();showPanel('home');}
 window.editActivity=editActivity;
@@ -1268,7 +1295,7 @@ function confirmDeleteFromDetail(){
     'وضعیت: '+String(item?.status||'—'),
     item?.deadline?'ددلاین: '+String(item.deadline):''
   ].filter(Boolean).join('\n');
-  if(window.confirm('تأیید مشخصات تسک\n\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟')){
+  if(window.confirm('⚠️ تأیید حذف تسک\n\nمشخصات تسک:\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟\n\nبا انتخاب «تأیید»، تسک برای همیشه حذف می‌شود.')){
     return deleteActivity(selectedTaskId);
   }
   return false;
@@ -1381,7 +1408,10 @@ function refreshTaskCountersAfterDelete(){
   if(mineBadge) mineBadge.textContent='تعداد تسک‌های من: '+faDigits(counts.my);
 }
 function refreshAfterTaskDelete(){
-  refreshTaskCountersAfterDelete();
+  // Re-render every task view, especially the currently open group-task page.
+  // This keeps the counters and visible task list synchronized immediately after deletion.
+  if(typeof renderGroupTasks==='function')renderGroupTasks();
+  if(typeof renderMyTasks==='function')renderMyTasks(groupTasks().filter(x=>normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser)));
   if(typeof renderArchive==='function')renderArchive();
   if(typeof renderToday==='function')renderToday();
   if(typeof renderReviews==='function')renderReviews();
