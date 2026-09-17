@@ -180,6 +180,22 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
  .home-register-btn{padding:8px 9px;font-size:10px;}
 }
 </style>
+<style id="home-actions-vertical-left">
+.home-title-row{position:relative;min-height:132px!important;padding-left:0!important;align-items:flex-start!important;}
+.home-title-main{width:100%!important;display:block!important;}
+.home-title-main h2{padding-left:145px!important;}
+.home-header-actions{position:absolute!important;left:0!important;top:0!important;margin:0!important;width:auto!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:7px!important;flex-wrap:nowrap!important;}
+.home-header-actions .home-register-btn,.home-header-actions .home-action-btn{position:static!important;order:initial!important;width:auto!important;}
+@media(max-width:650px){
+ .home-title-row{min-height:126px!important;}
+ .home-title-main h2{padding-left:132px!important;font-size:16px;}
+ .home-header-actions{left:0!important;top:0!important;}
+}
+@media(max-width:380px){
+ .home-title-row{min-height:120px!important;}
+ .home-title-main h2{padding-left:120px!important;font-size:14px;}
+}
+</style>
 </head>
 <body class="login-active">
 <div class="app">
@@ -975,7 +991,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button class="danger" onclick="deleteActivity('+x.id+');closeDetail();">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1163,7 +1179,23 @@ function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=docu
 function printHTML(content){
   const w=window.open('','_blank');
   if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}
-  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>'+content+'</body></html>');
+  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style>
+<style id="new-task-top-left">
+.home-title-row{position:relative;min-height:44px;padding-left:0;}
+.home-title-main{width:100%;display:block;}
+.home-title-main h2{padding-left:145px;}
+.home-register-btn{position:absolute;left:0;top:0;z-index:2;padding:10px 15px;border-radius:13px;background:linear-gradient(135deg,#13785f,#0b5d49);box-shadow:0 5px 14px rgba(17,107,82,.22);font-size:12px;}
+@media(max-width:650px){
+ .home-title-row{min-height:42px;}
+ .home-title-main h2{padding-left:132px;font-size:16px;}
+ .home-register-btn{left:0;top:0;padding:9px 11px;font-size:11px;}
+}
+@media(max-width:380px){
+ .home-title-main h2{padding-left:120px;font-size:14px;}
+ .home-register-btn{padding:8px 9px;font-size:10px;}
+}
+</style>
+</head><body>'+content+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 function seedDemo(){
