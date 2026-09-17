@@ -196,6 +196,35 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
  .home-title-main h2{padding-left:120px!important;font-size:14px;}
 }
 </style>
+
+<style id="dynamic-profile-card">
+.profile-dashboard-card{position:relative;display:grid;grid-template-columns:minmax(260px,1fr) 1px minmax(0,1.35fr);gap:22px;align-items:center;padding:22px 24px!important;border:1px solid #e1eee8;background:linear-gradient(135deg,#eefaf5 0%,#ffffff 58%,#f4fbf8 100%);box-shadow:0 12px 30px rgba(17,107,82,.09);overflow:hidden}
+.profile-dashboard-card:before{content:"";position:absolute;left:-80px;top:-100px;width:430px;height:330px;border-radius:50%;background:rgba(171,231,210,.18);pointer-events:none}
+.profile-actions{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px;width:100%}
+.profile-actions button{width:100%;min-height:58px;border-radius:18px;border:1px solid transparent;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;gap:12px;transition:transform .15s,box-shadow .15s}
+.profile-actions button:active{transform:scale(.985)}
+.profile-main-action{min-height:66px!important;border-radius:19px!important;font-size:18px!important;box-shadow:0 8px 18px rgba(17,107,82,.18)!important}
+.profile-main-action .plus{font-size:30px;line-height:1;font-weight:400}
+.profile-action{background:rgba(255,255,255,.8);color:#174d3d;border-color:#b9d9cc!important;box-shadow:0 4px 12px rgba(17,107,82,.05)}
+.profile-password .action-icon{background:#e6f4ee;border-radius:12px;padding:7px 10px}
+.profile-logout{background:#fff0f1!important;color:#c51f2d!important;border-color:#f3b9bf!important}
+.profile-logout .action-icon{font-size:27px;font-weight:900}
+.profile-divider{position:relative;z-index:1;width:1px;height:150px;background:linear-gradient(to bottom,transparent,#8dc8b3,transparent)}
+.profile-identity{position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-start;gap:28px;direction:rtl;min-width:0;padding-right:8px}
+.profile-text{min-width:0;text-align:right;flex:1}
+.profile-text h2{margin:0 0 12px!important;font-size:31px!important;line-height:1.35!important;color:#123c30!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile-role{display:inline-flex;align-items:center;gap:8px;background:#e3f3ed;color:#14644e;border-radius:20px;padding:9px 18px;font-size:17px;font-weight:800;line-height:1.3;max-width:100%}
+.profile-role:before{content:"👤";font-size:19px}
+.profile-avatar{width:145px;height:145px;flex:0 0 145px;border-radius:50%;background:#dff1eb;border:9px solid #fff;box-shadow:0 7px 20px rgba(17,107,82,.16);position:relative;overflow:hidden}
+.profile-avatar:after{content:"";position:absolute;right:2px;bottom:3px;width:27px;height:27px;border-radius:50%;background:#18c45a;border:4px solid #fff;z-index:8}
+.avatar-head{position:absolute;width:55px;height:68px;border-radius:45% 45% 48% 48%;background:#f3b083;left:36px;top:30px;z-index:3}
+.avatar-hair{position:absolute;width:68px;height:54px;border-radius:50% 50% 25% 25%;background:#182c2b;left:30px;top:18px;z-index:4}
+.avatar-body{position:absolute;width:110px;height:70px;border-radius:55% 55% 0 0;background:#276f5c;left:18px;bottom:-5px;z-index:2}
+.avatar-shirt{background:#233c49}.avatar-glasses{position:absolute;left:31px;top:56px;width:73px;height:20px;z-index:6}.avatar-glasses:before,.avatar-glasses:after{content:"";position:absolute;top:0;width:28px;height:15px;border:3px solid #263938;border-radius:6px;background:rgba(255,255,255,.12)}.avatar-glasses:before{left:1px}.avatar-glasses:after{right:1px}.avatar-glasses i{position:absolute;left:28px;top:6px;width:17px;height:3px;background:#263938}.avatar-beard{position:absolute;width:47px;height:28px;left:40px;top:76px;border-radius:10px 10px 45% 45%;background:#283735;z-index:5}.avatar-beard:before{content:"";position:absolute;width:33px;height:18px;left:7px;top:-7px;border-radius:50%;background:#f3b083}
+.avatar-hijab{position:absolute;inset:12px 16px 8px;border-radius:45% 45% 34% 34%;background:#1b252b;z-index:4}.avatar-hijab .face{position:absolute;width:55px;height:68px;border-radius:45% 45% 48% 48%;background:#f3b083;left:27px;top:25px}.avatar-hijab:after{content:"";position:absolute;left:7px;right:7px;bottom:-2px;height:52px;border-radius:45% 45% 25% 25%;background:#162126}
+@media(max-width:650px){.profile-dashboard-card{grid-template-columns:minmax(0,1fr) 1px minmax(0,1.15fr);gap:12px;padding:16px 12px!important}.profile-actions button{min-height:50px;font-size:13px;border-radius:15px}.profile-main-action{min-height:57px!important;font-size:15px!important}.profile-main-action .plus{font-size:25px}.profile-divider{height:125px}.profile-identity{gap:10px;padding-right:0}.profile-text h2{font-size:20px!important;margin-bottom:8px!important}.profile-role{font-size:12px;padding:7px 10px}.profile-avatar{width:92px;height:92px;flex-basis:92px;border-width:6px}.avatar-head{width:37px;height:45px;left:23px;top:21px}.avatar-hair{width:46px;height:36px;left:18px;top:12px}.avatar-body{width:70px;height:46px;left:11px}.avatar-glasses{left:19px;top:37px;width:49px;height:14px}.avatar-glasses:before,.avatar-glasses:after{width:19px;height:10px;border-width:2px}.avatar-glasses:after{right:1px}.avatar-glasses i{left:20px;top:4px;width:10px;height:2px}.avatar-beard{width:32px;height:20px;left:30px;top:50px}.avatar-beard:before{width:23px;height:12px;left:5px;top:-5px}.avatar-hijab{inset:8px 10px 5px}.avatar-hijab .face{width:37px;height:45px;left:17px;top:17px}.avatar-hijab:after{left:4px;right:4px;height:34px}.profile-avatar:after{width:20px;height:20px;border-width:3px;right:0;bottom:0}}
+@media(max-width:380px){.profile-dashboard-card{gap:8px;padding:12px 9px!important}.profile-actions button{font-size:11px;min-height:45px}.profile-main-action{font-size:13px!important}.profile-role{font-size:10px;padding:6px 7px}.profile-text h2{font-size:17px!important}.profile-avatar{width:78px;height:78px;flex-basis:78px}}
+</style>
 </head>
 <body class="login-active">
 <div class="app">
@@ -224,9 +253,20 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 </section>
 
 <section id="home" class="panel">
-<div class="userbox">
-<div class="home-title-row"><div class="home-title-main"><h2 id="welcome">کارتابل</h2></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⛔ خروج</button></div></div>
-<div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
+<div class="userbox profile-dashboard-card">
+  <div class="profile-actions">
+    <button class="home-register-btn profile-main-action" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span><span>ثبت تسک جدید</span></button>
+    <button class="profile-action profile-password" type="button" onclick="openChangePassword()"><span class="action-icon">🔒</span><span>تغییر رمز</span></button>
+    <button class="profile-action profile-logout" type="button" onclick="logout()"><span class="action-icon">↪</span><span>خروج</span></button>
+  </div>
+  <div class="profile-divider"></div>
+  <div class="profile-identity">
+    <div class="profile-text">
+      <h2 id="welcome">کارتابل</h2>
+      <div id="currentUserRole" class="profile-role">کاربر</div>
+    </div>
+    <div id="currentUserAvatar" class="profile-avatar" aria-hidden="true"></div>
+  </div>
 </div>
 <div id="managementBox" class="management-box">
   <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
@@ -395,10 +435,16 @@ function migrateLegacyStorage(){
 }
 migrateLegacyStorage();
 const DEFAULT_TEAM=[
-{name:'شفیعی',role:'پشتیبان سمپ',password:'1'},{name:'دری',role:'طراح نرم‌افزار',password:'1'},
-{name:'عینی',role:'سخت‌افزار و پروژه دیتابیس',password:'1'},{name:'عطاریان',role:'پشتیبان شبکه و ساپورت فنی',password:'1'}];
+{name:'دری',role:'برنامه نویس',password:'1'},
+{name:'عینی',role:'سخت افزار و دیتابیس',password:'1'},
+{name:'عطاریان',role:'پشتیبان شبکه',password:'1'},
+{name:'ابراهیمی',role:'پشتیبان فنی',password:'1'},
+{name:'شفیعی',role:'پشتیبان سمپ',password:'1'}];
+const ROLE_BY_USER={'دری':'برنامه نویس','عینی':'سخت افزار و دیتابیس','عطاریان':'پشتیبان شبکه','ابراهیمی':'پشتیبان فنی','شفیعی':'پشتیبان سمپ'};
 function safeJSON(key,fallback){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback}catch(e){return fallback}}
-let team=safeJSON(TEAMKEY,null); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x})); else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1'}));
+let team=safeJSON(TEAMKEY,null); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x})); else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1',role:ROLE_BY_USER[x.name]||x.role||'کاربر'}));
+// همگام‌سازی نقش‌های پیش‌فرض بدون تغییر رمز عبور یا نام کاربری موجود
+DEFAULT_TEAM.forEach(def=>{const existing=team.find(x=>x.name===def.name);if(existing){existing.role=def.role}else if(!team.some(x=>x.name===def.name)){team.push({...def})}});
 let managerPassword=localStorage.getItem(MANAGERPASSKEY)||'1';
 let data=safeJSON(KEY,[]); if(!Array.isArray(data))data=[]; let meetings=safeJSON(MEETKEY,[]); if(!Array.isArray(meetings))meetings=[];
 let currentUser='', calTarget='', calY=1405, calM=1;
@@ -552,6 +598,26 @@ function fillSelectors(){
  if(ao){ao.innerHTML=team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join(''); if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}}
  if(mp)mp.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
 }
+const USER_ROLES={
+ 'مدیر':'مدیر واحد فناوری اطلاعات',
+ 'دری':'برنامه نویس',
+ 'عینی':'سخت افزار و دیتابیس',
+ 'عطاریان':'پشتیبان شبکه',
+ 'ابراهیمی':'پشتیبان فنی',
+ 'شفیعی':'پشتیبان سمپ'
+};
+function getUserRole(u){return USER_ROLES[u]||((team.find(x=>x.name===u)||{}).role)||'کاربر'}
+function avatarMarkup(u){
+ const shirt=u==='ابراهیمی'?' avatar-shirt':'';
+ if(u==='شفیعی') return '<div class="avatar-hijab"><div class="face"></div></div>';
+ return '<div class="avatar-hair"></div><div class="avatar-head"></div><div class="avatar-body'+shirt+'"></div>'+ (u==='ابراهیمی'?'<div class="avatar-glasses"><i></i></div>':'') + (u==='عطاریان'?'<div class="avatar-beard"></div>':'');
+}
+function renderCurrentUserProfile(){
+ const name=currentUser==='مدیر'?'آقای شریفی':(currentUser==='شفیعی'?'خانم شفیعی':'آقای '+currentUser);
+ const role=getUserRole(currentUser);
+ const w=document.getElementById('welcome'),r=document.getElementById('currentUserRole'),a=document.getElementById('currentUserAvatar');
+ if(w)w.textContent=name; if(r)r.textContent=role; if(a)a.innerHTML=avatarMarkup(currentUser);
+}
 function ensureLoginReady(){
  const us=document.getElementById('userSelect');
  if(!us)return;
@@ -577,13 +643,14 @@ function toggleLoginPassword(){const p=document.getElementById('loginPassword');
  if(p!==accountPass){alert('رمز عبور نادرست است.');passEl.focus();return}
  currentUser=u;
  passEl.value='';
- document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان — آقای شریفی':'کارتابل '+u;
+ renderCurrentUserProfile();
  showPanel('home');
  renderHome();
 }
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value='';document.getElementById('loginPassword').value='';}
 function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('login-active',id==='login');window.scrollTo({top:0,behavior:'smooth'})}
 function renderHome(){
+ renderCurrentUserProfile();
  let tasks=ownerData();
  const todayG=normalizeStoredDate(today());
  selectedOverviewKind=(currentUser && currentUser!=='مدیر')?'my':'all';
@@ -1002,7 +1069,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button type="button" class="danger" data-delete-task="${esc(String(x.id))}" onclick="deleteActivity(this.dataset.deleteTask);return false;">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button type="button" class="danger" onclick="window.deleteActivityById(${JSON.stringify(String(x.id))});return false;">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1026,7 +1093,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-delete-task="'+esc(String(x.id))+'" onclick="deleteActivity(this.dataset.deleteTask);return false;">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivityById('+JSON.stringify(String(x.id))+');return false;">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1034,62 +1101,57 @@ function deleteActivityFromButton(id){
   return deleteActivity(id);
 }
 function deleteActivity(id){
-  const normalizedId=String(id ?? '').trim();
-  if(!normalizedId){ alert('شناسه تسک نامعتبر است.'); return false; }
-
+  const wanted=String(id ?? '').trim();
+  if(!wanted){alert('شناسه تسک نامعتبر است.');return false;}
   let latest=[];
   try{
     const raw=localStorage.getItem(KEY);
     latest=raw?JSON.parse(raw):[];
   }catch(e){
-    alert('اطلاعات تسک قابل خواندن نیست.');
+    alert('امکان خواندن اطلاعات تسک‌ها وجود ندارد.');
     return false;
   }
   if(!Array.isArray(latest)) latest=[];
-
-  const index=latest.findIndex(x=>String(x && x.id).trim()===normalizedId);
-  if(index<0){
+  const idx=latest.findIndex(t=>String(t?.id ?? '').trim()===wanted);
+  if(idx===-1){
+    // Fallback for older records whose id may have been stored as a number/string variant.
+    const n=Number(wanted);
+    if(Number.isFinite(n)){
+      const alt=latest.findIndex(t=>Number(t?.id)===n);
+      if(alt!==-1){return deleteActivityRecord(latest,alt);}
+    }
     alert('تسک موردنظر پیدا نشد.');
     return false;
   }
+  return deleteActivityRecord(latest,idx);
+}
 
+function deleteActivityRecord(latest,index){
   const item=latest[index];
   const user=String(currentUser||'').trim();
-  const owner=String(item.owner||'').trim();
+  const owner=String(item?.owner||'').trim();
   if(user!=='مدیر' && owner!==user){
     alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
     return false;
   }
-
-  // Use the native browser confirmation. If the browser does not expose it,
-  // the button still remains functional through the explicit delete action.
-  let approved=true;
-  try{ approved=window.confirm('این تسک حذف شود؟'); }catch(e){ approved=true; }
-  if(!approved) return false;
-
+  let ok=true;
+  try{ok=window.confirm('این تسک حذف شود؟');}catch(e){ok=true;}
+  if(!ok)return false;
   latest.splice(index,1);
-  localStorage.setItem(KEY,JSON.stringify(latest));
   data=latest;
-
-  // Refresh every view that can show the task.
-  if(typeof renderArchive==='function') renderArchive();
-  if(typeof renderToday==='function') renderToday();
-  if(typeof renderHome==='function') renderHome();
+  localStorage.setItem(KEY,JSON.stringify(latest));
+  if(typeof renderArchive==='function')renderArchive();
+  if(typeof renderToday==='function')renderToday();
+  if(typeof renderHome==='function')renderHome();
+  if(typeof renderReviews==='function')renderReviews();
   closeDetail();
   alert('تسک با موفقیت حذف شد.');
   return true;
 }
+
+// Public entry point used directly by every delete button.
+window.deleteActivityById=function(id){return deleteActivity(id);};
 window.deleteActivity=deleteActivity;
-
-// Direct click handler: no event delegation and no dependency on inline JS.
-document.addEventListener('click',function(e){
-  const btn=e.target.closest ? e.target.closest('[data-delete-task]') : null;
-  if(!btn) return;
-  e.preventDefault();
-  e.stopImmediatePropagation();
-  deleteActivity(btn.getAttribute('data-delete-task'));
-},true);
-
 
 function renderTeam(){
   fillSelectors();
