@@ -246,10 +246,46 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
  .overview-filter b{min-width:48px!important;font-size:22px!important}
 }
 </style>
+<style id="mobile-home-summary-fix">
+@media(max-width:520px){
+  .home-task-summary-wrap{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important}
+  .home-task-summary-wrap>*{min-width:0!important;width:auto!important}
+  .home-task-summary{overflow:hidden!important;box-sizing:border-box!important}
+}
+</style>
+<style id="archive-row-number-style">
+.archive-row-no{font-weight:800;text-align:center;white-space:nowrap;min-width:46px}
+</style>
+<style id="activity-ref-style">
+.activity-ref{display:flex;flex-direction:column;gap:2px;line-height:1.45;min-width:110px}
+.activity-ref b{font-size:11px}
+.activity-ref span{font-size:10px;opacity:.82}
+</style>
+<style id="approved-ui-final">
+header{
+  background:#e5e7eb!important;
+  color:#17202a!important;
+  text-align:center!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:92px!important;
+  padding:16px 18px!important;
+  box-sizing:border-box!important;
+}
+header h1{
+  margin:0!important;
+  width:100%!important;
+  text-align:center!important;
+  line-height:1.5!important;
+}
+.attention-title{margin-bottom:0!important}
+</style>
 </head>
 <body class="login-active">
 <div class="app">
-<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>داشبورد مدیریت عملکرد تیم فناوری اطلاعات</p></header>
+<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1></header>
 <main>
 <section id="login" class="panel active">
 <div class="login-modern-wrap">
@@ -304,7 +340,7 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 <div class="topline"><h2 id="taskViewTitle">📋 تسک‌های گروه</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
 <div id="groupTaskStats" class="badges"></div>
 <div id="groupTaskCards" class="mobile-task-list"></div>
-<div class="tablewrap desktop-task-table"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>شرح تسک</th><th>وضعیت</th><th>ارزیابی مدیر</th><th>عملیات</th></tr></thead><tbody id="groupTaskBody"></tbody></table></div>
+<div class="tablewrap desktop-task-table"><table><thead><tr><th>شماره تسک / تاریخ</th><th>تاریخ ثبت</th><th>مسئول</th><th>شرح تسک</th><th>وضعیت</th><th>ارزیابی مدیر</th><th>عملیات</th></tr></thead><tbody id="groupTaskBody"></tbody></table></div>
 </section>
 
 <section id="add" class="panel">
@@ -347,7 +383,7 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
   <div class="actions"><button class="primary" type="button" onclick="renderReport()">🔎 نمایش گزارش</button><button class="secondary" type="button" onclick="clearReportFilters()">پاک کردن فیلترها</button></div>
 </div>
 <div id="reportStats"></div>
-<div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th><th>ارزیابی مدیر</th></tr></thead><tbody id="reportBody"></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>شماره / تاریخ</th><th>تاریخ ثبت</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th><th>ارزیابی مدیر</th></tr></thead><tbody id="reportBody"></tbody></table></div>
 <div class="actions"><button class="primary" type="button" onclick="exportReport()">📊 خروجی Excel</button><button class="secondary" type="button" onclick="printReport()">📄 چاپ / PDF</button></div>
 </section>
 
@@ -619,6 +655,33 @@ function save(){
 function members(){return team.map(x=>x.name)}
 function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
 function groupTasks(){return data.filter(x=>x&&team.some(m=>m.name===x.owner));}
+function nextTaskNumber(){
+ const nums=data.filter(x=>x&&x.type==='تسک').map(x=>Number(String(x.taskNo??x.id??'').replace(/[^\d]/g,''))).filter(Number.isFinite);
+ return nums.length?Math.max(...nums)+1:1;
+}
+function activityNumber(x){
+ if(!x)return '';
+ if(x.type==='نامه')return String(x.letter||x.letterNo||'').trim();
+ if(x.type==='تسک'){const v=x.taskNo??(String(x.id||'').startsWith('TASK-')?'':x.id);return String(v||'').trim();}
+ return '';
+}
+function activityNumberLabel(x){
+ const n=activityNumber(x);
+ if(!n)return x?.type==='تسک'?'شماره تسک: ثبت نشده':'شماره: ثبت نشده';
+ return (x?.type==='نامه'?'شماره نامه: ':'شماره تسک: ')+n;
+}
+function activityDateLabel(x){
+ if(!x)return '';
+ if(x.type==='نامه' && x.letterDate)return 'تاریخ نامه: '+fmtDate(x.letterDate);
+ return 'تاریخ ثبت: '+fmtDate(x.date);
+}
+function activityRefCell(x){
+ const n=activityNumber(x);
+ const d=(x?.type==='نامه'&&x.letterDate)?x.letterDate:x?.date;
+ const nl=n?((x.type==='نامه'?'شماره نامه: ':'شماره تسک: ')+n):((x.type==='نامه'?'شماره نامه: ':'شماره تسک: ')+'ثبت نشده');
+ return '<div class="activity-ref"><b>'+esc(nl)+'</b><span>'+esc((x?.type==='نامه'&&x.letterDate)?'تاریخ نامه: '+fmtDate(d):'تاریخ ثبت: '+fmtDate(d))+'</span></div>';
+}
+
 function refreshHomeStatistics(){
   // Always rebuild the homepage statistics from the latest LocalStorage snapshot.
   // This avoids stale counters on Android after a task is deleted.
@@ -726,9 +789,9 @@ function showHomeTaskKind(scope,kind){
  document.getElementById('taskViewTitle').textContent=fullTitle;
  document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">'+esc(title)+'</span>';
  const cards=document.getElementById('groupTaskCards');
- if(cards)cards.innerHTML=arr.length?arr.map(x=>`<article class="mobile-task-card ${rowClass(x)}"><div class="task-card-head"><span>${fmtDate(x.date)}</span><strong>${esc(x.owner)}</strong></div><div class="task-card-title">${esc(x.desc)}</div><div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div><div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}</div>${taskActionButtons(x)}</article>`).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
+ if(cards)cards.innerHTML=arr.length?arr.map(x=>`<article class="mobile-task-card ${rowClass(x)}"><div class="task-card-head"><span>${activityNumberLabel(x)}</span><strong>${esc(x.owner)}</strong></div><div class="task-card-meta"><span>${activityDateLabel(x)}</span></div><div class="task-card-title">${esc(x.desc)}</div><div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div><div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}</div>${taskActionButtons(x)}</article>`).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
  const body=document.getElementById('groupTaskBody');
- body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}</td><td>${taskActionButtons(x)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
+ body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${activityRefCell(x)}</td><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}</td><td>${taskActionButtons(x)}</td></tr>`).join(''):'<tr><td colspan="7" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
  showPanel('groupTasks');
 }
 function renderTaskOverview(tasks, todayG){
@@ -762,14 +825,14 @@ function rowClass(x){
 }
 function activityRows(arr,includeOwner=true){
  if(!arr.length)return '<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
- return arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td>${includeOwner?`<td>${esc(x.owner)}</td>`:''}<td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td>${includeOwner?`<td>${esc(x.correspondence||'خیر')}</td>`:''}<td>${taskDeadlineLabel(x)}</td></tr>`).join('')
+ return arr.map(x=>`<tr class="${rowClass(x)}"><td>${activityRefCell(x)}</td><td>${fmtDate(x.date)}</td>${includeOwner?`<td>${esc(x.owner)}</td>`:''}<td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td>${includeOwner?`<td>${esc(x.correspondence||'خیر')}</td>`:''}<td>${taskDeadlineLabel(x)}</td></tr>`).join('')
 }
 function renderToday(){
  let t=normalizeStoredDate(today());
  let a=ownerData().filter(x=>normalizeStoredDate(x.date)===t);
  document.getElementById('todayContent').innerHTML=
  '<div class="badges"><span class="badge">تاریخ امروز: '+fmtDate(t)+'</span><span class="badge">تعداد: '+faDigits(a.length)+'</span></div>'+
- '<div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th></tr></thead><tbody>'+
+ '<div class="tablewrap"><table><thead><tr><th>شماره / تاریخ</th><th>تاریخ ثبت</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th></tr></thead><tbody>'+
  activityRows(a)+'</tbody></table></div>';
 }
 function getCurrentWeekRange(){
@@ -905,7 +968,7 @@ function renderReport(){
   if(!r.arr){stats.innerHTML='<div class="report-empty">'+esc(r.error)+'</div>';body.innerHTML='<tr><td colspan="8" class="empty">بازه گزارش هنوز کامل نشده است.</td></tr>';return;}
   const arr=r.arr;
   stats.innerHTML='<div class="badges"><span class="badge">بازه: '+fmtDate(r.range[0])+' تا '+fmtDate(r.range[1])+'</span><span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">انجام‌شده: '+faDigits(arr.filter(x=>x.status==='انجام شد').length)+'</span><span class="badge">جاری: '+faDigits(arr.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length)+'</span></div>';
-  body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${taskDeadlineLabel(x)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — ${esc(x.managerScore)}/۵`:''}</td></tr>`).join(''):'<tr><td colspan="8" class="empty">موردی مطابق فیلترهای انتخاب‌شده وجود ندارد.</td></tr>';
+  body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${activityRefCell(x)}</td><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${taskDeadlineLabel(x)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — ${esc(x.managerScore)}/۵`:''}</td></tr>`).join(''):'<tr><td colspan="9" class="empty">موردی مطابق فیلترهای انتخاب‌شده وجود ندارد.</td></tr>';
 }
 function clearReportFilters(){
   const t=document.getElementById('reportType'); if(t)t.value='daily';
@@ -920,7 +983,7 @@ function clearReportFilters(){
 }
 function exportReport(){
   const r=getReportRows(); if(!r.arr){alert(r.error);return}
-  const rows=[['تاریخ','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline','ارزیابی مدیر','امتیاز'],...r.arr.map(x=>[fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence?'بله':'خیر',x.letter||'',fmtDate(x.letterDate),x.unit||'',fmtDate(x.deadline),x.managerApproval||'در انتظار بررسی',x.managerScore||''])];
+  const rows=[['شماره','تاریخ ثبت','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline','ارزیابی مدیر','امتیاز'],...r.arr.map(x=>[activityNumber(x),fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence==='بله'?'بله':'خیر',x.letter||'',fmtDate(x.letterDate),x.unit||'',fmtDate(x.deadline),x.managerApproval||'در انتظار بررسی',x.managerScore||''])];
   downloadCSV(rows,'گزارش_فعالیت.csv');
 }
 function printReport(){
@@ -994,6 +1057,11 @@ function saveActivity(){
  if(currentUser!=='مدیر' && selectedOwner!==currentUser){alert('هر کاربر فقط می‌تواند فعالیت را به نام خودش ثبت یا ویرایش کند.');return}
  const desc=document.getElementById('aDesc').value.trim();
  if(!desc){alert('لطفاً شرح فعالیت را وارد کنید.');return}
+ if(selectedType==='نامه'){
+ const letterNo=document.getElementById('aLetter').value.trim();
+ if(!letterNo){alert('برای نامه، شماره نامه الزامی است.');return}
+ if(!lg){alert('برای نامه، تاریخ نامه الزامی است.');return}
+}
  const payload={owner:selectedOwner,date:canonicalStoredDate(g),type:selectedType,desc,status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,letter:document.getElementById('aLetter').value.trim(),letterDate:lg,unit:document.getElementById('aUnit').value.trim(),deadline:dg,notes:document.getElementById('aNotes').value.trim()};
  if(!payload.date){alert('تاریخ قابل ذخیره نیست.');return}
  if(editingActivityId!==null){
@@ -1007,7 +1075,7 @@ function saveActivity(){
    renderArchive();renderToday();renderHome();renderReviews();
    alert('فعالیت با موفقیت ویرایش شد.');showPanel('home');return;
  }
- data.push({id:'TASK-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),...payload,managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});
+ data.push({id:'TASK-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),taskNo:selectedType==='تسک'?nextTaskNumber():'',...payload,managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});
  save();clearActivityForm();renderToday();renderHome();
  alert('فعالیت با موفقیت ثبت شد.');showPanel('home');
 }
@@ -1099,6 +1167,7 @@ function renderArchive(){
       <div class="filter-row" style="margin-top:6px"><button class="secondary" type="button" onclick="clearArchiveFilters()">پاک کردن فیلترها</button></div>
     </div>`;
   }
+
   let arr=ownerData();
   const u=document.getElementById('archivePerson')?.value||'';
   const typ=document.getElementById('archiveType')?.value||'';
@@ -1106,7 +1175,11 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button class="danger" onclick="requestDeleteTask(${x.id})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+
+  // Newest activity first. The stored date is the activity/registration date.
+  arr.sort((a,b)=>String(b?.date||'').localeCompare(String(a?.date||''),'fa'));
+
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map((x,i)=>`<tr class="${rowClass(x)}"><td class="archive-row-no">${faDigits(i+1)}</td><td>${activityRefCell(x)}</td><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser))?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button class="danger" onclick="requestDeleteTask(${x.id})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="9" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1118,7 +1191,7 @@ function showActivityDetail(id){
  const x=findActivityById(id); if(!x)return;
  const review=x.review||{};
  document.getElementById('detailContent').innerHTML=`<div class="detail-grid">
- <div><b>تاریخ</b><span>${fmtDate(x.date)}</span></div><div><b>کارشناس</b><span>${esc(x.owner)}</span></div>
+ <div><b>${x.type==='نامه'?'شماره نامه':'شماره تسک'}</b><span>${esc(activityNumber(x)||'ثبت نشده')}</span></div><div><b>${x.type==='نامه'?'تاریخ نامه':'تاریخ ثبت'}</b><span>${fmtDate((x.type==='نامه'&&x.letterDate)?x.letterDate:x.date)}</span></div><div><b>کارشناس</b><span>${esc(x.owner)}</span></div>
  <div><b>نوع فعالیت</b><span>${esc(x.type)}</span></div><div><b>وضعیت</b><span>${esc(x.status)}</span></div>
  <div><b>ددلاین</b><span>${taskDeadlineLabel(x)}</span></div><div><b>مکاتبه</b><span>${x.correspondence==='بله'?'بله':'خیر'}</span></div>
  <div style="grid-column:1/-1"><b>شرح فعالیت</b><span>${esc(x.desc)}</span></div>
@@ -1142,9 +1215,11 @@ function requestDeleteTask(id){
  pendingDeleteTaskId=ref;
  const box=document.getElementById('deleteConfirmContent');
  if(box){
-   box.innerHTML='<div><b>شرح تسک:</b> '+esc(x.desc||'—')+'</div>'+
+   box.innerHTML='<div><b>شماره:</b> '+esc(activityNumber(x)||'ثبت نشده')+'</div>'+
+     '<div><b>تاریخ ثبت:</b> '+esc(fmtDate(x.date)||'—')+'</div>'+
+     (x.type==='نامه'&&x.letterDate?'<div><b>تاریخ نامه:</b> '+esc(fmtDate(x.letterDate)||'—')+'</div>':'')+
+     '<div><b>شرح تسک:</b> '+esc(x.desc||'—')+'</div>'+
      '<div><b>مسئول:</b> '+esc(x.owner||'—')+'</div>'+
-     '<div><b>تاریخ:</b> '+esc(fmtDate(x.date)||'—')+'</div>'+
      '<div><b>وضعیت:</b> '+esc(x.status||'—')+'</div>'+
      '<div><b>ددلاین:</b> '+esc(taskDeadlineLabel(x)||'—')+'</div>'+
      '<div style="margin-top:10px;font-weight:700">آیا از حذف این تسک مطمئن هستید؟</div>';
@@ -1497,8 +1572,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 @media(max-width:380px){.attention-box{padding:9px}.attention-item{padding:8px;font-size:10px}.quick-btn{font-size:9px;padding:6px 9px}.mobile-task-card{padding:9px}.task-card-title{font-size:12px}}
 
 /* Professional mobile management layer */
-.management-box{background:#fff;border:1px solid #e1eae6;border-radius:14px;padding:11px;margin:9px 0;box-shadow:0 2px 10px #00000008}.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}.kpi{background:#f5f8f7;border-radius:11px;padding:8px 4px;text-align:center;min-width:0;border:0;font:inherit;color:inherit;width:100%}.kpi-clickable{cursor:pointer}.kpi-clickable:active{transform:scale(.98)}.kpi b{display:block;font-size:16px}.kpi span{display:block;font-size:9px;margin-top:3px;color:#60716b}.team-performance{display:grid;gap:7px}.member-performance{background:#f9fbfa;border:1px solid #e7eeeb;border-radius:11px;padding:8px}.member-performance>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:10px}.member-performance span,.member-performance small{color:#687a73;font-size:9px}.bar{height:6px;background:#e5ece9;border-radius:9px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:#116b52;border-radius:9px}.bottom-nav{display:none}
-@media(max-width:650px){body{padding-bottom:66px}.bottom-nav{position:fixed;z-index:50;bottom:0;right:0;left:0;height:60px;background:#fff;border-top:1px solid #dfe8e4;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -3px 14px #00000010}.bottom-nav button{border:0;background:transparent;color:#53655f;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.bottom-nav span{font-size:8px}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.management-box{padding:9px}.member-performance{padding:7px}}
+.management-box{background:#fff;border:1px solid #e1eae6;border-radius:14px;padding:11px;margin:9px 0;box-shadow:0 2px 10px #00000008}.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}.kpi{background:#f5f8f7;border-radius:11px;padding:8px 4px;text-align:center;min-width:0;border:0;font:inherit;color:inherit;width:100%}.kpi-clickable{cursor:pointer}.kpi-clickable:active{transform:scale(.98)}.kpi b{display:block;font-size:16px}.kpi span{display:block;font-size:9px;margin-top:3px;color:#60716b}.team-performance{display:grid;gap:7px}.member-performance{background:#f9fbfa;border:1px solid #e7eeeb;border-radius:11px;padding:8px}.member-performance>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:10px}.member-performance span,.member-performance small{color:#687a73;font-size:9px}.bar{height:6px;background:#e5ece9;border-radius:9px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:#116b52;border-radius:9px}.bottom-nav{display:none!important}@media(max-width:650px){.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.management-box{padding:9px}.member-performance{padding:7px}}
 @media(min-width:651px){.bottom-nav{display:none!important}}
 </style>
 
@@ -1553,16 +1627,16 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 @media(max-width:800px){.home-main-layout{grid-template-columns:1fr}.home-side-menu{order:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.home-main-content{order:1}.home-side-item{min-height:64px;font-size:11px}.side-ico{font-size:24px;flex-basis:31px}}
 @media(max-width:520px){
  .task-overview-filters{grid-template-columns:1fr;gap:10px}
- .home-task-summary{padding:11px}
- .home-task-summary-head{grid-template-columns:34px 1fr auto;gap:6px;padding:3px 4px 10px}
- .summary-icon{font-size:25px}
- .summary-title{font-size:17px}
- .home-task-summary-head>b{font-size:26px}
- .home-task-subgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
- .home-task-sub{min-height:70px;padding:8px 4px;grid-template-columns:26px 1fr;gap:1px 3px}
- .home-task-sub span{font-size:20px}
- .home-task-sub strong{font-size:12px;white-space:nowrap}
- .home-task-sub b{font-size:20px}
+ .home-task-summary{padding:10px 9px;min-width:0}
+ .home-task-summary-head{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:3px 3px 9px;min-width:0}
+ .summary-icon{font-size:23px;flex:0 0 auto}
+ .summary-title{font-size:16px;line-height:1.45;white-space:normal;text-align:right}
+ .home-task-summary-head>b{font-size:24px;line-height:1;flex:0 0 auto}
+ .home-task-subgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;min-width:0}
+ .home-task-sub{min-width:0;min-height:76px;padding:7px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
+ .home-task-sub span{font-size:20px;line-height:1}
+ .home-task-sub strong{font-size:12px;line-height:1.35;white-space:nowrap;display:block}
+ .home-task-sub b{font-size:20px;line-height:1.15;display:block}
  .home-side-menu{grid-template-columns:1fr}
  .home-side-item{min-height:56px}
 }
