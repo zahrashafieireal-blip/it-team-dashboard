@@ -351,6 +351,13 @@ header p{display:none !important;}
 }
 </style>
 
+
+<style id="no-user-avatar-final">
+/* مشخصات کاربر بدون آواتار */
+.profile-identity{justify-content:flex-end!important;}
+.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
+.profile-avatar{display:none!important;}
+</style>
 </head>
 <body class="login-active">
 <div class="app">
@@ -1098,7 +1105,7 @@ function saveActivity(){
  const payload={owner:selectedOwner,date:normalizeStoredDate(g),type:document.getElementById('aType').value,desc:document.getElementById('aDesc').value.trim(),status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,letter:document.getElementById('aLetter').value.trim(),letterDate:lg,unit:document.getElementById('aUnit').value.trim(),deadline:dg,notes:document.getElementById('aNotes').value.trim()};
  if(!payload.desc){alert('لطفاً شرح فعالیت را وارد کنید.');return}
  if(editingActivityId!==null){
-   const idx=data.findIndex(x=>x.id===editingActivityId);
+   const idx=findActivityIndex(editingActivityId);
    if(idx<0){alert('این فعالیت پیدا نشد.');cancelEditActivity();return}
    const old=data[idx];
    if(currentUser!=='مدیر' && old.owner!==currentUser){alert('شما فقط می‌توانید فعالیت‌های خودتان را ویرایش کنید.');return}
@@ -1142,10 +1149,12 @@ function clearActivityForm(){
  updateActivityFormVisibility();
 }
 function editActivity(id){
- const x=data.find(a=>a.id===id);
- if(!x)return;
- if(currentUser!=='مدیر' && x.owner!==currentUser){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
- editingActivityId=id;
+ const idx=findActivityIndex(id);
+ if(idx<0){alert('این فعالیت پیدا نشد.');return}
+ const x=data[idx];
+ if(currentUser!=='مدیر' && normalizeOwnerName(x.owner)!==normalizeOwnerName(currentUser)){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
+ // Keep the original stored id type so saveActivity can update the exact legacy record.
+ editingActivityId=x.id;
  showPanel('add');
  prepareActivityOwner();
  document.getElementById('aDate').value=x.date?gToJ(x.date):gToJ(today());
@@ -1458,7 +1467,14 @@ function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=docu
 function printHTML(content){
   const w=window.open('','_blank');
   if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}
-  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>'+content+'</body></html>');
+  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style>
+<style id="no-user-avatar-final">
+/* مشخصات کاربر بدون آواتار */
+.profile-identity{justify-content:flex-end!important;}
+.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
+.profile-avatar{display:none!important;}
+</style>
+</head><body>'+content+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 function seedDemo(){
@@ -1611,6 +1627,13 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
  .home-title-main h2{padding-left:120px;font-size:14px;}
  .home-register-btn{padding:8px 9px;font-size:10px;}
 }
+</style>
+
+<style id="no-user-avatar-final">
+/* مشخصات کاربر بدون آواتار */
+.profile-identity{justify-content:flex-end!important;}
+.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
+.profile-avatar{display:none!important;}
 </style>
 </head><body>'+content+'<nav id="bottomNav" class="bottom-nav">
   <button type="button" onclick="showPanel('home');renderHome()">🏠<span>خانه</span></button>
