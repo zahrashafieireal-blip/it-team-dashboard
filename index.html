@@ -30,10 +30,10 @@ table{width:100%;border-collapse:collapse;min-width:0;table-layout:auto;font-siz
 .calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.calhead button{background:#edf4f1;border-radius:10px;padding:9px 14px}.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.weekdays{font-weight:bold;margin-bottom:6px}.days button,.blank{height:38px;border-radius:9px}.days button{border:0;background:#f4f6f5}.days button:hover,.days button.sel{background:#116b52;color:#fff}.closecal{width:100%;margin-top:12px;padding:10px;background:#eee;border-radius:10px}
 @media(max-width:650px){.cardgrid{grid-template-columns:1fr 1fr}.card{min-height:125px;padding:18px 8px}.card .ico{font-size:34px}.stats{grid-template-columns:1fr 1fr}header h1{font-size:21px}main{padding:12px}}
 
-.task-overview-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 12px}.overview-filter{border:1px solid #dfe8e5;background:#f7faf9;border-radius:14px;padding:10px 9px;text-align:right;display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:inherit;color:#21433a;font-size:13px;cursor:pointer}.overview-filter b{min-width:28px;text-align:center;border-radius:10px;background:#e5efec;padding:4px 6px}.overview-filter.active{background:#e8f4f0;border-color:#13785f;box-shadow:0 0 0 1px #13785f inset}.overview-filter.active b{background:#13785f;color:#fff}.task-overview-list{display:flex;flex-direction:column;gap:7px}.overview-task-row{width:100%;border:1px solid #e4ebe9;background:#fff;border-radius:13px;padding:10px;text-align:right;font-family:inherit;color:#1e332e;cursor:pointer}.overview-task-row span,.overview-task-row strong,.overview-task-row small{display:block}.overview-task-row span{font-size:12px;color:#60736d;margin-bottom:4px}.overview-task-row strong{font-size:13px;line-height:1.7}.overview-task-row small{font-size:11px;color:#70807b;margin-top:4px}@media(max-width:420px){.task-overview-filters{grid-template-columns:1fr}}
+.task-overview-filters{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0 12px}.overview-filter{border:1px solid #dfe8e5;background:#f7faf9;border-radius:14px;padding:11px 12px;text-align:right;display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:inherit;color:#21433a;font-size:13px;cursor:pointer;transition:.15s}.overview-filter .radio{width:18px;height:18px;border:2px solid #aabbb5;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px}.overview-filter .radio::after{content:"";width:8px;height:8px;border-radius:50%;background:#13785f;transform:scale(0);transition:.15s}.overview-filter.active{background:#e8f4f0;border-color:#13785f;box-shadow:0 0 0 1px #13785f inset}.overview-filter.active .radio{border-color:#13785f}.overview-filter.active .radio::after{transform:scale(1)}.overview-filter .filter-label{display:flex;align-items:center;gap:8px;flex:1}.overview-filter b{min-width:28px;text-align:center;border-radius:10px;background:#e5efec;padding:4px 6px}.overview-filter.active b{background:#13785f;color:#fff}.task-overview-list{display:flex;flex-direction:column;gap:7px}.overview-task-row{width:100%;border:1px solid #e4ebe9;background:#fff;border-radius:13px;padding:10px;text-align:right;font-family:inherit;color:#1e332e;cursor:pointer}.overview-task-row span,.overview-task-row strong,.overview-task-row small{display:block}.overview-task-row span{font-size:12px;color:#60736d;margin-bottom:4px}.overview-task-row strong{font-size:13px;line-height:1.7}.overview-task-row small{font-size:11px;color:#70807b;margin-top:4px}}
 
 .report-date-box{margin-top:8px}.report-date-box .actions{margin:0}.report-date-box input{flex:1;min-width:0}.report-date-box select{width:100%}.report-empty{padding:18px;text-align:center;color:#71847e;background:#f7faf9;border-radius:14px;margin:12px 0}.report-title{font-weight:800;color:#116b52}
-.top-register-action{margin:0 0 14px}.top-register-action .register-card{width:100%;min-height:74px;display:flex;align-items:center;justify-content:center;gap:10px}.top-register-action .register-card .ico{margin:0}.top-register-action .register-card h3{margin:0}</style>
+.home-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.home-title-main{display:flex;align-items:center;gap:9px;min-width:0}.home-title-main h2{margin:0;line-height:1.5}.home-register-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(135deg,#13785f,#0e654f);color:#fff!important;padding:9px 14px;border-radius:12px;font-weight:800;font-size:12px;box-shadow:0 4px 10px #116b5230;white-space:nowrap}.home-register-btn:hover{filter:brightness(.97)}.home-register-btn .plus{font-size:17px;line-height:1}</style>
 
 <style id="mobile-final-fix">
 /* Mobile-first layout: compact, RTL, no page-level horizontal scrolling */
@@ -104,54 +104,29 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 @media(max-width:650px){.management-box{margin-top:8px}.compact-filter{padding:8px}.compact-filter .filter-row{flex-wrap:nowrap}.compact-filter select,.compact-filter button{font-size:11px!important;padding:8px 7px!important}}
 </style>
 <style id="task-deadline-20day">.task-deadline-info{font-size:10px;color:#116b52;font-weight:700;margin-top:5px;line-height:1.6}</style>
-<style id="beautiful-login">
-.login-page{background:linear-gradient(145deg,#f7fbf9 0%,#ffffff 55%,#eef7f3 100%);padding:14px!important;min-height:calc(100vh - 150px);display:none!important;align-items:center;justify-content:center}
-.login-page.active{display:flex!important}
-.login-shell{width:min(520px,100%);background:#fff;border:1px solid #e4eee9;border-radius:24px;padding:22px;box-shadow:0 12px 35px #0d4d3a14}
-.login-brand{display:flex;align-items:center;gap:14px;padding:5px 2px 18px;border-bottom:1px solid #edf2ef}
-.login-logo{width:58px;height:58px;flex:0 0 58px;border-radius:18px;background:#116b52;color:#fff;display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 7px 16px #116b5230}
-.login-brand h2{margin:0 0 4px;color:#17352d;font-size:22px}.login-brand p{margin:0;color:#70817b;font-size:12px;line-height:1.8}
-.login-form{padding-top:15px}.login-form label{font-size:12px;margin-top:10px}.login-form select,.login-form input{height:44px;border-radius:12px;background:#fbfdfc;border-color:#dce8e3;padding:10px 12px!important}
-.login-hint{margin-top:9px;background:#f2f8f5;color:#5f716b;border-radius:10px;padding:8px 10px;font-size:10px}
-.login-btn{width:100%;margin-top:14px;height:46px;border-radius:13px;background:#116b52;color:#fff;font-weight:800;font-size:13px;box-shadow:0 7px 16px #116b5226;transition:.15s}
-.login-btn:hover{transform:translateY(-1px);background:#0d5c46}.login-btn span{font-size:18px;margin-right:7px}
-.login-footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:15px;padding-top:12px;border-top:1px solid #edf2ef;color:#788781;font-size:9px;line-height:1.7}
-@media(max-width:650px){.login-page{min-height:calc(100vh - 125px)}.login-shell{padding:17px;border-radius:20px}.login-brand h2{font-size:20px}.login-logo{width:52px;height:52px;flex-basis:52px;border-radius:16px;font-size:26px}.login-footer{display:block}.login-footer span{display:block;margin-top:2px}}
-</style>
 </head>
 <body>
 <div class="app">
-<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>سامانه ثبت و مدیریت گزارش کار تیم</p></header>
+<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>ثبت و مدیریت گزارش کار — آفلاین</p></header>
 <main>
-<section id="login" class="panel active login-page">
-<div class="login-shell">
-  <div class="login-brand"><div class="login-logo">📊</div><div><h2>خوش آمدید</h2><p>برای ورود به کارتابل خود، اطلاعات زیر را وارد کنید.</p></div></div>
-  <div class="login-form">
-    <label>نام کاربری</label><select id="userSelect"></select>
-    <label>رمز عبور</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="رمز عبور خود را وارد کنید">
-    <div class="login-hint">🔐 رمز اولیه کاربران: <b>۱</b></div>
-    <button class="login-btn" onclick="enterApp()">ورود به کارتابل <span>←</span></button>
-  </div>
-  <div class="login-footer"><span>👨‍💼 مدیر دپارتمان: آقای شریفی</span><span>سامانه مدیریت عملکرد تیم فناوری اطلاعات</span></div>
-</div>
+<section id="login" class="panel active">
+<div class="userbox">
+<h2>👤 انتخاب کاربر</h2>
+<p class="small">کاربر را انتخاب کنید تا کارتابل مربوط به همان شخص نمایش داده شود.</p>
+<label>نام کاربری</label><select id="userSelect"></select>
+<label>رمز عبور</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="رمز عبور">
+<div class="small" style="margin-top:8px">رمز اولیه همه کاربران: ۱</div>
+<div class="small">مدیر دپارتمان: آقای شریفی</div>
+<div class="actions"><button class="primary" onclick="enterApp()">🔐 ورود به کارتابل</button></div>
 <script>document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('login')?.classList.contains('active'))enterApp()});</script>
+</div>
 </section>
 
 <section id="home" class="panel">
 <div class="userbox">
-<div class="topline"><h2 id="welcome">کارتابل</h2><div class="actions" style="margin:0;gap:8px"><button class="secondary" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn" onclick="logout()">⛔ خروج</button></div></div>
+<div class="home-title-row"><div class="home-title-main"><h2 id="welcome">کارتابل</h2><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت فعالیت</button></div><div class="actions" style="margin:0;gap:8px"><button class="secondary" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn" onclick="logout()">⛔ خروج</button></div></div>
 <div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
 </div>
-<div class="attention-box">
-  <div class="attention-title">⚠️ نیاز به توجه</div>
-  <div id="attentionList" class="attention-list"></div>
-</div>
-<div id="myTasksBox" class="management-box" style="display:none">
-  <div class="attention-title">👤 تسک‌های من</div>
-  <div class="small" style="margin:6px 0 10px">فهرست تسک‌های ثبت‌شده به نام شما، همراه با وضعیت هر تسک</div>
-  <div id="myTasksList" class="task-overview-list"></div>
-</div>
-<div class="top-register-action"><button class="card register-card" onclick="showPanel('add');prepareActivityOwner()"><div class="ico">➕</div><h3>ثبت فعالیت</h3></button></div>
 <div id="managementBox" class="management-box">
   <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
   <div class="small" style="margin:6px 0 10px">یک یا چند مورد را انتخاب کنید تا لیست مربوط به آنها نمایش داده شود.</div>
@@ -170,7 +145,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 <button class="card" onclick="showPanel('team');renderTeam()"><div class="ico">👥</div><h3>اعضای گروه</h3></button>
 <button class="card" onclick="showPanel('meetings');renderMeetings()"><div class="ico">🏛️</div><h3>نوبت هیئت عمومی</h3></button>
 <button class="card" onclick="showPanel('archive');renderArchive()"><div class="ico">🗂️</div><h3>آرشیو فعالیت‌ها</h3></button>
-<button class="card" onclick="showPanel('reviews');renderReviews()"><div class="ico">⭐</div><h3>ارزیابی مدیر</h3></button>
+<button class="card" onclick="showPanel('reviews');renderReviews()"><div class="ico">📋✓</div><h3>ارزیابی و تایید تسک توسط مدیر</h3></button>
 <button class="card" onclick="showPanel('settings');renderSettings()"><div class="ico">⚙️</div><h3>تنظیمات</h3></button>
 </div>
 </section>
@@ -262,7 +237,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 
 <section id="archive" class="panel"><div class="topline"><h2>🗂️ آرشیو فعالیت‌ها</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="archiveFilter"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th><th>عملیات</th></tr></thead><tbody id="archiveBody"></tbody></table></div><div class="actions"><button class="primary" onclick="exportActivities('all')">📊 خروجی Excel</button></div></section>
 
-<section id="reviews" class="panel"><div class="topline"><h2>⭐ ارزیابی مدیر</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="reviewPersonFilterCard" class="card" style="margin-bottom:12px;display:none">
+<section id="reviews" class="panel"><div class="topline"><h2>📋✓ ارزیابی و تایید تسک توسط مدیر</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="reviewPersonFilterCard" class="card" style="margin-bottom:12px;display:none">
   <label>کارشناس مورد ارزیابی</label>
   <select id="reviewPersonFilter" onchange="renderReviews()">
     <option value="ALL">همه کارشناسان</option>
@@ -475,15 +450,7 @@ function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classLis
 function renderHome(){
  let tasks=ownerData();
  const todayG=normalizeStoredDate(today());
- const myBox=document.getElementById('myTasksBox');
- if(myBox){
-   if(currentUser && currentUser!=='مدیر'){
-     myBox.style.display='block';
-     renderMyTasks(data.filter(x=>x.owner===currentUser));
-   }else{
-     myBox.style.display='none';
-   }
- }
+ selectedOverviewKind=(currentUser && currentUser!=='مدیر')?'my':'all';
  const current=tasks.filter(x=>x.status!=='انجام شد' && x.status!=='لغو شد');
  const completed=tasks.filter(x=>x.status==='انجام شد');
  const overdue=tasks.filter(x=>x.deadline && normalizeStoredDate(x.deadline)<todayG && x.status!=='انجام شد' && x.status!=='لغو شد');
@@ -503,7 +470,7 @@ function renderHome(){
  }
 }
 
-let selectedOverviewKinds=['all'];
+let selectedOverviewKind='all';
 function decorateTaskDeadlineTexts(){
   document.querySelectorAll('[data-task-id]').forEach(el=>{
     const x=data.find(a=>a.id===Number(el.getAttribute('data-task-id'))); if(!x||x.type!=='تسک')return;
@@ -517,38 +484,39 @@ function renderMyTasks(tasks){
  if(!list)return;
  const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
  if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
- list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail('${x.id}')"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${x.id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
   decorateTaskDeadlineTexts();
 }
 function renderTaskOverview(tasks, todayG){
  const filters=document.getElementById('taskOverviewFilters');
  const list=document.getElementById('taskOverviewList');
  if(!filters||!list)return;
- const defs=[
-  ['all','📋','کل تسک‌ها',tasks.length],
+ const defs=[];
+ if(currentUser && currentUser!=='مدیر') defs.push(['my','👤','تسک‌های من',tasks.filter(x=>x.owner===currentUser).length]);
+ defs.push(['all','📋','کل تسک‌ها',tasks.length],
   ['current','🔄','تسک‌های جاری',tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length],
   ['completed','✅','تسک‌های پایان‌یافته',tasks.filter(x=>x.status==='انجام شد').length],
   ['overdue','⏰','تسک‌های دارای ددلاین گذشته',tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length],
   ['reviewed','⭐','تسک‌های ارزیابی‌شده توسط مدیر',tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length]
- ];
- filters.innerHTML=defs.map(d=>`<button type="button" class="overview-filter ${selectedOverviewKinds.includes(d[0])?'active':''}" onclick="toggleOverviewKind('${d[0]}')"><span>${d[1]} ${d[2]}</span><b>${faDigits(d[3])}</b></button>`).join('');
+ );
+ filters.innerHTML=defs.map(d=>`<button type="button" class="overview-filter ${selectedOverviewKind===d[0]?'active':''}" onclick="toggleOverviewKind('${d[0]}')"><span class="filter-label"><span class="radio" aria-hidden="true"></span><span>${d[1]} ${d[2]}</span></span><b>${faDigits(d[3])}</b></button>`).join('');
  let selected=[];
  const add=(arr)=>arr.forEach(x=>{if(!selected.some(y=>y.id===x.id))selected.push(x)});
- selectedOverviewKinds.forEach(k=>{
-   if(k==='all')add(tasks);
-   if(k==='current')add(tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد'));
-   if(k==='completed')add(tasks.filter(x=>x.status==='انجام شد'));
-   if(k==='overdue')add(tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد'));
-   if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
- });
+ const k=selectedOverviewKind;
+ if(k==='my')add(tasks.filter(x=>x.owner===currentUser));
+ if(k==='all')add(tasks);
+ if(k==='current')add(tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد'));
+ if(k==='completed')add(tasks.filter(x=>x.status==='انجام شد'));
+ if(k==='overdue')add(tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد'));
+ if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
  if(!selected.length){list.innerHTML='<div class="attention-empty">یک یا چند مورد را از بالا انتخاب کنید.</div>';return;}
  selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
- list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail('${x.id}')"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${x.id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
 }
 function toggleOverviewKind(kind){
- if(kind==='all'){selectedOverviewKinds=selectedOverviewKinds.includes('all')?[]:['all'];}
- else{selectedOverviewKinds=selectedOverviewKinds.filter(x=>x!=='all');if(selectedOverviewKinds.includes(kind))selectedOverviewKinds=selectedOverviewKinds.filter(x=>x!==kind);else selectedOverviewKinds.push(kind);}
- const tasks=groupTasks(); renderTaskOverview(tasks,normalizeStoredDate(today()));
+ selectedOverviewKind=kind;
+ const tasks=groupTasks();
+ renderTaskOverview(tasks,normalizeStoredDate(today()));
 }
 
 function rowClass(x){
@@ -908,7 +876,6 @@ function clearArchiveFilters(){
 function showActivityDetail(id){
   const x=data.find(a=>a.id===id);
   if(!x)return;
-  if(currentUser!=='مدیر' && x.owner!==currentUser)return;
   const review=x.review||{};
   document.getElementById('detailContent').innerHTML=`<div class="detail-grid">
     <div><b>تاریخ</b><span>${fmtDate(x.date)}</span></div>
