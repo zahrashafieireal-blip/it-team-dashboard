@@ -33,7 +33,36 @@ table{width:100%;border-collapse:collapse;min-width:0;table-layout:auto;font-siz
 .task-overview-filters{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0 12px}.overview-filter{border:1px solid #dfe8e5;background:#f7faf9;border-radius:14px;padding:11px 12px;text-align:right;display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:inherit;color:#21433a;font-size:13px;cursor:pointer;transition:.15s}.overview-filter .radio{width:18px;height:18px;border:2px solid #aabbb5;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px}.overview-filter .radio::after{content:"";width:8px;height:8px;border-radius:50%;background:#13785f;transform:scale(0);transition:.15s}.overview-filter.active{background:#e8f4f0;border-color:#13785f;box-shadow:0 0 0 1px #13785f inset}.overview-filter.active .radio{border-color:#13785f}.overview-filter.active .radio::after{transform:scale(1)}.overview-filter .filter-label{display:flex;align-items:center;gap:8px;flex:1}.overview-filter b{min-width:28px;text-align:center;border-radius:10px;background:#e5efec;padding:4px 6px}.overview-filter.active b{background:#13785f;color:#fff}.task-overview-list{display:flex;flex-direction:column;gap:7px}.overview-task-row{width:100%;border:1px solid #e4ebe9;background:#fff;border-radius:13px;padding:10px;text-align:right;font-family:inherit;color:#1e332e;cursor:pointer}.overview-task-row span,.overview-task-row strong,.overview-task-row small{display:block}.overview-task-row span{font-size:12px;color:#60736d;margin-bottom:4px}.overview-task-row strong{font-size:13px;line-height:1.7}.overview-task-row small{font-size:11px;color:#70807b;margin-top:4px}}
 
 .report-date-box{margin-top:8px}.report-date-box .actions{margin:0}.report-date-box input{flex:1;min-width:0}.report-date-box select{width:100%}.report-empty{padding:18px;text-align:center;color:#71847e;background:#f7faf9;border-radius:14px;margin:12px 0}.report-title{font-weight:800;color:#116b52}
-.home-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.home-title-main{display:flex;align-items:center;gap:9px;min-width:0}.home-title-main h2{margin:0;line-height:1.5}.home-register-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(135deg,#13785f,#0e654f);color:#fff!important;padding:9px 14px;border-radius:12px;font-weight:800;font-size:12px;box-shadow:0 4px 10px #116b5230;white-space:nowrap}.home-register-btn:hover{filter:brightness(.97)}.home-register-btn .plus{font-size:17px;line-height:1}</style>
+.home-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.home-title-main{display:flex;align-items:center;gap:9px;min-width:0}.home-title-main h2{margin:0;line-height:1.5}.home-register-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(135deg,#13785f,#0e654f);color:#fff!important;padding:9px 14px;border-radius:12px;font-weight:800;font-size:12px;box-shadow:0 4px 10px #116b5230;white-space:nowrap}.home-register-btn:hover{filter:brightness(.97)}.home-register-btn .plus{font-size:17px;line-height:1}
+/* polished login */
+.login-wrap{max-width:460px;margin:7vh auto 0;padding:22px}
+.login-card{background:#fff;border:1px solid #e7eee9;border-radius:24px;box-shadow:0 14px 40px rgba(24,70,45,.10);padding:28px}
+.login-brand{text-align:center;margin-bottom:24px}
+.login-logo{width:68px;height:68px;margin:0 auto 14px;border-radius:20px;background:linear-gradient(145deg,#1b8f5a,#0f6b42);display:flex;align-items:center;justify-content:center;color:#fff;font-size:31px;box-shadow:0 10px 24px rgba(15,107,66,.22)}
+.login-brand h2{margin:0 0 7px;font-size:22px;color:#163b2a}
+.login-brand p{margin:0;color:#718078;font-size:13px}
+.login-field{margin-top:16px}
+.login-field label{font-weight:700;color:#294738}
+.login-field select,.login-field input{width:100%;box-sizing:border-box;margin-top:7px;border:1px solid #dce7e0;border-radius:14px;padding:13px 14px;background:#fbfdfc;font-size:15px;outline:none}
+.login-field select:focus,.login-field input:focus{border-color:#3a9b6d;box-shadow:0 0 0 3px rgba(58,155,109,.10)}
+.login-btn{width:100%;margin-top:22px;border:0;border-radius:15px;padding:14px;font-size:16px;font-weight:800;background:linear-gradient(135deg,#1b8f5a,#147447);color:#fff;box-shadow:0 9px 20px rgba(20,116,71,.20)}
+.login-hint{text-align:center;margin-top:14px!important}
+
+/* centered login screen */
+.login-screen, #loginScreen, .login-page, .login-container {
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+.login-screen > *, #loginScreen > *, .login-page > *, .login-container > * {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+</style>
 
 <style id="mobile-final-fix">
 /* Mobile-first layout: compact, RTL, no page-level horizontal scrolling */
@@ -104,21 +133,59 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 @media(max-width:650px){.management-box{margin-top:8px}.compact-filter{padding:8px}.compact-filter .filter-row{flex-wrap:nowrap}.compact-filter select,.compact-filter button{font-size:11px!important;padding:8px 7px!important}}
 </style>
 <style id="task-deadline-20day">.task-deadline-info{font-size:10px;color:#116b52;font-weight:700;margin-top:5px;line-height:1.6}</style>
+<style id="modern-login-final">
+html,body{min-height:100%;}
+body.login-active{background:linear-gradient(135deg,#cfe2f6 0%,#8fb5dc 34%,#4f78a9 67%,#173f73 100%);position:relative;overflow-x:hidden;}
+body.login-active:before,body.login-active:after{content:"";position:fixed;z-index:0;border-radius:50%;pointer-events:none;filter:blur(1px);}
+body.login-active:before{width:75vw;height:75vw;max-width:900px;max-height:900px;left:-18vw;top:-25vw;background:radial-gradient(circle,rgba(255,255,255,.34),rgba(255,255,255,0) 68%);}
+body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000px;right:-25vw;bottom:-35vw;background:radial-gradient(circle,rgba(11,47,91,.28),rgba(11,47,91,0) 70%);}
+.login-active .app{max-width:none;min-height:100vh;min-height:100dvh;position:relative;z-index:1;}
+.login-active header{display:none!important;}
+.login-active main{padding:0!important;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;}
+.login-active #login.panel{display:block!important;width:100%;max-width:none;padding:20px!important;margin:0;background:transparent;box-shadow:none;border-radius:0;overflow:visible;}
+.login-modern-wrap{width:100%;display:flex;align-items:center;justify-content:center;padding:12px;}
+.login-modern-card{width:min(630px,100%);background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.75);border-radius:30px;box-shadow:0 24px 65px rgba(20,52,88,.25);padding:34px 40px 30px;text-align:center;}
+.login-modern-logo{width:82px;height:82px;margin:0 auto 18px;border-radius:50%;background:linear-gradient(145deg,#dceafb,#c2d8ee);display:flex;align-items:center;justify-content:center;font-size:39px;box-shadow:0 8px 24px rgba(37,76,119,.12);}
+.login-modern-brand h2{margin:0 0 8px;color:#102f56;font-size:27px;font-weight:900;line-height:1.55;}
+.login-modern-brand p{margin:0;color:#314e70;font-size:16px;}
+.login-modern-line{width:72px;height:4px;border-radius:5px;background:#123f73;margin:18px auto 25px;}
+.login-modern-field{position:relative;margin-top:14px;}
+.login-modern-field select,.login-modern-field input{width:100%;height:62px;border:1.5px solid #cbd5e1;border-radius:15px;background:#fff;color:#142f50;padding:0 20px;font-size:17px;outline:none;box-shadow:0 3px 10px rgba(24,56,91,.04);}
+.login-modern-field select{padding-right:48px;}
+.login-modern-field select:focus,.login-modern-field input:focus{border-color:#2f6297;box-shadow:0 0 0 4px rgba(47,98,151,.10);}
+.login-password-wrap input{padding-left:58px;}
+.login-eye{position:absolute;left:12px;top:10px;width:42px;height:42px;border-radius:10px;background:transparent;color:#314e70;font-size:22px;line-height:42px;padding:0;}
+.login-modern-btn{width:100%;height:64px;margin-top:24px;border-radius:15px;background:linear-gradient(135deg,#174b82,#123b6c);color:#fff;font-size:18px;font-weight:900;box-shadow:0 11px 24px rgba(18,59,108,.23);}
+.login-modern-btn span{font-size:25px;vertical-align:-2px;margin-left:7px;}
+.login-modern-btn:active{transform:translateY(1px);}
+.login-modern-note{margin-top:13px;color:#77879a;font-size:11px;}
+@media(max-width:650px){.login-active main{padding:0!important}.login-active #login.panel{padding:10px!important}.login-modern-wrap{padding:8px}.login-modern-card{padding:26px 20px 22px;border-radius:24px}.login-modern-logo{width:70px;height:70px;font-size:33px;margin-bottom:14px}.login-modern-brand h2{font-size:20px}.login-modern-brand p{font-size:13px}.login-modern-line{margin:14px auto 20px}.login-modern-field select,.login-modern-field input{height:56px;font-size:15px}.login-modern-btn{height:58px;font-size:16px;margin-top:20px}}
+</style>
 </head>
-<body>
+<body class="login-active">
 <div class="app">
-<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>ثبت و مدیریت گزارش کار — آفلاین</p></header>
+<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>سامانه مدیریت و گزارش کار تیم</p></header>
 <main>
 <section id="login" class="panel active">
-<div class="userbox">
-<h2>👤 انتخاب کاربر</h2>
-<p class="small">کاربر را انتخاب کنید تا کارتابل مربوط به همان شخص نمایش داده شود.</p>
-<label>نام کاربری</label><select id="userSelect"></select>
-<label>رمز عبور</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="رمز عبور">
-<div class="small" style="margin-top:8px">رمز اولیه همه کاربران: ۱</div>
-<div class="small">مدیر دپارتمان: آقای شریفی</div>
-<div class="actions"><button class="primary" onclick="enterApp()">🔐 ورود به کارتابل</button></div>
-<script>document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('login')?.classList.contains('active'))enterApp()});</script>
+<div class="login-modern-wrap">
+  <div class="login-modern-card">
+    <div class="login-modern-logo">👥</div>
+    <div class="login-modern-brand">
+      <h2>سامانه مدیریت و گزارش کار تیم</h2>
+      <p>همکاری، برنامه‌ریزی، پیشرفت</p>
+      <div class="login-modern-line"></div>
+    </div>
+    <div class="login-modern-field">
+      <select id="userSelect" aria-label="انتخاب کاربر"></select>
+    </div>
+    <div class="login-modern-field login-password-wrap">
+      <input id="loginPassword" type="password" autocomplete="current-password" placeholder="رمز عبور" aria-label="رمز عبور">
+      <button type="button" class="login-eye" aria-label="نمایش رمز عبور" onclick="toggleLoginPassword()">◉</button>
+    </div>
+    <button class="login-modern-btn" type="button" onclick="enterApp()"><span>↪</span> ورود به سامانه</button>
+    <div class="small login-modern-note">رمز اولیه کاربران: ۱</div>
+    <script>document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('login')?.classList.contains('active'))enterApp()});</script>
+  </div>
 </div>
 </section>
 
@@ -436,7 +503,7 @@ function ensureLoginReady(){
  us.disabled=false;
  const pw=document.getElementById('loginPassword'); if(pw)pw.disabled=false;
 }
-function enterApp(){
+function toggleLoginPassword(){const p=document.getElementById('loginPassword');if(!p)return;p.type=p.type==='password'?'text':'password';} function enterApp(){
  let u=document.getElementById('userSelect').value, p=document.getElementById('loginPassword').value;
  if(!u){alert('لطفاً نام کاربری را انتخاب کنید.');return}
  let accountPass=u==='مدیر'?managerPassword:(team.find(x=>x.name===u)?.password||'1');
@@ -446,7 +513,7 @@ function enterApp(){
  showPanel('home'); renderHome()
 }
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value='';document.getElementById('loginPassword').value='';}
-function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('login-active',id==='login');window.scrollTo({top:0,behavior:'smooth'})}
 function renderHome(){
  let tasks=ownerData();
  const todayG=normalizeStoredDate(today());
