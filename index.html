@@ -538,13 +538,26 @@ function ensureLoginReady(){
  const pw=document.getElementById('loginPassword'); if(pw)pw.disabled=false;
 }
 function toggleLoginPassword(){const p=document.getElementById('loginPassword');if(!p)return;p.type=p.type==='password'?'text':'password';} function enterApp(){
- let u=document.getElementById('userSelect').value, p=document.getElementById('loginPassword').value;
+ const userEl=document.getElementById('userSelect');
+ const passEl=document.getElementById('loginPassword');
+ if(!userEl||!passEl){alert('خطا در فرم ورود. صفحه را یک‌بار بازخوانی کنید.');return}
+ const u=String(userEl.value||'').trim();
+ const p=String(passEl.value||'').trim();
  if(!u){alert('لطفاً نام کاربری را انتخاب کنید.');return}
- let accountPass=u==='مدیر'?managerPassword:(team.find(x=>x.name===u)?.password||'1');
- if(p!==accountPass){alert('رمز عبور نادرست است.');return}
- currentUser=u; document.getElementById('loginPassword').value='';
+ // Always resolve the account from the current team list so edits/imports do not break login.
+ let accountPass='';
+ if(u==='مدیر') accountPass=String(managerPassword||'1');
+ else {
+   const account=team.find(x=>String(x.name||'').trim()===u);
+   if(!account){fillSelectors();alert('کاربر پیدا نشد. فهرست کاربران بازسازی شد؛ دوباره تلاش کنید.');return}
+   accountPass=String(account.password||'1').trim()||'1';
+ }
+ if(p!==accountPass){alert('رمز عبور نادرست است.');passEl.focus();return}
+ currentUser=u;
+ passEl.value='';
  document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان — آقای شریفی':'کارتابل '+u;
- showPanel('home'); renderHome()
+ showPanel('home');
+ renderHome();
 }
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value='';document.getElementById('loginPassword').value='';}
 function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('login-active',id==='login');window.scrollTo({top:0,behavior:'smooth'})}
@@ -1179,23 +1192,7 @@ function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=docu
 function printHTML(content){
   const w=window.open('','_blank');
   if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}
-  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style>
-<style id="new-task-top-left">
-.home-title-row{position:relative;min-height:44px;padding-left:0;}
-.home-title-main{width:100%;display:block;}
-.home-title-main h2{padding-left:145px;}
-.home-register-btn{position:absolute;left:0;top:0;z-index:2;padding:10px 15px;border-radius:13px;background:linear-gradient(135deg,#13785f,#0b5d49);box-shadow:0 5px 14px rgba(17,107,82,.22);font-size:12px;}
-@media(max-width:650px){
- .home-title-row{min-height:42px;}
- .home-title-main h2{padding-left:132px;font-size:16px;}
- .home-register-btn{left:0;top:0;padding:9px 11px;font-size:11px;}
-}
-@media(max-width:380px){
- .home-title-main h2{padding-left:120px;font-size:14px;}
- .home-register-btn{padding:8px 9px;font-size:10px;}
-}
-</style>
-</head><body>'+content+'</body></html>');
+  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>'+content+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 function seedDemo(){
