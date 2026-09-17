@@ -1002,7 +1002,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button type="button" class="danger" onclick="deleteActivity(${JSON.stringify(x.id)})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button type="button" class="danger" data-delete-task="${esc(String(x.id))}">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1026,7 +1026,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="deleteActivity('+x.id+')">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-delete-task="'+esc(String(x.id))+'">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1067,7 +1067,24 @@ function deleteActivity(id){
   }
 }
 window.deleteActivity=deleteActivity;
-// Direct onclick handlers are used for delete buttons for maximum mobile/WebView compatibility.
+// Robust task-delete handler: works with mouse, touch and Android WebView.
+function bindTaskDeleteHandlers(){
+  if(window.__taskDeleteHandlersBound)return;
+  window.__taskDeleteHandlersBound=true;
+  const handler=function(e){
+    const btn=e.target && e.target.closest ? e.target.closest('[data-delete-task]') : null;
+    if(!btn)return;
+    e.preventDefault();
+    e.stopPropagation();
+    const id=btn.getAttribute('data-delete-task');
+    if(id!==null) deleteActivity(id);
+  };
+  document.addEventListener('click',handler,true);
+  document.addEventListener('pointerup',handler,true);
+  document.addEventListener('touchend',handler,true);
+}
+bindTaskDeleteHandlers();
+// Delete buttons intentionally use data-delete-task instead of inline onclick for reliable mobile/WebView clicks.
 
 
 function renderTeam(){
