@@ -140,7 +140,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   <div class="small" style="margin:6px 0 10px">یک یا چند مورد را انتخاب کنید تا لیست مربوط به آنها نمایش داده شود.</div>
   <div id="taskOverviewFilters" class="task-overview-filters"></div>
   <div id="taskOverviewList" class="task-overview-list"></div>
-  <div id="teamPerformance" class="team-performance"></div>
+  
 </div>
 <div class="quick-actions">
   <button class="quick-btn" onclick="showTaskView('overdue')">⏰ ددلاین گذشته</button>
@@ -393,6 +393,7 @@ function renderCalendar(){
 function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings));localStorage.setItem(MANAGERPASSKEY,managerPassword)}
 function members(){return team.map(x=>x.name)}
 function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
+function groupTasks(){return data.filter(x=>x&&team.some(m=>m.name===x.owner));}
 
 function fillSelectors(){
  const us=document.getElementById('userSelect'),ao=document.getElementById('aOwner'),mp=document.getElementById('mPerson');
@@ -444,10 +445,10 @@ function renderHome(){
    if(reviewed.length) items.push(`<button class="attention-item reviewed-att" onclick="showTaskView('reviewed')"><span>⭐ ${faDigits(reviewed.length)} تسک ارزیابی‌شده</span><b>مشاهده ›</b></button>`);
    attention.innerHTML=items.length?items.join(''):'<div class="attention-empty">✅ مورد فوری برای پیگیری وجود ندارد.</div>';
  }
- renderTaskOverview(tasks, todayG);
+ renderTaskOverview(groupTasks(), todayG);
  const tp=document.getElementById('teamPerformance');
  if(tp){
-   tp.innerHTML=team.map(m=>{const mt=tasks.filter(x=>x.owner===m.name),done=mt.filter(x=>x.status==='انجام شد').length,ov=mt.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length,p=mt.length?Math.round(done/mt.length*100):0;return `<div class="member-performance"><div><b>${esc(m.name)}</b><span>${faDigits(mt.length)} تسک</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${faDigits(p)}٪ پایان‌یافته · ${faDigits(ov)} عقب‌افتاده</small></div>`}).join('') || '<div class="attention-empty">عضوی ثبت نشده است.</div>';
+   tp.innerHTML=team.map(m=>{const mt=data.filter(x=>x.owner===m.name),done=mt.filter(x=>x.status==='انجام شد').length,ov=mt.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length,p=mt.length?Math.round(done/mt.length*100):0;return `<div class="member-performance"><div><b>${esc(m.name)}</b><span>${faDigits(mt.length)} تسک</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${faDigits(p)}٪ پایان‌یافته · ${faDigits(ov)} عقب‌افتاده</small></div>`}).join('') || '<div class="attention-empty">عضوی ثبت نشده است.</div>';
  }
 }
 
@@ -487,7 +488,7 @@ function renderTaskOverview(tasks, todayG){
 function toggleOverviewKind(kind){
  if(kind==='all'){selectedOverviewKinds=selectedOverviewKinds.includes('all')?[]:['all'];}
  else{selectedOverviewKinds=selectedOverviewKinds.filter(x=>x!=='all');if(selectedOverviewKinds.includes(kind))selectedOverviewKinds=selectedOverviewKinds.filter(x=>x!==kind);else selectedOverviewKinds.push(kind);}
- const tasks=ownerData(); renderTaskOverview(tasks,normalizeStoredDate(today()));
+ const tasks=groupTasks(); renderTaskOverview(tasks,normalizeStoredDate(today()));
 }
 
 function rowClass(x){
@@ -529,12 +530,12 @@ function weekOptions(){
  setCurrentWeek();
 }
 function showTaskView(kind){
- const tasks=ownerData(); let arr=tasks;
+ const tasks=data; let arr=tasks;
  const todayG=normalizeStoredDate(today());
  const titles={all:'📋 کل تسک‌ها',current:'🔄 تسک‌های جاری',completed:'✅ تسک‌های پایان‌یافته',overdue:'⏰ تسک‌هایی که ددلاین آنها گذشته است',reviewed:'⭐ تسک‌های ارزیابی‌شده توسط مدیر'};
  if(kind==='current')arr=tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد');
  if(kind==='completed')arr=tasks.filter(x=>x.status==='انجام شد');
- if(kind==='overdue')arr=tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد');
+ if(kind==='overdue')arr=tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد');
  if(kind==='reviewed')arr=tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی');
  document.getElementById('taskViewTitle').textContent=titles[kind]||titles.all;
  document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">همه رکوردهای ثبت‌شده</span>';
