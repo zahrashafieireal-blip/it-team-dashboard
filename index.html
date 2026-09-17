@@ -832,7 +832,7 @@ function renderMyTasks(tasks){
  if(!list)return;
  const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
  if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
- list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${id}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${id}">🗑️ حذف</button></div></div>`}).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div></div>`}).join('');
   decorateTaskDeadlineTexts();
 }
 function renderTaskOverview(tasks, todayG){
@@ -859,7 +859,7 @@ function renderTaskOverview(tasks, todayG){
  if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
  if(!selected.length){list.innerHTML='<div class="attention-empty">یک یا چند مورد را از بالا انتخاب کنید.</div>';return;}
  selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
- list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${id}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${id}">🗑️ حذف</button></div></div>`}).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div></div>`}).join('');
 }
 function toggleOverviewKind(kind){
  selectedOverviewKind=kind;
@@ -922,7 +922,7 @@ function showTaskView(kind){
      <div class="task-card-title">${esc(x.desc)}</div>
      <div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div>
      <div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — امتیاز ${esc(x.managerScore)}/۵`:''}</div>
-     ${canEdit?`<div class="task-row-actions"><button type="button" class="secondary" data-task-action="edit" data-task-id="${id}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${id}">🗑️ حذف</button></div>`:''}
+     ${canEdit?`<div class="task-row-actions"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div>`:''}
    </article>`}).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
  }
  document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>'<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
@@ -1219,7 +1219,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${JSON.stringify(String(x.id))})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" data-task-action="edit" data-task-id="${JSON.stringify(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${JSON.stringify(String(x.id))}">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${JSON.stringify(String(x.id))})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1243,7 +1243,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" data-task-action="edit" data-task-id="'+JSON.stringify(String(x.id))+'">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-task-action="delete" data-task-id="'+JSON.stringify(String(x.id))+'">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" data-task-action="edit" data-task-id="'+String(x.id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-task-action="delete" data-task-id="'+String(x.id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1531,9 +1531,9 @@ function installTaskActionHandlers(){
     const action=btn.getAttribute('data-task-action');
     if(!id)return;
     if(action==='edit'){
-      editActivityById(id);
+      window.editActivityById(id);
     }else if(action==='delete'){
-      deleteActivityById(id);
+      window.deleteActivityById(id);
     }
   },true);
 }
