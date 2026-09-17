@@ -1551,6 +1551,20 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 .home-summary-hint{font-size:10px;color:#72817c;text-align:center;padding:8px 0 0}
 .quick-actions{display:none!important}
 @media(max-width:800px){.home-main-layout{grid-template-columns:1fr}.home-side-menu{order:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.home-main-content{order:1}.home-side-item{min-height:64px;font-size:11px}.side-ico{font-size:24px;flex-basis:31px}}
-@media(max-width:520px){.task-overview-filters{grid-template-columns:1fr;gap:8px}.home-task-summary{padding:8px}.summary-title{font-size:15px}.home-task-summary-head>b{font-size:24px}.home-task-sub strong{font-size:10px}.home-task-sub b{font-size:17px}.home-side-menu{grid-template-columns:1fr}.home-side-item{min-height:56px}}
+@media(max-width:520px){
+ .task-overview-filters{grid-template-columns:1fr;gap:10px}
+ .home-task-summary{padding:11px}
+ .home-task-summary-head{grid-template-columns:34px 1fr auto;gap:6px;padding:3px 4px 10px}
+ .summary-icon{font-size:25px}
+ .summary-title{font-size:17px}
+ .home-task-summary-head>b{font-size:26px}
+ .home-task-subgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ .home-task-sub{min-height:70px;padding:8px 4px;grid-template-columns:26px 1fr;gap:1px 3px}
+ .home-task-sub span{font-size:20px}
+ .home-task-sub strong{font-size:12px;white-space:nowrap}
+ .home-task-sub b{font-size:20px}
+ .home-side-menu{grid-template-columns:1fr}
+ .home-side-item{min-height:56px}
+}
 </style>
 </head><body>'+content+'</body></html>
