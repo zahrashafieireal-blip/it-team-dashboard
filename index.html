@@ -779,15 +779,13 @@ function toggleLoginPassword(){const p=document.getElementById('loginPassword');
  if(!u){alert('لطفاً نام کاربری را انتخاب کنید.');return}
  // Always resolve the account from the current team list so edits/imports do not break login.
  let accountPass='';
- if(u==='مدیر') accountPass=String(managerPassword||'1').trim()||'1';
+ if(u==='مدیر') accountPass=String(managerPassword||'1');
  else {
    const account=team.find(x=>String(x.name||'').trim()===u);
    if(!account){fillSelectors();alert('کاربر پیدا نشد. فهرست کاربران بازسازی شد؛ دوباره تلاش کنید.');return}
    accountPass=String(account.password||'1').trim()||'1';
  }
- // پذیرش رمز اولیه 1 برای سازگاری با نسخه‌های قبلی؛ رمز سفارشی نیز معتبر است.
- const passwordOK=(p===accountPass)||(p==='1' && accountPass!=='');
- if(!passwordOK){alert('رمز عبور نادرست است.');passEl.focus();return}
+ if(p!==accountPass && !(p==='1' && accountPass)){alert('رمز عبور نادرست است.');passEl.focus();return}
  currentUser=u;
  passEl.value='';
  renderCurrentUserProfile();
@@ -1242,7 +1240,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivityById('+JSON.stringify(String(x.id))+');return false;">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+JSON.stringify(String(x.id))+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivityById('+JSON.stringify(String(x.id))+');return false;">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1251,13 +1249,9 @@ function normalizeOwnerName(v){
 }
 function findActivityIndex(ref){
   const wanted=String(ref??'').trim();
-  if(wanted){
-    const byId=data.findIndex(t=>String(t?.id??'').trim()===wanted);
-    if(byId!==-1)return byId;
-  }
-  // Legacy fallback: allow the array index as a reference.
-  const n=Number(ref);
-  if(Number.isInteger(n) && n>=0 && n<data.length)return n;
+  if(!wanted)return -1;
+  const byId=data.findIndex(t=>String(t?.id??'').trim()===wanted);
+  if(byId!==-1)return byId;
   return -1;
 }
 function getActivityForRef(ref){
@@ -1469,14 +1463,8 @@ function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=docu
 function printHTML(content){
   const w=window.open('','_blank');
   if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}
-  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style>
-<style id="no-user-avatar-final">
-/* مشخصات کاربر بدون آواتار */
-.profile-identity{justify-content:flex-end!important;}
-.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
-.profile-avatar{display:none!important;}
-</style>
-</head><body>'+content+'</body></html>');
+  const printHead='<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>';
+  w.document.write(printHead+content+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 function seedDemo(){
