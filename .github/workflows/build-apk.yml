@@ -29,9 +29,20 @@ jobs:
         run: |
           mkdir -p android/app/src/main/java/ir/itdashboard/team
           mkdir -p android/app/src/main/res/values
+          mkdir -p android/app/src/main/res/mipmap-mdpi
+          mkdir -p android/app/src/main/res/mipmap-hdpi
+          mkdir -p android/app/src/main/res/mipmap-xhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
           mkdir -p android/app/src/main/assets
 
           cp index.html android/app/src/main/assets/index.html
+
+          cp app_icon.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp app_icon.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp app_icon.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp app_icon.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp app_icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
           cat > android/settings.gradle <<'EOF'
           pluginManagement {
@@ -107,6 +118,8 @@ jobs:
               <application
                   android:allowBackup="true"
                   android:label="@string/app_name"
+                  android:icon="@mipmap/ic_launcher"
+                  android:roundIcon="@mipmap/ic_launcher"
                   android:supportsRtl="true"
                   android:theme="@style/AppTheme">
 
