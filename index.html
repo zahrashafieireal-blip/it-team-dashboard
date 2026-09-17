@@ -1163,23 +1163,7 @@ function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=docu
 function printHTML(content){
   const w=window.open('','_blank');
   if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}
-  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style>
-<style id="new-task-top-left">
-.home-title-row{position:relative;min-height:44px;padding-left:0;}
-.home-title-main{width:100%;display:block;}
-.home-title-main h2{padding-left:145px;}
-.home-register-btn{position:absolute;left:0;top:0;z-index:2;padding:10px 15px;border-radius:13px;background:linear-gradient(135deg,#13785f,#0b5d49);box-shadow:0 5px 14px rgba(17,107,82,.22);font-size:12px;}
-@media(max-width:650px){
- .home-title-row{min-height:42px;}
- .home-title-main h2{padding-left:132px;font-size:16px;}
- .home-register-btn{left:0;top:0;padding:9px 11px;font-size:11px;}
-}
-@media(max-width:380px){
- .home-title-main h2{padding-left:120px;font-size:14px;}
- .home-register-btn{padding:8px 9px;font-size:10px;}
-}
-</style>
-</head><body>'+content+'</body></html>');
+  w.document.write('<!doctype html><html lang=\"fa\" dir=\"rtl\"><head><meta charset=\"utf-8\"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>'+content+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 function seedDemo(){
