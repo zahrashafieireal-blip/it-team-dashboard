@@ -832,7 +832,7 @@ function renderMyTasks(tasks){
  if(!list)return;
  const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
  if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
- list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${JSON.stringify(String(x.id))})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" onclick="editActivity(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" onclick="deleteActivityById(${id});return false;">🗑️ حذف</button></div></div>`}).join('');
   decorateTaskDeadlineTexts();
 }
 function renderTaskOverview(tasks, todayG){
@@ -859,7 +859,7 @@ function renderTaskOverview(tasks, todayG){
  if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
  if(!selected.length){list.innerHTML='<div class="attention-empty">یک یا چند مورد را از بالا انتخاب کنید.</div>';return;}
  selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
- list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${JSON.stringify(String(x.id))})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" onclick="editActivity(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" onclick="deleteActivityById(${id});return false;">🗑️ حذف</button></div></div>`}).join('');
 }
 function toggleOverviewKind(kind){
  selectedOverviewKind=kind;
@@ -917,12 +917,13 @@ function showTaskView(kind){
  document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">همه رکوردهای ثبت‌شده</span>';
  const cards=document.getElementById('groupTaskCards');
  if(cards){
-   cards.innerHTML=arr.length?arr.map(x=>`<article class="mobile-task-card ${rowClass(x)}">
+   cards.innerHTML=arr.length?arr.map(x=>{const id=JSON.stringify(String(x.id));const canEdit=currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser);return `<article class="mobile-task-card ${rowClass(x)}">
      <div class="task-card-head"><span>${fmtDate(x.date)}</span><strong>${esc(x.owner)}</strong></div>
      <div class="task-card-title">${esc(x.desc)}</div>
      <div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div>
      <div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — امتیاز ${esc(x.managerScore)}/۵`:''}</div>
-   </article>`).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
+     ${canEdit?`<div class="task-row-actions"><button type="button" class="secondary" onclick="editActivity(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" onclick="deleteActivityById(${id});return false;">🗑️ حذف</button></div>`:''}
+   </article>`}).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
  }
  document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>'<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
  showPanel('groupTasks');
@@ -1240,7 +1241,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+JSON.stringify(String(x.id))+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivityById('+JSON.stringify(String(x.id))+');return false;">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivityById('+JSON.stringify(String(x.id))+');return false;">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1249,9 +1250,13 @@ function normalizeOwnerName(v){
 }
 function findActivityIndex(ref){
   const wanted=String(ref??'').trim();
-  if(!wanted)return -1;
-  const byId=data.findIndex(t=>String(t?.id??'').trim()===wanted);
-  if(byId!==-1)return byId;
+  if(wanted){
+    const byId=data.findIndex(t=>String(t?.id??'').trim()===wanted);
+    if(byId!==-1)return byId;
+  }
+  // Legacy fallback: allow the array index as a reference.
+  const n=Number(ref);
+  if(Number.isInteger(n) && n>=0 && n<data.length)return n;
   return -1;
 }
 function getActivityForRef(ref){
@@ -1631,4 +1636,11 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   <button type="button" onclick="showPanel('reports');initReports()">📊<span>گزارش</span></button>
   <button type="button" onclick="showPanel('meetings');renderMeetings()">📅<span>جلسات</span></button>
   <button type="button" onclick="showPanel('settings');renderSettings()">⚙️<span>تنظیمات</span></button>
-</nav></body></html>
+</nav>
+<style id="task-edit-delete-actions">
+.overview-task-row{position:relative;}
+.task-row-actions{display:flex;gap:7px;margin-top:9px;justify-content:flex-start;align-items:center;}
+.task-row-actions button{width:auto!important;min-width:78px;padding:7px 11px;border-radius:10px;font-family:inherit;cursor:pointer;}
+.mobile-task-card .task-row-actions{margin-top:10px;}
+</style>
+</body></html>
