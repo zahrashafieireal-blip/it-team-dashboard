@@ -33,7 +33,7 @@ table{width:100%;border-collapse:collapse;min-width:0;table-layout:auto;font-siz
 .task-overview-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 12px}.overview-filter{border:1px solid #dfe8e5;background:#f7faf9;border-radius:14px;padding:10px 9px;text-align:right;display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:inherit;color:#21433a;font-size:13px;cursor:pointer}.overview-filter b{min-width:28px;text-align:center;border-radius:10px;background:#e5efec;padding:4px 6px}.overview-filter.active{background:#e8f4f0;border-color:#13785f;box-shadow:0 0 0 1px #13785f inset}.overview-filter.active b{background:#13785f;color:#fff}.task-overview-list{display:flex;flex-direction:column;gap:7px}.overview-task-row{width:100%;border:1px solid #e4ebe9;background:#fff;border-radius:13px;padding:10px;text-align:right;font-family:inherit;color:#1e332e;cursor:pointer}.overview-task-row span,.overview-task-row strong,.overview-task-row small{display:block}.overview-task-row span{font-size:12px;color:#60736d;margin-bottom:4px}.overview-task-row strong{font-size:13px;line-height:1.7}.overview-task-row small{font-size:11px;color:#70807b;margin-top:4px}@media(max-width:420px){.task-overview-filters{grid-template-columns:1fr}}
 
 .report-date-box{margin-top:8px}.report-date-box .actions{margin:0}.report-date-box input{flex:1;min-width:0}.report-date-box select{width:100%}.report-empty{padding:18px;text-align:center;color:#71847e;background:#f7faf9;border-radius:14px;margin:12px 0}.report-title{font-weight:800;color:#116b52}
-</style>
+.top-register-action{margin:0 0 14px}.top-register-action .register-card{width:100%;min-height:74px;display:flex;align-items:center;justify-content:center;gap:10px}.top-register-action .register-card .ico{margin:0}.top-register-action .register-card h3{margin:0}</style>
 
 <style id="mobile-final-fix">
 /* Mobile-first layout: compact, RTL, no page-level horizontal scrolling */
@@ -103,22 +103,38 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 .detail-grid{max-height:45vh;overflow:auto}
 @media(max-width:650px){.management-box{margin-top:8px}.compact-filter{padding:8px}.compact-filter .filter-row{flex-wrap:nowrap}.compact-filter select,.compact-filter button{font-size:11px!important;padding:8px 7px!important}}
 </style>
+<style id="task-deadline-20day">.task-deadline-info{font-size:10px;color:#116b52;font-weight:700;margin-top:5px;line-height:1.6}</style>
+<style id="beautiful-login">
+.login-page{background:linear-gradient(145deg,#f7fbf9 0%,#ffffff 55%,#eef7f3 100%);padding:14px!important;min-height:calc(100vh - 150px);display:none!important;align-items:center;justify-content:center}
+.login-page.active{display:flex!important}
+.login-shell{width:min(520px,100%);background:#fff;border:1px solid #e4eee9;border-radius:24px;padding:22px;box-shadow:0 12px 35px #0d4d3a14}
+.login-brand{display:flex;align-items:center;gap:14px;padding:5px 2px 18px;border-bottom:1px solid #edf2ef}
+.login-logo{width:58px;height:58px;flex:0 0 58px;border-radius:18px;background:#116b52;color:#fff;display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 7px 16px #116b5230}
+.login-brand h2{margin:0 0 4px;color:#17352d;font-size:22px}.login-brand p{margin:0;color:#70817b;font-size:12px;line-height:1.8}
+.login-form{padding-top:15px}.login-form label{font-size:12px;margin-top:10px}.login-form select,.login-form input{height:44px;border-radius:12px;background:#fbfdfc;border-color:#dce8e3;padding:10px 12px!important}
+.login-hint{margin-top:9px;background:#f2f8f5;color:#5f716b;border-radius:10px;padding:8px 10px;font-size:10px}
+.login-btn{width:100%;margin-top:14px;height:46px;border-radius:13px;background:#116b52;color:#fff;font-weight:800;font-size:13px;box-shadow:0 7px 16px #116b5226;transition:.15s}
+.login-btn:hover{transform:translateY(-1px);background:#0d5c46}.login-btn span{font-size:18px;margin-right:7px}
+.login-footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:15px;padding-top:12px;border-top:1px solid #edf2ef;color:#788781;font-size:9px;line-height:1.7}
+@media(max-width:650px){.login-page{min-height:calc(100vh - 125px)}.login-shell{padding:17px;border-radius:20px}.login-brand h2{font-size:20px}.login-logo{width:52px;height:52px;flex-basis:52px;border-radius:16px;font-size:26px}.login-footer{display:block}.login-footer span{display:block;margin-top:2px}}
+</style>
 </head>
 <body>
 <div class="app">
-<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>ثبت و مدیریت گزارش کار — آفلاین</p></header>
+<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1><p>سامانه ثبت و مدیریت گزارش کار تیم</p></header>
 <main>
-<section id="login" class="panel active">
-<div class="userbox">
-<h2>👤 انتخاب کاربر</h2>
-<p class="small">کاربر را انتخاب کنید تا کارتابل مربوط به همان شخص نمایش داده شود.</p>
-<label>نام کاربری</label><select id="userSelect"></select>
-<label>رمز عبور</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="رمز عبور">
-<div class="small" style="margin-top:8px">رمز اولیه همه کاربران: ۱</div>
-<div class="small">مدیر دپارتمان: آقای شریفی</div>
-<div class="actions"><button class="primary" onclick="enterApp()">🔐 ورود به کارتابل</button></div>
-<script>document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('login')?.classList.contains('active'))enterApp()});</script>
+<section id="login" class="panel active login-page">
+<div class="login-shell">
+  <div class="login-brand"><div class="login-logo">📊</div><div><h2>خوش آمدید</h2><p>برای ورود به کارتابل خود، اطلاعات زیر را وارد کنید.</p></div></div>
+  <div class="login-form">
+    <label>نام کاربری</label><select id="userSelect"></select>
+    <label>رمز عبور</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="رمز عبور خود را وارد کنید">
+    <div class="login-hint">🔐 رمز اولیه کاربران: <b>۱</b></div>
+    <button class="login-btn" onclick="enterApp()">ورود به کارتابل <span>←</span></button>
+  </div>
+  <div class="login-footer"><span>👨‍💼 مدیر دپارتمان: آقای شریفی</span><span>سامانه مدیریت عملکرد تیم فناوری اطلاعات</span></div>
 </div>
+<script>document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('login')?.classList.contains('active'))enterApp()});</script>
 </section>
 
 <section id="home" class="panel">
@@ -135,6 +151,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   <div class="small" style="margin:6px 0 10px">فهرست تسک‌های ثبت‌شده به نام شما، همراه با وضعیت هر تسک</div>
   <div id="myTasksList" class="task-overview-list"></div>
 </div>
+<div class="top-register-action"><button class="card register-card" onclick="showPanel('add');prepareActivityOwner()"><div class="ico">➕</div><h3>ثبت فعالیت</h3></button></div>
 <div id="managementBox" class="management-box">
   <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
   <div class="small" style="margin:6px 0 10px">یک یا چند مورد را انتخاب کنید تا لیست مربوط به آنها نمایش داده شود.</div>
@@ -148,7 +165,6 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   <button class="quick-btn" onclick="showTaskView('reviewed')">⭐ ارزیابی‌شده</button>
 </div>
 <div class="cardgrid">
-<button class="card" onclick="showPanel('add');prepareActivityOwner()"><div class="ico">➕</div><h3>ثبت فعالیت</h3></button>
 <button class="card" onclick="showPanel('today');renderToday()"><div class="ico">📋</div><h3>فعالیت‌های امروز</h3></button>
 <button class="card" onclick="showPanel('reports');initReports()"><div class="ico">📊</div><h3>گزارش‌گیری</h3></button>
 <button class="card" onclick="showPanel('team');renderTeam()"><div class="ico">👥</div><h3>اعضای گروه</h3></button>
@@ -167,7 +183,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 </section>
 
 <section id="add" class="panel">
-<div class="topline"><h2>➕ ثبت فعالیت</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
+<div class="topline"><h2 id="activityFormTitle">➕ ثبت فعالیت</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
 <label>تاریخ</label><div class="actions" style="margin:0"><input id="aDate" placeholder="۱۴۰۵/۰۵/۱۲"><button class="secondary" type="button" onclick="openCalendar('aDate')">📅 تقویم</button></div>
 <label>کارشناس</label><select id="aOwner"></select>
 <label>نوع فعالیت</label><select id="aType"><option>تسک</option><option>نامه</option><option>پشتیبانی</option><option>جلسه</option><option>پیگیری</option><option>پروژه</option><option>سخت‌افزار</option><option>سایر</option></select>
@@ -179,7 +195,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 <label>واحد</label><input id="aUnit">
 <div id="deadlineFields"><label>Deadline</label><div class="actions" style="margin:0"><input id="aDeadline" placeholder="۱۴۰۵/۰۵/۲۰" inputmode="numeric"><button class="secondary" type="button" onclick="openCalendar('aDeadline')">📅 تقویم فارسی</button></div></div>
 <label>یادداشت</label><textarea id="aNotes"></textarea>
-<div class="actions"><button class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div>
+<div class="actions"><button id="activitySaveBtn" class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button id="activityCancelEditBtn" class="danger hidden" onclick="cancelEditActivity()">لغو ویرایش</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div>
 </section>
 
 <section id="today" class="panel"><div class="topline"><h2>📋 فعالیت‌های امروز</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="todayContent"></div></section>
@@ -240,7 +256,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 <label>تاریخ جلسه</label><div class="actions" style="margin:0"><input id="mDate" placeholder="۱۴۰۵/۰۶/۳۱"><button class="secondary" onclick="openCalendar('mDate')">📅 تقویم</button></div>
 <label>کارشناس</label><select id="mPerson"></select>
 <div class="actions"><button class="primary" onclick="saveMeeting()">💾 ثبت نوبت</button></div>
-<h3>📋 آرشیو شرکت در جلسات</h3><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>شرکت کرده</th></tr></thead><tbody id="meetingBody"></tbody></table></div>
+<h3>📋 آرشیو شرکت در جلسات</h3><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>شرکت کرده</th><th>عملیات</th></tr></thead><tbody id="meetingBody"></tbody></table></div>
 <div class="actions"><button class="primary" onclick="exportMeetings()">📥 خروجی آرشیو هیئت عمومی</button><button class="secondary" onclick="printMeetings()">📄 چاپ / PDF</button></div>
 </section>
 
@@ -271,7 +287,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 
 <div id="detailModal" class="modal" onclick="if(event.target===this)closeDetail()"><div class="modalbox">
 <div class="topline"><h3 style="margin:0">جزئیات فعالیت</h3><button class="closecal" style="width:auto;margin:0;padding:7px 12px" onclick="closeDetail()">بستن</button></div>
-<div id="detailContent"></div></div></div>
+<div id="detailContent"></div><div id="detailActions" class="actions"></div></div></div>
 <div id="calModal" class="modal" onclick="if(event.target===this)closeCalendar()"><div class="modalbox">
 <div class="calhead"><button onclick="changeMonth(-1)">‹</button><b id="calTitle"></b><button onclick="changeMonth(1)">›</button></div>
 <div class="weekdays"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div>
@@ -305,6 +321,35 @@ function normalizeStoredDate(v){
    let p=s.split('-'); return p[0]+'-'+pad(p[1])+'-'+pad(p[2]);
  }
  return s;
+}
+
+function addDaysToGDate(g,days){
+  const p=normalizeStoredDate(g).split('-').map(Number);
+  if(p.length!==3||p.some(n=>!Number.isFinite(n)))return '';
+  const d=new Date(p[0],p[1]-1,p[2]); d.setHours(0,0,0,0); d.setDate(d.getDate()+Number(days||0));
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+function taskDeadline(x){
+  if(!x || x.type!=='تسک' || !x.date)return '';
+  return addDaysToGDate(normalizeStoredDate(x.date),20);
+}
+function taskRemainingText(x){
+  const dl=taskDeadline(x); if(!dl)return '';
+  const a=new Date(normalizeStoredDate(today())+'T00:00:00'); const b=new Date(dl+'T00:00:00');
+  const days=Math.round((b-a)/86400000);
+  if(days>0)return '⏳ '+faDigits(days)+' روز باقی مانده';
+  if(days===0)return '⏰ امروز آخرین مهلت';
+  return '⚠️ '+faDigits(Math.abs(days))+' روز از مهلت گذشته';
+}
+function taskDeadlineLabel(x){
+  const dl=taskDeadline(x);
+  if(!dl)return x?.deadline?fmtDate(x.deadline):'—';
+  return faDigits(fmtDate(dl))+' — '+taskRemainingText(x);
+}
+function applyTwentyDayDeadlines(){
+  let changed=false;
+  data.forEach(x=>{if(x && team.some(m=>m.name===x.owner) && x.type==='تسک' && x.date){const dl=taskDeadline(x);if(dl&&x.deadline!==dl){x.deadline=dl;changed=true;}}});
+  if(changed)save();
 }
 
 // Jalali conversion (Gregorian <-> Jalali)
@@ -451,7 +496,7 @@ function renderHome(){
    if(reviewed.length) items.push(`<button class="attention-item reviewed-att" onclick="showTaskView('reviewed')"><span>⭐ ${faDigits(reviewed.length)} تسک ارزیابی‌شده</span><b>مشاهده ›</b></button>`);
    attention.innerHTML=items.length?items.join(''):'<div class="attention-empty">✅ مورد فوری برای پیگیری وجود ندارد.</div>';
  }
- renderTaskOverview(groupTasks(), todayG);
+ renderTaskOverview(groupTasks(), todayG); decorateTaskDeadlineTexts();
  const tp=document.getElementById('teamPerformance');
  if(tp){
    tp.innerHTML=team.map(m=>{const mt=data.filter(x=>x.owner===m.name),done=mt.filter(x=>x.status==='انجام شد').length,ov=mt.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length,p=mt.length?Math.round(done/mt.length*100):0;return `<div class="member-performance"><div><b>${esc(m.name)}</b><span>${faDigits(mt.length)} تسک</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${faDigits(p)}٪ پایان‌یافته · ${faDigits(ov)} عقب‌افتاده</small></div>`}).join('') || '<div class="attention-empty">عضوی ثبت نشده است.</div>';
@@ -459,12 +504,21 @@ function renderHome(){
 }
 
 let selectedOverviewKinds=['all'];
+function decorateTaskDeadlineTexts(){
+  document.querySelectorAll('[data-task-id]').forEach(el=>{
+    const x=data.find(a=>a.id===Number(el.getAttribute('data-task-id'))); if(!x||x.type!=='تسک')return;
+    let info=el.querySelector('.task-deadline-info'); if(!info){info=document.createElement('div');info.className='task-deadline-info';el.appendChild(info);}
+    info.textContent='ددلاین: '+taskDeadlineLabel(x);
+  });
+}
+
 function renderMyTasks(tasks){
  const list=document.getElementById('myTasksList');
  if(!list)return;
  const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
  if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
  list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail('${x.id}')"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+  decorateTaskDeadlineTexts();
 }
 function renderTaskOverview(tasks, todayG){
  const filters=document.getElementById('taskOverviewFilters');
@@ -506,7 +560,7 @@ function rowClass(x){
 }
 function activityRows(arr,includeOwner=true){
  if(!arr.length)return '<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
- return arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td>${includeOwner?`<td>${esc(x.owner)}</td>`:''}<td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td>${includeOwner?`<td>${esc(x.correspondence||'خیر')}</td>`:''}<td>${x.deadline?fmtDate(x.deadline):'—'}</td></tr>`).join('')
+ return arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td>${includeOwner?`<td>${esc(x.owner)}</td>`:''}<td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td>${includeOwner?`<td>${esc(x.correspondence||'خیر')}</td>`:''}<td>${taskDeadlineLabel(x)}</td></tr>`).join('')
 }
 function renderToday(){
  let t=normalizeStoredDate(today());
@@ -650,7 +704,7 @@ function renderReport(){
   if(!r.arr){stats.innerHTML='<div class="report-empty">'+esc(r.error)+'</div>';body.innerHTML='<tr><td colspan="8" class="empty">بازه گزارش هنوز کامل نشده است.</td></tr>';return;}
   const arr=r.arr;
   stats.innerHTML='<div class="badges"><span class="badge">بازه: '+fmtDate(r.range[0])+' تا '+fmtDate(r.range[1])+'</span><span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">انجام‌شده: '+faDigits(arr.filter(x=>x.status==='انجام شد').length)+'</span><span class="badge">جاری: '+faDigits(arr.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length)+'</span></div>';
-  body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — ${esc(x.managerScore)}/۵`:''}</td></tr>`).join(''):'<tr><td colspan="8" class="empty">موردی مطابق فیلترهای انتخاب‌شده وجود ندارد.</td></tr>';
+  body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${taskDeadlineLabel(x)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — ${esc(x.managerScore)}/۵`:''}</td></tr>`).join(''):'<tr><td colspan="8" class="empty">موردی مطابق فیلترهای انتخاب‌شده وجود ندارد.</td></tr>';
 }
 function clearReportFilters(){
   const t=document.getElementById('reportType'); if(t)t.value='daily';
@@ -670,7 +724,7 @@ function exportReport(){
 }
 function printReport(){
   const r=getReportRows(); if(!r.arr){alert(r.error);return}
-  const rows=r.arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}</td></tr>`).join('');
+  const rows=r.arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${taskDeadlineLabel(x)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}</td></tr>`).join('');
   printHTML('<h2>گزارش فعالیت</h2><p>بازه: '+fmtDate(r.range[0])+' تا '+fmtDate(r.range[1])+' | تعداد: '+faDigits(r.arr.length)+'</p><table><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th><th>ارزیابی مدیر</th></tr>'+rows+'</table>');
 }
 function renderWeekly(){
@@ -719,18 +773,38 @@ function renderMonthly(){
   const arr=ownerData().filter(x=>{const d=normalizeStoredDate(x.date);return d>=ag&&d<=bg&&(!mt||x.type===mt)&&(!ms||x.status===ms)});
   document.getElementById('monthlyStats').innerHTML=
     `<div class="badges"><span class="badge">ماه: ${jmonths[jm-1]} ${faDigits(jy)}</span><span class="badge">کل: ${faDigits(arr.length)}</span><span class="badge">انجام‌شده: ${faDigits(arr.filter(x=>x.status==='انجام شد').length)}</span></div>`;
-  document.getElementById('monthlyBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">در این ماه داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('monthlyBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">در این ماه داده‌ای وجود ندارد.</td></tr>';
 }
 function saveActivity(){
  let d=document.getElementById('aDate').value.trim(),g=validDate(d)?jstrToG(d):'';
  if(!d){alert('لطفاً تاریخ را وارد کنید.');return} if(!g){alert('تاریخ واردشده معتبر نیست.');return}
  let deadline=document.getElementById('aDeadline').value.trim(),dg=deadline?(validDate(deadline)?jstrToG(deadline):''):'';
  if(deadline&&!dg){alert('تاریخ Deadline معتبر نیست.');return}
- let ld=document.getElementById('aLetterDate').value.trim(),lg=ld?(validDate(ld)?jstrToG(ld):''):'';
+ const selectedType=document.getElementById('aType').value;
+ if(selectedType==='تسک') dg=addDaysToGDate(normalizeStoredDate(g),20);
+ let ld=document.getElementById('aLetterDate').value.trim(),lg=ld?(validDate(ld)?jstrToG(ld):'') : '';
  if(ld&&!lg){alert('تاریخ نامه معتبر نیست.');return}
  const selectedOwner=document.getElementById('aOwner').value;
-  if(currentUser!=='مدیر' && selectedOwner!==currentUser){alert('هر کاربر فقط می‌تواند فعالیت را به نام خودش ثبت کند.');return}
-  data.push({id:Date.now(),owner:selectedOwner,date:normalizeStoredDate(g),type:document.getElementById('aType').value,desc:document.getElementById('aDesc').value.trim(),status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,letter:document.getElementById('aLetter').value.trim(),letterDate:lg,unit:document.getElementById('aUnit').value.trim(),deadline:dg,notes:document.getElementById('aNotes').value.trim(),managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});save();clearActivityForm();renderToday();alert('فعالیت با موفقیت ثبت شد.');showPanel('home');renderHome()
+ if(currentUser!=='مدیر' && selectedOwner!==currentUser){alert('هر کاربر فقط می‌تواند فعالیت را به نام خودش ثبت یا ویرایش کند.');return}
+ const payload={owner:selectedOwner,date:normalizeStoredDate(g),type:document.getElementById('aType').value,desc:document.getElementById('aDesc').value.trim(),status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,letter:document.getElementById('aLetter').value.trim(),letterDate:lg,unit:document.getElementById('aUnit').value.trim(),deadline:dg,notes:document.getElementById('aNotes').value.trim()};
+ if(!payload.desc){alert('لطفاً شرح فعالیت را وارد کنید.');return}
+ if(editingActivityId!==null){
+   const idx=data.findIndex(x=>x.id===editingActivityId);
+   if(idx<0){alert('این فعالیت پیدا نشد.');cancelEditActivity();return}
+   const old=data[idx];
+   if(currentUser!=='مدیر' && old.owner!==currentUser){alert('شما فقط می‌توانید فعالیت‌های خودتان را ویرایش کنید.');return}
+   if(currentUser!=='مدیر' && payload.owner!==currentUser){alert('شما نمی‌توانید مسئول فعالیت را تغییر دهید.');return}
+   data[idx]={...old,...payload};
+   save();
+   editingActivityId=null;
+   clearActivityForm();
+   renderArchive();renderToday();renderHome();
+   alert('فعالیت با موفقیت ویرایش شد.');
+   showPanel('home');
+   return;
+ }
+ data.push({id:Date.now(),...payload,managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});
+ save();clearActivityForm();renderToday();alert('فعالیت با موفقیت ثبت شد.');showPanel('home');renderHome()
 }
 function updateActivityFormVisibility(){
   const corr=document.getElementById('aCorr')?.value;
@@ -746,14 +820,43 @@ function prepareActivityOwner(){
  if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}
 }
 function clearActivityForm(){
+ editingActivityId=null;
  prepareActivityOwner();
-  ['aDesc','aLetter','aLetterDate','aUnit','aDeadline','aNotes'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
-  document.getElementById('aDate').value=gToJ(today());
-  document.getElementById('aCorr').value='خیر';
-  document.getElementById('aType').value='تسک';
-  document.getElementById('aStatus').value='انجام شد';
-  updateActivityFormVisibility();
+ ['aDesc','aLetter','aLetterDate','aUnit','aDeadline','aNotes'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
+ document.getElementById('aDate').value=gToJ(today());
+ document.getElementById('aCorr').value='خیر';
+ document.getElementById('aType').value='تسک';
+ document.getElementById('aStatus').value='انجام شد';
+ document.getElementById('activityFormTitle').textContent='➕ ثبت فعالیت';
+ document.getElementById('activitySaveBtn').textContent='💾 ثبت فعالیت';
+ document.getElementById('activityCancelEditBtn').classList.add('hidden');
+ updateActivityFormVisibility();
 }
+function editActivity(id){
+ const x=data.find(a=>a.id===id);
+ if(!x)return;
+ if(currentUser!=='مدیر' && x.owner!==currentUser){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
+ editingActivityId=id;
+ showPanel('add');
+ prepareActivityOwner();
+ document.getElementById('aDate').value=x.date?gToJ(x.date):gToJ(today());
+ document.getElementById('aOwner').value=x.owner||currentUser;
+ document.getElementById('aType').value=x.type||'تسک';
+ document.getElementById('aDesc').value=x.desc||'';
+ document.getElementById('aStatus').value=x.status||'در حال انجام';
+ document.getElementById('aCorr').value=x.correspondence||'خیر';
+ document.getElementById('aLetter').value=x.letter||x.letterNo||'';
+ document.getElementById('aLetterDate').value=x.letterDate?gToJ(x.letterDate):'';
+ document.getElementById('aUnit').value=x.unit||'';
+ document.getElementById('aDeadline').value=x.deadline?gToJ(x.deadline):'';
+ document.getElementById('aNotes').value=x.notes||'';
+ document.getElementById('activityFormTitle').textContent='✏️ ویرایش فعالیت';
+ document.getElementById('activitySaveBtn').textContent='💾 ذخیره تغییرات';
+ document.getElementById('activityCancelEditBtn').classList.remove('hidden');
+ updateActivityFormVisibility();
+}
+function cancelEditActivity(){clearActivityForm();showPanel('home');}
+
 
 function renderSearch(){
   let q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();
@@ -764,7 +867,7 @@ function renderSearch(){
     return (!q||text.includes(q))&&(!typ||x.type===typ)&&(!st||x.status===st);
   });
   document.getElementById('searchContent').innerHTML='<div class="small" style="margin:10px 0">تعداد نتیجه: '+faDigits(arr.length)+'</div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr></thead><tbody>'+
-  (arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">نتیجه‌ای پیدا نشد.</td></tr>')+'</tbody></table></div>';
+  (arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">نتیجه‌ای پیدا نشد.</td></tr>')+'</tbody></table></div>';
 }
 function renderArchive(){
   const filter=document.getElementById('archiveFilter');
@@ -795,7 +898,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button><button class="danger" onclick="deleteActivity(${x.id})">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button>`:''}<button class="danger" onclick="deleteActivity(${x.id})">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -812,7 +915,7 @@ function showActivityDetail(id){
     <div><b>کارشناس</b><span>${esc(x.owner)}</span></div>
     <div><b>نوع فعالیت</b><span>${esc(x.type)}</span></div>
     <div><b>وضعیت</b><span>${esc(x.status)}</span></div>
-    <div><b>ددلاین</b><span>${x.deadline?fmtDate(x.deadline):'—'}</span></div>
+    <div><b>ددلاین</b><span>${taskDeadlineLabel(x)}</span></div>
     <div><b>مکاتبه</b><span>${x.correspondence?'بله':'خیر'}</span></div>
     <div style="grid-column:1/-1"><b>شرح فعالیت</b><span>${esc(x.desc)}</span></div>
     ${x.letterNo?`<div><b>شماره نامه</b><span>${esc(x.letterNo)}</span></div>`:''}
@@ -820,6 +923,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -855,8 +959,9 @@ function removeMember(i){if(currentUser!=='مدیر'){alert('فقط مدیر م�
 function deleteSelectedMember(){if(currentUser!=='مدیر'){alert('فقط مدیر می‌تواند اعضای گروه را حذف کند.');return}if(!team.length){alert('عضوی وجود ندارد.');return}let n=prompt('نام کارشناس برای حذف را وارد کنید:\n'+team.map(x=>x.name).join('، '));if(!n)return;let i=team.findIndex(x=>x.name.trim()===n.trim());if(i<0){alert('نام پیدا نشد.');return}removeMember(i)}
 
 function saveMeeting(){let d=document.getElementById('mDate').value.trim();if(!d){alert('لطفاً تاریخ جلسه را انتخاب یا وارد کنید.');return}if(!validDate(d)){alert('تاریخ واردشده معتبر نیست. لطفاً از تقویم فارسی یک تاریخ انتخاب کنید.');return}let g=jstrToG(d);let dt=new Date(g+'T12:00:00');if(dt.getDay()!==2&&!confirm('این تاریخ سه‌شنبه نیست. با این حال ثبت شود؟'))return;meetings.push({id:Date.now(),date:g,person:document.getElementById('mPerson').value,attended:false});save();document.getElementById('mDate').value='';renderMeetings();alert('نوبت جلسه ثبت شد.')}
-function renderMeetings(){let tb=document.getElementById('meetingBody');if(!meetings.length){tb.innerHTML='<tr><td colspan="3" class="empty">هنوز نوبتی ثبت نشده است.</td></tr>';return}tb.innerHTML=meetings.map((m,i)=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td style="text-align:center"><input type="checkbox" ${m.attended?'checked':''} onchange="toggleAttendance(${i},this.checked)" style="width:20px;height:20px"></td></tr>`).join('')}
-function toggleAttendance(i,v){meetings[i].attended=!!v;localStorage.setItem(MEETKEY,JSON.stringify(meetings))}
+function renderMeetings(){let tb=document.getElementById('meetingBody');if(!meetings.length){tb.innerHTML='<tr><td colspan="4" class="empty">هنوز نوبتی ثبت نشده است.</td></tr>';return}tb.innerHTML=meetings.map((m,i)=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td style="text-align:center"><input type="checkbox" ${m.attended?'checked':''} onchange="toggleAttendance(${i},this.checked)" style="width:20px;height:20px"></td><td><button class="danger" onclick="deleteMeeting(${i})">🗑️ حذف</button></td></tr>`).join('')}
+function toggleAttendance(i,v){if(!meetings[i])return;meetings[i].attended=!!v;localStorage.setItem(MEETKEY,JSON.stringify(meetings))}
+function deleteMeeting(i){if(currentUser!=='مدیر'){alert('فقط مدیر می‌تواند نوبت‌های هیئت عمومی را حذف کند.');return}if(!meetings[i])return;const m=meetings[i];if(!confirm('نوبت هیئت عمومی برای «'+m.person+'» در تاریخ «'+fmtDate(m.date)+'» حذف شود؟'))return;meetings.splice(i,1);save();renderMeetings();}
 function exportMeetings(){let rows=[['تاریخ','کارشناس','شرکت کرده'],...meetings.map(m=>[fmtDate(m.date),m.person,m.attended?'بله':'خیر'])];downloadCSV(rows,'آرشیو_هیئت_عمومی.csv')}
 function printMeetings(){let rows=meetings.map(m=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td>${m.attended?'بله':'خیر'}</td></tr>`).join('');printHTML('<h2>آرشیو شرکت در جلسات هیئت عمومی</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>شرکت کرده</th></tr>'+rows+'</table>')}
 
@@ -1053,7 +1158,7 @@ function importRealShafieiReport(){
 }
 
 function init(){
- try{seedDemo();importRealAttarianReport();importRealDorryReport();importRealShafieiReport();fillSelectors();weekOptions();
+ try{seedDemo();importRealAttarianReport();importRealDorryReport();importRealShafieiReport();applyTwentyDayDeadlines();fillSelectors();weekOptions();
  const ad=document.getElementById('aDate'); if(ad)ad.value=gToJ(today());
  const ao=document.getElementById('aOwner'); if(ao)ao.value=currentUser||team[0]?.name||'';
  renderHome();renderTeam();renderMeetings();ensureLoginReady();
