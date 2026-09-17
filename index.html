@@ -1335,7 +1335,7 @@ document.addEventListener('click',function(ev){
   const action=btn.getAttribute('data-task-action');
   if(action==='edit'){ if(document.getElementById('detailModal')?.classList.contains('show')) closeDetail(); editActivityById(ref); }
   else if(action==='delete') deleteActivityById(ref);
-});
+},true);
 
 function renderTeam(){
   fillSelectors();
