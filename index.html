@@ -113,6 +113,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 <div class="small" style="margin-top:8px">رمز اولیه همه کاربران: ۱</div>
 <div class="small">مدیر دپارتمان: آقای شریفی</div>
 <div class="actions"><button class="primary" onclick="enterApp()">🔐 ورود به کارتابل</button></div>
+<script>document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('login')?.classList.contains('active'))enterApp()});</script>
 </div>
 </section>
 
@@ -251,9 +252,10 @@ const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings', MANAG
 const DEFAULT_TEAM=[
 {name:'شفیعی',role:'پشتیبان سمپ',password:'1'},{name:'دری',role:'طراح نرم‌افزار',password:'1'},
 {name:'عینی',role:'سخت‌افزار و پروژه دیتابیس',password:'1'},{name:'عطاریان',role:'پشتیبان شبکه و ساپورت فنی',password:'1'}];
-let team=JSON.parse(localStorage.getItem(TEAMKEY)||'null'); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM; else team=team.map(x=>Object.assign({},x,{password:x.password||'1'}));
+function safeJSON(key,fallback){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback}catch(e){return fallback}}
+let team=safeJSON(TEAMKEY,null); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x})); else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1'}));
 let managerPassword=localStorage.getItem(MANAGERPASSKEY)||'1';
-let data=JSON.parse(localStorage.getItem(KEY)||'[]'); let meetings=JSON.parse(localStorage.getItem(MEETKEY)||'[]');
+let data=safeJSON(KEY,[]); if(!Array.isArray(data))data=[]; let meetings=safeJSON(MEETKEY,[]); if(!Array.isArray(meetings))meetings=[];
 let currentUser='', calTarget='', calY=1405, calM=1;
 const jmonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 const fa='۰۱۲۳۴۵۶۷۸۹';
@@ -305,9 +307,18 @@ function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner
 
 function fillSelectors(){
  const us=document.getElementById('userSelect'),ao=document.getElementById('aOwner'),mp=document.getElementById('mPerson');
+ if(!us)return;
+ us.disabled=false;
  us.innerHTML='<option value="">انتخاب کنید...</option>'+team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)} — ${esc(x.role)}</option>`).join('')+'<option value="مدیر">مدیر دپارتمان — آقای شریفی</option>';
- ao.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
- mp.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
+ if(ao)ao.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
+ if(mp)mp.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
+}
+function ensureLoginReady(){
+ const us=document.getElementById('userSelect');
+ if(!us)return;
+ if(!us.options.length || us.options.length<2)fillSelectors();
+ us.disabled=false;
+ const pw=document.getElementById('loginPassword'); if(pw)pw.disabled=false;
 }
 function enterApp(){
  let u=document.getElementById('userSelect').value, p=document.getElementById('loginPassword').value;
@@ -733,8 +744,14 @@ function seedDemo(){
  'عطاریان':[['2026-08-03','پشتیبانی','بررسی اختلال ارتباط شبکه یکی از واحدها','انجام شد'],['2026-08-08','تسک','کنترل وضعیت تجهیزات شبکه و سوئیچ‌ها','انجام شد'],['2026-08-13','پیگیری','پیگیری درخواست ارتقای پهنای باند واحدها','منتظر پاسخ'],['2026-08-19','جلسه','جلسه بررسی مشکلات دسترسی کاربران به سرویس‌ها','انجام شد'],['2026-08-28','نامه','ارسال گزارش وضعیت شبکه و اقدامات انجام‌شده','انجام شد']]};
  let id=10000;Object.entries(specs).forEach(([o,arr])=>arr.forEach((x,i)=>data.push({id:id++,owner:o,date:x[0],type:x[1],desc:x[2],status:x[3],correspondence:i%2?'خیر':'بله',letter:i%2?'':String(100+i),letterDate:i%2?'':x[0],unit:team.find(t=>t.name===o)?.role||'فناوری اطلاعات',deadline:x[3]==='انجام شد'?'':(['2026-08-12','2026-08-14','2026-08-27','2026-08-29','2026-08-10','2026-08-13','2026-08-31'].includes(x[0])?'2026-09-05':''),notes:'اطلاعات کاملاً ساختگی و صرفاً برای آزمایش برنامه',managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''})));meetings=[{id:1,date:'2026-08-04',person:'شفیعی',attended:true},{id:2,date:'2026-08-11',person:'دری',attended:true},{id:3,date:'2026-08-18',person:'عینی',attended:false},{id:4,date:'2026-08-25',person:'عطاریان',attended:true}];localStorage.setItem(SEEDEDKEY,'1');save()
 }
-function init(){seedDemo();fillSelectors();weekOptions();document.getElementById('aDate').value=gToJ(today());document.getElementById('aOwner').value=currentUser||team[0]?.name;renderHome();renderTeam();renderMeetings()}
-init();
+function init(){
+ try{seedDemo();fillSelectors();weekOptions();
+ const ad=document.getElementById('aDate'); if(ad)ad.value=gToJ(today());
+ const ao=document.getElementById('aOwner'); if(ao)ao.value=currentUser||team[0]?.name||'';
+ renderHome();renderTeam();renderMeetings();ensureLoginReady();
+ }catch(e){console.error('Dashboard init error:',e);ensureLoginReady();}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 
 </script>
 <style id="mobile-final-fix">
