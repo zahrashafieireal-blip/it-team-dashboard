@@ -7,22 +7,22 @@
 <link rel="manifest" href="manifest.json">
 <title>داشبورد عملکرد تیم فناوری اطلاعات</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f7f5;color:#17352d;font-family:Tahoma,Arial,sans-serif}
-button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.app{max-width:1050px;margin:auto}
-header{background:#116b52;color:#fff;padding:28px 18px 34px;border-radius:0 0 28px 28px;text-align:center}
-header h1{margin:0 0 8px;font-size:25px}header p{margin:0;opacity:.9}
-main{padding:18px}.panel{display:none;background:#fff;border-radius:22px;padding:20px;margin-bottom:18px;box-shadow:0 5px 20px #0000000c}.panel.active{display:block}
-.cardgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:#fff;border-radius:20px;padding:24px 15px;min-height:145px;box-shadow:0 4px 18px #0000000b;text-align:center}.card .ico{font-size:42px}.card h3{margin:10px 0 0}
-.userbox{background:#fff;border-radius:22px;padding:20px;margin-bottom:16px;box-shadow:0 4px 18px #0000000b}
-label{display:block;margin:12px 0 6px;font-weight:bold}input,select,textarea{width:100%;border:1px solid #d8e1dd;border-radius:12px;padding:12px;background:#fff;color:#17352d}textarea{min-height:100px;resize:vertical}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.primary,.secondary,.danger{padding:11px 16px;border-radius:12px}.primary{background:#116b52;color:#fff}.secondary{background:#e7f1ed;color:#116b52}.danger{background:#fbe7e7;color:#a62929}
-table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px;border:1px solid #dfe7e3;text-align:right;vertical-align:top}th{background:#edf4f1}
-.tablewrap{overflow:auto;border-radius:12px}.done{background:#e7f0ff}.progress{background:#e8f7eb}.deadline{background:#ffe7e7}.waiting{background:#fff8df}
-.badges{display:flex;gap:7px;flex-wrap:wrap}.badge{background:#edf4f1;border-radius:20px;padding:6px 10px;font-size:13px}.empty{text-align:center;padding:25px;color:#75847f}
-.teamitem{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f7faf8;border:1px solid #e2ebe7;padding:12px;border-radius:13px;margin:8px 0}
-.small{font-size:13px;color:#687873}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}.stat{background:#f5f9f7;border-radius:13px;padding:14px;text-align:center}.stat b{font-size:23px;display:block}
-.taskcards{grid-template-columns:repeat(4,1fr)!important}.mini-card{min-height:115px!important}.mini-card h3{font-size:14px}.mini-card>b{font-size:22px;display:block;color:#116b52}
-@media(max-width:650px){.taskcards{grid-template-columns:1fr 1fr!important}}
+*{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:#f3f7f5;color:#17352d;font-family:Tahoma,Arial,sans-serif;font-size:14px}
+button,input,select,textarea{font:inherit;max-width:100%}button{cursor:pointer;border:0}.app{width:100%;max-width:1050px;margin:auto;overflow-x:hidden}
+header{background:#116b52;color:#fff;padding:22px 14px 26px;border-radius:0 0 24px 24px;text-align:center}
+header h1{margin:0 0 6px;font-size:22px}header p{margin:0;opacity:.9;font-size:13px}
+main{padding:12px}.panel{display:none;background:#fff;border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 4px 16px #0000000c;max-width:100%;overflow:hidden}.panel.active{display:block}
+.cardgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:#fff;border-radius:16px;padding:16px 9px;min-height:118px;box-shadow:0 3px 14px #0000000b;text-align:center;min-width:0}.card .ico{font-size:32px}.card h3{margin:7px 0 0;font-size:14px;line-height:1.5}
+.userbox{background:#fff;border-radius:18px;padding:15px;margin-bottom:13px;box-shadow:0 3px 14px #0000000b;max-width:100%;overflow:hidden}
+label{display:block;margin:9px 0 5px;font-weight:bold;font-size:13px}input,select,textarea{width:100%;border:1px solid #d8e1dd;border-radius:10px;padding:9px;background:#fff;color:#17352d;font-size:13px}textarea{min-height:85px;resize:vertical}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.primary,.secondary,.danger{padding:9px 12px;border-radius:10px;font-size:13px}.primary{background:#116b52;color:#fff}.secondary{background:#e7f1ed;color:#116b52}.danger{background:#fbe7e7;color:#a62929}
+table{width:100%;border-collapse:collapse;min-width:0;table-layout:auto;font-size:11px}th,td{padding:7px 5px;border:1px solid #dfe7e3;text-align:right;vertical-align:top;overflow-wrap:anywhere;word-break:break-word}th{background:#edf4f1}
+.tablewrap{width:100%;max-width:100%;overflow-x:auto;border-radius:10px}.done{background:#e7f0ff}.progress{background:#e8f7eb}.deadline{background:#ffe7e7}.waiting{background:#fff8df}
+.badges{display:flex;gap:5px;flex-wrap:wrap}.badge{background:#edf4f1;border-radius:18px;padding:5px 8px;font-size:11px}.empty{text-align:center;padding:20px;color:#75847f}
+.teamitem{display:flex;justify-content:space-between;align-items:center;gap:7px;background:#f7faf8;border:1px solid #e2ebe7;padding:9px;border-radius:11px;margin:6px 0;font-size:13px;min-width:0;overflow-wrap:anywhere}
+.small{font-size:11px;color:#687873}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}.stat{background:#f5f9f7;border-radius:11px;padding:10px;text-align:center;min-width:0}.stat b{font-size:20px;display:block}
+.taskcards{grid-template-columns:repeat(4,minmax(0,1fr))!important}.mini-card{min-height:100px!important}.mini-card h3{font-size:12px}.mini-card>b{font-size:20px;display:block;color:#116b52}
+@media(max-width:650px){.taskcards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.cardgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.card{min-height:105px;padding:13px 7px}.card .ico{font-size:29px}.card h3{font-size:12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}header h1{font-size:19px}main{padding:9px}.panel{padding:11px}.topline{gap:6px}.back,.logout-btn{padding:8px 11px;font-size:12px}.calhead button{padding:7px 10px;font-size:12px}.days button,.blank{height:34px;font-size:12px}}
 .hidden{display:none!important}.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.back{background:#c62828!important;color:#fff!important;font-weight:bold;padding:10px 15px;border-radius:11px;box-shadow:0 2px 6px #0002}
 .back:hover{background:#a91f1f!important}
 .logout-btn{background:#c62828!important;color:#fff!important;font-weight:bold;padding:10px 15px;border-radius:11px;box-shadow:0 2px 6px #0002}
@@ -40,7 +40,7 @@ table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px;bor
 <h2>👤 انتخاب کاربر</h2>
 <p class="small">کاربر را انتخاب کنید تا کارتابل مربوط به همان شخص نمایش داده شود.</p>
 <label>نام کاربری</label><select id="userSelect"></select>
-<label>رمز عبور</label><input id="loginPassword" type="password" inputmode="numeric" placeholder="رمز عبور">
+<label>رمز عبور</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="رمز عبور">
 <div class="small" style="margin-top:8px">رمز اولیه همه کاربران: ۱</div>
 <div class="small">مدیر دپارتمان: آقای شریفی</div>
 <div class="actions"><button class="primary" onclick="enterApp()">🔐 ورود به کارتابل</button></div>
@@ -49,15 +49,16 @@ table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px;bor
 
 <section id="home" class="panel">
 <div class="userbox">
-<div class="topline"><h2 id="welcome">کارتابل</h2><button class="logout-btn" onclick="logout()">⛔ خروج</button></div>
-<div id="homeStats"></div>
+<div class="topline"><h2 id="welcome">کارتابل</h2><div class="actions" style="margin:0;gap:8px"><button class="secondary" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn" onclick="logout()">⛔ خروج</button></div></div>
+<div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
 </div>
 <div class="userbox">
 <h3 style="margin-top:0">📌 وضعیت تسک‌های گروه</h3>
 <div class="cardgrid taskcards">
-<button class="card mini-card" onclick="showTaskView('all')"><div class="ico">📋</div><h3>کل تسک‌های گروه</h3><b id="groupAllCount">۰</b></button>
-<button class="card mini-card" onclick="showTaskView('done')"><div class="ico">✅</div><h3>تسک‌های انجام شده</h3><b id="groupDoneCount">۰</b></button>
-<button class="card mini-card" onclick="showTaskView('open')"><div class="ico">🔓</div><h3>تسک‌های باز</h3><b id="groupOpenCount">۰</b></button>
+<button class="card mini-card" onclick="showTaskView('all')"><div class="ico">📋</div><h3>کل تسک‌ها</h3><b id="groupAllCount">۰</b></button>
+<button class="card mini-card" onclick="showTaskView('current')"><div class="ico">🔄</div><h3>تسک‌های جاری</h3><b id="groupCurrentCount">۰</b></button>
+<button class="card mini-card" onclick="showTaskView('completed')"><div class="ico">✅</div><h3>تسک‌های پایان‌یافته</h3><b id="groupCompletedCount">۰</b></button>
+<button class="card mini-card" onclick="showTaskView('overdue')"><div class="ico">⏰</div><h3>تسک‌های دارای ددلاین گذشته</h3><b id="groupOverdueCount">۰</b></button>
 <button class="card mini-card" onclick="showTaskView('reviewed')"><div class="ico">⭐</div><h3>تسک‌های ارزیابی‌شده توسط مدیر</h3><b id="groupReviewedCount">۰</b></button>
 </div>
 </div>
@@ -100,7 +101,11 @@ table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px;bor
 <section id="today" class="panel"><div class="topline"><h2>📋 فعالیت‌های امروز</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="todayContent"></div></section>
 
 <section id="weekly" class="panel"><div class="topline"><h2>📊 گزارش هفتگی</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
-<label>هفته موردنظر</label><select id="weekSelect" onchange="renderWeekly()"></select><div id="weeklyStats"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th></tr></thead><tbody id="weeklyBody"></tbody></table></div>
+<div class="userbox" style="margin-top:12px"><h3 style="margin-top:0">🗓️ انتخاب بازه هفته</h3><p class="small">ابتدا و انتهای هفته را با تقویم فارسی انتخاب کنید. بازه می‌تواند هر تاریخی باشد و محدود به هفته‌های از پیش تعریف‌شده نیست.</p>
+<label>ابتدای هفته</label><div class="actions" style="margin:0"><input id="weekStart" placeholder="۱۴۰۵/۰۶/۲۱" inputmode="numeric" onchange="renderWeekly()"><button class="secondary" type="button" onclick="openCalendar('weekStart')">📅 تقویم فارسی</button></div>
+<label>انتهای هفته</label><div class="actions" style="margin:0"><input id="weekEnd" placeholder="۱۴۰۵/۰۶/۲۷" inputmode="numeric" onchange="renderWeekly()"><button class="secondary" type="button" onclick="openCalendar('weekEnd')">📅 تقویم فارسی</button></div>
+<div class="actions"><button class="secondary" type="button" onclick="setCurrentWeek()">↔️ هفته جاری</button></div></div>
+<div id="weeklyStats"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th></tr></thead><tbody id="weeklyBody"></tbody></table></div>
 <div class="actions"><button class="primary" onclick="exportActivities('week')">📊 خروجی Excel</button><button class="secondary" onclick="printActivities('week')">📄 چاپ / PDF</button></div></section>
 
 <section id="monthly" class="panel"><div class="topline"><h2>📅 گزارش ماهانه</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="monthlyStats"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>Deadline</th></tr></thead><tbody id="monthlyBody"></tbody></table></div><div class="actions"><button class="primary" onclick="exportActivities('month')">📊 خروجی Excel</button><button class="secondary" onclick="printActivities('month')">📄 چاپ / PDF</button></div></section>
@@ -129,7 +134,15 @@ table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px;bor
 <section id="settings" class="panel"><div class="topline"><h2>⚙️ تنظیمات و پشتیبان‌گیری</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
 <p class="small">اطلاعات در همین دستگاه و به‌صورت آفلاین ذخیره می‌شود.</p>
 <div class="actions"><button class="primary" onclick="backup()">📤 پشتیبان‌گیری</button><button class="secondary" onclick="document.getElementById('restoreFile').click()">📥 بازیابی</button><input id="restoreFile" class="hidden" type="file" accept=".json" onchange="restore(this.files[0])"><button class="danger" onclick="resetData()">حذف اطلاعات فعالیت‌ها</button></div>
-<div id="settingsContent"></div></section>
+<div id="settingsContent"></div>
+<div class="userbox" style="margin-top:14px">
+<h3 style="margin-top:0">🔐 تغییر رمز عبور</h3>
+<p class="small">هر کاربر می‌تواند رمز عبور حساب خودش را تغییر دهد. رمز جدید برای ورودهای بعدی استفاده می‌شود.</p>
+<label>رمز فعلی</label><input id="oldPassword" type="password" autocomplete="current-password" placeholder="رمز فعلی">
+<label>رمز جدید</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="رمز جدید">
+<label>تکرار رمز جدید</label><input id="confirmPassword" type="password" autocomplete="new-password" placeholder="تکرار رمز جدید">
+<div class="actions"><button class="primary" onclick="changePassword()">🔑 تغییر رمز</button></div>
+</div></section>
 </main>
 </div>
 
@@ -140,11 +153,12 @@ table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px;bor
 </div></div>
 
 <script>
-const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings';
+const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings', MANAGERPASSKEY=KEY+'_manager_password';
 const DEFAULT_TEAM=[
 {name:'شفیعی',role:'پشتیبان سمپ',password:'1'},{name:'دری',role:'طراح نرم‌افزار',password:'1'},
 {name:'عینی',role:'سخت‌افزار و پروژه دیتابیس',password:'1'},{name:'عطاریان',role:'پشتیبان شبکه و ساپورت فنی',password:'1'}];
 let team=JSON.parse(localStorage.getItem(TEAMKEY)||'null'); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM; else team=team.map(x=>Object.assign({},x,{password:x.password||'1'}));
+let managerPassword=localStorage.getItem(MANAGERPASSKEY)||'1';
 let data=JSON.parse(localStorage.getItem(KEY)||'[]'); let meetings=JSON.parse(localStorage.getItem(MEETKEY)||'[]');
 let currentUser='', calTarget='', calY=1405, calM=1;
 const jmonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
@@ -191,7 +205,7 @@ function jstrToG(s){let x=enDigits(s).replace(/-/g,'/').split('/').map(Number);i
 function gToJ(s){let x=s.split('-').map(Number),j=g2j(x[0],x[1],x[2]);return j[0]+'/'+pad(j[1])+'/'+pad(j[2])}
 function validDate(s){return !!jstrToG(s)}
 function fmtDate(v){if(!v)return '';let s=String(v);return /^\d{4}-\d{2}-\d{2}$/.test(s)?faDigits(gToJ(s)):faDigits(s)}
-function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings))}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings));localStorage.setItem(MANAGERPASSKEY,managerPassword)}
 function members(){return team.map(x=>x.name)}
 function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
 
@@ -204,7 +218,8 @@ function fillSelectors(){
 function enterApp(){
  let u=document.getElementById('userSelect').value, p=document.getElementById('loginPassword').value;
  if(!u){alert('لطفاً نام کاربری را انتخاب کنید.');return}
- if(p!=='1'){alert('رمز عبور نادرست است.');return}
+ let accountPass=u==='مدیر'?managerPassword:(team.find(x=>x.name===u)?.password||'1');
+ if(p!==accountPass){alert('رمز عبور نادرست است.');return}
  currentUser=u; document.getElementById('loginPassword').value='';
  document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان — آقای شریفی':'کارتابل '+u;
  showPanel('home'); renderHome()
@@ -212,14 +227,17 @@ function enterApp(){
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value=''}
 function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 function renderHome(){
- let a=ownerData(),done=a.filter(x=>x.status==='انجام شد').length,open=a.length-done,reviewed=a.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length;
- document.getElementById('homeStats').innerHTML=`<div class="stats"><div class="stat"><b>${faDigits(a.length)}</b>کل فعالیت</div><div class="stat"><b>${faDigits(done)}</b>انجام‌شده</div><div class="stat"><b>${faDigits(open)}</b>باز</div><div class="stat"><b>${faDigits(reviewed)}</b>ارزیابی‌شده</div></div><div class="small">${currentUser==='مدیر'?'نمایش اطلاعات کل تیم':'نمایش فعالیت‌های ثبت‌شده برای '+esc(currentUser)}</div>`;
-;
  let tasks=data.filter(x=>x.type==='تسک');
+ const todayG=normalizeStoredDate(today());
+ const current=tasks.filter(x=>x.status!=='انجام شد' && x.status!=='لغو شد');
+ const completed=tasks.filter(x=>x.status==='انجام شد');
+ const overdue=tasks.filter(x=>x.deadline && normalizeStoredDate(x.deadline)<todayG);
+ const reviewed=tasks.filter(x=>x.managerApproval && x.managerApproval!=='در انتظار بررسی');
  document.getElementById('groupAllCount').textContent=faDigits(tasks.length);
- document.getElementById('groupDoneCount').textContent=faDigits(tasks.filter(x=>x.status==='انجام شد').length);
- document.getElementById('groupOpenCount').textContent=faDigits(tasks.filter(x=>x.status!=='انجام شد' && x.status!=='لغو شد').length);
- document.getElementById('groupReviewedCount').textContent=faDigits(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length);
+ document.getElementById('groupCurrentCount').textContent=faDigits(current.length);
+ document.getElementById('groupCompletedCount').textContent=faDigits(completed.length);
+ document.getElementById('groupOverdueCount').textContent=faDigits(overdue.length);
+ document.getElementById('groupReviewedCount').textContent=faDigits(reviewed.length);
 }
 
 function rowClass(x){if(x.deadline)return 'deadline';if(x.status==='انجام شد')return 'done';if(x.status==='در حال انجام')return 'progress';return 'waiting'}
@@ -235,34 +253,56 @@ function renderToday(){
  '<div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th></tr></thead><tbody>'+
  activityRows(a)+'</tbody></table></div>';
 }
+function getCurrentWeekRange(){
+ const now=new Date();
+ const day=now.getDay();
+ const start=new Date(now); start.setHours(12,0,0,0); start.setDate(now.getDate()-(day===6?0:day+1));
+ const end=new Date(start); end.setDate(start.getDate()+6);
+ const a=start.getFullYear()+'-'+pad(start.getMonth()+1)+'-'+pad(start.getDate());
+ const b=end.getFullYear()+'-'+pad(end.getMonth()+1)+'-'+pad(end.getDate());
+ return [gToJ(a),gToJ(b)];
+}
+function setCurrentWeek(){
+ const r=getCurrentWeekRange();
+ document.getElementById('weekStart').value=faDigits(r[0]);
+ document.getElementById('weekEnd').value=faDigits(r[1]);
+ renderWeekly();
+}
 function weekOptions(){
- const sel=document.getElementById('weekSelect'); if(!sel)return;
- const all=data.map(x=>normalizeStoredDate(x.date)).filter(Boolean);
- const ranges=[];
- function addRange(d){
-   const dt=new Date(d+'T12:00:00'); if(isNaN(dt.getTime()))return;
-   const day=dt.getDay(), s=new Date(dt); s.setDate(dt.getDate()-day);
-   const e=new Date(s); e.setDate(s.getDate()+6);
-   const a=s.getFullYear()+'-'+pad(s.getMonth()+1)+'-'+pad(s.getDate());
-   const b=e.getFullYear()+'-'+pad(e.getMonth()+1)+'-'+pad(e.getDate());
-   const key=a+'|'+b; if(!ranges.some(r=>r.key===key))ranges.push({key,a,b});
- }
- all.forEach(addRange); addRange(today());
- ranges.sort((x,y)=>y.a.localeCompare(x.a));
- sel.innerHTML=ranges.length?ranges.map(r=>'<option value="'+r.key+'">'+fmtDate(r.a)+' تا '+fmtDate(r.b)+'</option>').join(''):'<option value="">هفته‌ای برای گزارش وجود ندارد</option>';
+ // Kept for backward compatibility with older calls; the weekly report now uses a free Persian date range.
+ setCurrentWeek();
 }
 function showTaskView(kind){
  const tasks=data.filter(x=>x.type==='تسک'); let arr=tasks;
- const titles={all:'📋 کل تسک‌های گروه',done:'✅ تسک‌های انجام شده',open:'🔓 تسک‌های باز',reviewed:'⭐ تسک‌های ارزیابی‌شده توسط مدیر'};
- if(kind==='done')arr=tasks.filter(x=>x.status==='انجام شد');
- if(kind==='open')arr=tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد');
+ const todayG=normalizeStoredDate(today());
+ const titles={all:'📋 کل تسک‌ها',current:'🔄 تسک‌های جاری',completed:'✅ تسک‌های پایان‌یافته',overdue:'⏰ تسک‌هایی که ددلاین آنها گذشته است',reviewed:'⭐ تسک‌های ارزیابی‌شده توسط مدیر'};
+ if(kind==='current')arr=tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد');
+ if(kind==='completed')arr=tasks.filter(x=>x.status==='انجام شد');
+ if(kind==='overdue')arr=tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG);
  if(kind==='reviewed')arr=tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی');
  document.getElementById('taskViewTitle').textContent=titles[kind]||titles.all;
  document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span>';
  document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>'<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
  showPanel('groupTasks');
 }
-function renderWeekly(){let v=document.getElementById('weekSelect').value;if(!v)return;let [a,b]=v.split('|');let arr=ownerData().filter(x=>normalizeStoredDate(x.date)>=a&&normalizeStoredDate(x.date)<=b);document.getElementById('weeklyStats').innerHTML=`<div class="badges"><span class="badge">کل: ${faDigits(arr.length)}</span><span class="badge">انجام‌شده: ${faDigits(arr.filter(x=>x.status==='انجام شد').length)}</span></div>`;document.getElementById('weeklyBody').innerHTML=activityRows(arr)}
+function renderWeekly(){
+ const ws=document.getElementById('weekStart')?.value.trim()||'', we=document.getElementById('weekEnd')?.value.trim()||'';
+ const a=validDate(ws)?normalizeStoredDate(jstrToG(ws)):'';
+ const b=validDate(we)?normalizeStoredDate(jstrToG(we)):'';
+ if(!a||!b){
+   document.getElementById('weeklyStats').innerHTML='<div class="empty">لطفاً تاریخ ابتدای و انتهای هفته را با تقویم فارسی انتخاب کنید.</div>';
+   document.getElementById('weeklyBody').innerHTML='<tr><td colspan="7" class="empty">بازه گزارش هنوز انتخاب نشده است.</td></tr>';
+   return;
+ }
+ if(a>b){
+   document.getElementById('weeklyStats').innerHTML='<div class="empty">تاریخ انتهای هفته باید مساوی یا بعد از ابتدای هفته باشد.</div>';
+   document.getElementById('weeklyBody').innerHTML='<tr><td colspan="7" class="empty">بازه تاریخ نامعتبر است.</td></tr>';
+   return;
+ }
+ let arr=ownerData().filter(x=>{let d=normalizeStoredDate(x.date);return d>=a&&d<=b});
+ document.getElementById('weeklyStats').innerHTML='<div class="badges"><span class="badge">بازه: '+fmtDate(a)+' تا '+fmtDate(b)+'</span><span class="badge">کل: '+faDigits(arr.length)+'</span><span class="badge">انجام‌شده: '+faDigits(arr.filter(x=>x.status==='انجام شد').length)+'</span></div>';
+ document.getElementById('weeklyBody').innerHTML=activityRows(arr);
+}
 function renderMonthly(){let now=new Date(),a=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-01',b=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-31',arr=ownerData().filter(x=>x.date>=a&&x.date<=b);document.getElementById('monthlyStats').innerHTML=`<div class="badges"><span class="badge">کل فعالیت این ماه: ${faDigits(arr.length)}</span></div>`;document.getElementById('monthlyBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">در این ماه داده‌ای وجود ندارد.</td></tr>'}
 
 function saveActivity(){
@@ -386,14 +426,32 @@ function saveReview(id){
   renderReviews();
   renderHome();
 }
-function renderSettings(){document.getElementById('settingsContent').innerHTML=`<div class="stats"><div class="stat"><b>${faDigits(data.length)}</b>فعالیت</div><div class="stat"><b>${faDigits(team.length)}</b>کارشناس</div><div class="stat"><b>${faDigits(meetings.length)}</b>نوبت جلسه</div></div>`}
+function renderSettings(){document.getElementById('settingsContent').innerHTML=`<div class="stats"><div class="stat"><b>${faDigits(data.length)}</b>فعالیت</div><div class="stat"><b>${faDigits(team.length)}</b>کارشناس</div><div class="stat"><b>${faDigits(meetings.length)}</b>نوبت جلسه</div></div><div class="small" style="margin-top:10px">حساب فعال: <b>${esc(currentUser||'—')}</b></div>`}
+function openChangePassword(){
+ showPanel('settings');
+ renderSettings();
+ setTimeout(()=>{const el=document.getElementById('oldPassword'); if(el) el.focus()},50);
+}
+function changePassword(){
+ if(!currentUser){alert('ابتدا وارد حساب خود شوید.');return}
+ const oldP=document.getElementById('oldPassword').value, newP=document.getElementById('newPassword').value, confirmP=document.getElementById('confirmPassword').value;
+ const accountPass=currentUser==='مدیر'?managerPassword:(team.find(x=>x.name===currentUser)?.password||'1');
+ if(oldP!==accountPass){alert('رمز فعلی نادرست است.');return}
+ if(!newP){alert('رمز جدید را وارد کنید.');return}
+ if(newP!==confirmP){alert('تکرار رمز جدید با رمز جدید یکسان نیست.');return}
+ if(newP===oldP){alert('رمز جدید باید با رمز فعلی متفاوت باشد.');return}
+ if(currentUser==='مدیر'){managerPassword=newP}else{const m=team.find(x=>x.name===currentUser);if(!m){alert('کاربر پیدا نشد.');return}m.password=newP}
+ save();
+ document.getElementById('oldPassword').value='';document.getElementById('newPassword').value='';document.getElementById('confirmPassword').value='';
+ alert('رمز عبور با موفقیت تغییر کرد.');
+}
 function backup(){let blob=new Blob([JSON.stringify({data,team,meetings},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='پشتیبان_داشبورد.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function restore(file){if(!file)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x.data)||!Array.isArray(x.team)||!Array.isArray(x.meetings))throw 0;data=x.data;team=x.team;meetings=x.meetings;save();fillSelectors();renderSettings();alert('بازیابی با موفقیت انجام شد.')}catch(e){alert('فایل پشتیبان معتبر نیست.')}};r.readAsText(file)}
 function resetData(){if(!confirm('فعالیت‌ها و ارزیابی‌ها حذف شوند؟ اعضای گروه و آرشیو هیئت عمومی باقی می‌مانند.'))return;data=[];save();renderSettings();renderHome()}
 
 function downloadCSV(rows,name){let csv='\uFEFF'+rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function exportActivities(kind){let arr=ownerData();if(kind==='week'){let v=document.getElementById('weekSelect').value;if(v){let [a,b]=v.split('|');arr=arr.filter(x=>x.date>=a&&x.date<=b)}}else if(kind==='month'){let now=new Date(),a=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-01',b=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-31';arr=arr.filter(x=>x.date>=a&&x.date<=b)}let rows=[['تاریخ','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline'],...arr.map(x=>[fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence,x.letter,fmtDate(x.letterDate),x.unit,fmtDate(x.deadline)])];downloadCSV(rows,'گزارش_فعالیت.csv')}
-function printActivities(kind){let arr=ownerData();if(kind==='week'){let [a,b]=document.getElementById('weekSelect').value.split('|');arr=arr.filter(x=>x.date>=a&&x.date<=b)}if(kind==='month'){let n=new Date(),a=n.getFullYear()+'-'+pad(n.getMonth()+1)+'-01',b=n.getFullYear()+'-'+pad(n.getMonth()+1)+'-31';arr=arr.filter(x=>x.date>=a&&x.date<=b)}let rows=arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${fmtDate(x.deadline)}</td></tr>`).join('');printHTML('<h2>گزارش فعالیت</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr>'+rows+'</table>')}
+function exportActivities(kind){let arr=ownerData();if(kind==='week'){let ws=document.getElementById('weekStart')?.value.trim()||'',we=document.getElementById('weekEnd')?.value.trim()||'',a=validDate(ws)?jstrToG(ws):'',b=validDate(we)?jstrToG(we):'';if(!a||!b||a>b){alert('ابتدا و انتهای هفته را به‌درستی انتخاب کنید.');return}arr=arr.filter(x=>normalizeStoredDate(x.date)>=normalizeStoredDate(a)&&normalizeStoredDate(x.date)<=normalizeStoredDate(b))}else if(kind==='month'){let now=new Date(),a=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-01',b=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-31';arr=arr.filter(x=>x.date>=a&&x.date<=b)}let rows=[['تاریخ','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline'],...arr.map(x=>[fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence,x.letter,fmtDate(x.letterDate),x.unit,fmtDate(x.deadline)])];downloadCSV(rows,'گزارش_فعالیت.csv')}
+function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=document.getElementById('weekStart')?.value.trim()||'',we=document.getElementById('weekEnd')?.value.trim()||'',a=validDate(ws)?jstrToG(ws):'',b=validDate(we)?jstrToG(we):'';if(!a||!b||a>b){alert('ابتدا و انتهای هفته را به‌درستی انتخاب کنید.');return}arr=arr.filter(x=>normalizeStoredDate(x.date)>=normalizeStoredDate(a)&&normalizeStoredDate(x.date)<=normalizeStoredDate(b))}if(kind==='month'){let n=new Date(),a=n.getFullYear()+'-'+pad(n.getMonth()+1)+'-01',b=n.getFullYear()+'-'+pad(n.getMonth()+1)+'-31';arr=arr.filter(x=>x.date>=a&&x.date<=b)}let rows=arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${fmtDate(x.deadline)}</td></tr>`).join('');printHTML('<h2>گزارش فعالیت</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr>'+rows+'</table>')}
 function printHTML(content){let w=window.open('','_blank');if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}w.document.write('<html lang="fa" dir="rtl"><head><meta charset="utf-8"><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>'+content+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}
 
 function openCalendar(target){calTarget=target;let v=document.getElementById(target).value.trim(),m=enDigits(v).match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/);if(m){calY=+m[1];calM=+m[2]}else{let j=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());calY=j[0];calM=j[1]}renderCalendar();document.getElementById('calModal').classList.add('show')}
