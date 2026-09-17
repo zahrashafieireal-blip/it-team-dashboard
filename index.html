@@ -180,184 +180,6 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
  .home-register-btn{padding:8px 9px;font-size:10px;}
 }
 </style>
-<style id="home-actions-vertical-left">
-.home-title-row{position:relative;min-height:132px!important;padding-left:0!important;align-items:flex-start!important;}
-.home-title-main{width:100%!important;display:block!important;}
-.home-title-main h2{padding-left:145px!important;}
-.home-header-actions{position:absolute!important;left:0!important;top:0!important;margin:0!important;width:auto!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:7px!important;flex-wrap:nowrap!important;}
-.home-header-actions .home-register-btn,.home-header-actions .home-action-btn{position:static!important;order:initial!important;width:auto!important;}
-@media(max-width:650px){
- .home-title-row{min-height:126px!important;}
- .home-title-main h2{padding-left:132px!important;font-size:16px;}
- .home-header-actions{left:0!important;top:0!important;}
-}
-@media(max-width:380px){
- .home-title-row{min-height:120px!important;}
- .home-title-main h2{padding-left:120px!important;font-size:14px;}
-}
-</style>
-
-<style id="dynamic-profile-card">
-.profile-dashboard-card{position:relative;display:grid;grid-template-columns:minmax(260px,1fr) 1px minmax(0,1.35fr);gap:22px;align-items:center;padding:22px 24px!important;border:1px solid #e1eee8;background:linear-gradient(135deg,#eefaf5 0%,#ffffff 58%,#f4fbf8 100%);box-shadow:0 12px 30px rgba(17,107,82,.09);overflow:hidden}
-.profile-dashboard-card:before{content:"";position:absolute;left:-80px;top:-100px;width:430px;height:330px;border-radius:50%;background:rgba(171,231,210,.18);pointer-events:none}
-.profile-actions{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px;width:100%}
-.profile-actions button{width:100%;min-height:58px;border-radius:18px;border:1px solid transparent;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;gap:12px;transition:transform .15s,box-shadow .15s}
-.profile-actions button:active{transform:scale(.985)}
-.profile-main-action{min-height:66px!important;border-radius:19px!important;font-size:18px!important;box-shadow:0 8px 18px rgba(17,107,82,.18)!important}
-.profile-main-action .plus{font-size:30px;line-height:1;font-weight:400}
-.profile-action{background:rgba(255,255,255,.8);color:#174d3d;border-color:#b9d9cc!important;box-shadow:0 4px 12px rgba(17,107,82,.05)}
-.profile-password .action-icon{background:#e6f4ee;border-radius:12px;padding:7px 10px}
-.profile-logout{background:#fff0f1!important;color:#c51f2d!important;border-color:#f3b9bf!important}
-.profile-logout .action-icon{font-size:27px;font-weight:900}
-.profile-divider{position:relative;z-index:1;width:1px;height:150px;background:linear-gradient(to bottom,transparent,#8dc8b3,transparent)}
-.profile-identity{position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-start;gap:28px;direction:rtl;min-width:0;padding-right:8px}
-.profile-text{min-width:0;text-align:right;flex:1}
-.profile-text h2{margin:0 0 12px!important;font-size:31px!important;line-height:1.35!important;color:#123c30!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.profile-role{display:inline-flex;align-items:center;gap:8px;background:#e3f3ed;color:#14644e;border-radius:20px;padding:9px 18px;font-size:17px;font-weight:800;line-height:1.3;max-width:100%}
-.profile-role:before{content:"👤";font-size:19px}
-.profile-avatar{width:145px;height:145px;flex:0 0 145px;border-radius:50%;background:#dff1eb;border:9px solid #fff;box-shadow:0 7px 20px rgba(17,107,82,.16);position:relative;overflow:hidden}
-.profile-avatar:after{content:"";position:absolute;right:2px;bottom:3px;width:27px;height:27px;border-radius:50%;background:#18c45a;border:4px solid #fff;z-index:8}
-.avatar-head{position:absolute;width:55px;height:68px;border-radius:45% 45% 48% 48%;background:#f3b083;left:36px;top:30px;z-index:3}
-.avatar-hair{position:absolute;width:68px;height:54px;border-radius:50% 50% 25% 25%;background:#182c2b;left:30px;top:18px;z-index:4}
-.avatar-body{position:absolute;width:110px;height:70px;border-radius:55% 55% 0 0;background:#276f5c;left:18px;bottom:-5px;z-index:2}
-.avatar-shirt{background:#233c49}.avatar-glasses{position:absolute;left:31px;top:56px;width:73px;height:20px;z-index:6}.avatar-glasses:before,.avatar-glasses:after{content:"";position:absolute;top:0;width:28px;height:15px;border:3px solid #263938;border-radius:6px;background:rgba(255,255,255,.12)}.avatar-glasses:before{left:1px}.avatar-glasses:after{right:1px}.avatar-glasses i{position:absolute;left:28px;top:6px;width:17px;height:3px;background:#263938}.avatar-beard{position:absolute;width:47px;height:28px;left:40px;top:76px;border-radius:10px 10px 45% 45%;background:#283735;z-index:5}.avatar-beard:before{content:"";position:absolute;width:33px;height:18px;left:7px;top:-7px;border-radius:50%;background:#f3b083}
-.avatar-hijab{position:absolute;inset:12px 16px 8px;border-radius:45% 45% 34% 34%;background:#1b252b;z-index:4}.avatar-hijab .face{position:absolute;width:55px;height:68px;border-radius:45% 45% 48% 48%;background:#f3b083;left:27px;top:25px}.avatar-hijab:after{content:"";position:absolute;left:7px;right:7px;bottom:-2px;height:52px;border-radius:45% 45% 25% 25%;background:#162126}
-@media(max-width:650px){.profile-dashboard-card{grid-template-columns:minmax(0,1fr) 1px minmax(0,1.15fr);gap:12px;padding:16px 12px!important}.profile-actions button{min-height:50px;font-size:13px;border-radius:15px}.profile-main-action{min-height:57px!important;font-size:15px!important}.profile-main-action .plus{font-size:25px}.profile-divider{height:125px}.profile-identity{gap:10px;padding-right:0}.profile-text h2{font-size:20px!important;margin-bottom:8px!important}.profile-role{font-size:12px;padding:7px 10px}.profile-avatar{width:92px;height:92px;flex-basis:92px;border-width:6px}.avatar-head{width:37px;height:45px;left:23px;top:21px}.avatar-hair{width:46px;height:36px;left:18px;top:12px}.avatar-body{width:70px;height:46px;left:11px}.avatar-glasses{left:19px;top:37px;width:49px;height:14px}.avatar-glasses:before,.avatar-glasses:after{width:19px;height:10px;border-width:2px}.avatar-glasses:after{right:1px}.avatar-glasses i{left:20px;top:4px;width:10px;height:2px}.avatar-beard{width:32px;height:20px;left:30px;top:50px}.avatar-beard:before{width:23px;height:12px;left:5px;top:-5px}.avatar-hijab{inset:8px 10px 5px}.avatar-hijab .face{width:37px;height:45px;left:17px;top:17px}.avatar-hijab:after{left:4px;right:4px;height:34px}.profile-avatar:after{width:20px;height:20px;border-width:3px;right:0;bottom:0}}
-@media(max-width:380px){.profile-dashboard-card{gap:8px;padding:12px 9px!important}.profile-actions button{font-size:11px;min-height:45px}.profile-main-action{font-size:13px!important}.profile-role{font-size:10px;padding:6px 7px}.profile-text h2{font-size:17px!important}.profile-avatar{width:78px;height:78px;flex-basis:78px}}
-</style>
-
-<style id="final-profile-ui-v3">
-/* Final profile/header alignment based on approved mobile mockup */
-header{
-  padding:34px 14px 30px !important;
-  min-height:112px;
-  box-sizing:border-box;
-}
-header h1{
-  color:#d9e0df !important;
-  font-weight:800 !important;
-  font-size:21px !important;
-  line-height:1.6 !important;
-  margin:0 !important;
-  text-align:center !important;
-}
-header p{display:none !important;}
-
-.profile-dashboard-card{
-  direction:ltr !important;
-  grid-template-columns:minmax(0,0.92fr) 1px minmax(0,1.08fr) !important;
-  align-items:center !important;
-  gap:18px !important;
-  padding:18px 18px !important;
-}
-.profile-actions{
-  direction:rtl !important;
-  width:100% !important;
-  order:1 !important;
-}
-.profile-divider{order:2 !important;}
-.profile-identity{
-  direction:rtl !important;
-  order:3 !important;
-  justify-content:flex-start !important;
-  gap:16px !important;
-  padding:0 !important;
-}
-.profile-text{
-  text-align:right !important;
-  flex:1 1 auto !important;
-  min-width:0 !important;
-}
-.profile-text h2{
-  white-space:normal !important;
-  overflow:visible !important;
-  text-overflow:clip !important;
-  font-size:26px !important;
-  line-height:1.35 !important;
-  margin:0 0 8px !important;
-}
-.profile-role{
-  white-space:normal !important;
-  font-size:15px !important;
-  line-height:1.35 !important;
-  padding:8px 13px !important;
-  justify-content:center !important;
-}
-.profile-avatar{
-  order:2 !important;
-  flex:0 0 118px !important;
-  width:118px !important;
-  height:118px !important;
-}
-
-@media(max-width:650px){
-  header{
-    padding:30px 12px 27px !important;
-    min-height:105px !important;
-  }
-  header h1{
-    font-size:19px !important;
-    line-height:1.55 !important;
-  }
-  .profile-dashboard-card{
-    direction:ltr !important;
-    grid-template-columns:minmax(0,1fr) 1px minmax(0,1.08fr) !important;
-    gap:10px !important;
-    padding:14px 12px !important;
-  }
-  .profile-actions{gap:9px !important;}
-  .profile-actions button{
-    min-height:49px !important;
-    font-size:13px !important;
-    border-radius:15px !important;
-  }
-  .profile-main-action{
-    min-height:57px !important;
-    font-size:15px !important;
-  }
-  .profile-main-action .plus{font-size:27px !important;}
-  .profile-divider{height:126px !important;}
-  .profile-identity{
-    gap:9px !important;
-    padding:0 !important;
-  }
-  .profile-avatar{
-    flex:0 0 94px !important;
-    width:94px !important;
-    height:94px !important;
-    border-width:6px !important;
-  }
-  .profile-text h2{
-    font-size:20px !important;
-    line-height:1.35 !important;
-    margin-bottom:7px !important;
-  }
-  .profile-role{
-    font-size:12px !important;
-    padding:7px 9px !important;
-    line-height:1.35 !important;
-  }
-}
-@media(max-width:380px){
-  header{padding:27px 10px 24px !important;min-height:98px !important;}
-  header h1{font-size:17px !important;}
-  .profile-dashboard-card{gap:7px !important;padding:11px 9px !important;}
-  .profile-actions{gap:7px !important;}
-  .profile-actions button{min-height:44px !important;font-size:11px !important;}
-  .profile-main-action{min-height:51px !important;font-size:13px !important;}
-  .profile-avatar{flex-basis:82px !important;width:82px !important;height:82px !important;}
-  .profile-text h2{font-size:17px !important;}
-  .profile-role{font-size:10px !important;padding:6px 7px !important;}
-}
-</style>
-
-
-<style id="no-user-avatar-final">
-/* مشخصات کاربر بدون آواتار */
-.profile-identity{justify-content:flex-end!important;}
-.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
-.profile-avatar{display:none!important;}
-</style>
 </head>
 <body class="login-active">
 <div class="app">
@@ -386,20 +208,9 @@ header p{display:none !important;}
 </section>
 
 <section id="home" class="panel">
-<div class="userbox profile-dashboard-card">
-  <div class="profile-actions">
-    <button class="home-register-btn profile-main-action" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span><span>ثبت تسک جدید</span></button>
-    <button class="profile-action profile-password" type="button" onclick="openChangePassword()"><span class="action-icon">🔒</span><span>تغییر رمز</span></button>
-    <button class="profile-action profile-logout" type="button" onclick="logout()"><span class="action-icon">↪</span><span>خروج</span></button>
-  </div>
-  <div class="profile-divider"></div>
-  <div class="profile-identity">
-    <div class="profile-text">
-      <h2 id="welcome">کارتابل</h2>
-      <div id="currentUserRole" class="profile-role">کاربر</div>
-    </div>
-    <div id="currentUserAvatar" class="profile-avatar" aria-hidden="true"></div>
-  </div>
+<div class="userbox">
+<div class="home-title-row"><div class="home-title-main"><h2 id="welcome">کارتابل</h2></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⛔ خروج</button></div></div>
+<div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
 </div>
 <div id="managementBox" class="management-box">
   <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
@@ -545,53 +356,13 @@ header p{display:none !important;}
 
 <script>
 const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings', MANAGERPASSKEY=KEY+'_manager_password', SEEDEDKEY=KEY+'_seeded';
-// مهاجرت امن اطلاعات نسخه‌های قبلی: داده‌های موجود روی همین مرورگر حفظ می‌شوند.
-function migrateLegacyStorage(){
-  const legacyKeys=['it_dashboard_v1','it_dashboard_v2','it_dashboard_v3','it_dashboard_v4','it_dashboard_v5'];
-  try{
-    if(!localStorage.getItem(KEY)){
-      for(const k of legacyKeys){
-        const raw=localStorage.getItem(k);
-        if(raw){ localStorage.setItem(KEY,raw); break; }
-      }
-    }
-    if(!localStorage.getItem(TEAMKEY)){
-      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_team'); if(raw){localStorage.setItem(TEAMKEY,raw); break;} }
-    }
-    if(!localStorage.getItem(MEETKEY)){
-      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_meetings'); if(raw){localStorage.setItem(MEETKEY,raw); break;} }
-    }
-    if(!localStorage.getItem(MANAGERPASSKEY)){
-      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_manager_password'); if(raw){localStorage.setItem(MANAGERPASSKEY,raw); break;} }
-    }
-  }catch(e){ console.warn('Storage migration skipped:',e); }
-}
-migrateLegacyStorage();
 const DEFAULT_TEAM=[
-{name:'دری',role:'برنامه نویس',password:'1'},
-{name:'عینی',role:'سخت افزار و دیتابیس',password:'1'},
-{name:'عطاریان',role:'پشتیبان شبکه',password:'1'},
-{name:'ابراهیمی',role:'پشتیبان فنی',password:'1'},
-{name:'شفیعی',role:'پشتیبان سمپ',password:'1'}];
-const ROLE_BY_USER={'دری':'برنامه نویس','عینی':'سخت افزار و دیتابیس','عطاریان':'پشتیبان شبکه','ابراهیمی':'پشتیبان فنی','شفیعی':'پشتیبان سمپ'};
+{name:'شفیعی',role:'پشتیبان سمپ',password:'1'},{name:'دری',role:'طراح نرم‌افزار',password:'1'},
+{name:'عینی',role:'سخت‌افزار و پروژه دیتابیس',password:'1'},{name:'عطاریان',role:'پشتیبان شبکه و ساپورت فنی',password:'1'}];
 function safeJSON(key,fallback){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback}catch(e){return fallback}}
-let team=safeJSON(TEAMKEY,null); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x})); else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1',role:ROLE_BY_USER[x.name]||x.role||'کاربر'}));
-// همگام‌سازی نقش‌های پیش‌فرض بدون تغییر رمز عبور یا نام کاربری موجود
-DEFAULT_TEAM.forEach(def=>{const existing=team.find(x=>x.name===def.name);if(existing){existing.role=def.role}else if(!team.some(x=>x.name===def.name)){team.push({...def})}});
+let team=safeJSON(TEAMKEY,null); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x})); else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1'}));
 let managerPassword=localStorage.getItem(MANAGERPASSKEY)||'1';
-let data=safeJSON(KEY,[]); if(!Array.isArray(data))data=[];
-// Repair legacy task records: every task gets a stable id so old tasks can be opened, edited and deleted.
-let __taskIdsRepaired=false;
-data=data.map((x,i)=>{
-  if(!x || typeof x!=='object') return x;
-  if(x.id===undefined || x.id===null || String(x.id).trim()===''){
-    __taskIdsRepaired=true;
-    return {...x,id:'legacy-'+Date.now()+'-'+i};
-  }
-  return x;
-});
-if(__taskIdsRepaired){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
-let meetings=safeJSON(MEETKEY,[]); if(!Array.isArray(meetings))meetings=[];
+let data=safeJSON(KEY,[]); if(!Array.isArray(data))data=[]; let meetings=safeJSON(MEETKEY,[]); if(!Array.isArray(meetings))meetings=[];
 let currentUser='', calTarget='', calY=1405, calM=1;
 const jmonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 const fa='۰۱۲۳۴۵۶۷۸۹';
@@ -605,10 +376,40 @@ function today(){
  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 }
 function normalizeStoredDate(v){
-  // همه تاریخ‌های داخلی برنامه فقط به صورت ISO میلادی YYYY-MM-DD نگهداری می‌شوند.
-  // اگر رکورد قدیمی تاریخ شمسی داشته باشد، فقط همین‌جا به میلادی تبدیل می‌شود؛
-  // بنابراین نمایش و ویرایش دیگر باعث جابه‌جایی تاریخ نمی‌شود.
-  return canonicalStoredDate(v);
+ return canonicalStoredDate(v);
+}
+function canonicalStoredDate(v){
+ let s=enDigits(String(v??'')).trim().replace(/-/g,'/');
+ if(!s)return '';
+ let p=s.split('/').map(Number);
+ if(p.length!==3||!p.every(Number.isInteger))return '';
+ // 14xx is Jalali; 19xx/20xx is Gregorian. Store only Gregorian ISO.
+ if(p[0]>=1200&&p[0]<=1600){
+   if(!validDate(s))return '';
+   let g=j2g(p[0],p[1],p[2]);
+   return g[0]+'-'+pad(g[1])+'-'+pad(g[2]);
+ }
+ if(p[0]>=1900&&p[0]<=2200&&p[1]>=1&&p[1]<=12&&p[2]>=1&&p[2]<=31){
+   return p[0]+'-'+pad(p[1])+'-'+pad(p[2]);
+ }
+ return '';
+}
+function ensureTaskIds(){
+ let changed=false, seen=new Set();
+ data=data.map((x,i)=>{
+   if(!x||typeof x!=='object')return x;
+   let y={...x};
+   let id=String(y.id??'').trim();
+   if(!id||seen.has(id)){
+     id='TASK-'+Date.now().toString(36)+'-'+i+'-'+Math.random().toString(36).slice(2,8);
+     y.id=id; changed=true;
+   }
+   seen.add(id);
+   const d=canonicalStoredDate(y.date); if(d&&d!==y.date){y.date=d;changed=true;}
+   for(const k of ['deadline','letterDate','reviewedAt']){const z=canonicalStoredDate(y[k]);if(y[k]&&z&&z!==y[k]){y[k]=z;changed=true;}}
+   return y;
+ });
+ if(changed){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
 }
 
 function addDaysToGDate(g,days){
@@ -661,36 +462,8 @@ function j2g(jy,jm,jd){
  let gd=jdays+1,gdm=[31,(leap?29:28),31,30,31,30,31,31,30,31,30,31],gm=0;
  while(gd>gdm[gm]){gd-=gdm[gm];gm++} return [gy2,gm+1,gd]
 }
-function jstrToG(s){
-  const raw=enDigits(String(s??'')).trim().replace(/-/g,'/');
-  const p=raw.split('/').map(Number);
-  if(p.length!==3||!p.every(Number.isInteger))return '';
-  if(!validDate(raw))return '';
-  const g=j2g(p[0],p[1],p[2]);
-  return g[0]+'-'+pad(g[1])+'-'+pad(g[2]);
-}
-function gToJ(s){
-  const raw=String(s??'').trim();
-  if(!/^\d{4}-\d{1,2}-\d{1,2}$/.test(raw))return '';
-  const p=raw.split('-').map(Number);
-  if(p.length!==3||!p.every(Number.isInteger))return '';
-  const j=g2j(p[0],p[1],p[2]);
-  return j[0]+'/'+pad(j[1])+'/'+pad(j[2]);
-}
-function canonicalStoredDate(v){
-  const s=enDigits(String(v??'')).trim().replace(/-/g,'/');
-  if(!s)return '';
-  const p=s.split('/').map(Number);
-  if(p.length!==3||!p.every(Number.isInteger))return '';
-  if(p[0]>=1200&&p[0]<=1600&&validDate(s)){
-    const g=j2g(p[0],p[1],p[2]);
-    return g[0]+'-'+pad(g[1])+'-'+pad(g[2]);
-  }
-  if(p[0]>=1900&&p[0]<=2200&&p[1]>=1&&p[1]<=12&&p[2]>=1&&p[2]<=31){
-    return p[0]+'-'+pad(p[1])+'-'+pad(p[2]);
-  }
-  return '';
-}
+function jstrToG(s){let x=enDigits(s).replace(/-/g,'/').split('/').map(Number);if(x.length!==3||!x.every(Number.isFinite))return '';let g=j2g(x[0],x[1],x[2]);return g[0]+'-'+pad(g[1])+'-'+pad(g[2])}
+function gToJ(s){let x=s.split('-').map(Number),j=g2j(x[0],x[1],x[2]);return j[0]+'/'+pad(j[1])+'/'+pad(j[2])}
 function jDaysInMonth(y,m){
   if(m<=6)return 31;
   if(m<=11)return 30;
@@ -758,23 +531,17 @@ function renderCalendar(){
 }
 
 function save(){
-  // قبل از هر ذخیره، تاریخ‌های فعالیت را یک‌بار canonical می‌کنیم.
-  // این کار جلوی مخلوط شدن تاریخ شمسی/میلادی در رکوردهای قدیمی را می‌گیرد.
-  if(Array.isArray(data)){
-    data=data.map(x=>{
-      if(!x||typeof x!=='object')return x;
-      const y={...x};
-      if(y.date) y.date=canonicalStoredDate(y.date)||y.date;
-      if(y.deadline) y.deadline=canonicalStoredDate(y.deadline)||y.deadline;
-      if(y.letterDate) y.letterDate=canonicalStoredDate(y.letterDate)||y.letterDate;
-      if(y.reviewedAt) y.reviewedAt=canonicalStoredDate(y.reviewedAt)||y.reviewedAt;
-      return y;
-    });
-  }
-  localStorage.setItem(KEY,JSON.stringify(data));
-  localStorage.setItem(TEAMKEY,JSON.stringify(team));
-  localStorage.setItem(MEETKEY,JSON.stringify(meetings));
-  localStorage.setItem(MANAGERPASSKEY,managerPassword);
+ data=data.map(x=>{
+   if(!x||typeof x!=='object')return x;
+   const y={...x};
+   const d=canonicalStoredDate(y.date); if(d)y.date=d;
+   for(const k of ['deadline','letterDate','reviewedAt']){if(y[k]){const z=canonicalStoredDate(y[k]);if(z)y[k]=z;}}
+   return y;
+ });
+ localStorage.setItem(KEY,JSON.stringify(data));
+ localStorage.setItem(TEAMKEY,JSON.stringify(team));
+ localStorage.setItem(MEETKEY,JSON.stringify(meetings));
+ localStorage.setItem(MANAGERPASSKEY,managerPassword);
 }
 function members(){return team.map(x=>x.name)}
 function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
@@ -788,26 +555,6 @@ function fillSelectors(){
  if(ao){ao.innerHTML=team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join(''); if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}}
  if(mp)mp.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
 }
-const USER_ROLES={
- 'مدیر':'مدیر واحد فناوری اطلاعات',
- 'دری':'برنامه نویس',
- 'عینی':'سخت افزار و دیتابیس',
- 'عطاریان':'پشتیبان شبکه',
- 'ابراهیمی':'پشتیبان فنی',
- 'شفیعی':'پشتیبان سمپ'
-};
-function getUserRole(u){return USER_ROLES[u]||((team.find(x=>x.name===u)||{}).role)||'کاربر'}
-function avatarMarkup(u){
- const shirt=u==='ابراهیمی'?' avatar-shirt':'';
- if(u==='شفیعی') return '<div class="avatar-hijab"><div class="face"></div></div>';
- return '<div class="avatar-hair"></div><div class="avatar-head"></div><div class="avatar-body'+shirt+'"></div>'+ (u==='ابراهیمی'?'<div class="avatar-glasses"><i></i></div>':'') + (u==='عطاریان'?'<div class="avatar-beard"></div>':'');
-}
-function renderCurrentUserProfile(){
- const name=currentUser==='مدیر'?'آقای شریفی':(currentUser==='شفیعی'?'خانم شفیعی':'آقای '+currentUser);
- const role=getUserRole(currentUser);
- const w=document.getElementById('welcome'),r=document.getElementById('currentUserRole'),a=document.getElementById('currentUserAvatar');
- if(w)w.textContent=name; if(r)r.textContent=role; if(a)a.innerHTML=avatarMarkup(currentUser);
-}
 function ensureLoginReady(){
  const us=document.getElementById('userSelect');
  if(!us)return;
@@ -816,31 +563,17 @@ function ensureLoginReady(){
  const pw=document.getElementById('loginPassword'); if(pw)pw.disabled=false;
 }
 function toggleLoginPassword(){const p=document.getElementById('loginPassword');if(!p)return;p.type=p.type==='password'?'text':'password';} function enterApp(){
- const userEl=document.getElementById('userSelect');
- const passEl=document.getElementById('loginPassword');
- if(!userEl||!passEl){alert('خطا در فرم ورود. صفحه را یک‌بار بازخوانی کنید.');return}
- const u=String(userEl.value||'').trim();
- const p=String(passEl.value||'').trim();
+ let u=document.getElementById('userSelect').value, p=document.getElementById('loginPassword').value;
  if(!u){alert('لطفاً نام کاربری را انتخاب کنید.');return}
- // Always resolve the account from the current team list so edits/imports do not break login.
- let accountPass='';
- if(u==='مدیر') accountPass=String(managerPassword||'1');
- else {
-   const account=team.find(x=>String(x.name||'').trim()===u);
-   if(!account){fillSelectors();alert('کاربر پیدا نشد. فهرست کاربران بازسازی شد؛ دوباره تلاش کنید.');return}
-   accountPass=String(account.password||'1').trim()||'1';
- }
- if(p!==accountPass && !(p==='1' && accountPass)){alert('رمز عبور نادرست است.');passEl.focus();return}
- currentUser=u;
- passEl.value='';
- renderCurrentUserProfile();
- showPanel('home');
- renderHome();
+ let accountPass=u==='مدیر'?managerPassword:(team.find(x=>x.name===u)?.password||'1');
+ if(p!==accountPass){alert('رمز عبور نادرست است.');return}
+ currentUser=u; document.getElementById('loginPassword').value='';
+ document.getElementById('welcome').textContent=u==='مدیر'?'کارتابل مدیر دپارتمان — آقای شریفی':'کارتابل '+u;
+ showPanel('home'); renderHome()
 }
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value='';document.getElementById('loginPassword').value='';}
 function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('login-active',id==='login');window.scrollTo({top:0,behavior:'smooth'})}
 function renderHome(){
- renderCurrentUserProfile();
  let tasks=ownerData();
  const todayG=normalizeStoredDate(today());
  selectedOverviewKind=(currentUser && currentUser!=='مدیر')?'my':'all';
@@ -877,7 +610,7 @@ function renderMyTasks(tasks){
  if(!list)return;
  const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
  if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
- list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${id});return false;">🗑️ حذف</button></div></div>`}).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${x.id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
   decorateTaskDeadlineTexts();
 }
 function renderTaskOverview(tasks, todayG){
@@ -904,7 +637,7 @@ function renderTaskOverview(tasks, todayG){
  if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
  if(!selected.length){list.innerHTML='<div class="attention-empty">یک یا چند مورد را از بالا انتخاب کنید.</div>';return;}
  selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
- list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${id});return false;">🗑️ حذف</button></div></div>`}).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail(${x.id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
 }
 function toggleOverviewKind(kind){
  selectedOverviewKind=kind;
@@ -950,29 +683,27 @@ function weekOptions(){
  // Kept for backward compatibility with older calls; the weekly report now uses a free Persian date range.
  setCurrentWeek();
 }
+function taskActionButtons(x){
+ const can=currentUser==='مدیر'||x.owner===currentUser;
+ const safe=String(x.id).replace(/'/g,"\\'");
+ return can?`<div class="actions compact-actions"><button type="button" class="secondary" onclick="event.stopPropagation();editActivityById('${safe}')">✏️ ویرایش</button><button type="button" class="danger" onclick="event.stopPropagation();deleteActivityById('${safe}')">🗑️ حذف</button></div>`:'';
+}
 function showTaskView(kind){
- const tasks=data; let arr=tasks;
- const todayG=normalizeStoredDate(today());
+ const todayG=normalizeStoredDate(today()); let arr=data;
  const titles={all:'📋 کل تسک‌ها',current:'🔄 تسک‌های جاری',completed:'✅ تسک‌های پایان‌یافته',overdue:'⏰ تسک‌هایی که ددلاین آنها گذشته است',reviewed:'⭐ تسک‌های ارزیابی‌شده توسط مدیر'};
- if(kind==='current')arr=tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد');
- if(kind==='completed')arr=tasks.filter(x=>x.status==='انجام شد');
- if(kind==='overdue')arr=tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد');
- if(kind==='reviewed')arr=tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی');
+ if(kind==='current')arr=data.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد');
+ if(kind==='completed')arr=data.filter(x=>x.status==='انجام شد');
+ if(kind==='overdue')arr=data.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد');
+ if(kind==='reviewed')arr=data.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی');
  document.getElementById('taskViewTitle').textContent=titles[kind]||titles.all;
  document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">همه رکوردهای ثبت‌شده</span>';
  const cards=document.getElementById('groupTaskCards');
- if(cards){
-   cards.innerHTML=arr.length?arr.map(x=>{const id=JSON.stringify(String(x.id));const canEdit=currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser);return `<article class="mobile-task-card ${rowClass(x)}">
-     <div class="task-card-head"><span>${fmtDate(x.date)}</span><strong>${esc(x.owner)}</strong></div>
-     <div class="task-card-title">${esc(x.desc)}</div>
-     <div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div>
-     <div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — امتیاز ${esc(x.managerScore)}/۵`:''}</div>
-     ${canEdit?`<div class="task-row-actions"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${id});return false;">🗑️ حذف</button></div>`:''}
-   </article>`}).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
- }
- document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>{const id=JSON.stringify(String(x.id));const canEdit=currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser);return '<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td><td>'+(canEdit?'<div class="actions compact-actions"><button type="button" class="secondary" onclick="window.editActivityById('+id+');return false;">✏️ ویرایش</button><button type="button" class="danger" onclick="window.deleteActivityById('+id+');return false;">🗑️ حذف</button></div>':'—')+'</td></tr>'}).join(''):'<tr><td colspan="6" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
+ if(cards)cards.innerHTML=arr.length?arr.map(x=>`<article class="mobile-task-card ${rowClass(x)}"><div class="task-card-head"><span>${fmtDate(x.date)}</span><strong>${esc(x.owner)}</strong></div><div class="task-card-title">${esc(x.desc)}</div><div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div><div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}</div>${taskActionButtons(x)}</article>`).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
+ const body=document.getElementById('groupTaskBody');
+ body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}</td><td>${taskActionButtons(x)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
  showPanel('groupTasks');
 }
+
 let reportReady=false;
 function initReports(){
   const type=document.getElementById('reportType');
@@ -1138,35 +869,39 @@ function renderMonthly(){
   document.getElementById('monthlyBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">در این ماه داده‌ای وجود ندارد.</td></tr>';
 }
 function saveActivity(){
- let d=document.getElementById('aDate').value.trim(),g=validDate(d)?jstrToG(d):'';
- if(!d){alert('لطفاً تاریخ را وارد کنید.');return} if(!g){alert('تاریخ واردشده معتبر نیست.');return}
- let deadline=document.getElementById('aDeadline').value.trim(),dg=deadline?(validDate(deadline)?jstrToG(deadline):''):'';
- if(deadline&&!dg){alert('تاریخ Deadline معتبر نیست.');return}
+ const d=document.getElementById('aDate').value.trim();
+ if(!d){alert('لطفاً تاریخ را وارد کنید.');return}
+ if(!validDate(d)){alert('تاریخ واردشده معتبر نیست.');return}
+ const g=jstrToG(d);
+ if(!g){alert('تاریخ واردشده معتبر نیست.');return}
  const selectedType=document.getElementById('aType').value;
- if(selectedType==='تسک') dg=addDaysToGDate(normalizeStoredDate(g),20);
- let ld=document.getElementById('aLetterDate').value.trim(),lg=ld?(validDate(ld)?jstrToG(ld):'') : '';
- if(ld&&!lg){alert('تاریخ نامه معتبر نیست.');return}
+ const deadlineInput=document.getElementById('aDeadline').value.trim();
+ let dg='';
+ if(selectedType==='تسک') dg=addDaysToGDate(g,20);
+ else if(deadlineInput){if(!validDate(deadlineInput)){alert('تاریخ Deadline معتبر نیست.');return}dg=jstrToG(deadlineInput);}
+ const ld=document.getElementById('aLetterDate').value.trim();
+ let lg='';
+ if(ld){if(!validDate(ld)){alert('تاریخ نامه معتبر نیست.');return}lg=jstrToG(ld);}
  const selectedOwner=document.getElementById('aOwner').value;
  if(currentUser!=='مدیر' && selectedOwner!==currentUser){alert('هر کاربر فقط می‌تواند فعالیت را به نام خودش ثبت یا ویرایش کند.');return}
- const payload={owner:selectedOwner,date:normalizeStoredDate(g),type:document.getElementById('aType').value,desc:document.getElementById('aDesc').value.trim(),status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,letter:document.getElementById('aLetter').value.trim(),letterDate:lg,unit:document.getElementById('aUnit').value.trim(),deadline:dg,notes:document.getElementById('aNotes').value.trim()};
- if(!payload.desc){alert('لطفاً شرح فعالیت را وارد کنید.');return}
+ const desc=document.getElementById('aDesc').value.trim();
+ if(!desc){alert('لطفاً شرح فعالیت را وارد کنید.');return}
+ const payload={owner:selectedOwner,date:canonicalStoredDate(g),type:selectedType,desc,status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,letter:document.getElementById('aLetter').value.trim(),letterDate:lg,unit:document.getElementById('aUnit').value.trim(),deadline:dg,notes:document.getElementById('aNotes').value.trim()};
+ if(!payload.date){alert('تاریخ قابل ذخیره نیست.');return}
  if(editingActivityId!==null){
-   const idx=findActivityIndex(editingActivityId);
+   const idx=data.findIndex(x=>String(x?.id)===String(editingActivityId));
    if(idx<0){alert('این فعالیت پیدا نشد.');cancelEditActivity();return}
    const old=data[idx];
    if(currentUser!=='مدیر' && old.owner!==currentUser){alert('شما فقط می‌توانید فعالیت‌های خودتان را ویرایش کنید.');return}
    if(currentUser!=='مدیر' && payload.owner!==currentUser){alert('شما نمی‌توانید مسئول فعالیت را تغییر دهید.');return}
-   data[idx]={...old,...payload};
-   save();
-   editingActivityId=null;
-   clearActivityForm();
-   renderArchive();renderToday();renderHome();
-   alert('فعالیت با موفقیت ویرایش شد.');
-   showPanel('home');
-   return;
+   data[idx]={...old,...payload,id:old.id};
+   save(); editingActivityId=null; clearActivityForm();
+   renderArchive();renderToday();renderHome();renderReviews();
+   alert('فعالیت با موفقیت ویرایش شد.');showPanel('home');return;
  }
- data.push({id:Date.now(),...payload,managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});
- save();clearActivityForm();renderToday();alert('فعالیت با موفقیت ثبت شد.');showPanel('home');renderHome()
+ data.push({id:'TASK-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),...payload,managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});
+ save();clearActivityForm();renderToday();renderHome();
+ alert('فعالیت با موفقیت ثبت شد.');showPanel('home');
 }
 function updateActivityFormVisibility(){
   const corr=document.getElementById('aCorr')?.value;
@@ -1195,26 +930,23 @@ function clearActivityForm(){
  updateActivityFormVisibility();
 }
 function editActivity(id){
- const idx=findActivityIndex(id);
- if(idx<0){alert('این فعالیت پیدا نشد.');return}
- const x=data[idx];
- if(currentUser!=='مدیر' && normalizeOwnerName(x.owner)!==normalizeOwnerName(currentUser)){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
- // Keep the original stored id type so saveActivity can update the exact legacy record.
+ const x=data.find(a=>String(a?.id)===String(id));
+ if(!x){alert('این فعالیت پیدا نشد.');return}
+ if(currentUser!=='مدیر' && x.owner!==currentUser){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
+ const storedDate=canonicalStoredDate(x.date);
+ if(!storedDate){alert('تاریخ این فعالیت معتبر نیست.');return}
  editingActivityId=x.id;
- showPanel('add');
- prepareActivityOwner();
- const editDate=canonicalStoredDate(x.date);
- if(!editDate){alert('تاریخ این تسک در اطلاعات قبلی معتبر نیست و قابل ویرایش نیست.');return}
- document.getElementById('aDate').value=gToJ(editDate);
+ showPanel('add'); prepareActivityOwner();
+ document.getElementById('aDate').value=gToJ(storedDate);
  document.getElementById('aOwner').value=x.owner||currentUser;
  document.getElementById('aType').value=x.type||'تسک';
  document.getElementById('aDesc').value=x.desc||'';
  document.getElementById('aStatus').value=x.status||'در حال انجام';
  document.getElementById('aCorr').value=x.correspondence||'خیر';
  document.getElementById('aLetter').value=x.letter||x.letterNo||'';
- document.getElementById('aLetterDate').value=canonicalStoredDate(x.letterDate)?gToJ(canonicalStoredDate(x.letterDate)):'';
+ const ld=canonicalStoredDate(x.letterDate); document.getElementById('aLetterDate').value=ld?gToJ(ld):'';
  document.getElementById('aUnit').value=x.unit||'';
- document.getElementById('aDeadline').value=canonicalStoredDate(x.deadline)?gToJ(canonicalStoredDate(x.deadline)):'';
+ const dl=canonicalStoredDate(x.deadline); document.getElementById('aDeadline').value=dl?gToJ(dl):'';
  document.getElementById('aNotes').value=x.notes||'';
  document.getElementById('activityFormTitle').textContent='✏️ ویرایش فعالیت';
  document.getElementById('activitySaveBtn').textContent='💾 ذخیره تغییرات';
@@ -1222,8 +954,6 @@ function editActivity(id){
  updateActivityFormVisibility();
 }
 function cancelEditActivity(){clearActivityForm();showPanel('home');}
-window.editActivity=editActivity;
-window.editActivityById=editActivityById;
 
 
 function renderSearch(){
@@ -1266,93 +996,41 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${JSON.stringify(String(x.id))})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${JSON.stringify(String(x.id))});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${JSON.stringify(String(x.id))});return false;">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button class="danger" onclick="deleteActivity(${x.id})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
   ids.forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
   renderArchive();
 }
+function findActivityById(id){return data.find(x=>String(x?.id)===String(id))||null}
 function showActivityDetail(id){
-  const x=getActivityForRef(id);
-  if(!x)return;
-  const review=x.review||{};
-  document.getElementById('detailContent').innerHTML=`<div class="detail-grid">
-    <div><b>تاریخ</b><span>${fmtDate(x.date)}</span></div>
-    <div><b>کارشناس</b><span>${esc(x.owner)}</span></div>
-    <div><b>نوع فعالیت</b><span>${esc(x.type)}</span></div>
-    <div><b>وضعیت</b><span>${esc(x.status)}</span></div>
-    <div><b>ددلاین</b><span>${taskDeadlineLabel(x)}</span></div>
-    <div><b>مکاتبه</b><span>${x.correspondence?'بله':'خیر'}</span></div>
-    <div style="grid-column:1/-1"><b>شرح فعالیت</b><span>${esc(x.desc)}</span></div>
-    ${x.letterNo?`<div><b>شماره نامه</b><span>${esc(x.letterNo)}</span></div>`:''}
-    ${x.letterDate?`<div><b>تاریخ نامه</b><span>${fmtDate(x.letterDate)}</span></div>`:''}
-    ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
-    ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
-  </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();window.editActivityById('+JSON.stringify(String(x.id))+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivityById('+JSON.stringify(String(x.id))+');return false;">🗑️ حذف فعالیت</button>':'';
-  document.getElementById('detailModal').classList.add('show');
+ const x=findActivityById(id); if(!x)return;
+ const review=x.review||{};
+ document.getElementById('detailContent').innerHTML=`<div class="detail-grid">
+ <div><b>تاریخ</b><span>${fmtDate(x.date)}</span></div><div><b>کارشناس</b><span>${esc(x.owner)}</span></div>
+ <div><b>نوع فعالیت</b><span>${esc(x.type)}</span></div><div><b>وضعیت</b><span>${esc(x.status)}</span></div>
+ <div><b>ددلاین</b><span>${taskDeadlineLabel(x)}</span></div><div><b>مکاتبه</b><span>${x.correspondence==='بله'?'بله':'خیر'}</span></div>
+ <div style="grid-column:1/-1"><b>شرح فعالیت</b><span>${esc(x.desc)}</span></div>
+ ${x.letter||x.letterNo?`<div><b>شماره نامه</b><span>${esc(x.letter||x.letterNo)}</span></div>`:''}
+ ${x.letterDate?`<div><b>تاریخ نامه</b><span>${fmtDate(x.letterDate)}</span></div>`:''}
+ </div>`;
+ document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?`<button class="primary" type="button" onclick="closeDetail();editActivityById('${String(x.id).replace(/'/g,"\\'")}')">✏️ ویرایش فعالیت</button><button class="danger" type="button" onclick="deleteActivityById('${String(x.id).replace(/'/g,"\\'")}')">🗑️ حذف فعالیت</button>`:'';
+ document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
-function normalizeOwnerName(v){
-  return String(v??'').trim().replace(/^آقای\s+/,'').replace(/^خانم\s+/,'');
+function deleteActivityById(id){
+ const idx=data.findIndex(x=>String(x?.id)===String(id));
+ if(idx<0){alert('تسک موردنظر پیدا نشد.');return}
+ const item=data[idx];
+ if(currentUser!=='مدیر' && item.owner!==currentUser){alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');return}
+ if(!confirm('این تسک حذف شود؟'))return;
+ data.splice(idx,1); save(); closeDetail(); renderArchive();renderToday();renderHome();renderReviews();
+ alert('تسک با موفقیت حذف شد.');
 }
-function findActivityIndex(ref){
-  const wanted=String(ref??'').trim();
-  if(wanted){
-    const byId=data.findIndex(t=>String(t?.id??'').trim()===wanted);
-    if(byId!==-1)return byId;
-  }
-  // Legacy fallback: allow the array index as a reference.
-  const n=Number(ref);
-  if(Number.isInteger(n) && n>=0 && n<data.length)return n;
-  return -1;
-}
-function getActivityForRef(ref){
-  const i=findActivityIndex(ref);
-  return i>=0?data[i]:null;
-}
-function deleteActivityFromButton(ref){return deleteActivity(ref);}
-function editActivityById(ref){ return editActivity(ref); }
-window.editActivityById=editActivityById;
-function deleteActivity(ref){
-  const index=findActivityIndex(ref);
-  if(index<0){alert('تسک موردنظر پیدا نشد.');return false;}
-  return deleteActivityRecord(data,index);
-}
-function deleteActivityRecord(latest,index){
-  if(!Array.isArray(latest) || index<0 || index>=latest.length){alert('تسک موردنظر پیدا نشد.');return false;}
-  const item=latest[index];
-  const user=normalizeOwnerName(currentUser);
-  const owner=normalizeOwnerName(item?.owner);
-  if(currentUser!=='مدیر' && owner!==user){
-    alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
-    return false;
-  }
-  if(!window.confirm('این تسک حذف شود؟'))return false;
-  latest.splice(index,1);
-  data=latest;
-  try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){alert('ذخیره حذف تسک انجام نشد.');return false;}
-  if(typeof renderArchive==='function')renderArchive();
-  if(typeof renderToday==='function')renderToday();
-  if(typeof renderHome==='function')renderHome();
-  if(typeof renderReviews==='function')renderReviews();
-  closeDetail();
-  alert('تسک با موفقیت حذف شد.');
-  return true;
-}
-window.deleteActivity=function(ref){return deleteActivity(ref);};
-window.deleteActivityById=function(ref){return deleteActivity(ref);};
-// Robust task action delegation for desktop, mobile and WebView.
-document.addEventListener('click',function(ev){
-  const btn=ev.target.closest?.('[data-task-action]');
-  if(!btn)return;
-  ev.preventDefault();
-  ev.stopPropagation();
-  const ref=btn.getAttribute('data-task-id');
-  if(btn.getAttribute('data-task-action')==='edit') return window.editActivityById(ref);
-  if(btn.getAttribute('data-task-action')==='delete') return window.deleteActivityById(ref);
-});
+function editActivityById(id){editActivity(id)}
+window.deleteActivityById=deleteActivityById; window.editActivityById=editActivityById;
+function deleteActivity(id){deleteActivityById(id)}
 
 function renderTeam(){
   fillSelectors();
@@ -1527,12 +1205,12 @@ function downloadCSV(rows,name){let csv='\uFEFF'+rows.map(r=>r.map(v=>`"${String
 function exportActivities(kind){let arr=ownerData();if(kind==='week'){let ws=document.getElementById('weekStart')?.value.trim()||'',we=document.getElementById('weekEnd')?.value.trim()||'',a=validDate(ws)?jstrToG(ws):'',b=validDate(we)?jstrToG(we):'';if(!a||!b||a>b){alert('ابتدا و انتهای هفته را به‌درستی انتخاب کنید.');return}arr=arr.filter(x=>normalizeStoredDate(x.date)>=normalizeStoredDate(a)&&normalizeStoredDate(x.date)<=normalizeStoredDate(b))}else if(kind==='month'){const p=enDigits(document.getElementById('monthSelect')?.value||'').split('/').map(Number);if(p.length!==2){alert('ماه گزارش را انتخاب کنید.');return}const a0=j2g(p[0],p[1],1),n=p[1]===12?j2g(p[0]+1,1,1):j2g(p[0],p[1]+1,1),last=new Date(n[0],n[1]-1,n[2]-1),a=a0[0]+'-'+pad(a0[1])+'-'+pad(a0[2]),b=last.getFullYear()+'-'+pad(last.getMonth()+1)+'-'+pad(last.getDate());arr=arr.filter(x=>normalizeStoredDate(x.date)>=a&&normalizeStoredDate(x.date)<=b)}let rows=[['تاریخ','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline'],...arr.map(x=>[fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence,x.letter,fmtDate(x.letterDate),x.unit,fmtDate(x.deadline)])];downloadCSV(rows,'گزارش_فعالیت.csv')}
 function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=document.getElementById('weekStart')?.value.trim()||'',we=document.getElementById('weekEnd')?.value.trim()||'',a=validDate(ws)?jstrToG(ws):'',b=validDate(we)?jstrToG(we):'';if(!a||!b||a>b){alert('ابتدا و انتهای هفته را به‌درستی انتخاب کنید.');return}arr=arr.filter(x=>normalizeStoredDate(x.date)>=normalizeStoredDate(a)&&normalizeStoredDate(x.date)<=normalizeStoredDate(b))}if(kind==='month'){const p=enDigits(document.getElementById('monthSelect')?.value||'').split('/').map(Number);if(p.length!==2){alert('ماه گزارش را انتخاب کنید.');return}const a0=j2g(p[0],p[1],1),n=p[1]===12?j2g(p[0]+1,1,1):j2g(p[0],p[1]+1,1),last=new Date(n[0],n[1]-1,n[2]-1),a=a0[0]+'-'+pad(a0[1])+'-'+pad(a0[2]),b=last.getFullYear()+'-'+pad(last.getMonth()+1)+'-'+pad(last.getDate());arr=arr.filter(x=>normalizeStoredDate(x.date)>=a&&normalizeStoredDate(x.date)<=b)}let rows=arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${fmtDate(x.deadline)}</td></tr>`).join('');printHTML('<h2>گزارش فعالیت</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr>'+rows+'</table>')}
 function printHTML(content){
-  const w=window.open('','_blank');
+  const w=window.open('', '_blank');
   if(!w){alert('پنجره چاپ توسط مرورگر مسدود شده است.');return}
-  const printHead='<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>';
-  w.document.write(printHead+content+'</body></html>');
+  w.document.write(`<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>گزارش</title><style>body{font-family:Tahoma;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px}th{background:#eee}</style></head><body>${content}</body></html>`);
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
+
 function seedDemo(){
  if(localStorage.getItem(SEEDEDKEY)==='1')return;
  if(data.length){localStorage.setItem(SEEDEDKEY,'1');return;}
@@ -1576,27 +1254,8 @@ function importRealShafieiReport(){
   save();
 }
 
-function normalizeAllActivityDates(){
-  if(!Array.isArray(data))return;
-  let changed=false;
-  data=data.map(x=>{
-    if(!x||typeof x!=='object')return x;
-    const y={...x};
-    for(const key of ['date','deadline','letterDate','reviewedAt']){
-      if(y[key]){
-        const c=canonicalStoredDate(y[key]);
-        if(c && c!==y[key]){y[key]=c;changed=true;}
-      }
-    }
-    return y;
-  });
-  if(changed){
-    try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
-  }
-}
-
 function init(){
- try{seedDemo();importRealAttarianReport();importRealDorryReport();importRealShafieiReport();normalizeAllActivityDates();applyTwentyDayDeadlines();fillSelectors();weekOptions();
+ try{seedDemo();importRealAttarianReport();importRealDorryReport();importRealShafieiReport();ensureTaskIds();applyTwentyDayDeadlines();fillSelectors();weekOptions();
  const ad=document.getElementById('aDate'); if(ad)ad.value=gToJ(today());
  const ao=document.getElementById('aOwner'); if(ao)ao.value=currentUser||team[0]?.name||'';
  renderHome();renderTeam();renderMeetings();ensureLoginReady();
@@ -1704,11 +1363,8 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 }
 </style>
 
-<style id="no-user-avatar-final">
-/* مشخصات کاربر بدون آواتار */
-.profile-identity{justify-content:flex-end!important;}
-.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
-.profile-avatar{display:none!important;}
+<style id="task-actions-v2">
+.compact-actions{display:flex;gap:4px;flex-wrap:wrap;margin:0}.compact-actions button{padding:6px 8px!important;white-space:nowrap}.mobile-task-card .compact-actions{margin-top:8px}.mobile-task-card .compact-actions button{flex:1;min-width:0}
 </style>
 </head><body>'+content+'<nav id="bottomNav" class="bottom-nav">
   <button type="button" onclick="showPanel('home');renderHome()">🏠<span>خانه</span></button>
@@ -1716,11 +1372,4 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   <button type="button" onclick="showPanel('reports');initReports()">📊<span>گزارش</span></button>
   <button type="button" onclick="showPanel('meetings');renderMeetings()">📅<span>جلسات</span></button>
   <button type="button" onclick="showPanel('settings');renderSettings()">⚙️<span>تنظیمات</span></button>
-</nav>
-<style id="task-edit-delete-actions">
-.overview-task-row{position:relative;}
-.task-row-actions{display:flex;gap:7px;margin-top:9px;justify-content:flex-start;align-items:center;}
-.task-row-actions button{width:auto!important;min-width:78px;padding:7px 11px;border-radius:10px;font-family:inherit;cursor:pointer;}
-.mobile-task-card .task-row-actions{margin-top:10px;}
-</style>
-</body></html>
+</nav></body></html>
