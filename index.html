@@ -372,6 +372,28 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 
 <script>
 const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings', MANAGERPASSKEY=KEY+'_manager_password', SEEDEDKEY=KEY+'_seeded';
+// مهاجرت امن اطلاعات نسخه‌های قبلی: داده‌های موجود روی همین مرورگر حفظ می‌شوند.
+function migrateLegacyStorage(){
+  const legacyKeys=['it_dashboard_v1','it_dashboard_v2','it_dashboard_v3','it_dashboard_v4','it_dashboard_v5'];
+  try{
+    if(!localStorage.getItem(KEY)){
+      for(const k of legacyKeys){
+        const raw=localStorage.getItem(k);
+        if(raw){ localStorage.setItem(KEY,raw); break; }
+      }
+    }
+    if(!localStorage.getItem(TEAMKEY)){
+      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_team'); if(raw){localStorage.setItem(TEAMKEY,raw); break;} }
+    }
+    if(!localStorage.getItem(MEETKEY)){
+      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_meetings'); if(raw){localStorage.setItem(MEETKEY,raw); break;} }
+    }
+    if(!localStorage.getItem(MANAGERPASSKEY)){
+      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_manager_password'); if(raw){localStorage.setItem(MANAGERPASSKEY,raw); break;} }
+    }
+  }catch(e){ console.warn('Storage migration skipped:',e); }
+}
+migrateLegacyStorage();
 const DEFAULT_TEAM=[
 {name:'شفیعی',role:'پشتیبان سمپ',password:'1'},{name:'دری',role:'طراح نرم‌افزار',password:'1'},
 {name:'عینی',role:'سخت‌افزار و پروژه دیتابیس',password:'1'},{name:'عطاریان',role:'پشتیبان شبکه و ساپورت فنی',password:'1'}];
@@ -980,7 +1002,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button class="danger" onclick="deleteActivity(${x.id})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${x.id})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button class="secondary" onclick="editActivity(${x.id})">✏️ ویرایش</button><button class="danger" type="button" onclick="window.deleteActivity(${x.id})">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1004,18 +1026,34 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button class="danger" onclick="deleteActivity('+x.id+');closeDetail();">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();editActivity('+x.id+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivity('+x.id+')">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
 function deleteActivity(id){
-  const item=data.find(x=>x.id===id);
-  if(!item)return;
-  if(currentUser!=='مدیر' && item.owner!==currentUser)return;
-  if(!confirm('این فعالیت حذف شود؟'))return;
-  data=data.filter(x=>x.id!==id);
-  save(); renderArchive(); renderHome();
+  const normalizedId=String(id);
+  const item=data.find(x=>String(x.id)===normalizedId);
+  if(!item){ alert('تسک موردنظر پیدا نشد.'); return false; }
+  if(currentUser!=='مدیر' && String(item.owner).trim()!==String(currentUser).trim()){
+    alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
+    return false;
+  }
+  if(!window.confirm('این تسک حذف شود؟')) return false;
+  data=data.filter(x=>String(x.id)!==normalizedId);
+  try{
+    save();
+    renderArchive();
+    renderHome();
+    closeDetail();
+    alert('تسک با موفقیت حذف شد.');
+    return true;
+  }catch(err){
+    console.error('deleteActivity error:',err);
+    alert('حذف تسک انجام نشد. لطفاً دوباره تلاش کنید.');
+    return false;
+  }
 }
+window.deleteActivity=deleteActivity;
 
 function renderTeam(){
   fillSelectors();
