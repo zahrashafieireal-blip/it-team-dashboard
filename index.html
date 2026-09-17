@@ -482,6 +482,35 @@ header h1{
   }
 }
 </style>
+
+<style id="my-tasks-vertical-status-fix">
+/* فقط زیرمجموعه «تسک‌های من» عمودی می‌شود؛ پنل «کل تسک‌های گروه» دست‌نخورده می‌ماند. */
+.home-task-summary.personal .home-task-subgrid{
+  grid-template-columns:1fr!important;
+  grid-template-rows:repeat(3,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+.home-task-summary.personal .home-task-sub{
+  width:100%!important;
+  min-height:58px!important;
+  box-sizing:border-box!important;
+  flex-direction:row!important;
+  justify-content:space-between!important;
+  padding:8px 12px!important;
+}
+.home-task-summary.personal .home-task-sub span{
+  margin-left:auto!important;
+  margin-right:0!important;
+}
+.home-task-summary.personal .home-task-sub strong{
+  flex:1!important;
+  text-align:center!important;
+}
+.home-task-summary.personal .home-task-sub b{
+  margin-right:auto!important;
+  margin-left:0!important;
+}
+</style>
 </head>
 <body class="login-active">
 <div class="app">
