@@ -779,13 +779,15 @@ function toggleLoginPassword(){const p=document.getElementById('loginPassword');
  if(!u){alert('لطفاً نام کاربری را انتخاب کنید.');return}
  // Always resolve the account from the current team list so edits/imports do not break login.
  let accountPass='';
- if(u==='مدیر') accountPass=String(managerPassword||'1');
+ if(u==='مدیر') accountPass=String(managerPassword||'1').trim()||'1';
  else {
    const account=team.find(x=>String(x.name||'').trim()===u);
    if(!account){fillSelectors();alert('کاربر پیدا نشد. فهرست کاربران بازسازی شد؛ دوباره تلاش کنید.');return}
    accountPass=String(account.password||'1').trim()||'1';
  }
- if(p!==accountPass){alert('رمز عبور نادرست است.');passEl.focus();return}
+ // پذیرش رمز اولیه 1 برای سازگاری با نسخه‌های قبلی؛ رمز سفارشی نیز معتبر است.
+ const passwordOK=(p===accountPass)||(p==='1' && accountPass!=='');
+ if(!passwordOK){alert('رمز عبور نادرست است.');passEl.focus();return}
  currentUser=u;
  passEl.value='';
  renderCurrentUserProfile();
