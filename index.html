@@ -1254,7 +1254,29 @@ function clearArchiveFilters(){
   ids.forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
   renderArchive();
 }
+let selectedTaskId=null;
+function confirmDeleteFromDetail(){
+  if(selectedTaskId===null || selectedTaskId===''){alert('تسک موردنظر پیدا نشد.');return false;}
+  const index=findActivityIndex(selectedTaskId);
+  if(index<0){alert('تسک موردنظر پیدا نشد.');return false;}
+  const item=data[index];
+  const details=[
+    'شرح: '+String(item?.desc||'—'),
+    'مسئول: '+String(item?.owner||'—'),
+    'تاریخ: '+String(item?.date||'—'),
+    'نوع: '+String(item?.type||'تسک'),
+    'وضعیت: '+String(item?.status||'—'),
+    item?.deadline?'ددلاین: '+String(item.deadline):''
+  ].filter(Boolean).join('\n');
+  if(window.confirm('تأیید مشخصات تسک\n\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟')){
+    return deleteActivity(selectedTaskId);
+  }
+  return false;
+}
+window.confirmDeleteFromDetail=confirmDeleteFromDetail;
+let selectedTaskForDetail=null;
 function showActivityDetail(id){
+  selectedTaskId=String(id);
   const x=getActivityForRef(id);
   if(!x)return;
   const review={status:x.managerApproval||'',score:x.managerScore||'',comment:x.managerComment||''};
@@ -1271,9 +1293,71 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser))?'<button type="button" class="primary" data-task-action="edit" data-task-id="'+esc(String(x.id))+'">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-task-action="delete" data-task-id="'+esc(String(x.id))+'">🗑️ حذف این تسک</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser))?'<button type="button" class="primary" data-task-action="edit" data-task-id="'+esc(String(x.id))+'">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="return confirmDeleteFromDetail()">🗑️ حذف این تسک</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
+
+function androidDeleteCurrentTask(){
+  const ref=String(selectedTaskForDetail||'').trim();
+  const item=getActivityForRef(ref);
+  if(!item){
+    alert('تسک موردنظر پیدا نشد.');
+    return false;
+  }
+  const owner=normalizeOwnerName(item.owner);
+  const user=normalizeOwnerName(currentUser);
+  if(currentUser!=='مدیر' && owner!==user){
+    alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
+    return false;
+  }
+
+  const details=[
+    'شرح: '+String(item.desc||'—'),
+    'مسئول: '+String(item.owner||'—'),
+    'تاریخ: '+String(item.date||'—'),
+    'نوع: '+String(item.type||'تسک'),
+    'وضعیت: '+String(item.status||'—'),
+    'ددلاین: '+String(item.deadline||'—')
+  ].join('\n');
+
+  const ok=window.confirm('تأیید مشخصات تسک برای حذف\n\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟');
+  if(!ok)return false;
+
+  const latest=Array.isArray(data)?data:[];
+  const index=findActivityIndex(ref);
+  if(index<0){
+    alert('تسک موردنظر پیدا نشد.');
+    return false;
+  }
+
+  latest.splice(index,1);
+  data=latest;
+
+  try{
+    localStorage.setItem(KEY,JSON.stringify(latest));
+    // Verify persistence immediately, which is especially useful on Android browsers/WebViews.
+    const verify=JSON.parse(localStorage.getItem(KEY)||'[]');
+    if(verify.some(t=>String(t?.id||'')===ref)){
+      alert('حذف در حافظه ذخیره نشد. لطفاً دوباره تلاش کنید.');
+      return false;
+    }
+  }catch(e){
+    alert('ذخیره حذف تسک انجام نشد.');
+    return false;
+  }
+
+  selectedTaskForDetail=null;
+  closeDetail();
+  if(typeof renderArchive==='function')renderArchive();
+  if(typeof renderToday==='function')renderToday();
+  if(typeof renderHome==='function')renderHome();
+  if(typeof renderReviews==='function')renderReviews();
+  if(typeof renderMyTasks==='function')renderMyTasks(groupTasks());
+  if(typeof renderTaskOverview==='function')renderTaskOverview(groupTasks(),normalizeStoredDate(today()));
+  alert('تسک با موفقیت حذف شد.');
+  return true;
+}
+
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
 function normalizeOwnerName(v){
   return String(v??'').trim().replace(/^آقای\s+/,'').replace(/^خانم\s+/,'');
