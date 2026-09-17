@@ -428,7 +428,7 @@ header p{display:none !important;}
 <div class="topline"><h2 id="taskViewTitle">📋 تسک‌های گروه</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
 <div id="groupTaskStats" class="badges"></div>
 <div id="groupTaskCards" class="mobile-task-list"></div>
-<div class="tablewrap desktop-task-table"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>شرح تسک</th><th>وضعیت</th><th>ارزیابی مدیر</th></tr></thead><tbody id="groupTaskBody"></tbody></table></div>
+<div class="tablewrap desktop-task-table"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>شرح تسک</th><th>وضعیت</th><th>ارزیابی مدیر</th><th>عملیات</th></tr></thead><tbody id="groupTaskBody"></tbody></table></div>
 </section>
 
 <section id="add" class="panel">
@@ -605,11 +605,10 @@ function today(){
  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 }
 function normalizeStoredDate(v){
- let s=String(v??'').trim();
- if(/^\\d{4}-\\d{1,2}-\\d{1,2}$/.test(s)){
-   let p=s.split('-'); return p[0]+'-'+pad(p[1])+'-'+pad(p[2]);
- }
- return s;
+  // همه تاریخ‌های داخلی برنامه فقط به صورت ISO میلادی YYYY-MM-DD نگهداری می‌شوند.
+  // اگر رکورد قدیمی تاریخ شمسی داشته باشد، فقط همین‌جا به میلادی تبدیل می‌شود؛
+  // بنابراین نمایش و ویرایش دیگر باعث جابه‌جایی تاریخ نمی‌شود.
+  return canonicalStoredDate(v);
 }
 
 function addDaysToGDate(g,days){
@@ -662,8 +661,36 @@ function j2g(jy,jm,jd){
  let gd=jdays+1,gdm=[31,(leap?29:28),31,30,31,30,31,31,30,31,30,31],gm=0;
  while(gd>gdm[gm]){gd-=gdm[gm];gm++} return [gy2,gm+1,gd]
 }
-function jstrToG(s){let x=enDigits(s).replace(/-/g,'/').split('/').map(Number);if(x.length!==3||!x.every(Number.isFinite))return '';let g=j2g(x[0],x[1],x[2]);return g[0]+'-'+pad(g[1])+'-'+pad(g[2])}
-function gToJ(s){let x=s.split('-').map(Number),j=g2j(x[0],x[1],x[2]);return j[0]+'/'+pad(j[1])+'/'+pad(j[2])}
+function jstrToG(s){
+  const raw=enDigits(String(s??'')).trim().replace(/-/g,'/');
+  const p=raw.split('/').map(Number);
+  if(p.length!==3||!p.every(Number.isInteger))return '';
+  if(!validDate(raw))return '';
+  const g=j2g(p[0],p[1],p[2]);
+  return g[0]+'-'+pad(g[1])+'-'+pad(g[2]);
+}
+function gToJ(s){
+  const raw=String(s??'').trim();
+  if(!/^\d{4}-\d{1,2}-\d{1,2}$/.test(raw))return '';
+  const p=raw.split('-').map(Number);
+  if(p.length!==3||!p.every(Number.isInteger))return '';
+  const j=g2j(p[0],p[1],p[2]);
+  return j[0]+'/'+pad(j[1])+'/'+pad(j[2]);
+}
+function canonicalStoredDate(v){
+  const s=enDigits(String(v??'')).trim().replace(/-/g,'/');
+  if(!s)return '';
+  const p=s.split('/').map(Number);
+  if(p.length!==3||!p.every(Number.isInteger))return '';
+  if(p[0]>=1200&&p[0]<=1600&&validDate(s)){
+    const g=j2g(p[0],p[1],p[2]);
+    return g[0]+'-'+pad(g[1])+'-'+pad(g[2]);
+  }
+  if(p[0]>=1900&&p[0]<=2200&&p[1]>=1&&p[1]<=12&&p[2]>=1&&p[2]<=31){
+    return p[0]+'-'+pad(p[1])+'-'+pad(p[2]);
+  }
+  return '';
+}
 function jDaysInMonth(y,m){
   if(m<=6)return 31;
   if(m<=11)return 30;
@@ -730,7 +757,25 @@ function renderCalendar(){
   days.innerHTML=html;
 }
 
-function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings));localStorage.setItem(MANAGERPASSKEY,managerPassword)}
+function save(){
+  // قبل از هر ذخیره، تاریخ‌های فعالیت را یک‌بار canonical می‌کنیم.
+  // این کار جلوی مخلوط شدن تاریخ شمسی/میلادی در رکوردهای قدیمی را می‌گیرد.
+  if(Array.isArray(data)){
+    data=data.map(x=>{
+      if(!x||typeof x!=='object')return x;
+      const y={...x};
+      if(y.date) y.date=canonicalStoredDate(y.date)||y.date;
+      if(y.deadline) y.deadline=canonicalStoredDate(y.deadline)||y.deadline;
+      if(y.letterDate) y.letterDate=canonicalStoredDate(y.letterDate)||y.letterDate;
+      if(y.reviewedAt) y.reviewedAt=canonicalStoredDate(y.reviewedAt)||y.reviewedAt;
+      return y;
+    });
+  }
+  localStorage.setItem(KEY,JSON.stringify(data));
+  localStorage.setItem(TEAMKEY,JSON.stringify(team));
+  localStorage.setItem(MEETKEY,JSON.stringify(meetings));
+  localStorage.setItem(MANAGERPASSKEY,managerPassword);
+}
 function members(){return team.map(x=>x.name)}
 function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
 function groupTasks(){return data.filter(x=>x&&team.some(m=>m.name===x.owner));}
@@ -832,7 +877,7 @@ function renderMyTasks(tasks){
  if(!list)return;
  const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
  if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
- list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div></div>`}).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${id});return false;">🗑️ حذف</button></div></div>`}).join('');
   decorateTaskDeadlineTexts();
 }
 function renderTaskOverview(tasks, todayG){
@@ -859,7 +904,7 @@ function renderTaskOverview(tasks, todayG){
  if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
  if(!selected.length){list.innerHTML='<div class="attention-empty">یک یا چند مورد را از بالا انتخاب کنید.</div>';return;}
  selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
- list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div></div>`}).join('');
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick="showActivityDetail(${id})"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${id});return false;">🗑️ حذف</button></div></div>`}).join('');
 }
 function toggleOverviewKind(kind){
  selectedOverviewKind=kind;
@@ -922,10 +967,10 @@ function showTaskView(kind){
      <div class="task-card-title">${esc(x.desc)}</div>
      <div class="task-card-meta"><span>وضعیت: ${esc(x.status)}</span><span>${x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین'}</span></div>
      <div class="task-card-review">⭐ ارزیابی مدیر: ${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — امتیاز ${esc(x.managerScore)}/۵`:''}</div>
-     ${canEdit?`<div class="task-row-actions"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div>`:''}
+     ${canEdit?`<div class="task-row-actions"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${id});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${id});return false;">🗑️ حذف</button></div>`:''}
    </article>`}).join(''):'<div class="empty">موردی برای نمایش وجود ندارد.</div>';
  }
- document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>'<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
+ document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>{const id=JSON.stringify(String(x.id));const canEdit=currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser);return '<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td><td>'+(canEdit?'<div class="actions compact-actions"><button type="button" class="secondary" onclick="window.editActivityById('+id+');return false;">✏️ ویرایش</button><button type="button" class="danger" onclick="window.deleteActivityById('+id+');return false;">🗑️ حذف</button></div>':'—')+'</td></tr>'}).join(''):'<tr><td colspan="6" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
  showPanel('groupTasks');
 }
 let reportReady=false;
@@ -1158,16 +1203,18 @@ function editActivity(id){
  editingActivityId=x.id;
  showPanel('add');
  prepareActivityOwner();
- document.getElementById('aDate').value=x.date?gToJ(x.date):gToJ(today());
+ const editDate=canonicalStoredDate(x.date);
+ if(!editDate){alert('تاریخ این تسک در اطلاعات قبلی معتبر نیست و قابل ویرایش نیست.');return}
+ document.getElementById('aDate').value=gToJ(editDate);
  document.getElementById('aOwner').value=x.owner||currentUser;
  document.getElementById('aType').value=x.type||'تسک';
  document.getElementById('aDesc').value=x.desc||'';
  document.getElementById('aStatus').value=x.status||'در حال انجام';
  document.getElementById('aCorr').value=x.correspondence||'خیر';
  document.getElementById('aLetter').value=x.letter||x.letterNo||'';
- document.getElementById('aLetterDate').value=x.letterDate?gToJ(x.letterDate):'';
+ document.getElementById('aLetterDate').value=canonicalStoredDate(x.letterDate)?gToJ(canonicalStoredDate(x.letterDate)):'';
  document.getElementById('aUnit').value=x.unit||'';
- document.getElementById('aDeadline').value=x.deadline?gToJ(x.deadline):'';
+ document.getElementById('aDeadline').value=canonicalStoredDate(x.deadline)?gToJ(canonicalStoredDate(x.deadline)):'';
  document.getElementById('aNotes').value=x.notes||'';
  document.getElementById('activityFormTitle').textContent='✏️ ویرایش فعالیت';
  document.getElementById('activitySaveBtn').textContent='💾 ذخیره تغییرات';
@@ -1219,7 +1266,7 @@ function renderArchive(){
   if(u)arr=arr.filter(x=>x.owner===u);
   if(typ)arr=arr.filter(x=>x.type===typ);
   if(st)arr=arr.filter(x=>x.status===st);
-  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${JSON.stringify(String(x.id))})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
+  document.getElementById('archiveBody').innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${taskDeadlineLabel(x)}</td><td><div class="actions compact-actions"><button class="secondary" onclick="showActivityDetail(${JSON.stringify(String(x.id))})">جزئیات</button>${(currentUser==='مدیر'||x.owner===currentUser)?`<button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}" onclick="window.editActivityById(${JSON.stringify(String(x.id))});return false;">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}" onclick="window.deleteActivityById(${JSON.stringify(String(x.id))});return false;">🗑️ حذف</button>`:''}</div></td></tr>`).join(''):'<tr><td colspan="7" class="empty">داده‌ای وجود ندارد.</td></tr>';
 }
 function clearArchiveFilters(){
   const ids=['archivePerson','archiveType','archiveStatus'];
@@ -1243,7 +1290,7 @@ function showActivityDetail(id){
     ${review.status?`<div><b>ارزیابی مدیر</b><span>${esc(review.status)}${review.score?` — امتیاز ${review.score}/5`:''}</span></div>`:''}
     ${review.comment?`<div style="grid-column:1/-1"><b>نظر مدیر</b><span>${esc(review.comment)}</span></div>`:''}
   </div>`;
-  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" data-task-action="edit" data-task-id="'+String(x.id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'">✏️ ویرایش فعالیت</button><button type="button" class="danger" data-task-action="delete" data-task-id="'+String(x.id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'">🗑️ حذف فعالیت</button>':'';
+  document.getElementById('detailActions').innerHTML=(currentUser==='مدیر'||x.owner===currentUser)?'<button type="button" class="primary" onclick="closeDetail();window.editActivityById('+JSON.stringify(String(x.id))+')">✏️ ویرایش فعالیت</button><button type="button" class="danger" onclick="window.deleteActivityById('+JSON.stringify(String(x.id))+');return false;">🗑️ حذف فعالیت</button>':'';
   document.getElementById('detailModal').classList.add('show');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1296,6 +1343,16 @@ function deleteActivityRecord(latest,index){
 }
 window.deleteActivity=function(ref){return deleteActivity(ref);};
 window.deleteActivityById=function(ref){return deleteActivity(ref);};
+// Robust task action delegation for desktop, mobile and WebView.
+document.addEventListener('click',function(ev){
+  const btn=ev.target.closest?.('[data-task-action]');
+  if(!btn)return;
+  ev.preventDefault();
+  ev.stopPropagation();
+  const ref=btn.getAttribute('data-task-id');
+  if(btn.getAttribute('data-task-action')==='edit') return window.editActivityById(ref);
+  if(btn.getAttribute('data-task-action')==='delete') return window.deleteActivityById(ref);
+});
 
 function renderTeam(){
   fillSelectors();
@@ -1519,28 +1576,27 @@ function importRealShafieiReport(){
   save();
 }
 
-function installTaskActionHandlers(){
-  if(window.__taskActionHandlersInstalled)return;
-  window.__taskActionHandlersInstalled=true;
-  document.addEventListener('click',function(e){
-    const btn=e.target.closest('[data-task-action]');
-    if(!btn)return;
-    e.preventDefault();
-    e.stopPropagation();
-    const id=btn.getAttribute('data-task-id');
-    const action=btn.getAttribute('data-task-action');
-    if(!id)return;
-    if(action==='edit'){
-      window.editActivityById(id);
-    }else if(action==='delete'){
-      window.deleteActivityById(id);
+function normalizeAllActivityDates(){
+  if(!Array.isArray(data))return;
+  let changed=false;
+  data=data.map(x=>{
+    if(!x||typeof x!=='object')return x;
+    const y={...x};
+    for(const key of ['date','deadline','letterDate','reviewedAt']){
+      if(y[key]){
+        const c=canonicalStoredDate(y[key]);
+        if(c && c!==y[key]){y[key]=c;changed=true;}
+      }
     }
-  },true);
+    return y;
+  });
+  if(changed){
+    try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
+  }
 }
 
 function init(){
-  installTaskActionHandlers();
- try{seedDemo();importRealAttarianReport();importRealDorryReport();importRealShafieiReport();applyTwentyDayDeadlines();fillSelectors();weekOptions();
+ try{seedDemo();importRealAttarianReport();importRealDorryReport();importRealShafieiReport();normalizeAllActivityDates();applyTwentyDayDeadlines();fillSelectors();weekOptions();
  const ad=document.getElementById('aDate'); if(ad)ad.value=gToJ(today());
  const ao=document.getElementById('aOwner'); if(ao)ao.value=currentUser||team[0]?.name||'';
  renderHome();renderTeam();renderMeetings();ensureLoginReady();
