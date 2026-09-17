@@ -261,26 +261,193 @@ body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000p
 .activity-ref b{font-size:11px}
 .activity-ref span{font-size:10px;opacity:.82}
 </style>
-<style id="approved-ui-final">
+<style id="exact-approved-mobile-ui">
 header{
-  background:#e5e7eb!important;
-  color:#17202a!important;
+  background:#e3e6e8!important;
+  color:#182027!important;
   text-align:center!important;
+  min-height:88px!important;
+  padding:14px 12px!important;
   display:flex!important;
-  flex-direction:column!important;
   align-items:center!important;
   justify-content:center!important;
-  min-height:92px!important;
-  padding:16px 18px!important;
   box-sizing:border-box!important;
 }
 header h1{
   margin:0!important;
   width:100%!important;
   text-align:center!important;
-  line-height:1.5!important;
+  font-size:21px!important;
+  line-height:1.45!important;
 }
-.attention-title{margin-bottom:0!important}
+@media(max-width:650px){
+  main{padding:8px!important}
+  #home.panel{padding:10px!important}
+  #home .userbox{
+    padding:10px!important;
+    border-radius:22px!important;
+  }
+  #home .home-title-row{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:10px!important;
+    align-items:stretch!important;
+    flex-wrap:nowrap!important;
+  }
+  #home .home-title-main{
+    grid-column:2!important;
+    grid-row:1!important;
+    min-width:0!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    align-items:center!important;
+    text-align:center!important;
+    gap:4px!important;
+    background:#edf2f3!important;
+    border-radius:20px!important;
+    padding:10px 7px!important;
+  }
+  #home .home-title-main h2{
+    font-size:22px!important;
+    line-height:1.45!important;
+    white-space:nowrap!important;
+  }
+  #home .home-user-role{
+    font-size:13px!important;
+    line-height:1.5!important;
+    text-align:center!important;
+    padding:0!important;
+  }
+  #home .home-header-actions{
+    grid-column:1!important;
+    grid-row:1!important;
+    width:auto!important;
+    margin:0!important;
+    display:flex!important;
+    flex-direction:column!important;
+    gap:7px!important;
+    align-items:stretch!important;
+    justify-content:center!important;
+  }
+  #home .home-header-actions .home-register-btn,
+  #home .home-header-actions .home-action-btn{
+    width:100%!important;
+    min-height:43px!important;
+    font-size:12px!important;
+    border-radius:13px!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+  }
+
+  #home .home-main-layout{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:10px!important;
+  }
+  #home .home-main-content{
+    order:1!important;
+    width:100%!important;
+  }
+  #home .home-side-menu{
+    order:2!important;
+    width:100%!important;
+    display:flex!important;
+    flex-direction:column!important;
+    gap:7px!important;
+    padding:8px!important;
+    box-sizing:border-box!important;
+    background:#f8fafb!important;
+    border-radius:20px!important;
+  }
+  #home .home-side-item{
+    min-height:57px!important;
+    width:100%!important;
+    border-radius:14px!important;
+    padding:9px 13px!important;
+    font-size:12px!important;
+    box-sizing:border-box!important;
+  }
+  #home .side-ico{font-size:25px!important;flex-basis:34px!important}
+
+  #home .management-box{
+    padding:12px!important;
+    border-radius:22px!important;
+    margin-top:0!important;
+  }
+  #home .attention-title{
+    font-size:21px!important;
+    line-height:1.5!important;
+    margin:0 0 10px!important;
+    text-align:right!important;
+  }
+  #home .task-overview-filters{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px!important;
+    margin:0!important;
+  }
+  #home .home-task-summary{
+    width:100%!important;
+    min-width:0!important;
+    padding:9px!important;
+    border-radius:18px!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+  #home .home-task-summary-head{
+    display:grid!important;
+    grid-template-columns:30px minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:4px!important;
+    padding:3px 2px 9px!important;
+    min-width:0!important;
+  }
+  #home .summary-icon{
+    font-size:25px!important;
+  }
+  #home .summary-title{
+    font-size:15px!important;
+    line-height:1.35!important;
+    white-space:normal!important;
+    text-align:right!important;
+  }
+  #home .home-task-summary-head>b{
+    font-size:24px!important;
+    line-height:1!important;
+  }
+  #home .home-task-subgrid{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:5px!important;
+  }
+  #home .home-task-sub{
+    min-width:0!important;
+    min-height:78px!important;
+    padding:7px 2px!important;
+    border-radius:13px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:2px!important;
+  }
+  #home .home-task-sub span{
+    font-size:20px!important;
+    line-height:1!important;
+  }
+  #home .home-task-sub strong{
+    font-size:11px!important;
+    line-height:1.3!important;
+    white-space:nowrap!important;
+  }
+  #home .home-task-sub b{
+    font-size:20px!important;
+    line-height:1.1!important;
+  }
+  #home .home-summary-hint{
+    display:none!important;
+  }
+}
 </style>
 </head>
 <body class="login-active">
@@ -312,7 +479,7 @@ header h1{
 <section id="home" class="panel">
 <div class="userbox">
 <div class="home-title-row"><div class="home-title-main"><h2 id="welcome">آقای شریفی</h2><div id="welcomeRole" class="home-user-role">مدیر دپارتمان فناوری اطلاعات</div></div><div class="home-header-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span class="plus">＋</span> ثبت تسک جدید</button><button class="secondary home-action-btn" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn home-action-btn" onclick="logout()">⎋ خروج</button></div></div>
-<div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
+
 </div>
 
 <div class="home-main-layout">
@@ -328,7 +495,7 @@ header h1{
   <div class="home-main-content">
     <div id="managementBox" class="management-box">
       <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
-      <div class="small" style="margin:6px 0 10px">وضعیت تسک‌های من و کل تسک‌های گروه</div>
+      
       <div id="taskOverviewFilters" class="task-overview-filters"></div>
       <div id="taskOverviewList" class="task-overview-list"></div>
     </div>
