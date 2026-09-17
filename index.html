@@ -1348,14 +1348,45 @@ function androidDeleteCurrentTask(){
 
   selectedTaskForDetail=null;
   closeDetail();
-  if(typeof renderArchive==='function')renderArchive();
-  if(typeof renderToday==='function')renderToday();
-  if(typeof renderHome==='function')renderHome();
-  if(typeof renderReviews==='function')renderReviews();
-  if(typeof renderMyTasks==='function')renderMyTasks(groupTasks());
-  if(typeof renderTaskOverview==='function')renderTaskOverview(groupTasks(),normalizeStoredDate(today()));
+  refreshAfterTaskDelete();
   alert('تسک با موفقیت حذف شد.');
   return true;
+}
+
+
+function refreshTaskCountersAfterDelete(){
+  // Always rebuild counters from the persisted LocalStorage data, not from an old rendered array.
+  try{
+    const stored=JSON.parse(localStorage.getItem(KEY)||'[]');
+    if(Array.isArray(stored)) data=stored;
+  }catch(e){}
+  const tasks=groupTasks();
+  const todayG=normalizeStoredDate(today());
+  const counts={
+    my:currentUser&&currentUser!=='مدیر'?tasks.filter(x=>normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser)).length:0,
+    all:tasks.length,
+    current:tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length,
+    completed:tasks.filter(x=>x.status==='انجام شد').length,
+    overdue:tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length,
+    reviewed:tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length
+  };
+  document.querySelectorAll('.overview-filter').forEach(btn=>{
+    const onclick=String(btn.getAttribute('onclick')||'');
+    const m=onclick.match(/toggleOverviewKind\('([^']+)'\)/);
+    if(!m)return;
+    const b=btn.querySelector('b');
+    if(b && Object.prototype.hasOwnProperty.call(counts,m[1])) b.textContent=faDigits(counts[m[1]]);
+  });
+  const mineBadge=document.querySelector('#myTasksList .badge');
+  if(mineBadge) mineBadge.textContent='تعداد تسک‌های من: '+faDigits(counts.my);
+}
+function refreshAfterTaskDelete(){
+  refreshTaskCountersAfterDelete();
+  if(typeof renderArchive==='function')renderArchive();
+  if(typeof renderToday==='function')renderToday();
+  if(typeof renderReviews==='function')renderReviews();
+  if(typeof renderHome==='function')renderHome();
+  refreshTaskCountersAfterDelete();
 }
 
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
@@ -1406,11 +1437,8 @@ function deleteActivityRecord(latest,index){
   latest.splice(index,1);
   data=latest;
   try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){alert('ذخیره حذف تسک انجام نشد.');return false;}
-  if(typeof renderArchive==='function')renderArchive();
-  if(typeof renderToday==='function')renderToday();
-  if(typeof renderHome==='function')renderHome();
-  if(typeof renderReviews==='function')renderReviews();
   closeDetail();
+  refreshAfterTaskDelete();
   alert('تسک با موفقیت حذف شد.');
   return true;
 }
