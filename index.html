@@ -29,6 +29,10 @@ table{width:100%;border-collapse:collapse;min-width:0;table-layout:auto;font-siz
 .modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;z-index:50;padding:15px}.modal.show{display:flex}.modalbox{background:#fff;border-radius:20px;width:min(420px,96vw);padding:18px}
 .calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.calhead button{background:#edf4f1;border-radius:10px;padding:9px 14px}.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.weekdays{font-weight:bold;margin-bottom:6px}.days button,.blank{height:38px;border-radius:9px}.days button{border:0;background:#f4f6f5}.days button:hover,.days button.sel{background:#116b52;color:#fff}.closecal{width:100%;margin-top:12px;padding:10px;background:#eee;border-radius:10px}
 @media(max-width:650px){.cardgrid{grid-template-columns:1fr 1fr}.card{min-height:125px;padding:18px 8px}.card .ico{font-size:34px}.stats{grid-template-columns:1fr 1fr}header h1{font-size:21px}main{padding:12px}}
+
+.task-overview-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 12px}.overview-filter{border:1px solid #dfe8e5;background:#f7faf9;border-radius:14px;padding:10px 9px;text-align:right;display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:inherit;color:#21433a;font-size:13px;cursor:pointer}.overview-filter b{min-width:28px;text-align:center;border-radius:10px;background:#e5efec;padding:4px 6px}.overview-filter.active{background:#e8f4f0;border-color:#13785f;box-shadow:0 0 0 1px #13785f inset}.overview-filter.active b{background:#13785f;color:#fff}.task-overview-list{display:flex;flex-direction:column;gap:7px}.overview-task-row{width:100%;border:1px solid #e4ebe9;background:#fff;border-radius:13px;padding:10px;text-align:right;font-family:inherit;color:#1e332e;cursor:pointer}.overview-task-row span,.overview-task-row strong,.overview-task-row small{display:block}.overview-task-row span{font-size:12px;color:#60736d;margin-bottom:4px}.overview-task-row strong{font-size:13px;line-height:1.7}.overview-task-row small{font-size:11px;color:#70807b;margin-top:4px}@media(max-width:420px){.task-overview-filters{grid-template-columns:1fr}}
+
+.report-date-box{margin-top:8px}.report-date-box .actions{margin:0}.report-date-box input{flex:1;min-width:0}.report-date-box select{width:100%}.report-empty{padding:18px;text-align:center;color:#71847e;background:#f7faf9;border-radius:14px;margin:12px 0}.report-title{font-weight:800;color:#116b52}
 </style>
 
 <style id="mobile-final-fix">
@@ -122,23 +126,20 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 <div class="topline"><h2 id="welcome">کارتابل</h2><div class="actions" style="margin:0;gap:8px"><button class="secondary" type="button" onclick="openChangePassword()">🔐 تغییر رمز</button><button class="logout-btn" onclick="logout()">⛔ خروج</button></div></div>
 <div class="small">نمایش آمار تسک‌های کل گروه برای همه کاربران</div>
 </div>
-<div class="userbox">
-<h3 style="margin-top:0">📌 وضعیت تسک‌های گروه</h3>
-<div class="cardgrid taskcards">
-<button class="card mini-card" onclick="showTaskView('all')"><div class="ico">📋</div><h3>کل تسک‌ها</h3><b id="groupAllCount">۰</b></button>
-<button class="card mini-card" onclick="showTaskView('current')"><div class="ico">🔄</div><h3>تسک‌های جاری</h3><b id="groupCurrentCount">۰</b></button>
-<button class="card mini-card" onclick="showTaskView('completed')"><div class="ico">✅</div><h3>تسک‌های پایان‌یافته</h3><b id="groupCompletedCount">۰</b></button>
-<button class="card mini-card" onclick="showTaskView('overdue')"><div class="ico">⏰</div><h3>تسک‌های دارای ددلاین گذشته</h3><b id="groupOverdueCount">۰</b></button>
-<button class="card mini-card" onclick="showTaskView('reviewed')"><div class="ico">⭐</div><h3>تسک‌های ارزیابی‌شده توسط مدیر</h3><b id="groupReviewedCount">۰</b></button>
-</div>
-</div>
 <div class="attention-box">
   <div class="attention-title">⚠️ نیاز به توجه</div>
   <div id="attentionList" class="attention-list"></div>
 </div>
+<div id="myTasksBox" class="management-box" style="display:none">
+  <div class="attention-title">👤 تسک‌های من</div>
+  <div class="small" style="margin:6px 0 10px">فهرست تسک‌های ثبت‌شده به نام شما، همراه با وضعیت هر تسک</div>
+  <div id="myTasksList" class="task-overview-list"></div>
+</div>
 <div id="managementBox" class="management-box">
-  <div class="attention-title">📊 نمای مدیریتی تیم</div>
-  <div id="teamKpiGrid" class="kpi-grid"></div>
+  <div class="attention-title">📋 نمای کلی تسک‌های گروه</div>
+  <div class="small" style="margin:6px 0 10px">یک یا چند مورد را انتخاب کنید تا لیست مربوط به آنها نمایش داده شود.</div>
+  <div id="taskOverviewFilters" class="task-overview-filters"></div>
+  <div id="taskOverviewList" class="task-overview-list"></div>
   <div id="teamPerformance" class="team-performance"></div>
 </div>
 <div class="quick-actions">
@@ -147,12 +148,10 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   <button class="quick-btn" onclick="showTaskView('reviewed')">⭐ ارزیابی‌شده</button>
 </div>
 <div class="cardgrid">
-<button class="card" onclick="showPanel('add')"><div class="ico">➕</div><h3>ثبت فعالیت</h3></button>
+<button class="card" onclick="showPanel('add');prepareActivityOwner()"><div class="ico">➕</div><h3>ثبت فعالیت</h3></button>
 <button class="card" onclick="showPanel('today');renderToday()"><div class="ico">📋</div><h3>فعالیت‌های امروز</h3></button>
-<button class="card" onclick="showPanel('weekly');renderWeekly()"><div class="ico">📊</div><h3>گزارش هفتگی</h3></button>
-<button class="card" onclick="showPanel('monthly');renderMonthly()"><div class="ico">📅</div><h3>گزارش ماهانه</h3></button>
+<button class="card" onclick="showPanel('reports');initReports()"><div class="ico">📊</div><h3>گزارش‌گیری</h3></button>
 <button class="card" onclick="showPanel('team');renderTeam()"><div class="ico">👥</div><h3>اعضای گروه</h3></button>
-<button class="card" onclick="showPanel('search');renderSearch()"><div class="ico">🔎</div><h3>جستجوی فعالیت‌ها</h3></button>
 <button class="card" onclick="showPanel('meetings');renderMeetings()"><div class="ico">🏛️</div><h3>نوبت هیئت عمومی</h3></button>
 <button class="card" onclick="showPanel('archive');renderArchive()"><div class="ico">🗂️</div><h3>آرشیو فعالیت‌ها</h3></button>
 <button class="card" onclick="showPanel('reviews');renderReviews()"><div class="ico">⭐</div><h3>ارزیابی مدیر</h3></button>
@@ -184,6 +183,32 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 </section>
 
 <section id="today" class="panel"><div class="topline"><h2>📋 فعالیت‌های امروز</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="todayContent"></div></section>
+
+<section id="reports" class="panel">
+<div class="topline"><h2>📊 گزارش‌گیری</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
+<div class="userbox" style="margin-top:12px">
+  <h3 style="margin-top:0">تنظیم گزارش</h3>
+  <div class="filter-row">
+    <div style="flex:1"><label>نوع گزارش</label><select id="reportType" onchange="renderReportControls()">
+      <option value="daily">گزارش روزانه</option><option value="weekly">گزارش هفتگی</option><option value="monthly">گزارش ماهانه</option><option value="custom">گزارش بازه دلخواه</option>
+    </select></div>
+  </div>
+  <div id="reportDateControls"></div>
+  <div class="filter-row" style="margin-top:8px">
+    <div style="flex:1"><label>کارشناس</label><select id="reportPerson"></select></div>
+    <div style="flex:1"><label>نوع فعالیت</label><select id="reportActivityType"><option value="">همه انواع</option><option>تسک</option><option>نامه</option><option>پشتیبانی</option><option>جلسه</option><option>پیگیری</option><option>پروژه</option><option>سخت‌افزار</option><option>سایر</option></select></div>
+  </div>
+  <div class="filter-row" style="margin-top:8px">
+    <div style="flex:1"><label>وضعیت</label><select id="reportStatus"><option value="">همه وضعیت‌ها</option><option>انجام شد</option><option>در حال انجام</option><option>منتظر پاسخ</option><option>لغو شد</option></select></div>
+    <div style="flex:1"><label>ارزیابی مدیر</label><select id="reportReview"><option value="">همه موارد</option><option value="reviewed">ارزیابی‌شده</option><option value="pending">در انتظار بررسی</option></select></div>
+  </div>
+  <label style="margin-top:8px">جستجو در شرح فعالیت / شماره نامه</label><input id="reportSearch" placeholder="اختیاری" oninput="renderReport()">
+  <div class="actions"><button class="primary" type="button" onclick="renderReport()">🔎 نمایش گزارش</button><button class="secondary" type="button" onclick="clearReportFilters()">پاک کردن فیلترها</button></div>
+</div>
+<div id="reportStats"></div>
+<div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح فعالیت</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th><th>ارزیابی مدیر</th></tr></thead><tbody id="reportBody"></tbody></table></div>
+<div class="actions"><button class="primary" type="button" onclick="exportReport()">📊 خروجی Excel</button><button class="secondary" type="button" onclick="printReport()">📄 چاپ / PDF</button></div>
+</section>
 
 <section id="weekly" class="panel"><div class="topline"><h2>📊 گزارش هفتگی</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
 <div class="userbox" style="margin-top:12px"><h3 style="margin-top:0">🗓️ انتخاب بازه هفته</h3><p class="small">ابتدا و انتهای هفته را با تقویم فارسی انتخاب کنید. بازه می‌تواند هر تاریخی باشد و محدود به هفته‌های از پیش تعریف‌شده نیست.</p>
@@ -299,8 +324,72 @@ function j2g(jy,jm,jd){
 }
 function jstrToG(s){let x=enDigits(s).replace(/-/g,'/').split('/').map(Number);if(x.length!==3||!x.every(Number.isFinite))return '';let g=j2g(x[0],x[1],x[2]);return g[0]+'-'+pad(g[1])+'-'+pad(g[2])}
 function gToJ(s){let x=s.split('-').map(Number),j=g2j(x[0],x[1],x[2]);return j[0]+'/'+pad(j[1])+'/'+pad(j[2])}
-function validDate(s){return !!jstrToG(s)}
+function jDaysInMonth(y,m){
+  if(m<=6)return 31;
+  if(m<=11)return 30;
+  // Check the last day of Esfand by conversion instead of relying on a hard-coded leap rule.
+  const g1=j2g(y,12,1), g2=j2g(y+1,1,1);
+  const a=new Date(g1[0],g1[1]-1,g1[2]);
+  const b=new Date(g2[0],g2[1]-1,g2[2]);
+  return Math.round((b-a)/86400000)===366?30:29;
+}
+function validDate(s){
+  const raw=enDigits(s).trim().replace(/-/g,'/');
+  const p=raw.split('/').map(Number);
+  if(p.length!==3||!p.every(Number.isInteger))return false;
+  const [y,m,d]=p;
+  if(y<1200||y>1600||m<1||m>12)return false;
+  return d>=1&&d<=jDaysInMonth(y,m);
+}
 function fmtDate(v){if(!v)return '';let s=String(v);return /^\d{4}-\d{2}-\d{2}$/.test(s)?faDigits(gToJ(s)):faDigits(s)}
+function openCalendar(targetId){
+  calTarget=targetId;
+  const input=document.getElementById(targetId);
+  let s=input?.value?.trim()||'';
+  if(!validDate(s)){
+    const j=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());
+    calY=j[0];calM=j[1];
+  }else{
+    const p=enDigits(s).replace(/-/g,'/').split('/').map(Number);
+    calY=p[0];calM=p[1];
+  }
+  renderCalendar();
+  document.getElementById('calModal').classList.add('show');
+}
+function closeCalendar(){
+  document.getElementById('calModal')?.classList.remove('show');
+  calTarget='';
+}
+function changeMonth(delta){
+  calM+=delta;
+  if(calM<1){calM=12;calY--;}
+  if(calM>12){calM=1;calY++;}
+  renderCalendar();
+}
+function selectCalDay(y,m,d){
+  const input=document.getElementById(calTarget);
+  if(input){input.value=faDigits(y+'/'+pad(m)+'/'+pad(d));input.dispatchEvent(new Event('change',{bubbles:true}));}
+  closeCalendar();
+}
+function renderCalendar(){
+  const title=document.getElementById('calTitle'), days=document.getElementById('calDays');
+  if(!title||!days)return;
+  title.textContent=faDigits(calY)+' '+jmonths[calM-1];
+  const g=j2g(calY,calM,1);
+  const firstDow=new Date(g[0],g[1]-1,g[2]).getDay();
+  const offset=(firstDow+1)%7; // Saturday-first Persian week
+  const count=jDaysInMonth(calY,calM);
+  let html='';
+  for(let i=0;i<offset;i++)html+='<span class="emptyday"></span>';
+  const input=document.getElementById(calTarget);
+  const selected=validDate(input?.value||'')?enDigits(input.value).replace(/-/g,'/').split('/').map(Number):[];
+  for(let d=1;d<=count;d++){
+    const active=selected[0]===calY&&selected[1]===calM&&selected[2]===d?' selected':'';
+    html+='<button type="button" class="calday'+active+'" onclick="selectCalDay('+calY+','+calM+','+d+')">'+faDigits(d)+'</button>';
+  }
+  days.innerHTML=html;
+}
+
 function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings));localStorage.setItem(MANAGERPASSKEY,managerPassword)}
 function members(){return team.map(x=>x.name)}
 function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
@@ -310,7 +399,7 @@ function fillSelectors(){
  if(!us)return;
  us.disabled=false;
  us.innerHTML='<option value="">انتخاب کنید...</option>'+team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)} — ${esc(x.role)}</option>`).join('')+'<option value="مدیر">مدیر دپارتمان — آقای شریفی</option>';
- if(ao)ao.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
+ if(ao){ao.innerHTML=team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join(''); if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}}
  if(mp)mp.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
 }
 function ensureLoginReady(){
@@ -332,17 +421,21 @@ function enterApp(){
 function logout(){currentUser='';showPanel('login');document.getElementById('userSelect').value='';document.getElementById('loginPassword').value='';}
 function showPanel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 function renderHome(){
- let tasks=data.filter(x=>x.type==='تسک');
+ let tasks=ownerData();
  const todayG=normalizeStoredDate(today());
+ const myBox=document.getElementById('myTasksBox');
+ if(myBox){
+   if(currentUser && currentUser!=='مدیر'){
+     myBox.style.display='block';
+     renderMyTasks(data.filter(x=>x.owner===currentUser));
+   }else{
+     myBox.style.display='none';
+   }
+ }
  const current=tasks.filter(x=>x.status!=='انجام شد' && x.status!=='لغو شد');
  const completed=tasks.filter(x=>x.status==='انجام شد');
  const overdue=tasks.filter(x=>x.deadline && normalizeStoredDate(x.deadline)<todayG && x.status!=='انجام شد' && x.status!=='لغو شد');
  const reviewed=tasks.filter(x=>x.managerApproval && x.managerApproval!=='در انتظار بررسی');
- document.getElementById('groupAllCount').textContent=faDigits(tasks.length);
- document.getElementById('groupCurrentCount').textContent=faDigits(current.length);
- document.getElementById('groupCompletedCount').textContent=faDigits(completed.length);
- document.getElementById('groupOverdueCount').textContent=faDigits(overdue.length);
- document.getElementById('groupReviewedCount').textContent=faDigits(reviewed.length);
  const attention=document.getElementById('attentionList');
  if(attention){
    const items=[];
@@ -351,15 +444,50 @@ function renderHome(){
    if(reviewed.length) items.push(`<button class="attention-item reviewed-att" onclick="showTaskView('reviewed')"><span>⭐ ${faDigits(reviewed.length)} تسک ارزیابی‌شده</span><b>مشاهده ›</b></button>`);
    attention.innerHTML=items.length?items.join(''):'<div class="attention-empty">✅ مورد فوری برای پیگیری وجود ندارد.</div>';
  }
- const k=document.getElementById('teamKpiGrid');
- if(k){
-   const completion=tasks.length?Math.round(completed.length/tasks.length*100):0;
-   k.innerHTML=`<div class="kpi"><b>${faDigits(tasks.length)}</b><span>کل تسک‌ها</span></div><div class="kpi"><b>${faDigits(completion)}٪</b><span>نرخ پایان</span></div><div class="kpi"><b>${faDigits(overdue.length)}</b><span>عقب‌افتاده</span></div><div class="kpi"><b>${faDigits(reviewed.length)}</b><span>ارزیابی‌شده</span></div>`;
- }
+ renderTaskOverview(tasks, todayG);
  const tp=document.getElementById('teamPerformance');
  if(tp){
-   tp.innerHTML=team.map(m=>{const mt=tasks.filter(x=>x.owner===m.name),done=mt.filter(x=>x.status==='انجام شد').length,ov=mt.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد').length,p=mt.length?Math.round(done/mt.length*100):0;return `<div class="member-performance"><div><b>${esc(m.name)}</b><span>${faDigits(mt.length)} تسک</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${faDigits(p)}٪ پایان‌یافته · ${faDigits(ov)} عقب‌افتاده</small></div>`}).join('') || '<div class="attention-empty">عضوی ثبت نشده است.</div>';
+   tp.innerHTML=team.map(m=>{const mt=tasks.filter(x=>x.owner===m.name),done=mt.filter(x=>x.status==='انجام شد').length,ov=mt.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length,p=mt.length?Math.round(done/mt.length*100):0;return `<div class="member-performance"><div><b>${esc(m.name)}</b><span>${faDigits(mt.length)} تسک</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${faDigits(p)}٪ پایان‌یافته · ${faDigits(ov)} عقب‌افتاده</small></div>`}).join('') || '<div class="attention-empty">عضوی ثبت نشده است.</div>';
  }
+}
+
+let selectedOverviewKinds=['all'];
+function renderMyTasks(tasks){
+ const list=document.getElementById('myTasksList');
+ if(!list)return;
+ const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
+ if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail('${x.id}')"><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+}
+function renderTaskOverview(tasks, todayG){
+ const filters=document.getElementById('taskOverviewFilters');
+ const list=document.getElementById('taskOverviewList');
+ if(!filters||!list)return;
+ const defs=[
+  ['all','📋','کل تسک‌ها',tasks.length],
+  ['current','🔄','تسک‌های جاری',tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length],
+  ['completed','✅','تسک‌های پایان‌یافته',tasks.filter(x=>x.status==='انجام شد').length],
+  ['overdue','⏰','تسک‌های دارای ددلاین گذشته',tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length],
+  ['reviewed','⭐','تسک‌های ارزیابی‌شده توسط مدیر',tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی').length]
+ ];
+ filters.innerHTML=defs.map(d=>`<button type="button" class="overview-filter ${selectedOverviewKinds.includes(d[0])?'active':''}" onclick="toggleOverviewKind('${d[0]}')"><span>${d[1]} ${d[2]}</span><b>${faDigits(d[3])}</b></button>`).join('');
+ let selected=[];
+ const add=(arr)=>arr.forEach(x=>{if(!selected.some(y=>y.id===x.id))selected.push(x)});
+ selectedOverviewKinds.forEach(k=>{
+   if(k==='all')add(tasks);
+   if(k==='current')add(tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد'));
+   if(k==='completed')add(tasks.filter(x=>x.status==='انجام شد'));
+   if(k==='overdue')add(tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد'));
+   if(k==='reviewed')add(tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی'));
+ });
+ if(!selected.length){list.innerHTML='<div class="attention-empty">یک یا چند مورد را از بالا انتخاب کنید.</div>';return;}
+ selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
+ list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>`<button type="button" class="overview-task-row" onclick="showActivityDetail('${x.id}')"><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small></button>`).join('');
+}
+function toggleOverviewKind(kind){
+ if(kind==='all'){selectedOverviewKinds=selectedOverviewKinds.includes('all')?[]:['all'];}
+ else{selectedOverviewKinds=selectedOverviewKinds.filter(x=>x!=='all');if(selectedOverviewKinds.includes(kind))selectedOverviewKinds=selectedOverviewKinds.filter(x=>x!==kind);else selectedOverviewKinds.push(kind);}
+ const tasks=ownerData(); renderTaskOverview(tasks,normalizeStoredDate(today()));
 }
 
 function rowClass(x){
@@ -401,7 +529,7 @@ function weekOptions(){
  setCurrentWeek();
 }
 function showTaskView(kind){
- const tasks=data.filter(x=>x.type==='تسک'); let arr=tasks;
+ const tasks=ownerData(); let arr=tasks;
  const todayG=normalizeStoredDate(today());
  const titles={all:'📋 کل تسک‌ها',current:'🔄 تسک‌های جاری',completed:'✅ تسک‌های پایان‌یافته',overdue:'⏰ تسک‌هایی که ددلاین آنها گذشته است',reviewed:'⭐ تسک‌های ارزیابی‌شده توسط مدیر'};
  if(kind==='current')arr=tasks.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد');
@@ -409,7 +537,7 @@ function showTaskView(kind){
  if(kind==='overdue')arr=tasks.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد');
  if(kind==='reviewed')arr=tasks.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی');
  document.getElementById('taskViewTitle').textContent=titles[kind]||titles.all;
- document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">فقط تسک‌های گروه</span>';
+ document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">همه رکوردهای ثبت‌شده</span>';
  const cards=document.getElementById('groupTaskCards');
  if(cards){
    cards.innerHTML=arr.length?arr.map(x=>`<article class="mobile-task-card ${rowClass(x)}">
@@ -421,6 +549,122 @@ function showTaskView(kind){
  }
  document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>'<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
  showPanel('groupTasks');
+}
+let reportReady=false;
+function initReports(){
+  const type=document.getElementById('reportType');
+  if(type && !type.value)type.value='daily';
+  const person=document.getElementById('reportPerson');
+  if(person){
+    const prev=person.value;
+    if(currentUser==='مدیر') person.innerHTML='<option value="">همه کارشناسان</option>'+team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join('');
+    else person.innerHTML=`<option value="${esc(currentUser)}">${esc(currentUser)}</option>`;
+    if(prev && [...person.options].some(o=>o.value===prev))person.value=prev;
+  }
+  ['reportPerson','reportActivityType','reportStatus','reportReview'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=renderReport});
+  renderReportControls();
+  reportReady=true;
+  renderReport();
+}
+function reportMonthOptions(){
+  const now=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());
+  const out=[];
+  for(let i=-12;i<=12;i++){
+    let y=now[0],m=now[1]+i;
+    while(m<1){m+=12;y--} while(m>12){m-=12;y++}
+    out.push(`${y}/${pad(m)}`);
+  }
+  return out;
+}
+function renderReportControls(){
+  const box=document.getElementById('reportDateControls'); if(!box)return;
+  const t=document.getElementById('reportType')?.value||'daily';
+  if(t==='daily') box.innerHTML='<div class="report-date-box"><label>تاریخ گزارش</label><div class="actions"><input id="reportDate" placeholder="۱۴۰۵/۰۶/۲۶" inputmode="numeric"><button class="secondary" type="button" onclick="openCalendar(\'reportDate\')">📅 تقویم فارسی</button></div></div>';
+  else if(t==='weekly') box.innerHTML='<div class="report-date-box"><label>بازه هفته</label><div class="filter-row"><div style="flex:1"><input id="reportStart" placeholder="۱۴۰۵/۰۶/۲۱" inputmode="numeric"></div><div style="flex:1"><input id="reportEnd" placeholder="۱۴۰۵/۰۶/۲۷" inputmode="numeric"></div></div><div class="filter-row" style="margin-top:6px"><button class="secondary" type="button" onclick="openCalendar(\'reportStart\')">📅 ابتدای بازه</button><button class="secondary" type="button" onclick="openCalendar(\'reportEnd\')">📅 انتهای بازه</button><button class="secondary" type="button" onclick="setReportCurrentWeek()">هفته جاری</button></div></div>';
+  else if(t==='monthly') box.innerHTML='<div class="report-date-box"><label>ماه گزارش</label><select id="reportMonth">'+reportMonthOptions().map(v=>`<option value="${v}">${faDigits(v)}</option>`).join('')+'</select></div>';
+  else box.innerHTML='<div class="report-date-box"><label>بازه دلخواه</label><div class="filter-row"><div style="flex:1"><input id="reportStart" placeholder="۱۴۰۵/۰۶/۰۱" inputmode="numeric"></div><div style="flex:1"><input id="reportEnd" placeholder="۱۴۰۵/۰۶/۲۶" inputmode="numeric"></div></div><div class="filter-row" style="margin-top:6px"><button class="secondary" type="button" onclick="openCalendar(\'reportStart\')">📅 تاریخ شروع</button><button class="secondary" type="button" onclick="openCalendar(\'reportEnd\')">📅 تاریخ پایان</button></div></div>';
+  if(t==='daily'){
+    const d=document.getElementById('reportDate');
+    if(d){
+      if(!validDate(d.value)){const now=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());d.value=faDigits(now[0]+'/'+pad(now[1])+'/'+pad(now[2]));}
+      d.onchange=renderReport;
+    }
+  }else if(t==='monthly'){
+    const m=document.getElementById('reportMonth');
+    const now=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());
+    if(m)m.value=now[0]+'/'+pad(now[1]);
+    if(m)m.onchange=renderReport;
+  }else{
+    ['reportStart','reportEnd'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=renderReport});
+  }
+}
+function setReportCurrentWeek(){
+  const r=getCurrentWeekRange();
+  const a=document.getElementById('reportStart'),b=document.getElementById('reportEnd');
+  if(a)a.value=faDigits(r[0]); if(b)b.value=faDigits(r[1]); renderReport();
+}
+function reportDateRange(){
+  const t=document.getElementById('reportType')?.value||'daily';
+  if(t==='daily'){
+    const v=document.getElementById('reportDate')?.value?.trim()||''; if(!validDate(v))return null;
+    const g=jstrToG(v); return [normalizeStoredDate(g),normalizeStoredDate(g)];
+  }
+  if(t==='monthly'){
+    const p=enDigits(document.getElementById('reportMonth')?.value||'').split('/').map(Number); if(p.length!==2||!p.every(Number.isFinite))return null;
+    const a=j2g(p[0],p[1],1), n=p[1]===12?j2g(p[0]+1,1,1):j2g(p[0],p[1]+1,1), last=new Date(n[0],n[1]-1,n[2]-1);
+    return [a[0]+'-'+pad(a[1])+'-'+pad(a[2]),last.getFullYear()+'-'+pad(last.getMonth()+1)+'-'+pad(last.getDate())];
+  }
+  const s=document.getElementById('reportStart')?.value?.trim()||'',e=document.getElementById('reportEnd')?.value?.trim()||'';
+  if(!validDate(s)||!validDate(e))return null;
+  const a=jstrToG(s),b=jstrToG(e); return [normalizeStoredDate(a),normalizeStoredDate(b)];
+}
+function getReportRows(){
+  let arr=ownerData();
+  const range=reportDateRange();
+  if(!range)return {arr:null,range:null,error:'تاریخ گزارش را کامل و صحیح انتخاب کنید.'};
+  if(range[0]>range[1])return {arr:null,range,error:'تاریخ شروع نمی‌تواند بعد از تاریخ پایان باشد.'};
+  arr=arr.filter(x=>{const d=normalizeStoredDate(x.date);return d>=range[0]&&d<=range[1]});
+  const person=document.getElementById('reportPerson')?.value||'';
+  const typ=document.getElementById('reportActivityType')?.value||'';
+  const st=document.getElementById('reportStatus')?.value||'';
+  const rev=document.getElementById('reportReview')?.value||'';
+  const q=(document.getElementById('reportSearch')?.value||'').trim().toLowerCase();
+  if(person)arr=arr.filter(x=>x.owner===person);
+  if(typ)arr=arr.filter(x=>x.type===typ);
+  if(st)arr=arr.filter(x=>x.status===st);
+  if(rev==='reviewed')arr=arr.filter(x=>x.managerApproval&&x.managerApproval!=='در انتظار بررسی');
+  if(rev==='pending')arr=arr.filter(x=>!x.managerApproval||x.managerApproval==='در انتظار بررسی');
+  if(q)arr=arr.filter(x=>(x.desc||'').toLowerCase().includes(q)||(x.letter||'').toLowerCase().includes(q));
+  return {arr,range};
+}
+function renderReport(){
+  const body=document.getElementById('reportBody'),stats=document.getElementById('reportStats'); if(!body||!stats)return;
+  const r=getReportRows();
+  if(!r.arr){stats.innerHTML='<div class="report-empty">'+esc(r.error)+'</div>';body.innerHTML='<tr><td colspan="8" class="empty">بازه گزارش هنوز کامل نشده است.</td></tr>';return;}
+  const arr=r.arr;
+  stats.innerHTML='<div class="badges"><span class="badge">بازه: '+fmtDate(r.range[0])+' تا '+fmtDate(r.range[1])+'</span><span class="badge">تعداد: '+faDigits(arr.length)+'</span><span class="badge">انجام‌شده: '+faDigits(arr.filter(x=>x.status==='انجام شد').length)+'</span><span class="badge">جاری: '+faDigits(arr.filter(x=>x.status!=='انجام شد'&&x.status!=='لغو شد').length)+'</span></div>';
+  body.innerHTML=arr.length?arr.map(x=>`<tr class="${rowClass(x)}"><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}${x.managerScore?` — ${esc(x.managerScore)}/۵`:''}</td></tr>`).join(''):'<tr><td colspan="8" class="empty">موردی مطابق فیلترهای انتخاب‌شده وجود ندارد.</td></tr>';
+}
+function clearReportFilters(){
+  const t=document.getElementById('reportType'); if(t)t.value='daily';
+  const q=document.getElementById('reportSearch'); if(q)q.value='';
+  const p=document.getElementById('reportPerson'); if(p)p.value='';
+  const a=document.getElementById('reportActivityType'); if(a)a.value='';
+  const st=document.getElementById('reportStatus'); if(st)st.value='';
+  const rv=document.getElementById('reportReview'); if(rv)rv.value='';
+  renderReportControls();
+  const d=document.getElementById('reportDate'); if(d){const j=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());d.value=faDigits(j[0]+'/'+pad(j[1])+'/'+pad(j[2]));}
+  renderReport();
+}
+function exportReport(){
+  const r=getReportRows(); if(!r.arr){alert(r.error);return}
+  const rows=[['تاریخ','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline','ارزیابی مدیر','امتیاز'],...r.arr.map(x=>[fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence?'بله':'خیر',x.letter||'',fmtDate(x.letterDate),x.unit||'',fmtDate(x.deadline),x.managerApproval||'در انتظار بررسی',x.managerScore||''])];
+  downloadCSV(rows,'گزارش_فعالیت.csv');
+}
+function printReport(){
+  const r=getReportRows(); if(!r.arr){alert(r.error);return}
+  const rows=r.arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${x.correspondence?'بله':'خیر'}</td><td>${x.deadline?fmtDate(x.deadline):'—'}</td><td>${esc(x.managerApproval||'در انتظار بررسی')}</td></tr>`).join('');
+  printHTML('<h2>گزارش فعالیت</h2><p>بازه: '+fmtDate(r.range[0])+' تا '+fmtDate(r.range[1])+' | تعداد: '+faDigits(r.arr.length)+'</p><table><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>مکاتبه</th><th>Deadline</th><th>ارزیابی مدیر</th></tr>'+rows+'</table>');
 }
 function renderWeekly(){
  const ws=document.getElementById('weekStart')?.value.trim()||'', we=document.getElementById('weekEnd')?.value.trim()||'';
@@ -489,7 +733,13 @@ function updateActivityFormVisibility(){
   const df=document.getElementById('deadlineFields');
   if(df)df.classList.toggle('hidden',['جلسه','سایر'].includes(type));
 }
+function prepareActivityOwner(){
+ const ao=document.getElementById('aOwner');
+ if(!ao)return;
+ if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}
+}
 function clearActivityForm(){
+ prepareActivityOwner();
   ['aDesc','aLetter','aLetterDate','aUnit','aDeadline','aNotes'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
   document.getElementById('aDate').value=gToJ(today());
   document.getElementById('aCorr').value='خیر';
@@ -597,7 +847,7 @@ function removeMember(i){if(currentUser!=='مدیر'){alert('فقط مدیر م�
 }
 function deleteSelectedMember(){if(currentUser!=='مدیر'){alert('فقط مدیر می‌تواند اعضای گروه را حذف کند.');return}if(!team.length){alert('عضوی وجود ندارد.');return}let n=prompt('نام کارشناس برای حذف را وارد کنید:\n'+team.map(x=>x.name).join('، '));if(!n)return;let i=team.findIndex(x=>x.name.trim()===n.trim());if(i<0){alert('نام پیدا نشد.');return}removeMember(i)}
 
-function saveMeeting(){let d=document.getElementById('mDate').value.trim();if(!d){alert('لطفاً تاریخ جلسه را وارد کنید.');return}let g=validDate(d)?jstrToG(d):'';if(g){let dt=new Date(g+'T12:00:00');if(dt.getDay()!==2&&!confirm('این تاریخ سه‌شنبه نیست. با این حال ثبت شود؟'))return}meetings.push({id:Date.now(),date:g||d,person:document.getElementById('mPerson').value,attended:false});localStorage.setItem(MEETKEY,JSON.stringify(meetings));document.getElementById('mDate').value='';renderMeetings();alert('نوبت جلسه ثبت شد.')}
+function saveMeeting(){let d=document.getElementById('mDate').value.trim();if(!d){alert('لطفاً تاریخ جلسه را انتخاب یا وارد کنید.');return}if(!validDate(d)){alert('تاریخ واردشده معتبر نیست. لطفاً از تقویم فارسی یک تاریخ انتخاب کنید.');return}let g=jstrToG(d);let dt=new Date(g+'T12:00:00');if(dt.getDay()!==2&&!confirm('این تاریخ سه‌شنبه نیست. با این حال ثبت شود؟'))return;meetings.push({id:Date.now(),date:g,person:document.getElementById('mPerson').value,attended:false});save();document.getElementById('mDate').value='';renderMeetings();alert('نوبت جلسه ثبت شد.')}
 function renderMeetings(){let tb=document.getElementById('meetingBody');if(!meetings.length){tb.innerHTML='<tr><td colspan="3" class="empty">هنوز نوبتی ثبت نشده است.</td></tr>';return}tb.innerHTML=meetings.map((m,i)=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td style="text-align:center"><input type="checkbox" ${m.attended?'checked':''} onchange="toggleAttendance(${i},this.checked)" style="width:20px;height:20px"></td></tr>`).join('')}
 function toggleAttendance(i,v){meetings[i].attended=!!v;localStorage.setItem(MEETKEY,JSON.stringify(meetings))}
 function exportMeetings(){let rows=[['تاریخ','کارشناس','شرکت کرده'],...meetings.map(m=>[fmtDate(m.date),m.person,m.attended?'بله':'خیر'])];downloadCSV(rows,'آرشیو_هیئت_عمومی.csv')}
@@ -682,7 +932,7 @@ function saveReview(id){
   renderReviews();
   renderHome();
 }
-function renderSettings(){document.getElementById('settingsContent').innerHTML=`<div class="stats"><div class="stat"><b>${faDigits(data.length)}</b>فعالیت</div><div class="stat"><b>${faDigits(team.length)}</b>کارشناس</div><div class="stat"><b>${faDigits(meetings.length)}</b>نوبت جلسه</div></div><div class="small" style="margin-top:10px">حساب فعال: <b>${esc(currentUser||'—')}</b></div>`}
+function renderSettings(){document.getElementById('settingsContent').innerHTML=`<div class="settings-account">حساب فعال: <b>${esc(currentUser||'—')}</b></div>`}
 function openChangePassword(){
  showPanel('settings');
  renderSettings();
@@ -817,7 +1067,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 @media(max-width:380px){.attention-box{padding:9px}.attention-item{padding:8px;font-size:10px}.quick-btn{font-size:9px;padding:6px 9px}.mobile-task-card{padding:9px}.task-card-title{font-size:12px}}
 
 /* Professional mobile management layer */
-.management-box{background:#fff;border:1px solid #e1eae6;border-radius:14px;padding:11px;margin:9px 0;box-shadow:0 2px 10px #00000008}.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}.kpi{background:#f5f8f7;border-radius:11px;padding:8px 4px;text-align:center;min-width:0}.kpi b{display:block;font-size:16px}.kpi span{display:block;font-size:9px;margin-top:3px;color:#60716b}.team-performance{display:grid;gap:7px}.member-performance{background:#f9fbfa;border:1px solid #e7eeeb;border-radius:11px;padding:8px}.member-performance>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:10px}.member-performance span,.member-performance small{color:#687a73;font-size:9px}.bar{height:6px;background:#e5ece9;border-radius:9px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:#116b52;border-radius:9px}.bottom-nav{display:none}
+.management-box{background:#fff;border:1px solid #e1eae6;border-radius:14px;padding:11px;margin:9px 0;box-shadow:0 2px 10px #00000008}.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}.kpi{background:#f5f8f7;border-radius:11px;padding:8px 4px;text-align:center;min-width:0;border:0;font:inherit;color:inherit;width:100%}.kpi-clickable{cursor:pointer}.kpi-clickable:active{transform:scale(.98)}.kpi b{display:block;font-size:16px}.kpi span{display:block;font-size:9px;margin-top:3px;color:#60716b}.team-performance{display:grid;gap:7px}.member-performance{background:#f9fbfa;border:1px solid #e7eeeb;border-radius:11px;padding:8px}.member-performance>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:10px}.member-performance span,.member-performance small{color:#687a73;font-size:9px}.bar{height:6px;background:#e5ece9;border-radius:9px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:#116b52;border-radius:9px}.bottom-nav{display:none}
 @media(max-width:650px){body{padding-bottom:66px}.bottom-nav{position:fixed;z-index:50;bottom:0;right:0;left:0;height:60px;background:#fff;border-top:1px solid #dfe8e4;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -3px 14px #00000010}.bottom-nav button{border:0;background:transparent;color:#53655f;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.bottom-nav span{font-size:8px}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.management-box{padding:9px}.member-performance{padding:7px}}
 @media(min-width:651px){.bottom-nav{display:none!important}}
 </style>
@@ -839,7 +1089,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 </head><body>'+content+'<nav id="bottomNav" class="bottom-nav">
   <button type="button" onclick="showPanel('home');renderHome()">🏠<span>خانه</span></button>
   <button type="button" onclick="showTaskView('all')">📋<span>تسک‌ها</span></button>
-  <button type="button" onclick="showPanel('weekly');renderWeekly()">📊<span>گزارش</span></button>
+  <button type="button" onclick="showPanel('reports');initReports()">📊<span>گزارش</span></button>
   <button type="button" onclick="showPanel('meetings');renderMeetings()">📅<span>جلسات</span></button>
   <button type="button" onclick="showPanel('settings');renderSettings()">⚙️<span>تنظیمات</span></button>
 </nav></body></html>
