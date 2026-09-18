@@ -2,43 +2,140 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>داشبورد مدیریت تسک</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
-body { font-family: 'Vazirmatn', sans-serif; background: #F8FAFC; font-size: 12px; overflow-x: hidden; line-height: 1.7; }
+/* ============ پایه ============ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: #F8FAFC;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .table-scroll::-webkit-scrollbar { height: 4px; }
 .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+
 .accordion-content { max-height: 0; overflow: hidden; transition: max-height .3s ease-out; }
 .accordion-active { max-height: 3000px; }
 .arrow-icon { transition: transform .3s; }
 .arrow-rotated { transform: rotate(180deg); }
-.stat-btn { transition: all .2s; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; }
-.stat-btn:hover { background: #f8fafc; }
-.stat-btn.active { background: #e8f5e9; border-color: #2e7d32; color: #1e5631; font-weight: bold; box-shadow: 0 0 0 1px #2e7d32; }
-#mainApp { min-height: 100vh; }
-header { backdrop-filter: blur(8px); }
-main { max-width: 1400px; margin: 0 auto; }
-.stat-btn { min-height: 38px; display: flex; align-items: center; justify-content: center; }
-table { table-layout: fixed; }
-th, td { overflow: hidden; text-overflow: ellipsis; }
-#taskTableBody tr { min-height: 48px; }
-#taskTableBody td:nth-child(3) { white-space: normal; line-height: 1.5; }
-.table-scroll { border-radius: 12px; }
 
-.zoom-control { position: fixed; left: 12px; bottom: 16px; z-index: 45; display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,.96); border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(15,23,42,.12); border-radius: 14px; padding: 5px; }
-.zoom-control button { width: 32px; height: 32px; border-radius: 9px; border: 0; background: #f1f5f9; color: #1e5631; font-size: 18px; font-weight: 800; cursor: pointer; }
+.stat-btn {
+    transition: all .2s; cursor: pointer;
+    border: 1px solid #e2e8f0; background: #fff;
+    min-height: 38px; display: flex; align-items: center; justify-content: center;
+}
+.stat-btn:hover { background: #f8fafc; }
+.stat-btn.active {
+    background: #e8f5e9; border-color: #2e7d32; color: #1e5631;
+    font-weight: bold; box-shadow: 0 0 0 1px #2e7d32;
+}
+
+#mainApp { min-height: 100vh; overflow-x: hidden; }
+
+/* ============ هدر — اصلاح‌شده ============ */
+header {
+    backdrop-filter: blur(8px);
+    max-width: 100vw;
+    padding: 0 !important;
+}
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 12px 16px;
+}
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 10px;
+}
+.header-search {
+    position: relative;
+    margin-bottom: 10px;
+}
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* ============ main — اصلاح‌شده ============ */
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 14px 16px 24px 16px;
+}
+
+/* ============ جدول ============ */
+.table-scroll {
+    border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+table { width: 100%; border-collapse: collapse; }
+th, td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+#taskTableBody td:nth-child(3) { white-space: normal; line-height: 1.5; }
+
+/* ============ زوم ============ */
+.zoom-control {
+    position: fixed; left: 12px; bottom: 16px; z-index: 45;
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,.96); border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15,23,42,.12);
+    border-radius: 14px; padding: 5px;
+    max-width: calc(100vw - 24px);
+}
+.zoom-control button {
+    width: 32px; height: 32px; border-radius: 9px; border: 0;
+    background: #f1f5f9; color: #1e5631;
+    font-size: 18px; font-weight: 800; cursor: pointer;
+}
 .zoom-control button:active { transform: scale(.96); }
 #zoomLevel { min-width: 42px; text-align: center; font-size: 10px; font-weight: 700; color: #475569; }
 
-.hnav-wrap { background: #fff; border: 1px solid #eef2f6; border-radius: 14px; padding: 6px; box-shadow: 0 2px 10px rgba(15,23,42,.05); }
-.hnav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+/* ============ منوی افقی ============ */
+.hnav-wrap {
+    background: #fff; border: 1px solid #eef2f6;
+    border-radius: 14px; padding: 8px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.05);
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+.hnav {
+    display: flex; gap: 4px;
+    overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
 .hnav::-webkit-scrollbar { display: none; }
-.hnav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 7px 12px; min-width: 68px; border-radius: 11px; border: 0; background: transparent; color: #64748b; font-family: inherit; font-size: 10px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .18s, color .18s, transform .12s; flex-shrink: 0; }
+.hnav-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; padding: 8px 14px; min-width: 72px;
+    border-radius: 11px; border: 0; background: transparent;
+    color: #64748b; font-family: inherit; font-size: 10px; font-weight: 700;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    transition: background .18s, color .18s, transform .12s;
+}
 .hnav-item:hover { background: #f1f5f9; color: #1e5631; }
 .hnav-item:active { transform: scale(.96); }
 .hnav-item.active { background: #e8f5e9; color: #1e5631; }
@@ -49,75 +146,224 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
 .hnav-item.danger:hover { background: #fef2f2; color: #b91c1c; }
 .hnav-sep { width: 1px; background: #eef2f6; margin: 8px 4px; flex-shrink: 0; }
 
+/* ============ نوار پیشرفت ============ */
 .bar-track { height: 8px; background: #f1f5f9; border-radius: 6px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 6px; transition: width .6s ease; }
 
-.member-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center; padding: 10px; border-radius: 12px; background: #fff; border: 1px solid #eef2f6; transition: background .15s, border-color .15s; }
+/* ============ ردیف اعضا ============ */
+.member-row {
+    display: grid; grid-template-columns: 36px 1fr auto;
+    gap: 10px; align-items: center;
+    padding: 10px; border-radius: 12px;
+    background: #fff; border: 1px solid #eef2f6;
+    transition: background .15s, border-color .15s;
+    max-width: 100%;
+}
 .member-row:hover { background: #f8fafc; border-color: #e2e8f0; }
-.member-avatar { width: 36px; height: 36px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; }
+.member-avatar {
+    width: 36px; height: 36px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; color: #fff;
+}
 
-.dp-day { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; color: #334155; transition: background .15s, color .15s; }
+/* ============ تقویم شمسی ============ */
+.dp-day {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 1; border-radius: 10px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    color: #334155; transition: background .15s, color .15s;
+}
 .dp-day:hover { background: #e8f5e9; color: #1e5631; }
 .dp-day.other-month { color: #cbd5e1; }
 .dp-day.today { background: #f0fdf4; color: #16a34a; font-weight: 800; }
 .dp-day.selected { background: #1e5631; color: #fff; font-weight: 800; }
-.dp-day.selected:hover { background: #1e5631; }
 
-.heyat-card { display: grid; grid-template-columns: 60px 1fr auto; gap: 12px; padding: 12px; border-radius: 14px; background: #fff; border: 1px solid #eef2f6; transition: box-shadow .15s, transform .15s; }
+/* ============ کارت هیئت ============ */
+.heyat-card {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    gap: 12px; padding: 12px; border-radius: 14px;
+    background: #fff; border: 1px solid #eef2f6;
+    transition: box-shadow .15s, transform .15s;
+    max-width: 100%;
+}
 .heyat-card:hover { box-shadow: 0 6px 18px rgba(15,23,42,.06); transform: translateY(-1px); }
-.heyat-date-box { background: linear-gradient(135deg, #1e5631, #2e7d32); color: #fff; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; text-align: center; box-shadow: 0 4px 10px rgba(30,86,49,.25); }
+.heyat-date-box {
+    background: linear-gradient(135deg, #1e5631, #2e7d32);
+    color: #fff; border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 6px; text-align: center;
+    box-shadow: 0 4px 10px rgba(30,86,49,.25);
+}
 .heyat-date-box .day { font-size: 20px; font-weight: 900; line-height: 1; }
 .heyat-date-box .month { font-size: 9px; opacity: .9; margin-top: 2px; }
 
-.timeline-item { display: grid; grid-template-columns: 32px 1fr; gap: 10px; position: relative; }
-.timeline-item .dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #fff; position: relative; z-index: 1; }
+/* ============ تایم‌لاین ============ */
+.timeline-item { display: grid; grid-template-columns: 32px 1fr; gap: 10px; position: relative; max-width: 100%; }
+.timeline-item .dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; color: #fff;
+    position: relative; z-index: 1;
+}
 .timeline-item .dot.expert { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
 .timeline-item .dot.manager { background: linear-gradient(135deg, #f97316, #ea580c); }
 .timeline-item .dot.done { background: linear-gradient(135deg, #22c55e, #16a34a); }
-.timeline-item .content { background: #f8fafc; border: 1px solid #eef2f6; border-radius: 12px; padding: 10px; margin-bottom: 4px; }
-.timeline-item .content .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 10px; }
-.timeline-item .content .name { font-weight: 800; color: #0f172a; }
-.timeline-item .content .date { color: #94a3b8; font-size: 9px; }
-.timeline-item .content .text { font-size: 11px; color: #334155; line-height: 1.7; white-space: pre-wrap; }
+.timeline-item .content {
+    background: #f8fafc; border: 1px solid #eef2f6;
+    border-radius: 12px; padding: 10px; margin-bottom: 4px;
+    min-width: 0; overflow: hidden;
+}
+.timeline-item .content .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 10px; gap: 8px; }
+.timeline-item .content .name { font-weight: 800; color: #0f172a; overflow: hidden; text-overflow: ellipsis; }
+.timeline-item .content .date { color: #94a3b8; font-size: 9px; white-space: nowrap; flex-shrink: 0; }
+.timeline-item .content .text { font-size: 11px; color: #334155; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
 .timeline-item .content .badges { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
 .timeline-item .badge { font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; }
 .timeline-empty { text-align: center; padding: 20px 10px; color: #94a3b8; font-size: 11px; }
 
-.deadline-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 8px; font-size: 9px; font-weight: 800; white-space: nowrap; }
+/* ============ مهلت ============ */
+.deadline-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 8px;
+    font-size: 9px; font-weight: 800; white-space: nowrap;
+}
 .deadline-ok { background: #dcfce7; color: #166534; }
 .deadline-soon { background: #fef3c7; color: #92400e; }
 .deadline-today { background: #fee2e2; color: #991b1b; }
 .deadline-over { background: #fecaca; color: #7f1d1d; }
 .deadline-none { background: #f1f5f9; color: #94a3b8; }
 
-.export-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 9px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; color: #334155; font-size: 10px; font-weight: 700; cursor: pointer; transition: all .15s; white-space: nowrap; font-family: inherit; }
+/* ============ دکمه خروجی ============ */
+.export-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+    padding: 6px 10px; border-radius: 8px;
+    border: 1px solid #cbd5e1; background: #fff; color: #334155;
+    font-size: 10px; font-weight: 700; cursor: pointer;
+    transition: all .15s; white-space: nowrap; font-family: inherit;
+}
 .export-btn:hover { background: #f0fdf4; border-color: #2e7d32; color: #1e5631; }
 .export-btn:active { transform: scale(.97); }
 .export-btn.green { border-color: #2e7d32; color: #1e5631; }
 .export-btn.green:hover { background: #1e5631; color: #fff; }
 
+/* ============ موبایل ============ */
 @media (max-width: 700px) {
-    body { font-size: 13px; }
-    main { padding: 10px !important; }
-    header .p-3 { padding: 10px; }
+    body { font-size: 12px; }
+
+    .header-inner { padding: 10px 12px; }
+    .header-top { padding-bottom: 8px; margin-bottom: 8px; }
     header h1 { font-size: 14px; }
-    table { table-layout: auto; width: 100% !important; }
-    th, td { padding: 9px 6px !important; }
+
+    main { padding: 10px 12px 20px 12px; }
+
+    /* جدول */
+    table {
+        table-layout: auto !important;
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+    #taskTableBody tr { height: auto !important; }
+    thead th {
+        padding: 6px 4px !important;
+        font-size: 9px !important;
+    }
+    #taskTableBody td {
+        padding: 6px 4px !important;
+        font-size: 9px !important;
+    }
+
+    /* مخفی کردن ستون‌های کم‌اهمیت */
     th:nth-child(4), td:nth-child(4),
     th:nth-child(5), td:nth-child(5),
-    th:nth-child(6), td:nth-child(6),
-    th:nth-child(8), td:nth-child(8) { display: none; }
-    .table-scroll { overflow-x: hidden; }
-    .zoom-control { bottom: 12px; left: 10px; }
-    .hnav-item { padding: 6px 10px; min-width: 60px; font-size: 9px; }
+    th:nth-child(6), td:nth-child(6) { display: none; }
+    th:nth-child(1), td:nth-child(1) { width: 26px; }
+    th:nth-child(2), td:nth-child(2) { width: 68px; }
+    th:nth-child(3), td:nth-child(3) { width: auto; min-width: 0; }
+    th:nth-child(7), td:nth-child(7) { width: 68px; }
+    th:nth-child(8), td:nth-child(8) { width: 58px; }
+    th:nth-child(9), td:nth-child(9) { width: 52px; }
+    #taskTableBody td:nth-child(3) { font-size: 10px; }
+    .table-scroll { overflow-x: hidden; border-radius: 10px; }
+
+    /* کارت‌های آماری */
+    .grid.grid-cols-2 { gap: 8px !important; }
+    .grid.grid-cols-2 > div { padding: 8px !important; }
+    #statTotal, #statMyTotal { font-size: 22px !important; }
+    .stat-btn { font-size: 8px !important; padding: 5px 4px !important; min-height: 32px !important; }
+
+    /* منوی افقی */
+    .hnav-wrap { padding: 6px; }
+    .hnav { gap: 2px; }
+    .hnav-item { padding: 6px 8px; min-width: 58px; font-size: 9px; }
+    .hnav-icon { width: 18px; height: 18px; }
+    .hnav-icon svg { width: 18px; height: 18px; }
+
+    /* فیلترها */
+    .filter-row { flex-wrap: wrap; gap: 6px !important; }
+    .filter-row select { font-size: 10px !important; padding: 6px 8px !important; }
+
+    /* نوار پایین جدول */
+    .pagination-row {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 8px;
+    }
+    #paginationInfo { font-size: 9px; text-align: center; }
+    #paginationControls { justify-content: center; flex-wrap: wrap; }
+    #itemsPerPageSelect { font-size: 10px; padding: 4px; }
+    .export-btn { font-size: 9px; padding: 5px 8px; flex: 1; }
+
+    /* مودال‌ها */
+    #detailsModal, #membersModal, #reportsModal, #heyatModal { max-width: 100vw; }
+    #changePasswordModal > div,
+    #newTaskModal > div {
+        max-width: calc(100vw - 24px) !important;
+        margin: 12px;
+    }
+    #datePickerModal > div { max-width: calc(100vw - 32px) !important; }
+
+    #detailsModal .p-4 { padding: 10px !important; }
+    #detailsModal input,
+    #detailsModal select,
+    #detailsModal textarea { max-width: 100%; font-size: 11px !important; }
+
+    /* کارت هیئت */
+    .heyat-card { grid-template-columns: 48px 1fr auto; gap: 8px; padding: 10px; }
+    .heyat-date-box .day { font-size: 16px; }
+    .heyat-date-box .month { font-size: 8px; }
+
+    /* تایم‌لاین */
+    .timeline-item { grid-template-columns: 26px 1fr; gap: 8px; }
+    .timeline-item .dot { width: 26px; height: 26px; font-size: 11px; }
+    .timeline-item .content { padding: 8px; }
+    .timeline-item .content .text { font-size: 10px; }
+
+    /* ردیف اعضا */
+    .member-row { grid-template-columns: 32px 1fr auto; gap: 8px; padding: 8px; }
+    .member-avatar { width: 32px; height: 32px; font-size: 12px; }
+
+    /* کنترل زوم */
+    .zoom-control { bottom: 8px; left: 8px; padding: 4px; }
+    .zoom-control button { width: 28px; height: 28px; font-size: 16px; }
+    #zoomLevel { min-width: 36px; font-size: 9px; }
+}
+
+@media (max-width: 400px) {
+    .header-inner { padding: 8px 10px; }
+    main { padding: 8px 10px 20px 10px; }
+    #statTotal, #statMyTotal { font-size: 18px !important; }
+    .stat-btn { font-size: 7px !important; }
+    .hnav-item { min-width: 52px; padding: 5px 6px; font-size: 8px; }
+    .hnav-icon { width: 16px; height: 16px; }
+    .hnav-icon svg { width: 16px; height: 16px; }
 }
 </style>
 </head>
 <body class="text-gray-800">
 
 <!-- صفحه ورود -->
-<div id="loginScreen" class="fixed inset-0 bg-gray-50 flex items-center justify-center z-[100]">
-    <div class="bg-white p-6 rounded-2xl shadow-xl w-11/12 max-w-sm border border-gray-100">
+<div id="loginScreen" class="fixed inset-0 bg-gray-50 flex items-center justify-center z-[100] p-4">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm border border-gray-100">
         <div class="text-center mb-6">
             <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3 border border-green-100">
                 <svg class="w-10 h-10 text-[#1e5631]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -136,27 +382,33 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
 
 <!-- اپلیکیشن -->
 <div id="mainApp" class="hidden">
-<header class="bg-white shadow-sm sticky top-0 z-30 border-b border-gray-100 flex flex-col">
-    <div class="flex justify-between items-center p-3 border-b border-gray-50">
-        <div><h1 id="headerName" class="font-bold text-gray-800 text-sm">خانم شفیعی</h1><p id="headerRole" class="text-[10px] text-gray-500">پشتیبان سمپ</p></div>
-        <button class="p-2 relative bg-gray-50 rounded-lg active:bg-gray-100 transition">
-            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-        </button>
-    </div>
-    <div class="p-3"><div class="relative">
-        <input type="text" id="searchInput" oninput="filterTasks()" placeholder="جستجو در عنوان، کارشناس..." class="w-full bg-gray-100 rounded-lg py-2 pr-10 pl-4 text-xs focus:outline-none focus:ring-1 focus:ring-green-500 border border-gray-200">
-        <svg class="w-4 h-4 text-gray-400 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-    </div></div>
-    <div class="px-3 pb-3">
-        <button onclick="openNewTaskModal()" class="w-full bg-[#1e5631] text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 shadow-sm hover:bg-green-800 transition"><span>➕</span> ثبت تسک جدید</button>
+<header class="bg-white shadow-sm sticky top-0 z-30 border-b border-gray-100">
+    <div class="header-inner">
+        <div class="header-top">
+            <div class="min-w-0">
+                <h1 id="headerName" class="font-bold text-gray-800 text-sm truncate">خانم شفیعی</h1>
+                <p id="headerRole" class="text-[10px] text-gray-500 truncate">پشتیبان سمپ</p>
+            </div>
+            <button class="p-2 relative bg-gray-50 rounded-lg active:bg-gray-100 transition shrink-0">
+                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            </button>
+        </div>
+        <div class="header-search">
+            <input type="text" id="searchInput" oninput="filterTasks()" placeholder="جستجو در عنوان، کارشناس..." class="w-full bg-gray-100 rounded-lg py-2.5 pr-10 pl-4 text-xs focus:outline-none focus:ring-1 focus:ring-green-500 border border-gray-200">
+            <svg class="w-4 h-4 text-gray-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <div class="header-actions">
+            <button onclick="openNewTaskModal()" class="flex-1 bg-[#1e5631] text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 shadow-sm hover:bg-green-800 transition"><span>➕</span> ثبت تسک جدید</button>
+        </div>
     </div>
 </header>
 
-<main class="p-3 space-y-3" id="tasksSection">
+<main id="tasksSection">
 
-<div class="grid grid-cols-2 gap-2">
-    <div class="bg-blue-50 rounded-xl p-2 border border-blue-100 flex flex-col items-center shadow-sm">
+<!-- کارت‌های آماری -->
+<div class="grid grid-cols-2 gap-3 mb-3">
+    <div class="bg-blue-50 rounded-xl p-3 border border-blue-100 flex flex-col items-center shadow-sm">
         <div class="text-blue-800 font-bold mb-1 text-[10px] text-center">کل تسک‌های گروه</div><div id="statTotal" class="text-3xl font-black text-blue-600 mb-2">۰</div>
         <div class="flex flex-col gap-1 w-full text-[9px] text-center">
             <div onclick="filterByStat('active')" id="statBtnActive" class="stat-btn p-1.5 rounded-lg shadow-sm">🔄 جاری: <span id="statActive">۰</span></div>
@@ -164,7 +416,7 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
             <div onclick="filterByStat('done')" id="statBtnDone" class="stat-btn p-1.5 rounded-lg shadow-sm">✅ مختومه: <span id="statDone">۰</span></div>
         </div>
     </div>
-    <div class="bg-green-50 rounded-xl p-2 border border-green-100 flex flex-col items-center shadow-sm">
+    <div class="bg-green-50 rounded-xl p-3 border border-green-100 flex flex-col items-center shadow-sm">
         <div class="text-green-800 font-bold mb-1 text-[10px] text-center">تسک‌های من</div><div id="statMyTotal" class="text-3xl font-black text-green-600 mb-2">۰</div>
         <div class="flex flex-col gap-1 w-full text-[9px] text-center">
             <div onclick="filterByStat('active_my')" id="statMyBtnActive" class="stat-btn p-1.5 rounded-lg shadow-sm">🔄 جاری: <span id="statMyActive">۰</span></div>
@@ -205,12 +457,14 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
     </div>
 </div>
 
-<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 text-[11px] items-center bg-white p-2 rounded-lg shadow-sm border border-gray-100">
-    <select id="filterExpert" onchange="filterTasks(true)" class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-2 py-1.5 rounded-lg shadow-sm focus:outline-none"><option value="همه کارشناسان">همه کارشناسان</option></select>
-    <select id="filterStatus" onchange="filterTasks(true)" class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-2 py-1.5 rounded-lg shadow-sm focus:outline-none"><option value="همه وضعیت‌ها">همه وضعیت‌ها</option></select>
-    <button onclick="resetFilters()" class="whitespace-nowrap bg-gray-100 border border-gray-300 text-gray-700 px-2 py-1.5 rounded-lg flex items-center gap-1 shadow-sm hover:bg-gray-200">🔄 حذف فیلترها</button>
+<!-- فیلترها -->
+<div class="filter-row flex gap-2 overflow-x-auto no-scrollbar pb-1 text-[11px] items-center bg-white p-2.5 rounded-lg shadow-sm border border-gray-100 mb-3">
+    <select id="filterExpert" onchange="filterTasks(true)" class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-2.5 py-1.5 rounded-lg shadow-sm focus:outline-none"><option value="همه کارشناسان">همه کارشناسان</option></select>
+    <select id="filterStatus" onchange="filterTasks(true)" class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-2.5 py-1.5 rounded-lg shadow-sm focus:outline-none"><option value="همه وضعیت‌ها">همه وضعیت‌ها</option></select>
+    <button onclick="resetFilters()" class="whitespace-nowrap bg-gray-100 border border-gray-300 text-gray-700 px-2.5 py-1.5 rounded-lg flex items-center gap-1 shadow-sm hover:bg-gray-200">🔄 حذف فیلترها</button>
 </div>
 
+<!-- جدول -->
 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
     <div class="overflow-x-auto table-scroll relative">
         <table class="w-full text-right text-[10px] whitespace-nowrap">
@@ -233,8 +487,8 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
     <div id="noResults" class="hidden text-center p-4 text-gray-500 text-sm">نتیجه‌ای یافت نشد.</div>
 
     <!-- نوار پایین جدول -->
-    <div class="p-2 bg-gray-50 border-t border-gray-200 text-[10px] text-gray-600">
-        <div class="flex flex-wrap items-center justify-between gap-2">
+    <div class="pagination-row p-3 bg-gray-50 border-t border-gray-200 text-[10px] text-gray-600">
+        <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-2 flex-wrap">
                 <span id="paginationInfo" class="whitespace-nowrap">نمایش ۰ مورد</span>
                 <div id="paginationControls" class="flex items-center gap-1"></div>
@@ -242,7 +496,7 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
             <div class="flex items-center gap-2 flex-wrap">
                 <button onclick="exportTasksExcel()" class="export-btn green" title="خروجی اکسل">📊 Excel</button>
                 <button onclick="exportTasksPDF()" class="export-btn green" title="خروجی PDF">📄 PDF</button>
-                <select id="itemsPerPageSelect" onchange="changeItemsPerPage(this.value)" class="border rounded p-1 bg-white text-[10px]">
+                <select id="itemsPerPageSelect" onchange="changeItemsPerPage(this.value)" class="border rounded p-1.5 bg-white text-[10px]">
                     <option value="10">۱۰</option><option value="20">۲۰</option><option value="50">۵۰</option>
                 </select>
             </div>
@@ -380,8 +634,8 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
 </div>
 
 <!-- تغییر رمز -->
-<div id="changePasswordModal" class="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center hidden">
-    <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
+<div id="changePasswordModal" class="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center hidden p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
         <div class="flex justify-between items-center mb-4 border-b pb-2">
             <h2 class="font-bold text-sm text-gray-800">🔒 تغییر رمز عبور</h2>
             <button onclick="closeChangePasswordModal()" class="text-gray-500 hover:text-red-500">✕</button>
@@ -396,8 +650,8 @@ th, td { overflow: hidden; text-overflow: ellipsis; }
 </div>
 
 <!-- تسک جدید -->
-<div id="newTaskModal" class="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center hidden">
-    <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl overflow-y-auto max-h-[90vh]">
+<div id="newTaskModal" class="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center hidden p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl overflow-y-auto max-h-[90vh]">
         <div class="flex justify-between items-center mb-4 border-b pb-2">
             <h2 class="font-bold text-sm text-gray-800">➕ ثبت تسک جدید</h2>
             <button onclick="closeNewTaskModal()" class="text-gray-500 hover:text-red-500">✕</button>
@@ -1037,9 +1291,8 @@ function login() {
     }
 }
 
-/* ============ خروج — نسخه ساده و مطمئن ============ */
+/* ============ خروج ============ */
 function logout() {
-    // بستن همه مودال‌ها
     ['detailsModal','membersModal','reportsModal','heyatModal','changePasswordModal','newTaskModal','datePickerModal'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) {
@@ -1048,21 +1301,13 @@ function logout() {
             el.classList.add('translate-y-full');
         }
     });
-
-    // مخفی کردن اپ و کنترل زوم
     document.getElementById('mainApp').classList.add('hidden');
     document.getElementById('zoomControl').classList.add('hidden');
-
-    // نمایش صفحه ورود
     var loginScreen = document.getElementById('loginScreen');
     loginScreen.classList.remove('hidden');
     loginScreen.style.display = 'flex';
-
-    // پاک کردن فیلد رمز
     document.getElementById('passwordInput').value = '';
     document.getElementById('loginError').classList.add('hidden');
-
-    // ریست فیلتر جاری
     currentStatFilter = 'all';
     updateStatButtonsUI();
 }
