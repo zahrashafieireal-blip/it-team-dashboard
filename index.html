@@ -6,11 +6,1979 @@
 <title>داشبورد مدیریت تسک</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+body { font-family: 'Vazirmatn', sans-serif; background: #F8FAFC; font-size: 12px; overflow-x: hidden; line-height: 1.7; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.table-scroll::-webkit-scrollbar { height: 4px; }
+.table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+.accordion-content { max-height: 0; overflow: hidden; transition: max-height .3s ease-out; }
+.accordion-active { max-height: 3000px; }
+.arrow-icon { transition: transform .3s; }
+.arrow-rotated { transform: rotate(180deg); }
+.stat-btn { transition: all .2s; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; }
+.stat-btn:hover { background: #f8fafc; }
+.stat-btn.active { background: #e8f5e9; border-color: #2e7d32; color: #1e5631; font-weight: bold; box-shadow: 0 0 0 1px #2e7d32; }
+#mainApp { min-height: 100vh; }
+header { backdrop-filter: blur(8px); }
+main { max-width: 1400px; margin: 0 auto; }
+.stat-btn { min-height: 38px; display: flex; align-items: center; justify-content: center; }
+table { table-layout: fixed; }
+th, td { overflow: hidden; text-overflow: ellipsis; }
+#taskTableBody tr { min-height: 48px; }
+#taskTableBody td:nth-child(3) { white-space: normal; line-height: 1.5; }
+.table-scroll { border-radius: 12px; }
+
+.zoom-control { position: fixed; left: 12px; bottom: 16px; z-index: 45; display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,.96); border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(15,23,42,.12); border-radius: 14px; padding: 5px; }
+.zoom-control button { width: 32px; height: 32px; border-radius: 9px; border: 0; background: #f1f5f9; color: #1e5631; font-size: 18px; font-weight: 800; cursor: pointer; }
+.zoom-control button:active { transform: scale(.96); }
+#zoomLevel { min-width: 42px; text-align: center; font-size: 10px; font-weight: 700; color: #475569; }
+
+/* منوی افقی */
+.hnav-wrap { background: #fff; border: 1px solid #eef2f6; border-radius: 14px; padding: 6px; box-shadow: 0 2px 10px rgba(15,23,42,.05); }
+.hnav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.hnav::-webkit-scrollbar { display: none; }
+.hnav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 7px 12px; min-width: 68px; border-radius: 11px; border: 0; background: transparent; color: #64748b; font-family: inherit; font-size: 10px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .18s, color .18s, transform .12s; flex-shrink: 0; }
+.hnav-item:hover { background: #f1f5f9; color: #1e5631; }
+.hnav-item:active { transform: scale(.96); }
+.hnav-item.active { background: #e8f5e9; color: #1e5631; }
+.hnav-item.active .hnav-icon svg { stroke-width: 2.2; }
+.hnav-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+.hnav-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.hnav-item.primary { background: linear-gradient(135deg, #1e5631, #2e7d32); color: #fff; box-shadow: 0 4px 12px rgba(30,86,49,.25); }
+.hnav-item.primary:hover { background: linear-gradient(135deg, #1b4d2b, #276b2b); color: #fff; }
+.hnav-item.danger { color: #dc2626; }
+.hnav-item.danger:hover { background: #fef2f2; color: #b91c1c; }
+.hnav-sep { width: 1px; background: #eef2f6; margin: 8px 4px; flex-shrink: 0; }
+
+.bar-track { height: 8px; background: #f1f5f9; border-radius: 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 6px; transition: width .6s ease; }
+
+.member-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center; padding: 10px; border-radius: 12px; background: #fff; border: 1px solid #eef2f6; transition: background .15s, border-color .15s; }
+.member-row:hover { background: #f8fafc; border-color: #e2e8f0; }
+.member-avatar { width: 36px; height: 36px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; }
+
+.dp-day { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; color: #334155; transition: background .15s, color .15s; }
+.dp-day:hover { background: #e8f5e9; color: #1e5631; }
+.dp-day.other-month { color: #cbd5e1; }
+.dp-day.today { background: #f0fdf4; color: #16a34a; font-weight: 800; }
+.dp-day.selected { background: #1e5631; color: #fff; font-weight: 800; }
+.dp-day.selected:hover { background: #1e5631; }
+
+.heyat-card { display: grid; grid-template-columns: 60px 1fr auto; gap: 12px; padding: 12px; border-radius: 14px; background: #fff; border: 1px solid #eef2f6; transition: box-shadow .15s, transform .15s; }
+.heyat-card:hover { box-shadow: 0 6px 18px rgba(15,23,42,.06); transform: translateY(-1px); }
+.heyat-date-box { background: linear-gradient(135deg, #1e5631, #2e7d32); color: #fff; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; text-align: center; box-shadow: 0 4px 10px rgba(30,86,49,.25); }
+.heyat-date-box .day { font-size: 20px; font-weight: 900; line-height: 1; }
+.heyat-date-box .month { font-size: 9px; opacity: .9; margin-top: 2px; }
+
+.timeline-item { display: grid; grid-template-columns: 32px 1fr; gap: 10px; position: relative; }
+.timeline-item .dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #fff; position: relative; z-index: 1; }
+.timeline-item .dot.expert { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.timeline-item .dot.manager { background: linear-gradient(135deg, #f97316, #ea580c); }
+.timeline-item .dot.done { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.timeline-item .content { background: #f8fafc; border: 1px solid #eef2f6; border-radius: 12px; padding: 10px; margin-bottom: 4px; }
+.timeline-item .content .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 10px; }
+.timeline-item .content .name { font-weight: 800; color: #0f172a; }
+.timeline-item .content .date { color: #94a3b8; font-size: 9px; }
+.timeline-item .content .text { font-size: 11px; color: #334155; line-height: 1.7; white-space: pre-wrap; }
+.timeline-item .content .badges { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.timeline-item .badge { font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; }
+.timeline-empty { text-align: center; padding: 20px 10px; color: #94a3b8; font-size: 11px; }
+
+.deadline-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 8px; font-size: 9px; font-weight: 800; white-space: nowrap; }
+.deadline-ok { background: #dcfce7; color: #166534; }
+.deadline-soon { background: #fef3c7; color: #92400e; }
+.deadline-today { background: #fee2e2; color: #991b1b; }
+.deadline-over { background: #fecaca; color: #7f1d1d; }
+.deadline-none { background: #f1f5f9; color: #94a3b8; }
+
+.export-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 10px; border-radius: 9px; border: 1px solid #cbd5e1; background: #fff; color: #334155; font-size: 10px; font-weight: 700; cursor: pointer; transition: all .15s; white-space: nowrap; font-family: inherit; }
+.export-btn:hover { background: #f0fdf4; border-color: #2e7d32; color: #1e5631; }
+.export-btn:active { transform: scale(.97); }
+.export-btn.green { border-color: #2e7d32; color: #1e5631; }
+.export-btn.green:hover { background: #1e5631; color: #fff; }
+
+@media (max-width: 700px) {
+    body { font-size: 13px; }
+    main { padding: 10px !important; }
+    header .p-3 { padding: 10px; }
+    header h1 { font-size: 14px; }
+    table { table-layout: auto; width: 100% !important; }
+    th, td { padding: 9px 6px !important; }
+    th:nth-child(4), td:nth-child(4),
+    th:nth-child(5), td:nth-child(5),
+    th:nth-child(6), td:nth-child(6),
+    th:nth-child(8), td:nth-child(8) { display: none; }
+    .table-scroll { overflow-x: hidden; }
+    .zoom-control { bottom: 12px; left: 10px; }
+    .hnav-item { padding: 6px 10px; min-width: 60px; font-size: 9px; }
+}
+</style>
+</head>
+<body class="text-gray-800">
+
+<!-- صفحه ورود -->
+<div id="loginScreen" class="fixed inset-0 bg-gray-50 flex items-center justify-center z-[100]">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-11/12 max-w-sm border border-gray-100">
+        <div class="text-center mb-6">
+            <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3 border border-green-100">
+                <svg class="w-10 h-10 text-[#1e5631]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <h2 class="text-lg font-bold text-gray-800">ورود به سامانه</h2>
+            <p class="text-xs text-gray-500 mt-1">لطفاً کاربر و رمز عبور خود را وارد کنید</p>
+        </div>
+        <label class="block text-xs font-bold text-gray-600 mb-1">انتخاب کاربر:</label>
+        <select id="userSelect" class="w-full p-3 border border-gray-300 rounded-xl mb-4 text-sm bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"></select>
+        <label class="block text-xs font-bold text-gray-600 mb-1">رمز عبور:</label>
+        <input type="password" id="passwordInput" placeholder="رمز عبور (پیش‌فرض: 1)" class="w-full p-3 border border-gray-300 rounded-xl mb-2 text-sm text-center focus:ring-2 focus:ring-green-500 focus:outline-none">
+        <p id="loginError" class="text-red-500 text-[10px] text-center hidden mb-2 font-bold">رمز عبور اشتباه است! (رمز پیش‌فرض 1 می‌باشد)</p>
+        <button onclick="login()" class="w-full bg-[#1e5631] text-white py-3 rounded-xl font-bold shadow-md hover:bg-green-800 transition mt-2">ورود</button>
+    </div>
+</div>
+
+<!-- اپلیکیشن -->
+<div id="mainApp" class="hidden">
+<header class="bg-white shadow-sm sticky top-0 z-30 border-b border-gray-100 flex flex-col">
+    <div class="flex justify-between items-center p-3 border-b border-gray-50">
+        <div><h1 id="headerName" class="font-bold text-gray-800 text-sm">خانم شفیعی</h1><p id="headerRole" class="text-[10px] text-gray-500">پشتیبان سمپ</p></div>
+        <button class="p-2 relative bg-gray-50 rounded-lg active:bg-gray-100 transition">
+            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        </button>
+    </div>
+    <div class="p-3"><div class="relative">
+        <input type="text" id="searchInput" oninput="filterTasks()" placeholder="جستجو در عنوان، کارشناس..." class="w-full bg-gray-100 rounded-lg py-2 pr-10 pl-4 text-xs focus:outline-none focus:ring-1 focus:ring-green-500 border border-gray-200">
+        <svg class="w-4 h-4 text-gray-400 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div></div>
+    <div class="px-3 pb-3 flex gap-2">
+        <button onclick="openNewTaskModal()" class="flex-1 bg-[#1e5631] text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 shadow-sm hover:bg-green-800 transition"><span>➕</span> ثبت تسک جدید</button>
+        <button onclick="exportTasksExcel()" class="export-btn green" title="خروجی اکسل">📊 Excel</button>
+        <button onclick="exportTasksPDF()" class="export-btn green" title="خروجی PDF">📄 PDF</button>
+    </div>
+</header>
+
+<main class="p-3 space-y-3" id="tasksSection">
+
+<div class="grid grid-cols-2 gap-2">
+    <div class="bg-blue-50 rounded-xl p-2 border border-blue-100 flex flex-col items-center shadow-sm">
+        <div class="text-blue-800 font-bold mb-1 text-[10px] text-center">کل تسک‌های گروه</div><div id="statTotal" class="text-3xl font-black text-blue-600 mb-2">۰</div>
+        <div class="flex flex-col gap-1 w-full text-[9px] text-center">
+            <div onclick="filterByStat('active')" id="statBtnActive" class="stat-btn p-1.5 rounded-lg shadow-sm">🔄 جاری: <span id="statActive">۰</span></div>
+            <div onclick="filterByStat('overdue')" id="statBtnOverdue" class="stat-btn p-1.5 rounded-lg shadow-sm">⏱ معوق: <span id="statOverdue">۰</span></div>
+            <div onclick="filterByStat('done')" id="statBtnDone" class="stat-btn p-1.5 rounded-lg shadow-sm">✅ مختومه: <span id="statDone">۰</span></div>
+        </div>
+    </div>
+    <div class="bg-green-50 rounded-xl p-2 border border-green-100 flex flex-col items-center shadow-sm">
+        <div class="text-green-800 font-bold mb-1 text-[10px] text-center">تسک‌های من</div><div id="statMyTotal" class="text-3xl font-black text-green-600 mb-2">۰</div>
+        <div class="flex flex-col gap-1 w-full text-[9px] text-center">
+            <div onclick="filterByStat('active_my')" id="statMyBtnActive" class="stat-btn p-1.5 rounded-lg shadow-sm">🔄 جاری: <span id="statMyActive">۰</span></div>
+            <div onclick="filterByStat('overdue_my')" id="statMyBtnOverdue" class="stat-btn p-1.5 rounded-lg shadow-sm">⏱ معوق: <span id="statMyOverdue">۰</span></div>
+            <div onclick="filterByStat('done_my')" id="statMyBtnDone" class="stat-btn p-1.5 rounded-lg shadow-sm">✅ مختومه: <span id="statMyDone">۰</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="hnav-wrap">
+    <div class="hnav">
+        <button class="hnav-item active" id="hnavTasks" onclick="goToTasks()">
+            <span class="hnav-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg></span>
+            <span>تسک‌ها</span>
+        </button>
+        <button class="hnav-item" onclick="openReports()">
+            <span class="hnav-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 3 5-7"/></svg></span>
+            <span>گزارش</span>
+        </button>
+        <button class="hnav-item" onclick="openMembers()">
+            <span class="hnav-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span>اعضا</span>
+        </button>
+        <button class="hnav-item" onclick="openHeyat()">
+            <span class="hnav-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></span>
+            <span>هیئت عمومی</span>
+        </button>
+        <div class="hnav-sep"></div>
+        <button class="hnav-item primary" onclick="openNewTaskModal()">
+            <span class="hnav-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+            <span>تسک جدید</span>
+        </button>
+        <button class="hnav-item" onclick="openChangePasswordModal()">
+            <span class="hnav-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+            <span>تغییر رمز</span>
+        </button>
+        <button class="hnav-item danger" onclick="logout()">
+            <span class="hnav-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>
+            <span>خروج</span>
+        </button>
+    </div>
+</div>
+
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 text-[11px] items-center bg-white p-2 rounded-lg shadow-sm border border-gray-100">
+    <select id="filterExpert" onchange="filterTasks(true)" class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-2 py-1.5 rounded-lg shadow-sm focus:outline-none"><option value="همه کارشناسان">همه کارشناسان</option></select>
+    <select id="filterStatus" onchange="filterTasks(true)" class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-2 py-1.5 rounded-lg shadow-sm focus:outline-none"><option value="همه وضعیت‌ها">همه وضعیت‌ها</option></select>
+    <button onclick="resetFilters()" class="whitespace-nowrap bg-gray-100 border border-gray-300 text-gray-700 px-2 py-1.5 rounded-lg flex items-center gap-1 shadow-sm hover:bg-gray-200">🔄 حذف فیلترها</button>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+<div class="overflow-x-auto table-scroll relative"><table class="w-full text-right text-[10px] whitespace-nowrap">
+<thead class="bg-gray-50 text-gray-600 border-b border-gray-200"><tr>
+    <th class="p-2 font-bold text-center">#</th>
+    <th class="p-2 font-bold text-center">کارشناس</th>
+    <th class="p-2 font-bold text-right">عنوان تسک</th>
+    <th class="p-2 font-bold text-center">نوع</th>
+    <th class="p-2 font-bold text-center">تاریخ ثبت</th>
+    <th class="p-2 font-bold text-center">مهلت</th>
+    <th class="p-2 font-bold text-center">مهلت باقی‌مانده</th>
+    <th class="p-2 font-bold text-center">وضعیت</th>
+    <th class="p-2 font-bold text-center">پیشرفت</th>
+</tr></thead><tbody id="taskTableBody"></tbody></table></div>
+<div id="noResults" class="hidden text-center p-4 text-gray-500 text-sm">نتیجه‌ای یافت نشد.</div>
+<div class="p-2 bg-gray-50 border-t border-gray-200 flex flex-col gap-2 text-[10px] text-gray-600">
+<div id="paginationControls" class="flex justify-center items-center gap-1"></div>
+<div class="flex justify-between items-center"><span id="paginationInfo">نمایش ۰ مورد</span><select id="itemsPerPageSelect" onchange="changeItemsPerPage(this.value)" class="border rounded p-1 bg-white"><option value="10">۱۰</option><option value="20">۲۰</option><option value="50">۵۰</option></select></div>
+</div></div>
+</main>
+</div>
+
+<!-- مودال جزئیات -->
+<div id="detailsModal" class="fixed inset-0 bg-white z-[60] transform translate-y-full transition-transform duration-300 flex flex-col hidden">
+    <div class="bg-gray-50 p-3 border-b flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <button onclick="closeDetails()" class="p-1.5 bg-gray-200 rounded-lg text-xs text-gray-700 font-bold">✕</button>
+            <h2 class="font-bold text-sm text-gray-800">جزئیات تسک</h2>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+            <button onclick="exportSingleTaskExcel()" class="export-btn green">📊 Excel</button>
+            <button onclick="exportSingleTaskPDF()" class="export-btn green">📄 PDF</button>
+            <button onclick="deleteTask()" class="p-1.5 bg-white border border-red-300 rounded-lg text-xs text-red-600 shadow-sm">🗑️ حذف</button>
+        </div>
+    </div>
+    <div class="p-4 overflow-y-auto flex-1 space-y-4 text-xs bg-gray-50">
+
+        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+            <div class="flex justify-between items-start gap-3 mb-3">
+                <div class="min-w-0">
+                    <h3 id="modalTitle" class="font-bold text-sm text-gray-800 mb-1">عنوان تسک</h3>
+                    <p id="modalMeta" class="text-gray-500 text-[10px] leading-relaxed">-</p>
+                </div>
+                <div id="modalStatusBadge" class="shrink-0"></div>
+            </div>
+            <div class="mt-3">
+                <div class="flex justify-between text-[11px] mb-1.5">
+                    <span class="font-bold text-gray-700">📊 درصد پیشرفت</span>
+                    <span id="modalProgressText" class="font-black text-[#1e5631]">۰٪</span>
+                </div>
+                <div class="bar-track h-2.5">
+                    <div id="modalProgressBar" class="bar-fill" style="width:0%;background:linear-gradient(90deg,#22c55e,#1e5631);"></div>
+                </div>
+            </div>
+            <div id="modalDeadlineInfo" class="mt-3 text-[11px]"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 text-center">
+                <div class="text-[10px] text-blue-700 font-bold">اقدامات کارشناس</div>
+                <div id="modalActionCount" class="text-2xl font-black text-blue-600">۰</div>
+            </div>
+            <div class="bg-orange-50 border border-orange-100 rounded-xl p-3 text-center">
+                <div class="text-[10px] text-orange-700 font-bold">نظرات مدیر</div>
+                <div id="modalCommentCount" class="text-2xl font-black text-orange-600">۰</div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="bg-blue-50 p-3 font-bold text-blue-800 flex items-center gap-2 cursor-pointer border-b border-blue-100" onclick="toggleAccordion('expertAccordion',this)">
+                <span>👤</span> بخش کارشناس
+                <span class="mr-auto text-[10px] arrow-icon">▼</span>
+            </div>
+            <div id="expertAccordion" class="accordion-content accordion-active">
+                <div class="p-4 space-y-4">
+                    <div id="expertActionForm">
+                        <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3 space-y-3">
+                            <div class="text-[10px] font-bold text-blue-700">✍️ ثبت اقدام جدید</div>
+                            <textarea id="newActionText" rows="2" placeholder="شرح اقدام انجام‌شده..." class="w-full border border-gray-300 rounded-lg p-2 text-xs focus:ring-1 focus:ring-blue-500"></textarea>
+                            <div class="flex gap-2 flex-wrap">
+                                <div class="flex-1 min-w-[110px]">
+                                    <label class="block text-gray-700 mb-1 font-bold text-[10px]">وضعیت</label>
+                                    <select id="newActionStatus" class="w-full border border-gray-300 rounded-lg p-2 text-xs bg-white">
+                                        <option>در حال انجام</option>
+                                        <option>در حال پیگیری</option>
+                                        <option>در حال بررسی</option>
+                                        <option>معوق</option>
+                                        <option>انجام شد</option>
+                                    </select>
+                                </div>
+                                <div class="w-20">
+                                    <label class="block text-gray-700 mb-1 font-bold text-[10px]">پیشرفت ٪</label>
+                                    <input type="number" id="newActionProgress" min="0" max="100" placeholder="۵۰" class="w-full border border-gray-300 rounded-lg p-2 text-xs text-center">
+                                </div>
+                                <div class="flex-1 min-w-[110px]">
+                                    <label class="block text-gray-700 mb-1 font-bold text-[10px]">تاریخ</label>
+                                    <input type="text" readonly id="newActionDate" placeholder="انتخاب" class="date-input w-full border border-gray-300 rounded-lg p-2 text-xs text-center cursor-pointer">
+                                </div>
+                            </div>
+                            <button onclick="submitExpertAction()" class="w-full bg-[#1e5631] text-white py-2.5 rounded-lg text-xs font-bold shadow-sm hover:bg-green-800 transition">ثبت اقدام</button>
+                        </div>
+                    </div>
+
+                    <div id="expertLockedMsg" class="hidden bg-green-50 border border-green-200 rounded-xl p-3 text-center">
+                        <div class="text-2xl mb-1">🔒</div>
+                        <div class="text-[11px] font-bold text-green-800">این تسک مختومه شده است</div>
+                        <div class="text-[10px] text-green-700 mt-0.5">امکان ثبت اقدام جدید وجود ندارد</div>
+                    </div>
+
+                    <div>
+                        <div class="text-[10px] font-bold text-gray-600 mb-2 flex items-center gap-1">
+                            <span>📜</span> تاریخچه اقدامات
+                        </div>
+                        <div id="expertTimeline" class="space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="bg-orange-50 p-3 font-bold text-orange-800 flex items-center gap-2 cursor-pointer border-b border-orange-100" onclick="toggleAccordion('managerAccordion',this)">
+                <span>👤</span> بخش مدیر
+                <span class="mr-auto text-[10px] arrow-icon">▼</span>
+            </div>
+            <div id="managerAccordion" class="accordion-content accordion-active">
+                <div class="p-4 space-y-4">
+                    <div id="managerActionForm">
+                        <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-3 space-y-3">
+                            <div class="text-[10px] font-bold text-orange-700">✍️ ثبت نظر مدیر</div>
+                            <textarea id="newCommentText" rows="2" placeholder="نظر یا دستور شما..." class="w-full border border-gray-300 rounded-lg p-2 text-xs focus:ring-1 focus:ring-orange-500"></textarea>
+                            <button onclick="submitManagerComment()" class="w-full bg-[#1e5631] text-white py-2.5 rounded-lg text-xs font-bold shadow-sm hover:bg-green-800 transition">ثبت نظر</button>
+                        </div>
+                    </div>
+                    <div id="managerLockedMsg" class="hidden bg-green-50 border border-green-200 rounded-xl p-3 text-center">
+                        <div class="text-2xl mb-1">🔒</div>
+                        <div class="text-[11px] font-bold text-green-800">تسک مختومه شده است</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] font-bold text-gray-600 mb-2 flex items-center gap-1">
+                            <span>📜</span> تاریخچه نظرات
+                        </div>
+                        <div id="managerTimeline" class="space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- تغییر رمز -->
+<div id="changePasswordModal" class="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center hidden">
+    <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
+        <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <h2 class="font-bold text-sm text-gray-800">🔒 تغییر رمز عبور</h2>
+            <button onclick="closeChangePasswordModal()" class="text-gray-500 hover:text-red-500">✕</button>
+        </div>
+        <div class="space-y-3 text-xs">
+            <input type="password" id="currentPass" class="w-full border border-gray-300 rounded-lg p-2" placeholder="رمز فعلی (1)">
+            <input type="password" id="newPass" class="w-full border border-gray-300 rounded-lg p-2" placeholder="رمز جدید">
+            <input type="password" id="confirmPass" class="w-full border border-gray-300 rounded-lg p-2" placeholder="تکرار رمز جدید">
+            <button onclick="changePassword()" class="w-full bg-[#1e5631] text-white py-2.5 rounded-lg font-bold mt-2 shadow-md">ثبت تغییرات</button>
+        </div>
+    </div>
+</div>
+
+<!-- تسک جدید -->
+<div id="newTaskModal" class="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center hidden">
+    <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl overflow-y-auto max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <h2 class="font-bold text-sm text-gray-800">➕ ثبت تسک جدید</h2>
+            <button onclick="closeNewTaskModal()" class="text-gray-500 hover:text-red-500">✕</button>
+        </div>
+        <div class="space-y-3 text-xs">
+            <div><label class="block text-gray-600 mb-1 font-bold">عنوان تسک</label>
+                <input type="text" id="newTaskTitle" class="w-full border border-gray-300 rounded-lg p-2"></div>
+            <div><label class="block text-gray-600 mb-1 font-bold">کارشناس</label>
+                <select id="newTaskExpert" class="w-full border border-gray-300 rounded-lg p-2"></select></div>
+            <div><label class="block text-gray-600 mb-1 font-bold">نوع</label>
+                <select id="newTaskType" class="w-full border border-gray-300 rounded-lg p-2">
+                    <option value="تسک">تسک</option><option value="تیکت">تیکت</option>
+                    <option value="پیرنگ">پیرنگ</option><option value="مکاتبه">مکاتبه</option>
+                    <option value="تهیه گزارش">تهیه گزارش</option><option value="سایر">سایر</option>
+                </select></div>
+            <div class="flex gap-2">
+                <div class="flex-1"><label class="block text-gray-600 mb-1 font-bold">تاریخ ثبت</label>
+                    <input type="text" readonly id="newTaskRegDate" placeholder="انتخاب تاریخ" class="date-input w-full border border-gray-300 rounded-lg p-2 text-center cursor-pointer"></div>
+                <div class="flex-1"><label class="block text-gray-600 mb-1 font-bold">مهلت انجام</label>
+                    <input type="text" readonly id="newTaskDeadline" placeholder="انتخاب تاریخ" class="date-input w-full border border-gray-300 rounded-lg p-2 text-center cursor-pointer"></div>
+            </div>
+            <div><label class="block text-gray-600 mb-1 font-bold">وضعیت</label>
+                <input type="text" id="newTaskStatus" placeholder="در حال انجام" class="w-full border border-gray-300 rounded-lg p-2"></div>
+            <div><label class="block text-gray-600 mb-1 font-bold">درصد پیشرفت</label>
+                <input type="number" id="newTaskProgress" min="0" max="100" placeholder="۵۰" class="w-full border border-gray-300 rounded-lg p-2 text-center"></div>
+            <button onclick="addNewTask()" class="w-full bg-[#1e5631] text-white py-3 rounded-lg font-bold mt-4 shadow-md">ثبت تسک</button>
+        </div>
+    </div>
+</div>
+
+<!-- اعضا -->
+<div id="membersModal" class="fixed inset-0 bg-white z-[65] transform translate-y-full transition-transform duration-300 flex flex-col hidden">
+    <div class="bg-gray-50 p-3 border-b flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2"><button onclick="closeMembers()" class="p-1.5 bg-gray-200 rounded-lg text-xs text-gray-700 font-bold">✕</button><h2 class="font-bold text-sm text-gray-800">👥 مدیریت اعضای گروه</h2></div>
+        <div class="flex gap-2 flex-wrap">
+            <button onclick="exportMembersExcel()" class="export-btn green">📊 Excel</button>
+            <button onclick="exportMembersPDF()" class="export-btn green">📄 PDF</button>
+            <button onclick="openAddMemberForm()" class="bg-[#1e5631] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:bg-green-800 transition">➕ عضو جدید</button>
+        </div>
+    </div>
+    <div class="p-4 overflow-y-auto flex-1 bg-gray-50">
+        <div id="addMemberForm" class="hidden bg-white rounded-xl border border-gray-200 p-4 mb-4 shadow-sm">
+            <h3 class="font-bold text-xs text-gray-800 mb-3">➕ افزودن عضو جدید</h3>
+            <div class="space-y-2">
+                <input type="text" id="newMemberName" placeholder="نام و نام خانوادگی" class="w-full border border-gray-300 rounded-lg p-2 text-xs">
+                <input type="text" id="newMemberRole" placeholder="سمت" class="w-full border border-gray-300 rounded-lg p-2 text-xs">
+                <div class="flex gap-2">
+                    <button onclick="addMember()" class="flex-1 bg-[#1e5631] text-white py-2 rounded-lg text-xs font-bold shadow-sm">ثبت عضو</button>
+                    <button onclick="closeAddMemberForm()" class="px-4 bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold">انصراف</button>
+                </div>
+            </div>
+        </div>
+        <div id="membersList" class="space-y-2"></div>
+    </div>
+</div>
+
+<!-- گزارش -->
+<div id="reportsModal" class="fixed inset-0 bg-white z-[65] transform translate-y-full transition-transform duration-300 flex flex-col hidden">
+    <div class="bg-gray-50 p-3 border-b flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <button onclick="closeReports()" class="p-1.5 bg-gray-200 rounded-lg text-xs text-gray-700 font-bold">✕</button>
+            <h2 class="font-bold text-sm text-gray-800">📈 گزارش‌گیری تسک‌ها</h2>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+            <button onclick="exportReportExcel()" class="export-btn green">📊 Excel</button>
+            <button onclick="exportReportPDF()" class="export-btn green">📄 PDF</button>
+        </div>
+    </div>
+    <div class="bg-white border-b border-gray-100 p-3 shadow-sm">
+        <div class="grid grid-cols-2 gap-2">
+            <div><label class="block text-[10px] font-bold text-gray-600 mb-1">👤 کارشناس</label>
+                <select id="rpFilterExpert" class="w-full border border-gray-300 rounded-lg p-2 text-xs bg-white"><option value="all">همه کارشناسان</option></select></div>
+            <div><label class="block text-[10px] font-bold text-gray-600 mb-1">🎯 وضعیت</label>
+                <select id="rpFilterStatus" class="w-full border border-gray-300 rounded-lg p-2 text-xs bg-white"><option value="all">همه وضعیت‌ها</option></select></div>
+            <div><label class="block text-[10px] font-bold text-gray-600 mb-1">🏷 نوع</label>
+                <select id="rpFilterType" class="w-full border border-gray-300 rounded-lg p-2 text-xs bg-white"><option value="all">همه انواع</option></select></div>
+            <div><label class="block text-[10px] font-bold text-gray-600 mb-1">⏳ مهلت</label>
+                <select id="rpFilterDeadline" class="w-full border border-gray-300 rounded-lg p-2 text-xs bg-white">
+                    <option value="all">همه</option>
+                    <option value="overdue">تأخیر خورده</option>
+                    <option value="today">امروز</option>
+                    <option value="week">یک هفته آینده</option>
+                    <option value="none">بدون مهلت</option>
+                </select></div>
+            <div><label class="block text-[10px] font-bold text-gray-600 mb-1">📅 از تاریخ</label>
+                <input type="text" readonly id="rpFilterFrom" placeholder="انتخاب" class="date-input w-full border border-gray-300 rounded-lg p-2 text-xs text-center cursor-pointer"></div>
+            <div><label class="block text-[10px] font-bold text-gray-600 mb-1">📅 تا تاریخ</label>
+                <input type="text" readonly id="rpFilterTo" placeholder="انتخاب" class="date-input w-full border border-gray-300 rounded-lg p-2 text-xs text-center cursor-pointer"></div>
+        </div>
+        <div class="flex gap-2 mt-3">
+            <button onclick="applyReportFilters()" class="flex-1 bg-[#1e5631] text-white py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-green-800 transition">🔍 اعمال فیلترها</button>
+            <button onclick="resetReportFilters()" class="px-4 bg-gray-100 border border-gray-300 text-gray-700 py-2 rounded-lg text-xs font-bold hover:bg-gray-200">🔄 پاک کردن</button>
+        </div>
+    </div>
+    <div class="bg-[#f0fdf4] border-b border-green-100 px-3 py-2 flex justify-between items-center">
+        <span class="text-[11px] font-bold text-[#1e5631]">📋 نتیجه گزارش</span>
+        <span id="rpResultSummary" class="text-[11px] font-black text-[#1e5631] bg-white px-2.5 py-1 rounded-full border border-green-200">۰ تسک</span>
+    </div>
+    <div id="reportsContent" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50"></div>
+</div>
+
+<!-- هیئت عمومی -->
+<div id="heyatModal" class="fixed inset-0 bg-white z-[65] transform translate-y-full transition-transform duration-300 flex flex-col hidden">
+    <div class="bg-gray-50 p-3 border-b flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2"><button onclick="closeHeyat()" class="p-1.5 bg-gray-200 rounded-lg text-xs text-gray-700 font-bold">✕</button><h2 class="font-bold text-sm text-gray-800">🏛 هیئت عمومی — نوبت‌دهی حضور</h2></div>
+        <div class="flex gap-2 flex-wrap">
+            <button onclick="exportHeyatExcel()" class="export-btn green">📊 Excel</button>
+            <button onclick="exportHeyatPDF()" class="export-btn green">📄 PDF</button>
+            <button onclick="openAddHeyatForm()" class="bg-[#1e5631] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:bg-green-800 transition">➕ نوبت جدید</button>
+        </div>
+    </div>
+    <div class="p-4 overflow-y-auto flex-1 bg-gray-50">
+        <div id="addHeyatForm" class="hidden bg-white rounded-xl border-2 border-[#2e7d32] p-4 mb-4 shadow-sm">
+            <h3 class="font-bold text-xs text-gray-800 mb-3">➕ ثبت نوبت حضور در هیئت عمومی</h3>
+            <div class="space-y-2">
+                <div><label class="block text-gray-600 mb-1 font-bold text-[11px]">فرد شرکت‌کننده</label>
+                    <select id="heyatPerson" class="w-full border border-gray-300 rounded-lg p-2 text-xs bg-white"></select></div>
+                <div class="flex gap-2">
+                    <div class="flex-1"><label class="block text-gray-600 mb-1 font-bold text-[11px]">تاریخ حضور</label>
+                        <input type="text" readonly id="heyatDate" placeholder="انتخاب" class="date-input w-full border border-gray-300 rounded-lg p-2 text-xs text-center cursor-pointer"></div>
+                    <div class="flex-1"><label class="block text-gray-600 mb-1 font-bold text-[11px]">ساعت</label>
+                        <input type="text" id="heyatTime" placeholder="۰۸:۳۰" class="w-full border border-gray-300 rounded-lg p-2 text-xs text-center"></div>
+                </div>
+                <div><label class="block text-gray-600 mb-1 font-bold text-[11px]">موضوع / پرونده</label>
+                    <input type="text" id="heyatSubject" placeholder="مثلاً: پرونده کلاسه..." class="w-full border border-gray-300 rounded-lg p-2 text-xs"></div>
+                <div><label class="block text-gray-600 mb-1 font-bold text-[11px]">توضیحات</label>
+                    <textarea id="heyatDesc" rows="2" placeholder="توضیحات..." class="w-full border border-gray-300 rounded-lg p-2 text-xs"></textarea></div>
+                <div class="flex gap-2 pt-1">
+                    <button onclick="saveHeyat()" class="flex-1 bg-[#1e5631] text-white py-2 rounded-lg text-xs font-bold shadow-sm">ثبت نوبت</button>
+                    <button onclick="cancelHeyatForm()" class="px-4 bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold">انصراف</button>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-2 items-center mb-3 text-[11px]">
+            <select id="heyatFilter" onchange="renderHeyatList()" class="flex-1 bg-white border border-gray-300 rounded-lg p-2 shadow-sm">
+                <option value="upcoming">نوبت‌های پیش رو</option>
+                <option value="today">امروز</option>
+                <option value="past">گذشته</option>
+                <option value="all">همه</option>
+            </select>
+            <span id="heyatCount" class="text-[10px] bg-green-50 text-[#1e5631] px-2 py-1 rounded-full font-bold">۰ نوبت</span>
+        </div>
+        <div id="heyatList" class="space-y-2"></div>
+    </div>
+</div>
+
+<!-- تقویم شمسی -->
+<div id="datePickerModal" class="fixed inset-0 bg-black/40 z-[95] flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xs overflow-hidden">
+        <div class="bg-gradient-to-br from-[#1e5631] to-[#2e7d32] text-white p-3 flex justify-between items-center">
+            <button onclick="dpPrevMonth()" class="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 font-bold text-lg">‹</button>
+            <div class="text-center">
+                <div id="dpMonthYear" class="font-bold text-sm"></div>
+                <div id="dpWeekday" class="text-[10px] opacity-80"></div>
+            </div>
+            <button onclick="dpNextMonth()" class="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 font-bold text-lg">›</button>
+        </div>
+        <div class="p-3">
+            <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-gray-500 mb-1">
+                <div>ش</div><div>ی</div><div>د</div><div>س</div><div>چ</div><div>پ</div><div>ج</div>
+            </div>
+            <div id="dpDaysGrid" class="grid grid-cols-7 gap-1"></div>
+        </div>
+        <div class="border-t p-2 flex gap-2 bg-gray-50">
+            <button onclick="dpToday()" class="flex-1 bg-white border border-gray-300 text-[11px] py-1.5 rounded-lg font-bold hover:bg-gray-100">امروز</button>
+            <button onclick="dpClear()" class="flex-1 bg-white border border-gray-300 text-[11px] py-1.5 rounded-lg font-bold text-red-600 hover:bg-red-50">پاک کردن</button>
+            <button onclick="closeDatePicker()" class="flex-1 bg-gray-100 border border-gray-300 text-[11px] py-1.5 rounded-lg font-bold hover:bg-gray-200">بستن</button>
+        </div>
+    </div>
+</div>
+
+<div id="zoomControl" class="zoom-control hidden">
+    <button onclick="changeAppZoom(-0.05)">−</button>
+    <span id="zoomLevel" onclick="resetAppZoom()" style="cursor:pointer">۱۰۰٪</span>
+    <button onclick="changeAppZoom(0.05)">+</button>
+</div>
+
+<script>
+/* ============ توابع تاریخ جلالی ============ */
+function jdiv(a, b) { return ~~(a / b); }
+function jmod(a, b) { return a - ~~(a / b) * b; }
+function jalCal(jy, withoutLeap) {
+    const breaks = [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178];
+    const bl = breaks.length;
+    const gy = jy + 621;
+    let leapJ = -14, jp = breaks[0], jm, jump, leap, leapG, march, n, i;
+    if (jy < jp || jy >= breaks[bl - 1]) throw new Error('سال جلالی نامعتبر: ' + jy);
+    for (i = 1; i < bl; i += 1) {
+        jm = breaks[i]; jump = jm - jp;
+        if (jy < jm) break;
+        leapJ = leapJ + jdiv(jump, 33) * 8 + jdiv(jmod(jump, 33), 4);
+        jp = jm;
+    }
+    n = jy - jp;
+    leapJ = leapJ + jdiv(n, 33) * 8 + jdiv(jmod(n, 33) + 3, 4);
+    if (jmod(jump, 33) === 4 && jump - n === 4) leapJ += 1;
+    leapG = jdiv(gy, 4) - jdiv((jdiv(gy, 100) + 1) * 3, 4) - 150;
+    march = 20 + leapJ - leapG;
+    if (!withoutLeap) {
+        if (jump - n < 6) n = n - jump + jdiv(jump + 4, 33) * 33;
+        leap = jmod(jmod(n + 1, 33) - 1, 4);
+        if (leap === -1) leap = 4;
+    }
+    return { leap, gy, march };
+}
+function j2d(jy, jm, jd) {
+    const r = jalCal(jy, true);
+    return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - jdiv(jm, 7) * (jm - 7) + jd - 1;
+}
+function d2j(jdn) {
+    let gy = d2g(jdn).gy;
+    let jy = gy - 621;
+    const r = jalCal(jy, false);
+    const jdn1f = g2d(gy, 3, r.march);
+    let jd, jm, k;
+    k = jdn - jdn1f;
+    if (k >= 0) {
+        if (k <= 185) { jm = 1 + jdiv(k, 31); jd = jmod(k, 31) + 1; return { jy, jm, jd }; }
+        k -= 186;
+    } else { jy -= 1; k += 179; if (r.leap === 1) k += 1; }
+    jm = 7 + jdiv(k, 30); jd = jmod(k, 30) + 1;
+    return { jy, jm, jd };
+}
+function g2d(gy, gm, gd) {
+    let d = jdiv((gy + jdiv(gm - 8, 6) + 100100) * 1461, 4) + jdiv(153 * jmod(gm + 9, 12) + 2, 5) + gd - 34840408;
+    d = d - jdiv(jdiv(gy + 100100 + jdiv(gm - 8, 6), 100) * 3, 4) + 752;
+    return d;
+}
+function d2g(jdn) {
+    let j, i, gd, gm, gy;
+    j = 4 * jdn + 139361631;
+    j = j + jdiv(jdiv(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908;
+    i = jdiv(jmod(j, 1461), 4) * 5 + 308;
+    gd = jdiv(jmod(i, 153), 5) + 1;
+    gm = jmod(jdiv(i, 153), 12) + 1;
+    gy = jdiv(j, 1461) - 100100 + jdiv(8 - gm, 6);
+    return { gy, gm, gd };
+}
+function jalaaliMonthLength(jy, jm) {
+    if (jm <= 6) return 31;
+    if (jm <= 11) return 30;
+    if (isLeapJalaaliYear(jy)) return 30;
+    return 29;
+}
+function isLeapJalaaliYear(jy) { return jalCal(jy, false).leap === 0; }
+function todayJalaali() {
+    const now = new Date();
+    const g = g2d(now.getFullYear(), now.getMonth() + 1, now.getDate());
+    return d2j(g);
+}
+function jalaaliToGregorianDate(jy, jm, jd) {
+    const g = d2g(j2d(jy, jm, jd));
+    return new Date(g.gy, g.gm - 1, g.gd);
+}
+function toFaDigits(n) { return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]); }
+function toEnDigits(s) { return String(s).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); }
+function todayStr() {
+    const t = todayJalaali();
+    const d = new Date();
+    const time = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    return toFaDigits(t.jy) + '/' + toFaDigits(t.jm).padStart(2, '0') + '/' + toFaDigits(t.jd).padStart(2, '0') + ' - ' + toFaDigits(time);
+}
+const J_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const J_WEEKDAYS = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
+
+/* ============ تقویم شمسی ============ */
+let dpTargetInput = null;
+let dpYear, dpMonth, dpSelected = null;
+function openDatePicker(inputEl) {
+    dpTargetInput = inputEl;
+    const t = todayJalaali();
+    const val = (inputEl.value || '').trim();
+    if (val && /[۰-۹0-9]/.test(val)) {
+        const parts = toEnDigits(val).split('/').map(s => parseInt(s.trim()));
+        if (parts.length === 3 && !isNaN(parts[0]) && !isNaN(parts[1]) && !isNaN(parts[2])) {
+            dpYear = parts[0]; dpMonth = parts[1]; dpSelected = parts[2];
+        } else { dpYear = t.jy; dpMonth = t.jm; dpSelected = null; }
+    } else { dpYear = t.jy; dpMonth = t.jm; dpSelected = null; }
+    document.getElementById('datePickerModal').classList.remove('hidden');
+    renderDatePicker();
+}
+function closeDatePicker() { document.getElementById('datePickerModal').classList.add('hidden'); dpTargetInput = null; }
+function dpPrevMonth() { dpMonth--; if (dpMonth < 1) { dpMonth = 12; dpYear--; } renderDatePicker(); }
+function dpNextMonth() { dpMonth++; if (dpMonth > 12) { dpMonth = 1; dpYear++; } renderDatePicker(); }
+function dpToday() { const t = todayJalaali(); selectDate(t.jy, t.jm, t.jd); }
+function dpClear() { if (dpTargetInput) dpTargetInput.value = ''; closeDatePicker(); }
+function selectDate(jy, jm, jd) {
+    if (dpTargetInput) dpTargetInput.value = `${toFaDigits(jy)}/${toFaDigits(jm).padStart(2,'۰')}/${toFaDigits(jd).padStart(2,'۰')}`;
+    closeDatePicker();
+}
+function renderDatePicker() {
+    const t = todayJalaali();
+    const monthLen = jalaaliMonthLength(dpYear, dpMonth);
+    const firstDate = jalaaliToGregorianDate(dpYear, dpMonth, 1);
+    let dow = firstDate.getDay();
+    const startCol = (dow === 6) ? 0 : (dow + 1);
+    let prevY = dpYear, prevM = dpMonth - 1;
+    if (prevM < 1) { prevM = 12; prevY--; }
+    const prevLen = jalaaliMonthLength(prevY, prevM);
+    document.getElementById('dpMonthYear').innerText = `${J_MONTHS[dpMonth - 1]} ${toFaDigits(dpYear)}`;
+    const todayDate = jalaaliToGregorianDate(t.jy, t.jm, t.jd);
+    document.getElementById('dpWeekday').innerText = J_WEEKDAYS[todayDate.getDay()];
+    const grid = document.getElementById('dpDaysGrid');
+    grid.innerHTML = '';
+    for (let i = startCol - 1; i >= 0; i--) {
+        const d = prevLen - i;
+        const cell = document.createElement('div');
+        cell.className = 'dp-day other-month';
+        cell.innerText = toFaDigits(d);
+        grid.appendChild(cell);
+    }
+    for (let d = 1; d <= monthLen; d++) {
+        const cell = document.createElement('div');
+        cell.className = 'dp-day';
+        cell.innerText = toFaDigits(d);
+        if (t.jy === dpYear && t.jm === dpMonth && t.jd === d) cell.classList.add('today');
+        if (dpSelected === d) cell.classList.add('selected');
+        cell.onclick = () => selectDate(dpYear, dpMonth, d);
+        grid.appendChild(cell);
+    }
+    const total = startCol + monthLen;
+    const remain = (7 - (total % 7)) % 7;
+    for (let d = 1; d <= remain; d++) {
+        const cell = document.createElement('div');
+        cell.className = 'dp-day other-month';
+        cell.innerText = toFaDigits(d);
+        grid.appendChild(cell);
+    }
+}
+document.addEventListener('click', e => {
+    const el = e.target.closest('.date-input');
+    if (el) { e.preventDefault(); openDatePicker(el); }
+});
+function parseJDate(s) {
+    if (!s) return null;
+    const clean = toEnDigits(s);
+    const p = clean.split('/').map(x => parseInt(x.trim()));
+    if (p.length !== 3 || p.some(isNaN)) return null;
+    return { jy: p[0], jm: p[1], jd: p[2], ts: j2d(p[0], p[1], p[2]) };
+}
+function parseProgress(str) {
+    if (!str) return 0;
+    const clean = toEnDigits(str);
+    const n = parseInt(clean.replace(/[^\d]/g, ''));
+    return isNaN(n) ? 0 : Math.min(100, Math.max(0, n));
+}
+function calcRemaining(deadlineStr, taskStatus) {
+    if (!deadlineStr || deadlineStr === '-') return { html: '<span class="deadline-chip deadline-none">— بدون مهلت</span>', text: '—', days: null };
+    const pd = parseJDate(deadlineStr);
+    if (!pd) return { html: `<span class="deadline-chip deadline-none">${deadlineStr}</span>`, text: deadlineStr, days: null };
+    if (taskStatus === 'انجام شد') return { html: `<span class="deadline-chip deadline-ok">✅ مختومه</span>`, text: 'مختومه', days: 0 };
+    const today = todayJalaali();
+    const todayTs = j2d(today.jy, today.jm, today.jd);
+    const diff = pd.ts - todayTs;
+    if (diff > 1) return { html: `<span class="deadline-chip deadline-ok">${toFaDigits(diff)} روز مانده</span>`, text: toFaDigits(diff) + ' روز مانده', days: diff };
+    if (diff === 1) return { html: `<span class="deadline-chip deadline-soon">⏰ فردا</span>`, text: 'فردا', days: 1 };
+    if (diff === 0) return { html: `<span class="deadline-chip deadline-today">🔥 امروز</span>`, text: 'امروز', days: 0 };
+    return { html: `<span class="deadline-chip deadline-over">⚠ ${toFaDigits(Math.abs(diff))} روز تأخیر</span>`, text: toFaDigits(Math.abs(diff)) + ' روز تأخیر', days: diff };
+}
+
+/* ============ داده‌ها ============ */
+let users = [
+    {name:'آقای شریفی', role:'مدیر دپارتمان فناوری اطلاعات', color:'#1e5631'},
+    {name:'خانم شفیعی', role:'پشتیبان سمپ', color:'#2e7d32'},
+    {name:'آقای (برنامه نویس)', role:'برنامه نویس', color:'#0369a1'},
+    {name:'آقای عینی', role:'سخت افزار و دیتابیس', color:'#7c3aed'},
+    {name:'آقای عطاریان', role:'پشتیبان شبکه', color:'#b45309'},
+    {name:'آقای دری', role:'کارشناس نرم‌افزار', color:'#be123c'}
+];
+
+const tasks = [
+{id:1,title:'راه اندازی توکن',expert:'آقای عطاریان',type:'تسک',code:'TOKEN-01',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۱۰',status:'در حال انجام',progress:'۵۰٪',description:'سخت مورد نیاز کامل، با جناب آقای هاشمی و خانم یزدانی صحبت شد، در صف راه اندازی توکن.'},
+{id:2,title:'راه اندازی توکن (آقای سید کریمی)',expert:'آقای عطاریان',type:'تسک',code:'TOKEN-02',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۹۵٪',description:'با هماهنگی با مهندس فراهانی توکن نصب و راه اندازی شد.'},
+{id:3,title:'راه اندازی توکن (آقای درخشان نیا)',expert:'آقای عطاریان',type:'تسک',code:'TOKEN-03',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۹۵٪',description:'راه اندازی و تحویل و توضیح داده شد به مدیر دفتر.'},
+{id:4,title:'راه اندازی توکن (آقای مرتضوی)',expert:'آقای عطاریان',type:'تسک',code:'TOKEN-04',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۱۰۰٪',description:'طبق آخرین تیکت آدرس ip به مرکز اعلام شد.'},
+{id:5,title:'ماشین مجازی',expert:'آقای عطاریان',type:'تسک',code:'VM-01',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۱۰۰٪',description:'سرور آماده به کار است.'},
+{id:6,title:'سرور آرشیو الکترونیک',expert:'آقای عطاریان',type:'تسک',code:'SRV-01',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۱۰۰٪',description:'مشکل متصدی سامانه بایگانی راکد حل گردید.'},
+{id:7,title:'تجهیز قضات به سیستم',expert:'آقای عطاریان',type:'تسک',code:'EQP-01',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۱۵',status:'در حال انجام',progress:'۳۵٪',description:'در حال پیگیری و انجام است.'},
+{id:8,title:'زمانبندی شیفت همکاران جهت هیات عمومی',expert:'آقای عطاریان',type:'تسک',code:'SHIFT-01',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۱۰۰٪',description:'شیفت بندی برای مهر ماه انجام شد.'},
+{id:9,title:'ماشین 73-راه اندازی فایل اشتراکی منابع انسانی',expert:'آقای عطاریان',type:'تسک',code:'FILE-73',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۱۰۰٪',description:'راه اندازی کامل شد.'},
+{id:10,title:'ارسال مجدد پیرنگ به دفتر معاونین',expert:'آقای عطاریان',type:'تسک',code:'PIRANG-01',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۰۵',status:'در حال انجام',progress:'۵۰٪',description:'ارسال مجدد پیرنگ به دفتر معاونین.'},
+{id:11,title:'ارسال تیکت به مرکز آمار',expert:'آقای عطاریان',type:'تیکت',code:'0925689',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۱۰۰٪',description:'تیکت به شماره ۰۹۲۵۶۸۹ به واحد امنیت مرکز زده شده.'},
+{id:12,title:'ارجاع الکترونیک',expert:'خانم شفیعی',type:'تسک',code:'4750',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۲۰',status:'در حال پیگیری',progress:'۸۰٪',description:'پایلوت: یک شعبه با موضوع خانواده.'},
+{id:13,title:'تکمیل ارجاع هوشمند',expert:'خانم شفیعی',type:'تسک',code:'40',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۸/۰۱',status:'در حال انجام',progress:'۴۰٪',description:'بعد از برگزاری شورای معاونین.'},
+{id:14,title:'تدریس سمپ',expert:'خانم شفیعی',type:'تسک',code:'922506',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۱۲',status:'در حال پیگیری',progress:'۷۵٪',description:'برگزاری جلسه آموزشی.'},
+{id:15,title:'پیوست اوراق در سمپ',expert:'خانم شفیعی',type:'تسک',code:'921187',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۰۸',status:'در حال پیگیری',progress:'۶۰٪',description:'اسکنر تخصیص داده شده به شعبه 11.'},
+{id:16,title:'اشتباه در ثبت سه گانه',expert:'خانم شفیعی',type:'تسک',code:'0007',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۰۳',status:'در حال پیگیری',progress:'۷۰٪',description:'تهیه گزارش جامع مشکل.'},
+{id:17,title:'ایجاد شعبه جدید در دیوانعالی-53',expert:'خانم شفیعی',type:'تسک',code:'924577',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۲۵',status:'در حال انجام',progress:'۲۰٪',description:'ارسال مکاتبه 9000/5695/110.'},
+{id:18,title:'پیگیری گزارش ماشین نویسان',expert:'آقای دری',type:'گزارش',code:'8949',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۶/۳۰',status:'در حال پیگیری',progress:'۴۵٪',description:'تماس با آقای ترکاشووند.'},
+{id:19,title:'آمار ماهانه',expert:'آقای دری',type:'گزارش',code:'040804',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'انجام شد',progress:'۱۰۰٪',description:'گزارش 040804 و 03 مانده. اتمام.'},
+{id:20,title:'ضرائب مالی - جمع آوری دانش',expert:'آقای دری',type:'تسک',code:'-',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۶/۰۴',status:'انجام شد',progress:'۱۰۰٪',description:'مصاحبه با خانم یقوبی و آقای سیدگنجی.'},
+{id:21,title:'ضرائب مالی - طراحی',expert:'آقای دری',type:'تسک',code:'-',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۶/۱۱',status:'انجام شد',progress:'۱۰۰٪',description:'ایجاد چارت و بررسی.'},
+{id:22,title:'ضرائب مالی - شناخت دیتابیس',expert:'آقای دری',type:'تسک',code:'-',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۶/۱۸',status:'انجام شد',progress:'۱۰۰٪',description:'دیتابیس ساخته شد.'},
+{id:23,title:'ضرائب مالی - پیاده سازی',expert:'آقای دری',type:'تسک',code:'-',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۰۸',status:'در حال انجام',progress:'۵۰٪',description:'در حال پیاده سازی.'},
+{id:24,title:'ضرائب مالی - توسعه کد',expert:'آقای دری',type:'تسک',code:'-',date:'۱۴۰۵/۰۶/۱۸',deadline:'۱۴۰۵/۰۷/۳۰',status:'در حال انجام',progress:'۳۰٪',description:'در حال یادگیری MVC.'},
+{id:25,title:'چارت مصور',expert:'آقای دری',type:'تسک',code:'-',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'در حال بررسی',progress:'۱۰٪',description:'فعلاً دارای اولویت نیست.'},
+{id:26,title:'مهاجرت رایورز به پرگار',expert:'آقای دری',type:'تسک',code:'-',date:'۱۴۰۵/۰۶/۱۸',deadline:'-',status:'در حال بررسی',progress:'۵٪',description:'در انتظار اقدام از طرف مرکز آمار هستیم.'}
+];
+
+let heyatTurns = [
+    { id: 1, person: 'آقای عطاریان', date: '۱۴۰۵/۰۶/۲۰', time: '۰۸:۳۰', subject: 'پرونده کلاسه ۱۴۰۵۰۰۱۲۳', desc: 'حضور جهت ارائه گزارش فنی' },
+    { id: 2, person: 'خانم شفیعی', date: '۱۴۰۵/۰۶/۲۲', time: '۱۰:۰۰', subject: 'پرونده ارجاع الکترونیک', desc: '' }
+];
+
+let activeTaskId = null,
+    currentFilterExpert = 'همه کارشناسان',
+    currentFilterStatus = 'همه وضعیت‌ها',
+    currentSearchTerm = '',
+    currentStatFilter = 'all',
+    currentUser = 'خانم شفیعی',
+    currentPage = 1,
+    itemsPerPage = 10,
+    totalFilteredItems = 0,
+    appZoom = 1,
+    editingMemberIndex = -1,
+    editingHeyatId = null;
+
+function ensureHistory() {
+    tasks.forEach(t => {
+        if (!t.history) {
+            t.history = [];
+            if (t.description) {
+                t.history.push({
+                    type: 'expert', date: t.date, person: t.expert,
+                    text: t.description, status: t.status, progress: parseProgress(t.progress)
+                });
+            }
+        }
+    });
+}
+
+/* ============ راه‌اندازی ============ */
+document.addEventListener('DOMContentLoaded', () => {
+    ensureHistory();
+    refreshUserSelect();
+    refreshExpertFilter();
+    refreshStatusFilter();
+    refreshNewTaskExpertSelect();
+    refreshHeyatPersonSelect();
+    updateStats();
+    renderTable();
+    const t = todayJalaali();
+    const regInput = document.getElementById('newTaskRegDate');
+    if (regInput && !regInput.value) {
+        regInput.value = `${toFaDigits(t.jy)}/${toFaDigits(t.jm).padStart(2,'۰')}/${toFaDigits(t.jd).padStart(2,'۰')}`;
+    }
+});
+function refreshUserSelect() {
+    const us = document.getElementById('userSelect');
+    us.innerHTML = '';
+    users.forEach(u => { const o = document.createElement('option'); o.value = u.name; o.text = `${u.name} - ${u.role}`; us.appendChild(o); });
+}
+function refreshExpertFilter() {
+    const fe = document.getElementById('filterExpert');
+    const current = fe.value;
+    fe.innerHTML = '<option value="همه کارشناسان">همه کارشناسان</option>';
+    users.forEach(u => { const o = document.createElement('option'); o.value = u.name; o.text = u.name; fe.appendChild(o); });
+    if ([...fe.options].some(o => o.value === current)) fe.value = current;
+}
+function refreshStatusFilter() {
+    const fs = document.getElementById('filterStatus');
+    fs.innerHTML = '<option value="همه وضعیت‌ها">همه وضعیت‌ها</option>';
+    [...new Set(tasks.map(t => t.status))].forEach(s => { const o = document.createElement('option'); o.value = s; o.text = s; fs.appendChild(o); });
+}
+function refreshNewTaskExpertSelect() {
+    const sel = document.getElementById('newTaskExpert');
+    sel.innerHTML = '';
+    users.forEach(u => { const o = document.createElement('option'); o.value = u.name; o.text = u.name; sel.appendChild(o); });
+}
+function refreshHeyatPersonSelect() {
+    const sel = document.getElementById('heyatPerson');
+    if (!sel) return;
+    sel.innerHTML = '';
+    users.forEach(u => { const o = document.createElement('option'); o.value = u.name; o.text = u.name; sel.appendChild(o); });
+}
+
+/* ============ آمار ============ */
+function updateStats() {
+    const total = tasks.length;
+    const done = tasks.filter(t => t.status === 'انجام شد').length;
+    const active = tasks.filter(t => t.status.includes('در حال')).length;
+    const overdue = tasks.filter(t => t.status === 'معوق').length;
+    document.getElementById('statTotal').innerText = toFaDigits(total);
+    document.getElementById('statDone').innerText = toFaDigits(done);
+    document.getElementById('statActive').innerText = toFaDigits(active);
+    document.getElementById('statOverdue').innerText = toFaDigits(overdue);
+    const my = tasks.filter(t => t.expert === currentUser);
+    document.getElementById('statMyTotal').innerText = toFaDigits(my.length);
+    document.getElementById('statMyDone').innerText = toFaDigits(my.filter(t => t.status === 'انجام شد').length);
+    document.getElementById('statMyActive').innerText = toFaDigits(my.filter(t => t.status.includes('در حال')).length);
+    document.getElementById('statMyOverdue').innerText = toFaDigits(my.filter(t => t.status === 'معوق').length);
+}
+
+/* ============ فیلتر ============ */
+function filterByStat(type) {
+    currentStatFilter = currentStatFilter === type ? 'all' : type;
+    document.getElementById('filterStatus').value = 'همه وضعیت‌ها';
+    currentFilterStatus = 'همه وضعیت‌ها';
+    currentPage = 1;
+    updateStatButtonsUI();
+    renderTable();
+}
+function updateStatButtonsUI() {
+    ['statBtnActive','statBtnOverdue','statBtnDone','statMyBtnActive','statMyBtnOverdue','statMyBtnDone'].forEach(id => document.getElementById(id)?.classList.remove('active'));
+    const map = {active:'statBtnActive',overdue:'statBtnOverdue',done:'statBtnDone',active_my:'statMyBtnActive',overdue_my:'statMyBtnOverdue',done_my:'statMyBtnDone'};
+    if (map[currentStatFilter]) document.getElementById(map[currentStatFilter]).classList.add('active');
+}
+function filterTasks(resetStat = false) {
+    if (resetStat) { currentStatFilter = 'all'; updateStatButtonsUI(); }
+    currentFilterExpert = document.getElementById('filterExpert').value;
+    currentFilterStatus = document.getElementById('filterStatus').value;
+    currentSearchTerm = document.getElementById('searchInput').value;
+    currentPage = 1;
+    renderTable();
+}
+function resetFilters() {
+    document.getElementById('filterExpert').value = 'همه کارشناسان';
+    document.getElementById('filterStatus').value = 'همه وضعیت‌ها';
+    document.getElementById('searchInput').value = '';
+    currentStatFilter = 'all';
+    filterTasks(true);
+}
+function getFilteredTasksList() {
+    return tasks.filter(task => {
+        const matchExpert = currentFilterExpert === 'همه کارشناسان' || task.expert === currentFilterExpert;
+        let matchStatus = true;
+        if (currentFilterStatus !== 'همه وضعیت‌ها') matchStatus = task.status === currentFilterStatus;
+        else if (currentStatFilter !== 'all') {
+            if (currentStatFilter === 'overdue') matchStatus = task.status === 'معوق';
+            else if (currentStatFilter === 'done') matchStatus = task.status === 'انجام شد';
+            else if (currentStatFilter === 'active') matchStatus = task.status.includes('در حال');
+            else if (currentStatFilter === 'overdue_my') matchStatus = task.status === 'معوق' && task.expert === currentUser;
+            else if (currentStatFilter === 'done_my') matchStatus = task.status === 'انجام شد' && task.expert === currentUser;
+            else if (currentStatFilter === 'active_my') matchStatus = task.status.includes('در حال') && task.expert === currentUser;
+        }
+        const q = currentSearchTerm.trim();
+        const matchSearch = !q || task.title.includes(q) || task.code.includes(q) || task.expert.includes(q);
+        return matchExpert && matchStatus && matchSearch;
+    });
+}
+
+/* ============ جدول ============ */
+function renderTable() {
+    const tbody = document.getElementById('taskTableBody');
+    const noResults = document.getElementById('noResults');
+    tbody.innerHTML = '';
+    const filtered = getFilteredTasksList();
+    totalFilteredItems = filtered.length;
+    const totalPages = Math.ceil(totalFilteredItems / itemsPerPage);
+    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalFilteredItems);
+    const paginated = filtered.slice(startIndex, endIndex);
+    noResults.classList.toggle('hidden', paginated.length !== 0);
+    paginated.forEach((task, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50 transition';
+        tr.onclick = () => openDetails(task.id);
+        let statusClass = 'bg-gray-100 text-gray-700';
+        if (task.status === 'انجام شد') statusClass = 'bg-green-100 text-green-700';
+        else if (task.status === 'در حال انجام') statusClass = 'bg-yellow-100 text-yellow-700';
+        else if (task.status === 'در حال پیگیری') statusClass = 'bg-blue-100 text-blue-700';
+        else if (task.status === 'معوق') statusClass = 'bg-red-100 text-red-700';
+        const prog = parseProgress(task.progress);
+        const rem = calcRemaining(task.deadline, task.status);
+        tr.innerHTML = `
+            <td class="p-2 text-center text-gray-500">${toFaDigits(startIndex + idx + 1)}</td>
+            <td class="p-2 text-center font-medium">${task.expert.replace('آقای ','').replace('خانم ','')}</td>
+            <td class="p-2 font-bold">${task.title}</td>
+            <td class="p-2 text-center text-gray-500">${task.type}</td>
+            <td class="p-2 text-center text-gray-500">${task.date}</td>
+            <td class="p-2 text-center text-gray-500">${task.deadline || '-'}</td>
+            <td class="p-2 text-center">${rem.html}</td>
+            <td class="p-2 text-center"><span class="${statusClass} px-1.5 py-1 rounded text-[9px]">${task.status}</span></td>
+            <td class="p-2">
+                <div class="flex items-center gap-2 min-w-[80px]">
+                    <div class="bar-track flex-1 h-1.5">
+                        <div class="bar-fill" style="width:${prog}%;background:linear-gradient(90deg,#22c55e,#1e5631);"></div>
+                    </div>
+                    <span class="text-[9px] font-black text-[#1e5631] w-8 text-center">${toFaDigits(prog)}٪</span>
+                </div>
+            </td>`;
+        tbody.appendChild(tr);
+    });
+    updatePaginationUI(totalPages, startIndex + 1, endIndex);
+    updateStatButtonsUI();
+}
+function updatePaginationUI(totalPages, start, end) {
+    const c = document.getElementById('paginationControls');
+    const info = document.getElementById('paginationInfo');
+    c.innerHTML = '';
+    info.innerText = totalFilteredItems === 0 ? 'نمایش ۰ مورد' : `نمایش ${toFaDigits(start)} تا ${toFaDigits(end)} از ${toFaDigits(totalFilteredItems)} مورد`;
+    if (totalPages <= 1) return;
+    let prev = document.createElement('button');
+    prev.innerHTML = '&lt;';
+    prev.className = `px-2 py-1 border rounded text-[10px] ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed bg-gray-100' : 'hover:bg-white bg-gray-50'}`;
+    prev.onclick = () => { if (currentPage > 1) { currentPage--; renderTable(); } };
+    c.appendChild(prev);
+    const max = 3;
+    let sp = Math.max(1, currentPage - Math.floor(max / 2));
+    let ep = Math.min(totalPages, sp + max - 1);
+    if (ep - sp + 1 < max) sp = Math.max(1, ep - max + 1);
+    for (let i = sp; i <= ep; i++) {
+        let b = document.createElement('button');
+        b.innerText = toFaDigits(i);
+        b.className = `px-2 py-1 rounded text-[10px] ${i === currentPage ? 'bg-[#1e5631] text-white font-bold' : 'border hover:bg-white bg-gray-50'}`;
+        b.onclick = () => { currentPage = i; renderTable(); };
+        c.appendChild(b);
+    }
+    let next = document.createElement('button');
+    next.innerHTML = '&gt;';
+    next.className = `px-2 py-1 border rounded text-[10px] ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed bg-gray-100' : 'hover:bg-white bg-gray-50'}`;
+    next.onclick = () => { if (currentPage < totalPages) { currentPage++; renderTable(); } };
+    c.appendChild(next);
+}
+function changeItemsPerPage(v) { itemsPerPage = parseInt(v); currentPage = 1; renderTable(); }
+
+/* ============ ورود / خروج ============ */
+function login() {
+    const pass = document.getElementById('passwordInput').value;
+    const selectedName = document.getElementById('userSelect').value;
+    if (pass === '1' || pass === '') {
+        const user = users.find(u => u.name === selectedName);
+        if (!user) return;
+        currentUser = user.name;
+        document.getElementById('headerName').innerText = user.name;
+        document.getElementById('headerRole').innerText = user.role;
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        document.getElementById('zoomControl').classList.remove('hidden');
+        document.getElementById('loginError').classList.add('hidden');
+        updateStats();
+        renderTable();
+    } else {
+        document.getElementById('loginError').classList.remove('hidden');
+    }
+}
+function logout() {
+    if (!confirm('آیا از حساب خود خارج می‌شوید؟')) return;
+    ['detailsModal','membersModal','reportsModal','heyatModal'].forEach(id => {
+        const m = document.getElementById(id);
+        if (m) { m.classList.add('translate-y-full'); m.classList.remove('translate-y-0'); setTimeout(() => m.classList.add('hidden'), 300); }
+    });
+    document.getElementById('changePasswordModal').classList.add('hidden');
+    document.getElementById('newTaskModal').classList.add('hidden');
+    document.getElementById('datePickerModal').classList.add('hidden');
+    document.getElementById('mainApp').classList.add('hidden');
+    document.getElementById('zoomControl').classList.add('hidden');
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('loginError').classList.add('hidden');
+    currentStatFilter = 'all';
+    updateStatButtonsUI();
+}
+
+/* ============ ناوبری / زوم ============ */
+function setActiveHnav(id) {
+    document.querySelectorAll('.hnav-item').forEach(el => el.classList.remove('active'));
+    if (id) document.getElementById(id)?.classList.add('active');
+}
+function goToTasks() {
+    closeMembers(); closeReports(); closeHeyat(); closeDetails();
+    setActiveHnav('hnavTasks');
+    document.getElementById('tasksSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function applyAppZoom() {
+    document.getElementById('mainApp').style.zoom = appZoom;
+    document.getElementById('zoomLevel').innerText = toFaDigits(Math.round(appZoom * 100)) + '٪';
+}
+function changeAppZoom(delta) { appZoom = Math.min(1.3, Math.max(0.8, +(appZoom + delta).toFixed(2))); applyAppZoom(); }
+function resetAppZoom() { appZoom = 1; applyAppZoom(); }
+
+/* ============ جزئیات تسک ============ */
+function openDetails(taskId) {
+    activeTaskId = taskId;
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+    ensureHistory();
+    document.getElementById('modalTitle').innerText = task.title;
+    document.getElementById('modalMeta').innerHTML =
+        `کد تسک: <span class="font-bold text-gray-700">${task.code}</span><br>
+         کارشناس: <span class="font-bold text-gray-700">${task.expert}</span><br>
+         نوع: <span class="font-bold text-gray-700">${task.type}</span><br>
+         تاریخ ثبت: <span class="font-bold text-gray-700">${task.date}</span>`;
+    let statusClass = 'bg-gray-100 text-gray-700 border-gray-200';
+    if (task.status === 'انجام شد') statusClass = 'bg-green-100 text-green-700 border-green-200';
+    else if (task.status === 'در حال انجام') statusClass = 'bg-yellow-100 text-yellow-700 border-yellow-200';
+    else if (task.status === 'در حال پیگیری') statusClass = 'bg-blue-100 text-blue-700 border-blue-200';
+    else if (task.status === 'معوق') statusClass = 'bg-red-100 text-red-700 border-red-200';
+    document.getElementById('modalStatusBadge').innerHTML =
+        `<span class="${statusClass} border px-2.5 py-1 rounded-full text-[10px] font-bold whitespace-nowrap">${task.status}</span>`;
+    const prog = parseProgress(task.progress);
+    document.getElementById('modalProgressText').innerText = toFaDigits(prog) + '٪';
+    document.getElementById('modalProgressBar').style.width = prog + '%';
+    const rem = calcRemaining(task.deadline, task.status);
+    document.getElementById('modalDeadlineInfo').innerHTML =
+        `<div class="flex justify-between items-center bg-gray-50 rounded-lg p-2.5 border border-gray-100">
+            <span class="font-bold text-gray-700">⏳ مهلت انجام:</span>
+            <div class="flex items-center gap-2">
+                <span class="text-gray-600">${task.deadline || '—'}</span>
+                ${rem.html}
+            </div>
+         </div>`;
+    renderHistory(task);
+    const isClosed = task.status === 'انجام شد';
+    document.getElementById('expertActionForm').classList.toggle('hidden', isClosed);
+    document.getElementById('expertLockedMsg').classList.toggle('hidden', !isClosed);
+    document.getElementById('managerActionForm').classList.toggle('hidden', isClosed);
+    document.getElementById('managerLockedMsg').classList.toggle('hidden', !isClosed);
+    document.getElementById('newActionText').value = '';
+    document.getElementById('newActionProgress').value = '';
+    document.getElementById('newCommentText').value = '';
+    const t = todayJalaali();
+    document.getElementById('newActionDate').value =
+        `${toFaDigits(t.jy)}/${toFaDigits(t.jm).padStart(2,'۰')}/${toFaDigits(t.jd).padStart(2,'۰')}`;
+    document.getElementById('newActionStatus').value = 'در حال انجام';
+    const modal = document.getElementById('detailsModal');
+    modal.classList.remove('hidden');
+    setTimeout(() => { modal.classList.remove('translate-y-full'); modal.classList.add('translate-y-0'); }, 10);
+}
+function closeDetails() {
+    const modal = document.getElementById('detailsModal');
+    if (!modal || modal.classList.contains('hidden')) return;
+    modal.classList.add('translate-y-full');
+    modal.classList.remove('translate-y-0');
+    setTimeout(() => { modal.classList.add('hidden'); activeTaskId = null; }, 300);
+}
+function renderHistory(task) {
+    const expertEntries = (task.history || []).filter(h => h.type === 'expert');
+    const managerEntries = (task.history || []).filter(h => h.type === 'manager');
+    document.getElementById('modalActionCount').innerText = toFaDigits(expertEntries.length);
+    document.getElementById('modalCommentCount').innerText = toFaDigits(managerEntries.length);
+    const eTl = document.getElementById('expertTimeline');
+    eTl.innerHTML = '';
+    if (!expertEntries.length) {
+        eTl.innerHTML = '<div class="timeline-empty">هنوز اقدامی ثبت نشده است.</div>';
+    } else {
+        [...expertEntries].reverse().forEach(h => {
+            const dotClass = h.status === 'انجام شد' ? 'done' : 'expert';
+            const dotIcon = h.status === 'انجام شد' ? '✓' : '👤';
+            const prog = typeof h.progress === 'number' ? h.progress : parseProgress(h.progress);
+            let statusBadgeClass = 'bg-gray-100 text-gray-700';
+            if (h.status === 'انجام شد') statusBadgeClass = 'bg-green-100 text-green-700';
+            else if (h.status === 'در حال انجام') statusBadgeClass = 'bg-yellow-100 text-yellow-700';
+            else if (h.status === 'در حال پیگیری') statusBadgeClass = 'bg-blue-100 text-blue-700';
+            else if (h.status === 'معوق') statusBadgeClass = 'bg-red-100 text-red-700';
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+            item.innerHTML = `
+                <div class="dot ${dotClass}">${dotIcon}</div>
+                <div class="content">
+                    <div class="head">
+                        <span class="name">${h.person || task.expert}</span>
+                        <span class="date">${h.date || ''}</span>
+                    </div>
+                    <div class="text">${h.text || '—'}</div>
+                    <div class="badges">
+                        ${h.status ? `<span class="badge ${statusBadgeClass}">${h.status}</span>` : ''}
+                        ${prog > 0 ? `<span class="badge bg-[#e8f5e9] text-[#1e5631]">پیشرفت: ${toFaDigits(prog)}٪</span>` : ''}
+                    </div>
+                </div>`;
+            eTl.appendChild(item);
+        });
+    }
+    const mTl = document.getElementById('managerTimeline');
+    mTl.innerHTML = '';
+    if (!managerEntries.length) {
+        mTl.innerHTML = '<div class="timeline-empty">هنوز نظری ثبت نشده است.</div>';
+    } else {
+        [...managerEntries].reverse().forEach(h => {
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+            item.innerHTML = `
+                <div class="dot manager">👔</div>
+                <div class="content">
+                    <div class="head">
+                        <span class="name">${h.person || 'مدیر'}</span>
+                        <span class="date">${h.date || ''}</span>
+                    </div>
+                    <div class="text">${h.text || '—'}</div>
+                </div>`;
+            mTl.appendChild(item);
+        });
+    }
+}
+function submitExpertAction() {
+    const task = tasks.find(t => t.id === activeTaskId);
+    if (!task) return;
+    if (task.status === 'انجام شد') { alert('این تسک مختومه شده و قابل تغییر نیست.'); return; }
+    const text = document.getElementById('newActionText').value.trim();
+    const status = document.getElementById('newActionStatus').value;
+    const progRaw = document.getElementById('newActionProgress').value;
+    const date = document.getElementById('newActionDate').value;
+    if (!text) { alert('لطفاً شرح اقدام را وارد کنید.'); return; }
+    if (!date) { alert('لطفاً تاریخ را انتخاب کنید.'); return; }
+    const prog = progRaw ? Math.min(100, Math.max(0, parseInt(progRaw))) : parseProgress(task.progress);
+    const finalProg = (status === 'انجام شد') ? 100 : prog;
+    task.history.push({ type: 'expert', date, person: currentUser, text, status, progress: finalProg });
+    task.status = status;
+    task.progress = toFaDigits(finalProg) + '٪';
+    task.description = text;
+    updateStats();
+    renderTable();
+    openDetails(task.id);
+    alert('اقدام با موفقیت ثبت شد');
+}
+function submitManagerComment() {
+    const task = tasks.find(t => t.id === activeTaskId);
+    if (!task) return;
+    if (task.status === 'انجام شد') { alert('این تسک مختومه شده و قابل تغییر نیست.'); return; }
+    const text = document.getElementById('newCommentText').value.trim();
+    if (!text) { alert('لطفاً متن نظر را وارد کنید.'); return; }
+    const t = todayJalaali();
+    task.history.push({
+        type: 'manager',
+        date: `${toFaDigits(t.jy)}/${toFaDigits(t.jm).padStart(2,'۰')}/${toFaDigits(t.jd).padStart(2,'۰')}`,
+        person: currentUser, text
+    });
+    openDetails(task.id);
+    alert('نظر مدیر ثبت شد');
+}
+function deleteTask() {
+    if (!activeTaskId) return;
+    if (confirm('آیا از حذف این تسک اطمینان دارید؟')) {
+        const i = tasks.findIndex(t => t.id === activeTaskId);
+        if (i > -1) tasks.splice(i, 1);
+        updateStats(); renderTable(); closeDetails();
+        alert('تسک با موفقیت حذف شد');
+    }
+}
+function toggleAccordion(id, headerElement) {
+    const content = document.getElementById(id);
+    const arrow = headerElement.querySelector('.arrow-icon');
+    if (content.classList.contains('accordion-active')) { content.classList.remove('accordion-active'); if (arrow) arrow.classList.remove('arrow-rotated'); }
+    else { content.classList.add('accordion-active'); if (arrow) arrow.classList.add('arrow-rotated'); }
+}
+
+/* ============ تسک جدید ============ */
+function openNewTaskModal() {
+    document.getElementById('newTaskModal').classList.remove('hidden');
+    const t = todayJalaali();
+    const regInput = document.getElementById('newTaskRegDate');
+    if (!regInput.value) regInput.value = `${toFaDigits(t.jy)}/${toFaDigits(t.jm).padStart(2,'۰')}/${toFaDigits(t.jd).padStart(2,'۰')}`;
+}
+function closeNewTaskModal() { document.getElementById('newTaskModal').classList.add('hidden'); }
+function addNewTask() {
+    const title = document.getElementById('newTaskTitle').value;
+    const expert = document.getElementById('newTaskExpert').value;
+    const type = document.getElementById('newTaskType').value;
+    const regDate = document.getElementById('newTaskRegDate').value;
+    const deadline = document.getElementById('newTaskDeadline').value || '-';
+    const status = document.getElementById('newTaskStatus').value || 'در حال انجام';
+    const progressRaw = document.getElementById('newTaskProgress').value;
+    const prog = progressRaw ? Math.min(100, Math.max(0, parseInt(progressRaw))) : 0;
+    const progress = toFaDigits(prog) + '٪';
+    if (!title) { alert('لطفاً عنوان تسک را وارد کنید.'); return; }
+    if (!regDate) { alert('لطفاً تاریخ ثبت را انتخاب کنید.'); return; }
+    tasks.unshift({
+        id: Date.now(), title,
+        code: `NEW-${Math.floor(1000 + Math.random() * 9000)}`,
+        expert, type, date: regDate, deadline, status, progress,
+        description: 'تسک جدید ثبت شده است.',
+        history: [{ type: 'expert', date: regDate, person: expert, text: 'تسک جدید ثبت شد.', status: status, progress: prog }]
+    });
+    updateStats();
+    renderTable();
+    closeNewTaskModal();
+    alert('تسک جدید با موفقیت ثبت شد');
+    ['newTaskTitle','newTaskStatus','newTaskProgress','newTaskDeadline'].forEach(id => document.getElementById(id).value = '');
+}
+
+/* ============ تغییر رمز ============ */
+function openChangePasswordModal() { document.getElementById('changePasswordModal').classList.remove('hidden'); }
+function closeChangePasswordModal() {
+    document.getElementById('changePasswordModal').classList.add('hidden');
+    document.getElementById('currentPass').value = '';
+    document.getElementById('newPass').value = '';
+    document.getElementById('confirmPass').value = '';
+}
+function changePassword() {
+    const current = document.getElementById('currentPass').value;
+    const newPass = document.getElementById('newPass').value;
+    const confirmP = document.getElementById('confirmPass').value;
+    if (current !== '1') { alert('رمز عبور فعلی اشتباه است! (پیش‌فرض: 1)'); return; }
+    if (!newPass || !confirmP) { alert('لطفاً رمز عبور جدید را وارد کنید.'); return; }
+    if (newPass !== confirmP) { alert('رمز عبور جدید و تکرار آن یکسان نیستند!'); return; }
+    alert('رمز عبور با موفقیت تغییر یافت.');
+    closeChangePasswordModal();
+}
+
+/* ============ مدیریت اعضا ============ */
+function openMembers() {
+    setActiveHnav(null);
+    renderMembersList();
+    const modal = document.getElementById('membersModal');
+    modal.classList.remove('hidden');
+    setTimeout(() => { modal.classList.remove('translate-y-full'); modal.classList.add('translate-y-0'); }, 10);
+    document.getElementById('addMemberForm').classList.add('hidden');
+}
+function closeMembers() {
+    const modal = document.getElementById('membersModal');
+    if (!modal || modal.classList.contains('hidden')) return;
+    modal.classList.add('translate-y-full');
+    modal.classList.remove('translate-y-0');
+    setTimeout(() => { modal.classList.add('hidden'); editingMemberIndex = -1; }, 300);
+}
+function openAddMemberForm() {
+    editingMemberIndex = -1;
+    document.getElementById('newMemberName').value = '';
+    document.getElementById('newMemberRole').value = '';
+    document.getElementById('addMemberForm').classList.remove('hidden');
+    document.getElementById('newMemberName').focus();
+}
+function closeAddMemberForm() { document.getElementById('addMemberForm').classList.add('hidden'); editingMemberIndex = -1; }
+function renderMembersList() {
+    const list = document.getElementById('membersList');
+    list.innerHTML = '';
+    users.forEach((u, idx) => {
+        const taskCount = tasks.filter(t => t.expert === u.name).length;
+        const doneCount = tasks.filter(t => t.expert === u.name && t.status === 'انجام شد').length;
+        const isMe = u.name === currentUser;
+        const row = document.createElement('div');
+        row.className = 'member-row';
+        row.innerHTML = `
+            <div class="member-avatar" style="background:${u.color || '#1e5631'}">${u.name.replace('آقای ','').replace('خانم ','').charAt(0)}</div>
+            <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                    <span class="font-bold text-xs text-gray-800 truncate">${u.name}</span>
+                    ${isMe ? '<span class="text-[9px] bg-green-100 text-green-700 px-1.5 rounded font-bold">شما</span>' : ''}
+                </div>
+                <div class="text-[10px] text-gray-500 truncate">${u.role}</div>
+                <div class="text-[9px] text-gray-400 mt-0.5">${toFaDigits(taskCount)} تسک • ${toFaDigits(doneCount)} مختومه</div>
+            </div>
+            <div class="flex gap-1">
+                <button onclick="editMember(${idx})" class="p-1.5 bg-gray-100 hover:bg-blue-50 hover:text-blue-700 rounded-lg text-[11px]" title="ویرایش">✏️</button>
+                <button onclick="removeMember(${idx})" class="p-1.5 bg-gray-100 hover:bg-red-50 hover:text-red-600 rounded-lg text-[11px] ${isMe ? 'opacity-40 cursor-not-allowed' : ''}" ${isMe ? 'disabled' : ''} title="حذف">🗑️</button>
+            </div>`;
+        list.appendChild(row);
+    });
+    if (editingMemberIndex > -1 && users[editingMemberIndex]) {
+        const u = users[editingMemberIndex];
+        const editBox = document.createElement('div');
+        editBox.className = 'bg-white rounded-xl border-2 border-[#2e7d32] p-4 mt-4 shadow-sm';
+        editBox.innerHTML = `
+            <h3 class="font-bold text-xs text-gray-800 mb-3">✏️ ویرایش عضو: ${u.name}</h3>
+            <div class="space-y-2">
+                <input type="text" id="editMemberName" value="${u.name}" class="w-full border border-gray-300 rounded-lg p-2 text-xs">
+                <input type="text" id="editMemberRole" value="${u.role}" class="w-full border border-gray-300 rounded-lg p-2 text-xs">
+                <div class="flex gap-2">
+                    <button onclick="saveMemberEdit()" class="flex-1 bg-[#1e5631] text-white py-2 rounded-lg text-xs font-bold shadow-sm">ذخیره</button>
+                    <button onclick="cancelMemberEdit()" class="px-4 bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold">انصراف</button>
+                </div>
+            </div>`;
+        list.appendChild(editBox);
+        editBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+function addMember() {
+    const name = document.getElementById('newMemberName').value.trim();
+    const role = document.getElementById('newMemberRole').value.trim();
+    if (!name) { alert('لطفاً نام عضو را وارد کنید.'); return; }
+    if (!role) { alert('لطفاً سمت عضو را وارد کنید.'); return; }
+    if (users.some(u => u.name === name)) { alert('این عضو قبلاً ثبت شده است.'); return; }
+    const colors = ['#1e5631','#2e7d32','#0369a1','#7c3aed','#b45309','#be123c','#0891b2','#9333ea'];
+    users.push({ name, role, color: colors[users.length % colors.length] });
+    refreshUserSelect(); refreshExpertFilter(); refreshNewTaskExpertSelect(); refreshHeyatPersonSelect();
+    updateStats(); renderMembersList(); closeAddMemberForm();
+    alert(`عضو «${name}» با موفقیت اضافه شد`);
+}
+function removeMember(idx) {
+    const u = users[idx];
+    if (!u) return;
+    if (u.name === currentUser) { alert('نمی‌توانید خودتان را حذف کنید.'); return; }
+    const taskCount = tasks.filter(t => t.expert === u.name).length;
+    const msg = taskCount > 0 ? `«${u.name}» دارای ${toFaDigits(taskCount)} تسک است.\nآیا از حذف این عضو مطمئن هستید؟` : `آیا از حذف «${u.name}» مطمئن هستید؟`;
+    if (!confirm(msg)) return;
+    users.splice(idx, 1);
+    refreshUserSelect(); refreshExpertFilter(); refreshNewTaskExpertSelect(); refreshHeyatPersonSelect();
+    updateStats(); renderMembersList();
+    alert('عضو با موفقیت حذف شد');
+}
+function editMember(idx) { editingMemberIndex = idx; renderMembersList(); }
+function cancelMemberEdit() { editingMemberIndex = -1; renderMembersList(); }
+function saveMemberEdit() {
+    const idx = editingMemberIndex;
+    if (idx < 0 || !users[idx]) return;
+    const newName = document.getElementById('editMemberName').value.trim();
+    const newRole = document.getElementById('editMemberRole').value.trim();
+    if (!newName || !newRole) { alert('نام و سمت را کامل وارد کنید.'); return; }
+    const oldName = users[idx].name;
+    if (users.some((u, i) => i !== idx && u.name === newName)) { alert('نام وارد شده تکراری است.'); return; }
+    users[idx].name = newName;
+    users[idx].role = newRole;
+    if (oldName !== newName) {
+        tasks.forEach(t => { if (t.expert === oldName) t.expert = newName; });
+        heyatTurns.forEach(h => { if (h.person === oldName) h.person = newName; });
+        if (currentUser === oldName) {
+            currentUser = newName;
+            document.getElementById('headerName').innerText = newName;
+            document.getElementById('headerRole').innerText = newRole;
+        }
+    }
+    editingMemberIndex = -1;
+    refreshUserSelect(); refreshExpertFilter(); refreshNewTaskExpertSelect(); refreshHeyatPersonSelect();
+    updateStats(); renderTable(); renderMembersList();
+    alert('اطلاعات عضو ویرایش شد');
+}
+
+/* ============ گزارش‌گیری ============ */
+function openReports() {
+    setActiveHnav(null);
+    refreshReportFilterOptions();
+    applyReportFilters();
+    const modal = document.getElementById('reportsModal');
+    modal.classList.remove('hidden');
+    setTimeout(() => { modal.classList.remove('translate-y-full'); modal.classList.add('translate-y-0'); }, 10);
+}
+function closeReports() {
+    const modal = document.getElementById('reportsModal');
+    if (!modal || modal.classList.contains('hidden')) return;
+    modal.classList.add('translate-y-full');
+    modal.classList.remove('translate-y-0');
+    setTimeout(() => modal.classList.add('hidden'), 300);
+}
+function refreshReportFilterOptions() {
+    const fe = document.getElementById('rpFilterExpert');
+    const curE = fe.value;
+    fe.innerHTML = '<option value="all">همه کارشناسان</option>';
+    users.forEach(u => { const o = document.createElement('option'); o.value = u.name; o.text = u.name; fe.appendChild(o); });
+    if ([...fe.options].some(o => o.value === curE)) fe.value = curE;
+    const fs = document.getElementById('rpFilterStatus');
+    const curS = fs.value;
+    fs.innerHTML = '<option value="all">همه وضعیت‌ها</option>';
+    [...new Set(tasks.map(t => t.status))].forEach(s => { const o = document.createElement('option'); o.value = s; o.text = s; fs.appendChild(o); });
+    if ([...fs.options].some(o => o.value === curS)) fs.value = curS;
+    const ft = document.getElementById('rpFilterType');
+    const curT = ft.value;
+    ft.innerHTML = '<option value="all">همه انواع</option>';
+    [...new Set(tasks.map(t => t.type))].forEach(t => { const o = document.createElement('option'); o.value = t; o.text = t; ft.appendChild(o); });
+    if ([...ft.options].some(o => o.value === curT)) ft.value = curT;
+}
+function resetReportFilters() {
+    document.getElementById('rpFilterExpert').value = 'all';
+    document.getElementById('rpFilterStatus').value = 'all';
+    document.getElementById('rpFilterType').value = 'all';
+    document.getElementById('rpFilterDeadline').value = 'all';
+    document.getElementById('rpFilterFrom').value = '';
+    document.getElementById('rpFilterTo').value = '';
+    applyReportFilters();
+}
+function getReportFilteredList() {
+    const fExpert = document.getElementById('rpFilterExpert').value;
+    const fStatus = document.getElementById('rpFilterStatus').value;
+    const fType = document.getElementById('rpFilterType').value;
+    const fDeadline = document.getElementById('rpFilterDeadline').value;
+    const fFrom = parseJDate(document.getElementById('rpFilterFrom').value);
+    const fTo = parseJDate(document.getElementById('rpFilterTo').value);
+    const today = todayJalaali();
+    const todayTs = j2d(today.jy, today.jm, today.jd);
+    const filtered = tasks.filter(t => {
+        if (fExpert !== 'all' && t.expert !== fExpert) return false;
+        if (fStatus !== 'all' && t.status !== fStatus) return false;
+        if (fType !== 'all' && t.type !== fType) return false;
+        const td = parseJDate(t.date);
+        if (fFrom && (!td || td.ts < fFrom.ts)) return false;
+        if (fTo && (!td || td.ts > fTo.ts)) return false;
+        if (fDeadline !== 'all') {
+            const dl = t.deadline && t.deadline !== '-' ? parseJDate(t.deadline) : null;
+            if (fDeadline === 'none') { if (dl) return false; }
+            else if (fDeadline === 'overdue') {
+                if (!dl) return false;
+                if (dl.ts >= todayTs) return false;
+                if (t.status === 'انجام شد') return false;
+            }
+            else if (fDeadline === 'today') { if (!dl || dl.ts !== todayTs) return false; }
+            else if (fDeadline === 'week') {
+                if (!dl) return false;
+                const diff = dl.ts - todayTs;
+                if (diff < 0 || diff > 7) return false;
+            }
+        }
+        return true;
+    });
+    filtered.sort((a, b) => {
+        const aDone = a.status === 'انجام شد' ? 1 : 0;
+        const bDone = b.status === 'انجام شد' ? 1 : 0;
+        if (aDone !== bDone) return aDone - bDone;
+        const ad = parseJDate(a.deadline);
+        const bd = parseJDate(b.deadline);
+        if (ad && bd) return ad.ts - bd.ts;
+        if (ad) return -1;
+        if (bd) return 1;
+        return 0;
+    });
+    return filtered;
+}
+function applyReportFilters() {
+    renderReportList(getReportFilteredList());
+}
+function renderReportList(list) {
+    const c = document.getElementById('reportsContent');
+    const summary = document.getElementById('rpResultSummary');
+    const total = list.length;
+    const doneCount = list.filter(t => t.status === 'انجام شد').length;
+    const activeCount = list.filter(t => t.status.includes('در حال')).length;
+    const overdueCount = list.filter(t => {
+        if (t.status === 'انجام شد') return false;
+        const dl = parseJDate(t.deadline);
+        if (!dl) return false;
+        const today = todayJalaali();
+        const todayTs = j2d(today.jy, today.jm, today.jd);
+        return dl.ts < todayTs;
+    }).length;
+    summary.innerText = `${toFaDigits(total)} تسک • ${toFaDigits(doneCount)} مختومه • ${toFaDigits(activeCount)} جاری${overdueCount ? ` • ${toFaDigits(overdueCount)} تأخیر` : ''}`;
+    c.innerHTML = '';
+    if (!list.length) {
+        c.innerHTML = '<div class="text-center text-gray-400 text-xs py-12">هیچ تسکی با فیلترهای انتخابی یافت نشد.</div>';
+        return;
+    }
+    list.forEach(t => {
+        const prog = parseProgress(t.progress);
+        const rem = calcRemaining(t.deadline, t.status);
+        let statusClass = 'bg-gray-100 text-gray-700';
+        if (t.status === 'انجام شد') statusClass = 'bg-green-100 text-green-700';
+        else if (t.status === 'در حال انجام') statusClass = 'bg-yellow-100 text-yellow-700';
+        else if (t.status === 'در حال پیگیری') statusClass = 'bg-blue-100 text-blue-700';
+        else if (t.status === 'معوق') statusClass = 'bg-red-100 text-red-700';
+        const row = document.createElement('div');
+        row.className = 'bg-white rounded-xl border border-gray-200 p-3 shadow-sm hover:shadow-md hover:border-gray-300 transition cursor-pointer';
+        row.onclick = () => { closeReports(); setTimeout(() => openDetails(t.id), 250); };
+        row.innerHTML = `
+            <div class="flex justify-between items-start gap-2 mb-2">
+                <div class="min-w-0 flex-1">
+                    <div class="font-bold text-xs text-gray-800 truncate">${t.title}</div>
+                    <div class="text-[10px] text-gray-400 mt-0.5">کد: ${t.code} • 👤 ${t.expert} • 🏷 ${t.type}</div>
+                </div>
+                <span class="${statusClass} px-2 py-0.5 rounded-full text-[9px] font-bold whitespace-nowrap shrink-0">${t.status}</span>
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-gray-500 mb-2 flex-wrap gap-1">
+                <span>📅 ثبت: ${t.date}</span>
+                <span>⏳ مهلت: ${t.deadline || '—'}</span>
+                <span class="shrink-0">${rem.html}</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="bar-track flex-1 h-1.5">
+                    <div class="bar-fill" style="width:${prog}%;background:linear-gradient(90deg,#22c55e,#1e5631);"></div>
+                </div>
+                <span class="text-[10px] font-black text-[#1e5631] w-9 text-center">${toFaDigits(prog)}٪</span>
+            </div>`;
+        c.appendChild(row);
+    });
+}
+
+/* ============ هیئت عمومی ============ */
+function openHeyat() {
+    setActiveHnav(null);
+    renderHeyatList();
+    const modal = document.getElementById('heyatModal');
+    modal.classList.remove('hidden');
+    setTimeout(() => { modal.classList.remove('translate-y-full'); modal.classList.add('translate-y-0'); }, 10);
+    document.getElementById('addHeyatForm').classList.add('hidden');
+}
+function closeHeyat() {
+    const modal = document.getElementById('heyatModal');
+    if (!modal || modal.classList.contains('hidden')) return;
+    modal.classList.add('translate-y-full');
+    modal.classList.remove('translate-y-0');
+    setTimeout(() => { modal.classList.add('hidden'); editingHeyatId = null; }, 300);
+}
+function openAddHeyatForm() {
+    editingHeyatId = null;
+    document.getElementById('heyatPerson').value = users[0]?.name || '';
+    document.getElementById('heyatDate').value = '';
+    document.getElementById('heyatTime').value = '';
+    document.getElementById('heyatSubject').value = '';
+    document.getElementById('heyatDesc').value = '';
+    document.getElementById('addHeyatForm').classList.remove('hidden');
+}
+function cancelHeyatForm() { document.getElementById('addHeyatForm').classList.add('hidden'); editingHeyatId = null; }
+function saveHeyat() {
+    const person = document.getElementById('heyatPerson').value;
+    const date = document.getElementById('heyatDate').value;
+    const time = document.getElementById('heyatTime').value.trim();
+    const subject = document.getElementById('heyatSubject').value.trim();
+    const desc = document.getElementById('heyatDesc').value.trim();
+    if (!person) { alert('لطفاً فرد شرکت‌کننده را انتخاب کنید.'); return; }
+    if (!date) { alert('لطفاً تاریخ حضور را انتخاب کنید.'); return; }
+    if (!subject) { alert('لطفاً موضوع/پرونده را وارد کنید.'); return; }
+    if (editingHeyatId) {
+        const item = heyatTurns.find(h => h.id === editingHeyatId);
+        if (item) { item.person = person; item.date = date; item.time = time; item.subject = subject; item.desc = desc; }
+        alert('نوبت ویرایش شد');
+    } else {
+        heyatTurns.push({ id: Date.now(), person, date, time, subject, desc });
+        alert('نوبت جدید ثبت شد');
+    }
+    cancelHeyatForm();
+    renderHeyatList();
+}
+function deleteHeyat(id) {
+    if (!confirm('این نوبت حذف شود؟')) return;
+    heyatTurns = heyatTurns.filter(h => h.id !== id);
+    renderHeyatList();
+}
+function editHeyat(id) {
+    const item = heyatTurns.find(h => h.id === id);
+    if (!item) return;
+    editingHeyatId = id;
+    document.getElementById('heyatPerson').value = item.person;
+    document.getElementById('heyatDate').value = item.date;
+    document.getElementById('heyatTime').value = item.time || '';
+    document.getElementById('heyatSubject').value = item.subject;
+    document.getElementById('heyatDesc').value = item.desc || '';
+    document.getElementById('addHeyatForm').classList.remove('hidden');
+    document.getElementById('addHeyatForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function renderHeyatList() {
+    const list = document.getElementById('heyatList');
+    const countEl = document.getElementById('heyatCount');
+    const filter = document.getElementById('heyatFilter').value;
+    const today = todayJalaali();
+    const todayTs = j2d(today.jy, today.jm, today.jd);
+    let items = [...heyatTurns].map(h => {
+        const pd = parseJDate(h.date);
+        return { ...h, ts: pd ? pd.ts : Infinity, jd: pd };
+    }).sort((a, b) => a.ts - b.ts);
+    if (filter === 'upcoming') items = items.filter(h => h.ts >= todayTs);
+    else if (filter === 'today') items = items.filter(h => h.ts === todayTs);
+    else if (filter === 'past') items = items.filter(h => h.ts < todayTs);
+    countEl.innerText = `${toFaDigits(items.length)} نوبت`;
+    list.innerHTML = '';
+    if (!items.length) {
+        list.innerHTML = '<div class="text-center text-gray-400 text-xs py-8">نوبتی برای نمایش وجود ندارد.</div>';
+        return;
+    }
+    items.forEach(h => {
+        const jd = h.jd || { jy: 0, jm: 0, jd: 0 };
+        const isToday = h.ts === todayTs;
+        const isPast = h.ts < todayTs;
+        const card = document.createElement('div');
+        card.className = 'heyat-card';
+        card.style.opacity = isPast ? '.72' : '1';
+        card.innerHTML = `
+            <div class="heyat-date-box" style="${isPast ? 'background:linear-gradient(135deg,#94a3b8,#64748b);' : ''}">
+                <span class="day">${toFaDigits(jd.jd)}</span>
+                <span class="month">${J_MONTHS[jd.jm - 1] || ''}</span>
+            </div>
+            <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-bold text-xs text-gray-800">${h.person}</span>
+                    ${isToday ? '<span class="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-bold">امروز</span>' : ''}
+                    ${isPast ? '<span class="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded font-bold">گذشته</span>' : ''}
+                </div>
+                <div class="text-[10px] text-gray-500 mt-0.5">📅 ${h.date} ${h.time ? '• 🕐 ' + h.time : ''}</div>
+                <div class="text-[11px] text-gray-700 mt-1 font-medium truncate">📁 ${h.subject}</div>
+                ${h.desc ? `<div class="text-[10px] text-gray-400 mt-0.5 truncate">${h.desc}</div>` : ''}
+            </div>
+            <div class="flex flex-col gap-1 justify-center">
+                <button onclick="editHeyat(${h.id})" class="p-1.5 bg-gray-100 hover:bg-blue-50 hover:text-blue-700 rounded-lg text-[11px]" title="ویرایش">✏️</button>
+                <button onclick="deleteHeyat(${h.id})" class="p-1.5 bg-gray-100 hover:bg-red-50 hover:text-red-600 rounded-lg text-[11px]" title="حذف">🗑️</button>
+            </div>`;
+        list.appendChild(card);
+    });
+}
+
+/* ============ خروجی Excel ============ */
+function exportToExcel(rows, filename, sheetName) {
+    if (typeof XLSX === 'undefined') { alert('کتابخانه Excel بارگذاری نشده است. اتصال اینترنت را بررسی کنید.'); return; }
+    if (!rows || !rows.length) { alert('داده‌ای برای خروجی وجود ندارد.'); return; }
+    try {
+        const ws = XLSX.utils.json_to_sheet(rows);
+        ws['!cols'] = Object.keys(rows[0]).map(k => {
+            const maxLen = Math.max(String(k).length, ...rows.map(r => String(r[k] == null ? '' : r[k]).length));
+            return { wch: Math.min(50, Math.max(10, maxLen + 2)) };
+        });
+        const wb = XLSX.utils.book_new();
+        wb.Workbook = { Views: [{ RTL: true }] };
+        XLSX.utils.book_append_sheet(wb, ws, sheetName || 'Sheet1');
+        XLSX.writeFile(wb, filename + '.xlsx');
+    } catch (e) {
+        console.error(e);
+        alert('خطا در تولید فایل اکسل: ' + e.message);
+    }
+}
+
+/* ============ خروجی PDF (از طریق Print) ============ */
+function exportToPDF(title, htmlBody) {
+    const win = window.open('', '_blank');
+    if (!win) { alert('لطفاً اجازه دسترسی به پنجره جدید را بدهید.'); return; }
+    win.document.write(`<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>${title}</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+<style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Vazirmatn', sans-serif; padding: 20px; direction: rtl; color: #0f172a; font-size: 11px; line-height: 1.6; }
+    h1 { font-size: 16px; color: #1e5631; margin: 0 0 4px 0; padding-bottom: 6px; border-bottom: 2px solid #1e5631; }
+    .meta { color: #64748b; font-size: 10px; margin-bottom: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 8px; }
+    th, td { border: 1px solid #cbd5e1; padding: 5px 7px; text-align: right; vertical-align: middle; }
+    th { background: #e8f5e9; font-weight: bold; color: #1e5631; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; font-size: 10px; }
+    .info-box { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 9px; }
+    .info-box .lbl { color: #64748b; font-weight: bold; }
+    .section { margin-top: 14px; page-break-inside: avoid; }
+    .section-title { font-size: 12px; font-weight: bold; color: #1e5631; margin-bottom: 6px; padding: 4px 8px; background: #f0fdf4; border-radius: 6px; border-right: 3px solid #1e5631; }
+    .hist-item { border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; margin-bottom: 6px; background: #f8fafc; page-break-inside: avoid; }
+    .hist-item .head { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 4px; }
+    .hist-item .name { font-weight: bold; color: #0f172a; }
+    .hist-item .date { color: #94a3b8; }
+    .hist-item .text { font-size: 10px; color: #334155; white-space: pre-wrap; }
+    .hist-item .badges { margin-top: 5px; }
+    .badge { display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 9px; font-weight: bold; margin-left: 4px; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .badge-gray { background: #f1f5f9; color: #475569; }
+    @media print { body { padding: 0; } @page { margin: 12mm 10mm; } }
+</style>
 </head>
 <body>
-<!-- کد ارسالی شما بدون تغییر در این فایل قرار گرفت. -->
-<script>
-/* محتوای کامل کد ارسالی در فایل HTML قرار دارد. */
+    <h1>${title}</h1>
+    <div class="meta">📅 تاریخ چاپ: ${todayStr()} • 👤 کاربر: ${currentUser}</div>
+    ${htmlBody}
+    <script>
+        window.onload = function() { setTimeout(function() { window.print(); }, 350); };
+    <\/script>
+</body>
+</html>`);
+    win.document.close();
+}
+
+/* ============ خروجی لیست تسک‌ها ============ */
+function tasksToRows(list) {
+    return list.map((t, i) => ({
+        'ردیف': toFaDigits(i + 1),
+        'کارشناس': t.expert,
+        'عنوان تسک': t.title,
+        'نوع': t.type,
+        'کد': t.code,
+        'تاریخ ثبت': t.date,
+        'مهلت': t.deadline || '-',
+        'مهلت باقی‌مانده': calcRemaining(t.deadline, t.status).text,
+        'وضعیت': t.status,
+        'پیشرفت': t.progress || '۰٪'
+    }));
+}
+function tasksToHTMLTable(list) {
+    const rows = list.map((t, i) => {
+        const rem = calcRemaining(t.deadline, t.status);
+        return `<tr>
+            <td>${toFaDigits(i + 1)}</td>
+            <td>${t.expert}</td>
+            <td>${t.title}</td>
+            <td>${t.type}</td>
+            <td>${t.date}</td>
+            <td>${t.deadline || '-'}</td>
+            <td>${rem.text}</td>
+            <td>${t.status}</td>
+            <td>${t.progress || '۰٪'}</td>
+        </tr>`;
+    }).join('');
+    return `<table>
+        <thead><tr>
+            <th>#</th><th>کارشناس</th><th>عنوان تسک</th><th>نوع</th>
+            <th>تاریخ ثبت</th><th>مهلت</th><th>مهلت باقی‌مانده</th>
+            <th>وضعیت</th><th>پیشرفت</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+    </table>
+    <div class="meta" style="margin-top:10px">مجموع: ${toFaDigits(list.length)} تسک</div>`;
+}
+function exportTasksExcel() {
+    const list = getFilteredTasksList();
+    exportToExcel(tasksToRows(list), 'tasks_' + Date.now(), 'تسک‌ها');
+}
+function exportTasksPDF() {
+    const list = getFilteredTasksList();
+    if (!list.length) { alert('تسکی برای خروجی وجود ندارد.'); return; }
+    exportToPDF('گزارش لیست تسک‌ها', tasksToHTMLTable(list));
+}
+
+/* ============ خروجی گزارش ============ */
+function exportReportExcel() {
+    const list = getReportFilteredList();
+    exportToExcel(tasksToRows(list), 'report_' + Date.now(), 'گزارش');
+}
+function exportReportPDF() {
+    const list = getReportFilteredList();
+    if (!list.length) { alert('تسکی برای خروجی وجود ندارد.'); return; }
+    const fExpert = document.getElementById('rpFilterExpert').value;
+    const fStatus = document.getElementById('rpFilterStatus').value;
+    const fType = document.getElementById('rpFilterType').value;
+    const fDeadline = document.getElementById('rpFilterDeadline').value;
+    const fFrom = document.getElementById('rpFilterFrom').value || '—';
+    const fTo = document.getElementById('rpFilterTo').value || '—';
+    const dlMap = { all: 'همه', overdue: 'تأخیر خورده', today: 'امروز', week: 'یک هفته آینده', none: 'بدون مهلت' };
+    const filterBox = `
+        <div class="info-row">
+            <div class="info-box"><span class="lbl">کارشناس:</span> ${fExpert === 'all' ? 'همه' : fExpert}</div>
+            <div class="info-box"><span class="lbl">وضعیت:</span> ${fStatus === 'all' ? 'همه' : fStatus}</div>
+            <div class="info-box"><span class="lbl">نوع:</span> ${fType === 'all' ? 'همه' : fType}</div>
+            <div class="info-box"><span class="lbl">مهلت:</span> ${dlMap[fDeadline] || 'همه'}</div>
+            <div class="info-box"><span class="lbl">از تاریخ:</span> ${fFrom}</div>
+            <div class="info-box"><span class="lbl">تا تاریخ:</span> ${fTo}</div>
+        </div>`;
+    exportToPDF('گزارش تسک‌ها', filterBox + tasksToHTMLTable(list));
+}
+
+/* ============ خروجی هیئت عمومی ============ */
+function getHeyatFilteredList() {
+    const filter = document.getElementById('heyatFilter').value;
+    const today = todayJalaali();
+    const todayTs = j2d(today.jy, today.jm, today.jd);
+    let items = [...heyatTurns].map(h => {
+        const pd = parseJDate(h.date);
+        return { ...h, ts: pd ? pd.ts : Infinity };
+    }).sort((a, b) => a.ts - b.ts);
+    if (filter === 'upcoming') items = items.filter(h => h.ts >= todayTs);
+    else if (filter === 'today') items = items.filter(h => h.ts === todayTs);
+    else if (filter === 'past') items = items.filter(h => h.ts < todayTs);
+    return items;
+}
+function exportHeyatExcel() {
+    const list = getHeyatFilteredList();
+    const rows = list.map((h, i) => ({
+        'ردیف': toFaDigits(i + 1),
+        'فرد شرکت‌کننده': h.person,
+        'تاریخ حضور': h.date,
+        'ساعت': h.time || '-',
+        'موضوع / پرونده': h.subject,
+        'توضیحات': h.desc || '-'
+    }));
+    exportToExcel(rows, 'heyat_' + Date.now(), 'هیئت عمومی');
+}
+function exportHeyatPDF() {
+    const list = getHeyatFilteredList();
+    if (!list.length) { alert('نوبتی برای خروجی وجود ندارد.'); return; }
+    const rows = list.map((h, i) => `<tr>
+        <td>${toFaDigits(i + 1)}</td>
+        <td>${h.person}</td>
+        <td>${h.date}</td>
+        <td>${h.time || '-'}</td>
+        <td>${h.subject}</td>
+        <td>${h.desc || '-'}</td>
+    </tr>`).join('');
+    const html = `
+        <table>
+            <thead><tr>
+                <th>#</th><th>فرد</th><th>تاریخ حضور</th><th>ساعت</th>
+                <th>موضوع / پرونده</th><th>توضیحات</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+        </table>
+        <div class="meta" style="margin-top:10px">مجموع: ${toFaDigits(list.length)} نوبت</div>`;
+    exportToPDF('گزارش نوبت‌های هیئت عمومی', html);
+}
+
+/* ============ خروجی اعضا ============ */
+function exportMembersExcel() {
+    const rows = users.map((u, i) => {
+        const my = tasks.filter(t => t.expert === u.name);
+        const done = my.filter(t => t.status === 'انجام شد').length;
+        const active = my.filter(t => t.status.includes('در حال')).length;
+        const overdue = my.filter(t => t.status === 'معوق').length;
+        return {
+            'ردیف': toFaDigits(i + 1), 'نام': u.name, 'سمت': u.role,
+            'کل تسک‌ها': toFaDigits(my.length), 'مختومه': toFaDigits(done),
+            'در جریان': toFaDigits(active), 'معوق': toFaDigits(overdue)
+        };
+    });
+    exportToExcel(rows, 'members_' + Date.now(), 'اعضای گروه');
+}
+function exportMembersPDF() {
+    const rows = users.map((u, i) => {
+        const my = tasks.filter(t => t.expert === u.name);
+        const done = my.filter(t => t.status === 'انجام شد').length;
+        const active = my.filter(t => t.status.includes('در حال')).length;
+        const overdue = my.filter(t => t.status === 'معوق').length;
+        return `<tr>
+            <td>${toFaDigits(i + 1)}</td><td>${u.name}</td><td>${u.role}</td>
+            <td>${toFaDigits(my.length)}</td><td>${toFaDigits(done)}</td>
+            <td>${toFaDigits(active)}</td><td>${toFaDigits(overdue)}</td>
+        </tr>`;
+    }).join('');
+    const html = `
+        <table>
+            <thead><tr>
+                <th>#</th><th>نام</th><th>سمت</th><th>کل تسک‌ها</th>
+                <th>مختومه</th><th>در جریان</th><th>معوق</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+        </table>
+        <div class="meta" style="margin-top:10px">مجموع: ${toFaDigits(users.length)} عضو</div>`;
+    exportToPDF('گزارش اعضای گروه', html);
+}
+
+/* ============ خروجی یک تسک ============ */
+function exportSingleTaskExcel() {
+    const task = tasks.find(t => t.id === activeTaskId);
+    if (!task) return;
+    ensureHistory();
+    const mainSheet = [
+        { 'فیلد': 'عنوان', 'مقدار': task.title },
+        { 'فیلد': 'کد تسک', 'مقدار': task.code },
+        { 'فیلد': 'کارشناس', 'مقدار': task.expert },
+        { 'فیلد': 'نوع', 'مقدار': task.type },
+        { 'فیلد': 'تاریخ ثبت', 'مقدار': task.date },
+        { 'فیلد': 'مهلت', 'مقدار': task.deadline || '-' },
+        { 'فیلد': 'مهلت باقی‌مانده', 'مقدار': calcRemaining(task.deadline, task.status).text },
+        { 'فیلد': 'وضعیت', 'مقدار': task.status },
+        { 'فیلد': 'پیشرفت', 'مقدار': task.progress || '۰٪' },
+        { 'فیلد': 'توضیحات', 'مقدار': task.description || '-' }
+    ];
+    const histSheet = (task.history || []).map((h, i) => ({
+        'ردیف': toFaDigits(i + 1),
+        'نوع': h.type === 'expert' ? 'اقدام کارشناس' : 'نظر مدیر',
+        'شخص': h.person || '-',
+        'تاریخ': h.date || '-',
+        'وضعیت': h.status || '-',
+        'پیشرفت': h.progress != null ? toFaDigits(h.progress) + '٪' : '-',
+        'متن': h.text || '-'
+    }));
+    if (typeof XLSX === 'undefined') { alert('کتابخانه Excel بارگذاری نشده است.'); return; }
+    try {
+        const wb = XLSX.utils.book_new();
+        wb.Workbook = { Views: [{ RTL: true }] };
+        const ws1 = XLSX.utils.json_to_sheet(mainSheet);
+        ws1['!cols'] = [{ wch: 20 }, { wch: 50 }];
+        XLSX.utils.book_append_sheet(wb, ws1, 'اطلاعات تسک');
+        if (histSheet.length) {
+            const ws2 = XLSX.utils.json_to_sheet(histSheet);
+            ws2['!cols'] = [{ wch: 6 }, { wch: 15 }, { wch: 20 }, { wch: 14 }, { wch: 16 }, { wch: 10 }, { wch: 60 }];
+            XLSX.utils.book_append_sheet(wb, ws2, 'تاریخچه');
+        }
+        XLSX.writeFile(wb, 'task_' + task.code + '_' + Date.now() + '.xlsx');
+    } catch (e) {
+        console.error(e);
+        alert('خطا در تولید فایل اکسل: ' + e.message);
+    }
+}
+function exportSingleTaskPDF() {
+    const task = tasks.find(t => t.id === activeTaskId);
+    if (!task) return;
+    ensureHistory();
+    const rem = calcRemaining(task.deadline, task.status);
+    const infoBox = `
+        <div class="info-row">
+            <div class="info-box"><span class="lbl">کد تسک:</span> ${task.code}</div>
+            <div class="info-box"><span class="lbl">کارشناس:</span> ${task.expert}</div>
+            <div class="info-box"><span class="lbl">نوع:</span> ${task.type}</div>
+            <div class="info-box"><span class="lbl">وضعیت:</span> ${task.status}</div>
+            <div class="info-box"><span class="lbl">تاریخ ثبت:</span> ${task.date}</div>
+            <div class="info-box"><span class="lbl">مهلت:</span> ${task.deadline || '—'}</div>
+            <div class="info-box"><span class="lbl">مهلت باقی‌مانده:</span> ${rem.text}</div>
+            <div class="info-box"><span class="lbl">پیشرفت:</span> ${task.progress || '۰٪'}</div>
+        </div>`;
+    const expertHist = (task.history || []).filter(h => h.type === 'expert');
+    const managerHist = (task.history || []).filter(h => h.type === 'manager');
+    const renderHist = (arr) => arr.length ? arr.map(h => {
+        let cls = 'badge-gray';
+        if (h.status === 'انجام شد') cls = 'badge-green';
+        else if (h.status === 'در حال انجام') cls = 'badge-yellow';
+        else if (h.status === 'در حال پیگیری') cls = 'badge-blue';
+        else if (h.status === 'معوق') cls = 'badge-red';
+        return `<div class="hist-item">
+            <div class="head">
+                <span class="name">${h.person || '-'}</span>
+                <span class="date">${h.date || ''}</span>
+            </div>
+            <div class="text">${h.text || '-'}</div>
+            <div class="badges">
+                ${h.status ? `<span class="badge ${cls}">${h.status}</span>` : ''}
+                ${h.progress != null ? `<span class="badge badge-green">پیشرفت: ${toFaDigits(h.progress)}٪</span>` : ''}
+            </div>
+        </div>`;
+    }).join('') : '<div style="color:#94a3b8;font-size:10px;padding:6px">موردی ثبت نشده است.</div>';
+    const html = infoBox + `
+        <div class="section">
+            <div class="section-title">👤 اقدامات کارشناس (${toFaDigits(expertHist.length)})</div>
+            ${renderHist(expertHist)}
+        </div>
+        <div class="section">
+            <div class="section-title">👔 نظرات مدیر (${toFaDigits(managerHist.length)})</div>
+            ${renderHist(managerHist)}
+        </div>`;
+    exportToPDF('جزئیات تسک: ' + task.title, html);
+}
 </script>
 </body>
 </html>
