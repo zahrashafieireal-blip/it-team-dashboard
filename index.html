@@ -7,113 +7,103 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Vazirmatn', sans-serif; background-color: #F8FAFC; font-size: 13px; }
+        body { font-family: 'Vazirmatn', sans-serif; background-color: #F8FAFC; font-size: 12px; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .table-scroll::-webkit-scrollbar { height: 6px; }
-        .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .table-scroll::-webkit-scrollbar { height: 4px; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+        .slide-in { transform: translateX(0) !important; }
+        .slide-up { transform: translateY(0) !important; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-active { max-height: 500px; }
     </style>
 </head>
-<body class="pb-20 text-gray-800">
+<body class="pb-16 text-gray-800">
 
-<header class="bg-white p-3 shadow-sm flex justify-between items-center sticky top-0 z-40">
+<header class="bg-white p-3 shadow-sm flex justify-between items-center sticky top-0 z-40 border-b border-gray-100">
     <div class="flex items-center gap-2">
         <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center border border-gray-300">
-            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
+            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
         </div>
         <div>
             <h1 class="font-bold text-gray-800 text-sm">خانم شفیعی</h1>
             <p class="text-[10px] text-gray-500">پشتیبان سامانه</p>
         </div>
     </div>
-    <button onclick="toggleMenu()" class="p-2 bg-gray-50 rounded-lg border border-gray-200">
-        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
+    <button onclick="toggleSidebar()" class="p-2 bg-gray-50 rounded-lg border border-gray-200 active:bg-gray-100">
+        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
     </button>
 </header>
 
 <div id="sidebar" class="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
-    <div class="p-4 bg-[#2E7D32] text-white flex justify-between items-center">
-        <h2 class="font-bold text-sm">منوی اصلی</h2>
-        <button onclick="toggleMenu()" class="text-white">✕</button>
+    <div class="p-4 bg-white border-b flex justify-between items-center">
+        <h2 class="font-bold text-sm text-gray-800">منوی دسترسی</h2>
+        <button onclick="toggleSidebar()" class="p-1 bg-gray-100 rounded-full text-gray-500">✕</button>
     </div>
     <div class="p-3">
-        <button class="w-full bg-[#2E7D32] text-white py-2 rounded-lg font-bold flex items-center justify-center gap-2 mb-4 text-sm">
+        <div class="flex flex-col items-center mb-4">
+            <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-2">
+                <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            </div>
+            <h3 class="font-bold text-sm">خانم شفیعی</h3>
+            <p class="text-[10px] text-gray-500">پشتیبان سامانه</p>
+        </div>
+        <button class="w-full bg-[#2E7D32] text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 mb-3 text-sm shadow-md">
             <span>➕</span> ثبت تسک جدید
         </button>
-        <ul class="space-y-1 text-xs text-gray-700">
-            <li class="flex items-center gap-2 p-2.5 bg-[#E3F2FD] text-blue-800 rounded-lg cursor-pointer font-bold">📁 آرشیو فعالیت‌ها</li>
-            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">📊 گزارش‌گیری تسک‌ها</li>
-            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">📋 انجام ارزیابی تسک‌ها</li>
-            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">👥 حذف و اضافه اعضای گروه</li>
-            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">🏛️ نوبت‌های هیئت عمومی</li>
-            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">🔒 تغییر رمز</li>
+        <ul class="space-y-1 text-xs text-gray-700 font-medium">
+            <li class="flex items-center gap-3 p-2.5 bg-[#E3F2FD] text-blue-800 rounded-lg cursor-pointer border border-blue-100"><span>📁</span> آرشیو فعالیت‌ها</li>
+            <li class="flex items-center gap-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer"><span>📊</span> گزارش‌گیری تسک‌ها</li>
+            <li class="flex items-center gap-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer"><span>📋</span> انجام ارزیابی تسک‌ها توسط مدیر</li>
+            <li class="flex items-center gap-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer"><span>👥</span> حذف و اضافه اعضای گروه</li>
+            <li class="flex items-center gap-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer"><span>🏛️</span> نوبت‌های هیئت عمومی</li>
+            <li class="flex items-center gap-3 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer"><span>🔒</span> تغییر رمز</li>
         </ul>
-        <button class="w-full bg-red-600 text-white py-2 rounded-lg font-bold flex items-center justify-center gap-2 mt-6 text-sm">
+        <button class="w-full bg-[#D32F2F] text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 mt-6 text-sm shadow-md">
             <span>🚪</span> خروج
         </button>
     </div>
 </div>
-<div id="overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+<div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 transition-opacity"></div>
 
 <main class="p-3 space-y-3">
 
     <div class="grid grid-cols-2 gap-3">
-        <div class="bg-blue-50 rounded-xl p-3 border border-blue-100 flex flex-col items-center relative overflow-hidden">
-            <div class="absolute top-2 right-2 text-blue-300 text-2xl">📋</div>
-            <div class="text-blue-800 font-bold mb-1 text-xs">کل تسک‌های گروه</div>
-            <div class="text-3xl font-black text-blue-600 mb-3">۶۵</div>
-            <div class="flex justify-between w-full text-[9px] font-bold">
-                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-blue-200">
-                    <span>⏱</span><span>معوق</span><span class="text-blue-600">۱</span>
-                </div>
-                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-blue-200">
-                    <span>✅</span><span>مختومه</span><span class="text-blue-600">۲۲</span>
-                </div>
-                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-blue-200">
-                    <span>🔄</span><span>جاری</span><span class="text-blue-600">۴۲</span>
-                </div>
+        <div class="bg-blue-50 rounded-xl p-3 border border-blue-100 flex flex-col items-center relative overflow-hidden shadow-sm">
+            <div class="absolute top-2 right-2 text-blue-200 text-3xl">📋</div>
+            <div class="text-blue-800 font-bold mb-1 text-[11px]">کل تسک‌های گروه</div>
+            <div class="text-4xl font-black text-blue-600 mb-2">۶۵</div>
+            <div class="flex justify-between w-full gap-1 text-[9px] font-bold text-center">
+                <div class="bg-white p-1 rounded flex flex-col items-center w-1/3 border border-blue-100 shadow-sm"><span class="text-blue-400">⏱</span><span class="text-gray-600">معوق</span><span class="text-blue-600 text-xs">۱</span></div>
+                <div class="bg-white p-1 rounded flex flex-col items-center w-1/3 border border-blue-100 shadow-sm"><span class="text-blue-400">✅</span><span class="text-gray-600">مختومه</span><span class="text-blue-600 text-xs">۲۲</span></div>
+                <div class="bg-white p-1 rounded flex flex-col items-center w-1/3 border border-blue-100 shadow-sm"><span class="text-blue-400">🔄</span><span class="text-gray-600">جاری</span><span class="text-blue-600 text-xs">۴۲</span></div>
             </div>
         </div>
-
-        <div class="bg-green-50 rounded-xl p-3 border border-green-100 flex flex-col items-center relative overflow-hidden">
-            <div class="absolute top-2 right-2 text-green-300 text-2xl">👤</div>
-            <div class="text-green-800 font-bold mb-1 text-xs">تسک‌های من</div>
-            <div class="text-3xl font-black text-green-600 mb-3">۴۷</div>
-            <div class="flex justify-between w-full text-[9px] font-bold">
-                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-green-200">
-                    <span>⏱</span><span>معوق</span><span class="text-green-600">۱</span>
-                </div>
-                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-green-200">
-                    <span>✅</span><span>مختومه</span><span class="text-green-600">۱۷</span>
-                </div>
-                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-green-200">
-                    <span>🔄</span><span>جاری</span><span class="text-green-600">۲۹</span>
-                </div>
+        <div class="bg-green-50 rounded-xl p-3 border border-green-100 flex flex-col items-center relative overflow-hidden shadow-sm">
+            <div class="absolute top-2 right-2 text-green-200 text-3xl">👤</div>
+            <div class="text-green-800 font-bold mb-1 text-[11px]">تسک‌های من</div>
+            <div class="text-4xl font-black text-green-600 mb-2">۴۷</div>
+            <div class="flex justify-between w-full gap-1 text-[9px] font-bold text-center">
+                <div class="bg-white p-1 rounded flex flex-col items-center w-1/3 border border-green-100 shadow-sm"><span class="text-green-400">⏱</span><span class="text-gray-600">معوق</span><span class="text-green-600 text-xs">۱</span></div>
+                <div class="bg-white p-1 rounded flex flex-col items-center w-1/3 border border-green-100 shadow-sm"><span class="text-green-400">✅</span><span class="text-gray-600">مختومه</span><span class="text-green-600 text-xs">۱۷</span></div>
+                <div class="bg-white p-1 rounded flex flex-col items-center w-1/3 border border-green-100 shadow-sm"><span class="text-green-400">🔄</span><span class="text-gray-600">جاری</span><span class="text-green-600 text-xs">۲۹</span></div>
             </div>
         </div>
     </div>
 
-    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
-        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
-            همه کارشناسان <span class="text-[10px]">▼</span>
-        </button>
-        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
-            همه نوع‌ها <span class="text-[10px]">▼</span>
-        </button>
-        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
-            همه وضعیت‌ها <span class="text-[10px]">▼</span>
-        </button>
-        <button class="whitespace-nowrap bg-[#E3F2FD] border border-blue-300 text-blue-700 px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold shadow-sm">
-            فیلترها <span>🔽</span>
-        </button>
+    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 text-[11px] items-center">
+        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">همه کارشناسان <span class="text-[8px]">▼</span></button>
+        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">همه نوع‌ها <span class="text-[8px]">▼</span></button>
+        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">همه وضعیت‌ها <span class="text-[8px]">▼</span></button>
+        <button class="whitespace-nowrap bg-[#E3F2FD] border border-blue-300 text-blue-700 px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold shadow-sm">فیلترها <span>🔽</span></button>
+        <div class="flex gap-1 mr-auto">
+            <button class="p-1.5 bg-white border rounded shadow-sm text-gray-500">☰</button>
+            <button class="p-1.5 bg-white border rounded shadow-sm text-gray-500">▦</button>
+        </div>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto table-scroll">
+        <div class="overflow-x-auto table-scroll relative">
             <table class="w-full text-right text-[10px] whitespace-nowrap">
                 <thead class="bg-gray-50 text-gray-600 border-b border-gray-200">
                     <tr>
@@ -121,113 +111,141 @@
                         <th class="p-2 font-bold text-center">کارشناس</th>
                         <th class="p-2 font-bold text-right">عنوان / شرح تسک</th>
                         <th class="p-2 font-bold text-center">نوع</th>
-                        <th class="p-2 font-bold text-center">تاریخ تیکت</th>
+                        <th class="p-2 font-bold text-center">شماره مکاتبه / تاریخ تیکت</th>
                         <th class="p-2 font-bold text-center">مهلت انجام</th>
                         <th class="p-2 font-bold text-center">مهلت باقی‌مانده</th>
-                        <th class="p-2 font-bold text-center">وضعیت</th>
+                        <th class="p-2 font-bold text-center">وضعیت‌ها</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr onclick="openDetails('ارسال گزارش ماهانه به اداره کل', 'TK-1405-3356', 'آقای عطاریان', 'تامه')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
-                        <td class="p-2 text-center text-gray-500">۱</td>
-                        <td class="p-2 text-center">آقای عطاریان</td>
-                        <td class="p-2 font-bold">ارسال گزارش ماهانه به اداره کل</td>
-                        <td class="p-2 text-center text-gray-500">تامه</td>
-                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۲۰</td>
-                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۷/۱۰</td>
-                        <td class="p-2 text-center text-orange-600 font-bold">۱۲ روز مانده</td>
-                        <td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td>
-                    </tr>
-                    <tr onclick="openDetails('بررسی مشکل دسترسی کاربران', 'TK-1405-3355', 'خانم شفیعی', 'تیکت')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
-                        <td class="p-2 text-center text-gray-500">۲</td>
-                        <td class="p-2 text-center">خانم شفیعی</td>
-                        <td class="p-2 font-bold">بررسی مشکل دسترسی کاربران</td>
-                        <td class="p-2 text-center text-gray-500">تیکت</td>
-                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۱۶</td>
-                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۲۶</td>
-                        <td class="p-2 text-center text-red-600 font-bold">مهلت گذشته</td>
-                        <td class="p-2 text-center"><span class="bg-red-100 text-red-700 px-2 py-1 rounded">معوق</span></td>
-                    </tr>
-                    <tr onclick="openDetails('تهیه مستندات فنی', 'TK-1405-3340', 'آقای عطاریان', 'تسک')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
-                        <td class="p-2 text-center text-gray-500">۳</td>
-                        <td class="p-2 text-center">آقای عطاریان</td>
-                        <td class="p-2 font-bold">تهیه مستندات فنی</td>
-                        <td class="p-2 text-center text-gray-500">تسک</td>
-                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۲۵</td>
-                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۳۰</td>
-                        <td class="p-2 text-center text-orange-600 font-bold">۳ روز مانده</td>
-                        <td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td>
-                    </tr>
+                    <tr onclick="openDetails('ارسال گزارش ماهانه به اداره کل', 'TK-1405-3356', 'آقای عطاریان', 'تامه', '۱۲ روز مانده')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۱</td><td class="p-2 text-center font-medium">آقای عطاریان</td><td class="p-2 font-bold">ارسال گزارش ماهانه به اداره کل</td><td class="p-2 text-center text-gray-500">تامه</td><td class="p-2 text-center text-gray-500">TK-1405-3356<br>۱۴۰۵/۰۶/۲۰</td><td class="p-2 text-center text-gray-500">۱۴۰۵/۰۷/۱۰</td><td class="p-2 text-center text-orange-600 font-bold">۱۲ روز مانده</td><td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td></tr>
+                    <tr onclick="openDetails('بررسی مشکل دسترسی کاربران', 'TK-1405-3355', 'خانم شفیعی', 'تیکت', 'مهلت گذشته')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۲</td><td class="p-2 text-center font-medium">خانم شفیعی</td><td class="p-2 font-bold">بررسی مشکل دسترسی کاربران</td><td class="p-2 text-center text-gray-500">تیکت</td><td class="p-2 text-center text-gray-500">TK-1405-3355<br>۱۴۰۵/۰۶/۱۶</td><td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۲۶</td><td class="p-2 text-center text-red-600 font-bold">مهلت گذشته</td><td class="p-2 text-center"><span class="bg-red-100 text-red-700 px-2 py-1 rounded">معوق</span></td></tr>
+                    <tr onclick="openDetails('تهیه مستندات فنی', 'TK-1405-3340', 'آقای عطاریان', 'تسک', '۳ روز مانده')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۳</td><td class="p-2 text-center font-medium">آقای عطاریان</td><td class="p-2 font-bold">تهیه مستندات فنی</td><td class="p-2 text-center text-gray-500">تسک</td><td class="p-2 text-center text-gray-500">TK-1405-3340<br>۱۴۰۵/۰۶/۲۵</td><td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۳۰</td><td class="p-2 text-center text-orange-600 font-bold">۳ روز مانده</td><td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td></tr>
+                    <tr onclick="openDetails('پاسخ به استعلام واحد امال', 'TK-1405-3331', 'آقای محمدی', 'نامه', '۳ روز گذشته')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۴</td><td class="p-2 text-center font-medium">آقای محمدی</td><td class="p-2 font-bold">پاسخ به استعلام واحد امال</td><td class="p-2 text-center text-gray-500">نامه</td><td class="p-2 text-center text-gray-500">TK-1405-3331<br>۱۴۰۵/۰۶/۲۴</td><td class="p-2 text-center text-gray-500">-</td><td class="p-2 text-center text-red-600 font-bold">۳ روز گذشته</td><td class="p-2 text-center"><span class="bg-gray-100 text-gray-700 px-2 py-1 rounded">مختومه</span></td></tr>
+                    <tr onclick="openDetails('ارتقا نسخه سرور', 'TK-1405-3312', 'خانم شفیعی', 'تسک', '-')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۵</td><td class="p-2 text-center font-medium">خانم شفیعی</td><td class="p-2 font-bold">ارتقا نسخه سرور</td><td class="p-2 text-center text-gray-500">تسک</td><td class="p-2 text-center text-gray-500">TK-1405-3312<br>۱۴۰۵/۰۶/۲۳</td><td class="p-2 text-center text-gray-500">-</td><td class="p-2 text-center text-gray-500">-</td><td class="p-2 text-center"><span class="bg-gray-100 text-gray-700 px-2 py-1 rounded">مختومه</span></td></tr>
+                    <tr onclick="openDetails('بررسی خطای سامانه ارجاع', 'TK-1405-3331', 'آقای محمدی', 'تیکت', '۷ روز مانده')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۶</td><td class="p-2 text-center font-medium">آقای محمدی</td><td class="p-2 font-bold">بررسی خطای سامانه ارجاع</td><td class="p-2 text-center text-gray-500">تیکت</td><td class="p-2 text-center text-gray-500">TK-1405-3331<br>۱۴۰۵/۰۶/۲۰</td><td class="p-2 text-center text-gray-500">-</td><td class="p-2 text-center text-orange-600 font-bold">۷ روز مانده</td><td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td></tr>
+                    <tr onclick="openDetails('به‌روزرسانی مستندات', 'TK-1405-3345', 'آقای عطاریان', 'تسک', '-')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۷</td><td class="p-2 text-center font-medium">آقای عطاریان</td><td class="p-2 font-bold">به‌روزرسانی مستندات</td><td class="p-2 text-center text-gray-500">تسک</td><td class="p-2 text-center text-gray-500">TK-1405-3345<br>۱۴۰۵/۰۶/۱۹</td><td class="p-2 text-center text-gray-500">-</td><td class="p-2 text-center text-gray-500">-</td><td class="p-2 text-center"><span class="bg-gray-100 text-gray-700 px-2 py-1 rounded">مختومه</span></td></tr>
+                    <tr onclick="openDetails('آماده‌سازی گزارش فصلی', 'TK-1405-3336', 'خانم شفیعی', 'نامه', '۱ روز مانده')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer active:bg-blue-50"><td class="p-2 text-center text-gray-500">۸</td><td class="p-2 text-center font-medium">خانم شفیعی</td><td class="p-2 font-bold">آماده‌سازی گزارش فصلی</td><td class="p-2 text-center text-gray-500">نامه</td><td class="p-2 text-center text-gray-500">TK-1405-3336<br>۱۴۰۵/۰۶/۱۸</td><td class="p-2 text-center text-gray-500">-</td><td class="p-2 text-center text-orange-600 font-bold">۱ روز مانده</td><td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td></tr>
                 </tbody>
             </table>
         </div>
-        <div class="p-2 bg-gray-50 border-t border-gray-200 flex justify-between items-center text-[10px] text-gray-500">
-            <span>نمایش ۱ تا ۸ از ۱۰ مورد</span>
-            <div class="flex gap-1">
-                <button class="w-6 h-6 flex items-center justify-center bg-[#2E7D32] text-white rounded">۱</button>
-                <button class="w-6 h-6 flex items-center justify-center bg-white border rounded">۲</button>
-                <button class="w-6 h-6 flex items-center justify-center bg-white border rounded">۳</button>
+        <div class="p-3 bg-gray-50 border-t border-gray-200 flex flex-col gap-2 text-[10px] text-gray-600">
+            <div class="flex justify-center items-center gap-1">
+                <button class="px-2 py-1 border rounded hover:bg-white">&lt;</button>
+                <button class="px-2 py-1 bg-[#2E7D32] text-white rounded">۱</button>
+                <button class="px-2 py-1 border rounded hover:bg-white">۲</button>
+                <button class="px-2 py-1 border rounded hover:bg-white">۳</button>
+                <button class="px-2 py-1 border rounded hover:bg-white">۴</button>
+                <button class="px-2 py-1 border rounded hover:bg-white">۵</button>
+                <button class="px-2 py-1 border rounded hover:bg-white">&gt;</button>
+            </div>
+            <div class="flex justify-between items-center">
+                <span>نمایش ۱ تا ۸ از ۱۰ مورد</span>
+                <select class="border rounded p-1 bg-white"><option>۱۰</option><option>۲۰</option></select>
             </div>
         </div>
     </div>
 </main>
 
-<div class="fixed bottom-0 left-0 right-0 bg-white p-3 border-t border-gray-200 z-30">
+<div class="fixed bottom-0 left-0 right-0 bg-white p-2 border-t border-gray-200 z-30 shadow-lg">
     <div class="relative">
-        <input type="text" placeholder="جستجو در عنوان، شماره تیکت، مکان، کارشناس..." class="w-full bg-gray-100 rounded-lg py-2.5 pr-10 pl-4 text-xs focus:outline-none focus:ring-1 focus:ring-green-500 border border-gray-200">
-        <svg class="w-4 h-4 text-gray-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-        </svg>
+        <input type="text" placeholder="جستجو در عنوان، شماره تیکت، مکان، کارشناس..." class="w-full bg-gray-100 rounded-lg py-2.5 pr-10 pl-4 text-[11px] focus:outline-none focus:ring-1 focus:ring-green-500 border border-gray-200">
+        <svg class="w-4 h-4 text-gray-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
     </div>
 </div>
 
-<div id="detailsModal" class="fixed inset-0 bg-white z-50 transform translate-y-full transition-transform duration-300 flex flex-col hidden">
-    <div class="bg-gray-50 p-3 border-b flex justify-between items-center">
-        <h2 class="font-bold text-sm text-gray-800">جزئیات تسک</h2>
-        <button onclick="closeDetails()" class="p-1 bg-gray-200 rounded-full text-gray-600">✕</button>
+<div id="detailsModal" class="fixed inset-0 bg-white z-[60] transform translate-y-full transition-transform duration-300 flex flex-col hidden">
+    <div class="bg-gray-50 p-3 border-b flex justify-between items-center shadow-sm">
+        <h2 class="font-bold text-sm text-gray-800 flex items-center gap-2"><span>📋</span> جزئیات تسک</h2>
+        <div class="flex gap-2">
+            <button class="p-1.5 bg-gray-200 rounded-lg text-xs flex items-center gap-1 text-gray-700">✏️ ویرایش</button>
+            <button class="p-1.5 bg-red-100 rounded-lg text-xs flex items-center gap-1 text-red-700">🗑️ حذف</button>
+            <button onclick="closeDetails()" class="p-1.5 bg-gray-300 rounded-lg text-xs text-gray-700 font-bold">✕ بستن</button>
+        </div>
     </div>
-    <div class="p-4 overflow-y-auto flex-1 space-y-4 text-xs">
-        <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+
+    <div class="p-4 overflow-y-auto flex-1 space-y-4 text-xs bg-gray-50">
+        <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
             <h3 id="modalTitle" class="font-bold text-sm text-gray-800 mb-1">عنوان تسک</h3>
-            <p id="modalMeta" class="text-gray-500 text-[10px]">کد تسک: - | کارشناس: - | نوع: -</p>
+            <p id="modalMeta" class="text-gray-500 text-[10px] leading-relaxed">کد تسک: - <br> کارشناس: - <br> نوع: -</p>
         </div>
 
-        <div class="border border-blue-200 rounded-lg overflow-hidden">
-            <div class="bg-blue-50 p-2 font-bold text-blue-800 flex items-center gap-1">
-                <span>👤</span> بخش کارشناس
+        <div class="bg-white border border-blue-200 rounded-lg overflow-hidden shadow-sm">
+            <div class="bg-blue-50 p-2.5 font-bold text-blue-800 flex items-center gap-2 cursor-pointer" onclick="toggleAccordion('expertAccordion')">
+                <span>👤</span> بخش کارشناس <span class="mr-auto text-[10px]">▼</span>
             </div>
-            <div class="p-3 space-y-2">
-                <p class="text-gray-500">آخرین اقدام / پیگیری:</p>
-                <textarea class="w-full border border-gray-300 rounded p-2 text-xs focus:ring-1 focus:ring-blue-500" rows="3" placeholder="گزارش آماده شده و برای بازبینی ارسال شد..."></textarea>
-                <div class="flex justify-between items-center text-[10px] text-gray-500">
-                    <span>تاریخ اقدام: ۱۴۰۵/۰۶/۲۸</span>
-                    <span>وضعیت: <span class="bg-yellow-100 text-yellow-700 px-1 rounded">در حال بررسی</span></span>
+            <div id="expertAccordion" class="accordion-content">
+                <div class="p-3 space-y-3 border-t border-blue-100">
+                    <div>
+                        <label class="block text-gray-600 mb-1 font-bold">آخرین اقدام / پیگیری:</label>
+                        <textarea class="w-full border border-gray-300 rounded p-2 text-xs focus:ring-1 focus:ring-blue-500" rows="3" placeholder="گزارش آماده شده و برای بازبینی ارسال شد..."></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-gray-600 mb-1 font-bold">تاریخ اقدام:</label>
+                            <input type="text" value="۱۴۰۵/۰۶/۲۸" class="w-full border border-gray-300 rounded p-2 text-xs text-center bg-gray-50">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-gray-600 mb-1 font-bold">وضعیت:</label>
+                            <select class="w-full border border-gray-300 rounded p-2 text-xs bg-gray-50"><option>در حال بررسی</option><option>تایید شده</option><option>رد شده</option></select>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-gray-500">حداکثر مکاتبه: ۲۴ / ۱۰۰۰</span>
+                        <button class="bg-[#2E7D32] text-white px-4 py-1.5 rounded text-xs font-bold shadow-sm">ثبت اقدام</button>
+                    </div>
+                    <div class="border-t pt-2 mt-2">
+                        <div class="flex justify-between items-center cursor-pointer text-gray-700 font-bold" onclick="toggleAccordion('expertHistory')">
+                            <span>⏱ تاریخچه اقدامات کارشناس (۳)</span><span>▼</span>
+                        </div>
+                        <div id="expertHistory" class="accordion-content text-[10px] text-gray-500 mt-2 space-y-1">
+                            <div class="p-1 border-b">۱۴۰۵/۰۶/۲۸ - گزارش آماده شد</div>
+                            <div class="p-1 border-b">۱۴۰۵/۰۶/۲۵ - درخواست اصلاح</div>
+                        </div>
+                    </div>
                 </div>
-                <button class="w-full bg-[#2E7D32] text-white py-2 rounded-lg font-bold mt-2">ثبت اقدام</button>
             </div>
         </div>
 
-        <div class="border border-orange-200 rounded-lg overflow-hidden">
-            <div class="bg-orange-50 p-2 font-bold text-orange-800 flex items-center gap-1">
-                <span>👤</span> بخش مدیر
+        <div class="bg-white border border-orange-200 rounded-lg overflow-hidden shadow-sm">
+            <div class="bg-orange-50 p-2.5 font-bold text-orange-800 flex items-center gap-2 cursor-pointer" onclick="toggleAccordion('managerAccordion')">
+                <span>👤</span> بخش مدیر <span class="mr-auto text-[10px]">▼</span>
             </div>
-            <div class="p-3 space-y-2">
-                <div class="flex justify-between items-center text-[10px] text-gray-500">
-                    <span>نظر مدیر:</span>
-                    <span>وضعیت: <span class="bg-gray-100 px-1 rounded">در حال بررسی</span></span>
+            <div id="managerAccordion" class="accordion-content">
+                <div class="p-3 space-y-3 border-t border-orange-100">
+                    <div>
+                        <label class="block text-gray-600 mb-1 font-bold">نظر مدیر:</label>
+                        <textarea class="w-full border border-gray-300 rounded p-2 text-xs focus:ring-1 focus:ring-orange-500" rows="2" placeholder="نظر خود را وارد کنید..."></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-gray-600 mb-1 font-bold">تاریخ نظر:</label>
+                            <input type="text" value="۱۴۰۵/۰۶/۲۷" class="w-full border border-gray-300 rounded p-2 text-xs text-center bg-gray-50">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-gray-600 mb-1 font-bold">وضعیت:</label>
+                            <select class="w-full border border-gray-300 rounded p-2 text-xs bg-gray-50"><option>در حال بررسی</option><option>تایید شده</option></select>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="bg-[#2E7D32] text-white px-4 py-1.5 rounded text-xs font-bold shadow-sm">ثبت نظر مدیر</button>
+                    </div>
+                    <div class="border-t pt-2 mt-2">
+                        <div class="flex justify-between items-center cursor-pointer text-gray-700 font-bold" onclick="toggleAccordion('managerHistory')">
+                            <span>⏱ تاریخچه نظرات مدیر (۲)</span><span>▼</span>
+                        </div>
+                        <div id="managerHistory" class="accordion-content text-[10px] text-gray-500 mt-2 space-y-1">
+                            <div class="p-1 border-b">۱۴۰۵/۰۶/۲۷ - تایید نهایی</div>
+                        </div>
+                    </div>
                 </div>
-                <textarea class="w-full border border-gray-300 rounded p-2 text-xs focus:ring-1 focus:ring-orange-500" rows="2" placeholder="نظر خود را وارد کنید..."></textarea>
-                <div class="flex justify-between items-center text-[10px] text-gray-500">
-                    <span>تاریخ نظر: ۱۴۰۵/۰۶/۲۷</span>
-                </div>
-                <button class="w-full bg-[#2E7D32] text-white py-2 rounded-lg font-bold mt-2">ثبت نظر مدیر</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-function toggleMenu() {
+function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if (sidebar.classList.contains('translate-x-full')) {
@@ -241,10 +259,10 @@ function toggleMenu() {
     }
 }
 
-function openDetails(title, code, expert, type) {
+function openDetails(title, code, expert, type, deadline) {
     document.getElementById('modalTitle').innerText = title;
-    document.getElementById('modalMeta').innerText =
-        `کد تسک: ${code} | کارشناس: ${expert} | نوع: ${type}`;
+    document.getElementById('modalMeta').innerHTML =
+        `کد تسک: ${code} <br> کارشناس: ${expert} <br> نوع: ${type} <br> وضعیت مهلت: ${deadline}`;
 
     const modal = document.getElementById('detailsModal');
     modal.classList.remove('hidden');
@@ -263,6 +281,15 @@ function closeDetails() {
     setTimeout(() => {
         modal.classList.add('hidden');
     }, 300);
+}
+
+function toggleAccordion(id) {
+    const content = document.getElementById(id);
+    if (content.classList.contains('accordion-active')) {
+        content.classList.remove('accordion-active');
+    } else {
+        content.classList.add('accordion-active');
+    }
 }
 </script>
 </body>
