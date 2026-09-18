@@ -112,6 +112,36 @@
             .zoom-control { bottom: 12px; left: 10px; }
         }
 
+    
+        #sideRail.rail-expanded {
+            width: 180px !important;
+            align-items: stretch;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        #sideRail.rail-expanded .side-rail-btn {
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 12px;
+            padding: 9px 12px;
+            text-align: right;
+        }
+        #sideRail.rail-expanded .side-rail-btn .label {
+            font-size: 11px;
+            margin-top: 0;
+            white-space: nowrap;
+        }
+        #sideRail.rail-expanded #railToggleIcon {
+            transform: rotate(180deg);
+            display: inline-block;
+        }
+        #sideRail.rail-expanded + .zoom-control {
+            /* کنترل زوم مستقل از منو باقی می‌ماند */
+        }
+        @media (max-width:700px) {
+            #sideRail.rail-expanded { width: 190px !important; }
+        }
+
     </style>
 </head>
 <body class="text-gray-800">
@@ -200,27 +230,45 @@
 <div id="newTaskModal" class="fixed inset-0 bg-black bg-opacity-50 z-[70] flex items-center justify-center hidden"><div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl overflow-y-auto max-h-[90vh]"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="font-bold text-sm text-gray-800">➕ ثبت تسک جدید</h2><button onclick="closeNewTaskModal()" class="text-gray-500 hover:text-red-500">✕</button></div><div class="space-y-3 text-xs"><div><label class="block text-gray-600 mb-1 font-bold">عنوان تسک</label><input type="text" id="newTaskTitle" class="w-full border border-gray-300 rounded-lg p-2"></div><div><label class="block text-gray-600 mb-1 font-bold">کارشناس</label><select id="newTaskExpert" class="w-full border border-gray-300 rounded-lg p-2"><option>آقای عطاریان</option><option>خانم شفیعی</option><option>آقای دری</option></select></div><div><label class="block text-gray-600 mb-1 font-bold">نوع</label><select id="newTaskType" class="w-full border border-gray-300 rounded-lg p-2"><option value="تسک">تسک</option><option value="تیکت">تیکت</option><option value="پیرنگ">پیرنگ</option><option value="مکاتبه">مکاتبه</option><option value="تهیه گزارش">تهیه گزارش</option><option value="سایر">سایر</option></select></div><div class="flex gap-2"><div class="flex-1"><label class="block text-gray-600 mb-1 font-bold">تاریخ ثبت</label><input type="text" id="newTaskRegDate" placeholder="۱۴۰۵/۰۶/۱۸" class="w-full border border-gray-300 rounded-lg p-2 text-center"></div><div class="flex-1"><label class="block text-gray-600 mb-1 font-bold">مهلت انجام</label><input type="text" id="newTaskDeadline" placeholder="۱۴۰۵/۰۷/۱۰" class="w-full border border-gray-300 rounded-lg p-2 text-center"></div></div><div><label class="block text-gray-600 mb-1 font-bold">وضعیت</label><input type="text" id="newTaskStatus" placeholder="در حال انجام" class="w-full border border-gray-300 rounded-lg p-2"></div><div><label class="block text-gray-600 mb-1 font-bold">درصد پیشرفت</label><input type="number" id="newTaskProgress" placeholder="۵۰" class="w-full border border-gray-300 rounded-lg p-2 text-center"></div><button onclick="addNewTask()" class="w-full bg-[#1e5631] text-white py-3 rounded-lg font-bold mt-4 shadow-md">ثبت تسک</button></div></div></div>
 </div>
 
-<div id="sideRail" class="fixed top-0 right-0 bottom-0 w-[75px] bg-white border-l border-gray-200 z-40 flex flex-col items-center py-3 gap-1 overflow-y-auto no-scrollbar shadow-lg hidden">
-<div class="flex flex-col items-center mb-2"><div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center border-2 border-green-200 mb-1"><svg class="w-5 h-5 text-[#1e5631]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 7 7 0 00-5 7h14a7 7 0 00-7-7z"></path></svg></div><span id="railName" class="text-[8px] font-bold text-gray-700 text-center leading-tight px-1">خانم شفیعی</span></div>
-<div class="w-10 border-t border-gray-200 my-1"></div>
-<button onclick="scrollToTop()" class="side-rail-btn active" id="railDashboard"><span class="icon">📊</span><span class="label">داشبورد</span></button>
-<button onclick="showAlert('آرشیو فعالیت‌ها')" class="side-rail-btn"><span class="icon">📁</span><span class="label">آرشیو</span></button>
-<button onclick="showAlert('گزارش‌گیری تسک‌ها')" class="side-rail-btn"><span class="icon">📈</span><span class="label">گزارش</span></button>
-<button onclick="showAlert('انجام ارزیابی تسک‌ها')" class="side-rail-btn"><span class="icon">📋</span><span class="label">ارزیابی</span></button>
-<button onclick="showAlert('حذف و اضافه اعضای گروه')" class="side-rail-btn"><span class="icon">👥</span><span class="label">اعضا</span></button>
-<button onclick="showAlert('نوبت‌های هیئت عمومی')" class="side-rail-btn"><span class="icon">🏛️</span><span class="label">هیئت</span></button>
-<button onclick="openChangePasswordModal()" class="side-rail-btn"><span class="icon">🔒</span><span class="label">رمز</span></button>
-<button onclick="openNewTaskModal()" class="side-rail-btn"><span class="icon">➕</span><span class="label">تسک جدید</span></button>
-<div class="w-10 border-t border-gray-200 my-1"></div>
-<button onclick="logout()" class="side-rail-btn" style="color:#dc2626;"><span class="icon">🚪</span><span class="label">خروج</span></button>
+<div id="sideRail" class="fixed top-0 right-0 bottom-0 w-[68px] bg-white border-l border-gray-200 z-40 flex flex-col items-center py-3 gap-1 overflow-y-auto no-scrollbar shadow-lg hidden transition-all duration-300">
+    <button onclick="toggleSideRail()" class="w-10 h-10 rounded-xl bg-gray-100 hover:bg-green-50 text-gray-700 hover:text-[#1e5631] flex items-center justify-center text-xl font-bold transition mb-1" aria-label="باز و بسته کردن منو">
+        <span id="railToggleIcon">‹</span>
+    </button>
 
-        <div id="zoomControl" class="zoom-control hidden">
-            <button type="button" onclick="changeAppZoom(-0.1)" aria-label="کاهش اندازه">−</button>
-            <span id="zoomLevel">100٪</span>
-            <button type="button" onclick="changeAppZoom(0.1)" aria-label="افزایش اندازه">+</button>
-            <button type="button" onclick="resetAppZoom()" aria-label="بازنشانی زوم" style="font-size:12px;">↺</button>
-        </div>
+    <div class="w-10 border-t border-gray-200 my-1"></div>
 
+    <button onclick="scrollToTop()" class="side-rail-btn active" id="railDashboard">
+        <span class="icon">🏠</span><span class="label">داشبورد</span>
+    </button>
+    <button onclick="showAlert('مدیریت تسک‌ها')" class="side-rail-btn">
+        <span class="icon">📋</span><span class="label">تسک‌ها</span>
+    </button>
+    <button onclick="showAlert('گزارش‌گیری تسک‌ها')" class="side-rail-btn">
+        <span class="icon">📈</span><span class="label">گزارش</span>
+    </button>
+    <button onclick="showAlert('مدیریت اعضای گروه')" class="side-rail-btn">
+        <span class="icon">👥</span><span class="label">اعضا</span>
+    </button>
+    <button onclick="showAlert('نوبت‌های هیئت عمومی')" class="side-rail-btn">
+        <span class="icon">🏛️</span><span class="label">هیئت</span>
+    </button>
+    <button onclick="openChangePasswordModal()" class="side-rail-btn">
+        <span class="icon">🔒</span><span class="label">رمز</span>
+    </button>
+
+    <div class="w-10 border-t border-gray-200 my-1"></div>
+
+    <button onclick="openNewTaskModal()" class="side-rail-btn bg-green-50 text-[#1e5631]">
+        <span class="icon">➕</span><span class="label">تسک جدید</span>
+    </button>
+
+    <div class="flex-1"></div>
+
+    <div class="w-10 border-t border-gray-200 my-1"></div>
+
+    <button onclick="logout()" class="side-rail-btn" style="color:#dc2626;">
+        <span class="icon">🚪</span><span class="label">خروج</span>
+    </button>
 </div>
 
 <script>
@@ -311,10 +359,10 @@ function changeItemsPerPage(v){itemsPerPage=parseInt(v);currentPage=1;renderTabl
 function filterTasks(resetStat=false){if(resetStat){currentStatFilter='all';updateStatButtonsUI();}currentFilterExpert=document.getElementById('filterExpert').value;currentFilterStatus=document.getElementById('filterStatus').value;currentSearchTerm=document.getElementById('searchInput').value;currentPage=1;renderTable();}
 function resetFilters(){document.getElementById('filterExpert').value='همه کارشناسان';document.getElementById('filterStatus').value='همه وضعیت‌ها';document.getElementById('searchInput').value='';currentStatFilter='all';filterTasks(true);}
 function updateStats(){const total=tasks.length,done=tasks.filter(t=>t.status==='انجام شد').length,active=tasks.filter(t=>t.status.includes('در حال')).length,overdue=tasks.filter(t=>t.status==='معوق').length;document.getElementById('statTotal').innerText=total;document.getElementById('statDone').innerText=done;document.getElementById('statActive').innerText=active;document.getElementById('statOverdue').innerText=overdue;const my=tasks.filter(t=>t.expert===currentUser);document.getElementById('statMyTotal').innerText=my.length;document.getElementById('statMyDone').innerText=my.filter(t=>t.status==='انجام شد').length;document.getElementById('statMyActive').innerText=my.filter(t=>t.status.includes('در حال')).length;document.getElementById('statMyOverdue').innerText=my.filter(t=>t.status==='معوق').length;}
-function login(){const pass=document.getElementById('passwordInput').value,selectedName=document.getElementById('userSelect').value;if(pass==='1'||pass===''){const user=users.find(u=>u.name===selectedName);if(user){currentUser=user.name;document.getElementById('headerName').innerText=user.name;document.getElementById('headerRole').innerText=user.role;document.getElementById('railName').innerText=user.name.split(' ').slice(0,2).join(' ');document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('sideRail').classList.remove('hidden');
+function login(){const pass=document.getElementById('passwordInput').value,selectedName=document.getElementById('userSelect').value;if(pass==='1'||pass===''){const user=users.find(u=>u.name===selectedName);if(user){currentUser=user.name;document.getElementById('headerName').innerText=user.name;document.getElementById('headerRole').innerText=user.role;document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('sideRail').classList.remove('hidden');
                     document.getElementById('zoomControl').classList.remove('hidden');document.getElementById('loginError').classList.add('hidden');updateStats();renderTable();}}else document.getElementById('loginError').classList.remove('hidden');}
 function logout(){if(confirm('آیا از حساب خود خارج می‌شوید؟')){document.getElementById('mainApp').classList.add('hidden');document.getElementById('sideRail').classList.add('hidden');
-                document.getElementById('zoomControl').classList.add('hidden');document.getElementById('loginScreen').classList.remove('hidden');document.getElementById('passwordInput').value='';document.getElementById('loginError').classList.add('hidden');currentStatFilter='all';updateStatButtonsUI();}}
+                document.getElementById('zoomControl').classList.add('hidden');document.getElementById('loginScreen').classList.remove('hidden');document.getElementById('passwordInput').value='';document.getElementById('loginError').classList.add('hidden');currentStatFilter='all';railExpanded=false;document.getElementById('sideRail').classList.remove('rail-expanded');document.getElementById('mainApp').style.paddingRight=window.innerWidth<=700?'68px':'75px';updateStatButtonsUI();}}
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
 function openDetails(taskId){activeTaskId=taskId;const task=tasks.find(t=>t.id===taskId);if(!task)return;document.getElementById('modalTitle').innerText=task.title;document.getElementById('modalMeta').innerHTML=`کد تسک: ${task.code}<br>کارشناس: ${task.expert}<br>نوع: ${task.type}<br>وضعیت: ${task.status}`;document.getElementById('modalDescription').value=task.description||'توضیحاتی ثبت نشده است.';const modal=document.getElementById('detailsModal');modal.classList.remove('hidden');setTimeout(()=>{modal.classList.remove('translate-y-full');modal.classList.add('translate-y-0');},10);}
 function closeDetails(){const modal=document.getElementById('detailsModal');modal.classList.add('translate-y-full');modal.classList.remove('translate-y-0');setTimeout(()=>{modal.classList.add('hidden');activeTaskId=null;},300);}
@@ -326,6 +374,23 @@ function changePassword(){const current=document.getElementById('currentPass').v
 function openNewTaskModal(){document.getElementById('newTaskModal').classList.remove('hidden');}
 function closeNewTaskModal(){document.getElementById('newTaskModal').classList.add('hidden');}
 function addNewTask(){const title=document.getElementById('newTaskTitle').value,expert=document.getElementById('newTaskExpert').value,type=document.getElementById('newTaskType').value,regDate=document.getElementById('newTaskRegDate').value||'۱۴۰۵/۰۶/۱۸',deadline=document.getElementById('newTaskDeadline').value||'-',status=document.getElementById('newTaskStatus').value||'در حال انجام',progress=document.getElementById('newTaskProgress').value?document.getElementById('newTaskProgress').value+'٪':'۰٪';if(!title){alert('لطفاً عنوان تسک را وارد کنید.');return;}tasks.unshift({id:Date.now(),title,code:`NEW-${Math.floor(1000+Math.random()*9000)}`,expert,type,date:regDate,deadline,status,progress,description:'تسک جدید ثبت شده است.'});updateStats();renderTable();closeNewTaskModal();showAlert('تسک جدید با موفقیت ثبت شد');['newTaskTitle','newTaskStatus','newTaskProgress','newTaskRegDate','newTaskDeadline'].forEach(id=>document.getElementById(id).value='');}
+
+        
+        let railExpanded = false;
+
+        function toggleSideRail() {
+            const rail = document.getElementById('sideRail');
+            const main = document.getElementById('mainApp');
+            railExpanded = !railExpanded;
+
+            if (railExpanded) {
+                rail.classList.add('rail-expanded');
+                main.style.paddingRight = window.innerWidth <= 700 ? '0px' : '190px';
+            } else {
+                rail.classList.remove('rail-expanded');
+                main.style.paddingRight = window.innerWidth <= 700 ? '68px' : '75px';
+            }
+        }
 
         let appZoom = 1;
 
