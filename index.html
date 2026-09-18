@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#116b52">
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="512x512" href="app-icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="app-icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="داشبورد عملکرد تیم فناوری اطلاعات">
 <title>داشبورد عملکرد تیم فناوری اطلاعات — نسخه موبایل</title>
 <style>
 *{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:#f3f7f5;color:#17352d;font-family:Tahoma,Arial,sans-serif;font-size:14px}
@@ -428,6 +433,38 @@ body.archive-active header{display:none!important}body.archive-active main{paddi
   .archive-detail-pane .actions button{min-height:42px!important}
 }
 </style>
+
+<style id="final-approved-reference-v8">
+/* Approved final reference: neutral details, green add, red logout, compact RTL layout. */
+body.archive-active{background:#f1f5f8!important;color:#10213b!important}
+body.archive-active .archive-detail-pane,
+body.archive-active .archive-center,
+body.archive-active .archive-sidebar{border-color:#dfe5eb!important;box-shadow:0 4px 18px rgba(20,35,55,.055)!important}
+body.archive-active .archive-detail-pane .actions button,
+body.archive-active .archive-detail-pane .primary,
+body.archive-active .archive-detail-pane .secondary,
+body.archive-active .archive-detail-pane .danger{background:#fff!important;color:#10213b!important;border:1px solid #cfd6de!important;box-shadow:none!important}
+body.archive-active .archive-detail-pane .role-title{background:#edf1f5!important;color:#20334a!important}
+body.archive-active .archive-detail-pane .history-btn{background:#dcecff!important;color:#183153!important;border-color:#c3d8ef!important}
+body.archive-active .archive-sidebar .archive-nav:not(.add):not(.logout){background:#fff!important;color:#102f56!important;border-color:#e0e6ec!important;box-shadow:none!important}
+body.archive-active .archive-sidebar .archive-nav.active{background:#dbe9ff!important;border-color:#a9c8f2!important}
+body.archive-active .archive-sidebar .archive-nav.add{background:#0d8062!important;color:#fff!important;border-color:#0d8062!important}
+body.archive-active .archive-sidebar .archive-nav.logout{background:#e53935!important;color:#fff!important;border-color:#e53935!important}
+body.archive-active .archive-table th{background:#edf3f8!important;color:#10213b!important}
+body.archive-active .archive-table td{background:#fff!important;color:#10213b!important}
+body.archive-active .archive-table td:nth-child(5),
+body.archive-active .archive-table td:nth-child(8){background:#fff!important;color:#10213b!important}
+body.archive-active .bottom-nav{display:none!important}
+@media(max-width:750px){
+ body.archive-active main{padding:6px!important}
+ body.archive-active .archive-shell{display:flex!important;flex-direction:column!important;gap:9px!important}
+ body.archive-active .archive-sidebar{order:1!important}
+ body.archive-active .archive-center{order:2!important}
+ body.archive-active .archive-detail-pane{order:3!important}
+ body.archive-active .archive-table{min-width:820px!important}
+ body.archive-active .archive-search{margin-top:6px!important}
+}
+</style>
 </head>
 <body class="login-active">
 <div class="app">
@@ -641,12 +678,12 @@ function migrateLegacyStorage(){
 }
 migrateLegacyStorage();
 const DEFAULT_TEAM=[
+{name:'شریفی',role:'مدیر دپارتمان فناوری اطلاعات',password:'1'},
 {name:'دری',role:'کارشناس برنامه نویسی',password:'1'},
 {name:'عینی',role:'کارشناس سخت افزار و دیتابیس',password:'1'},
 {name:'عطاریان',role:'کارشناس شبکه',password:'1'},
-
 {name:'شفیعی',role:'پشتیبان سمپ',password:'1'}];
-const ROLE_BY_USER={'دری':'کارشناس برنامه نویسی','عینی':'کارشناس سخت افزار و دیتابیس','عطاریان':'کارشناس شبکه','شفیعی':'پشتیبان سمپ'};
+const ROLE_BY_USER={'شریفی':'مدیر دپارتمان فناوری اطلاعات','دری':'کارشناس برنامه نویسی','عینی':'کارشناس سخت افزار و دیتابیس','عطاریان':'کارشناس شبکه','شفیعی':'پشتیبان سمپ'};
 function safeJSON(key,fallback){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback}catch(e){return fallback}}
 let team=safeJSON(TEAMKEY,null); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x})); else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1',role:ROLE_BY_USER[x.name]||x.role||'کاربر'}));
 // همگام‌سازی نقش‌های پیش‌فرض بدون تغییر رمز عبور یا نام کاربری موجود
@@ -842,9 +879,9 @@ function fillSelectors(){
  const us=document.getElementById('userSelect'),ao=document.getElementById('aOwner'),mp=document.getElementById('mPerson');
  if(!us)return;
  us.disabled=false;
- us.innerHTML='<option value="">انتخاب کنید...</option>'+team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)} — ${esc(x.role)}</option>`).join('')+'<option value="مدیر">مدیر دپارتمان — آقای شریفی</option>';
- if(ao){ao.innerHTML=team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join(''); if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}}
- if(mp)mp.innerHTML=team.map(x=>`<option>${esc(x.name)}</option>`).join('');
+ us.innerHTML='<option value="">انتخاب کنید...</option>'+team.filter(x=>x.name!=='شریفی').map(x=>`<option value="${esc(x.name)}">${x.name==='شفیعی'?'خانم شفیعی':'آقای '+esc(x.name)} — ${esc(x.role)}</option>`).join('')+'<option value="مدیر">آقای شریفی — مدیر دپارتمان فناوری اطلاعات</option>';
+ if(ao){ao.innerHTML=team.filter(x=>x.name!=='شریفی').map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join(''); if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}}
+ if(mp)mp.innerHTML=team.filter(x=>x.name!=='شریفی').map(x=>`<option>${esc(x.name)}</option>`).join('');
 }
 const USER_ROLES={
  'مدیر':'مدیر دپارتمان فناوری اطلاعات',
@@ -1299,7 +1336,7 @@ function renderArchive(){
   if(!filter)return;
   const oldSearch=document.getElementById('archiveSearch')?.value||'';
   filter.innerHTML=`<div class="compact-filter archive-filter-clean"><div class="filter-row">
-    ${currentUser==='مدیر'?`<select id="archivePerson" onchange="renderArchive()"><option value="">همه کارشناسان</option>${team.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join('')}</select>`:''}
+    ${currentUser==='مدیر'?`<select id="archivePerson" onchange="renderArchive()"><option value="">همه کارشناسان</option>${team.filter(x=>x.name!=='شریفی').map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join('')}</select>`:''}
     <select id="archiveType" onchange="renderArchive()"><option value="">همه نوع‌ها</option>${typeOptions.map(x=>`<option>${x}</option>`).join('')}</select>
     <select id="archiveStatus" onchange="renderArchive()"><option value="">همه وضعیت‌ها</option>${statusOptions.map(x=>`<option>${x}</option>`).join('')}</select>
     <button class="secondary" type="button" onclick="clearArchiveFilters()">پاک کردن فیلترها</button></div></div>`;
@@ -1491,7 +1528,7 @@ document.addEventListener('click',function(ev){
 function renderTeam(){
   fillSelectors();
   const canEdit=currentUser==='مدیر';
-  document.getElementById('teamList').innerHTML=team.map((x,i)=>`<div class="teamitem"><div><b>${esc(x.name)}</b><div class="small">${esc(x.role)}</div></div>${canEdit?`<button class="danger" onclick="removeMember(${i})">حذف</button>`:''}</div>`).join('');
+  document.getElementById('teamList').innerHTML=team.map((x,i)=>`<div class="teamitem"><div><b>${x.name==='شریفی'?'آقای شریفی':(x.name==='شفیعی'?'خانم شفیعی':'آقای '+esc(x.name))}</b><div class="small">${esc(x.role)}</div></div>${canEdit&&x.name!=='شریفی'?`<button class="danger" onclick="removeMember(${i})">حذف</button>`:''}</div>`).join('');
   const add=document.querySelector('#teamAdd')?.previousElementSibling;
   if(add)add.style.display=canEdit?'flex':'none';
   document.getElementById('teamAdd')?.classList.add('hidden');
@@ -1502,6 +1539,7 @@ function removeMember(i){if(currentUser!=='مدیر'){alert('فقط مدیر م�
  if(i<0||i>=team.length)return;
  const name=team[i].name;
  if(!name)return;
+ if(name==='شریفی'){alert('مدیر دپارتمان از فهرست اصلی اعضای گروه حذف نمی‌شود.');return;}
  if(!confirm('عضو «'+name+'» حذف شود؟'))return;
  team=team.filter((_,idx)=>idx!==i);
  save(); fillSelectors(); renderTeam(); renderHome();
@@ -1528,7 +1566,7 @@ function updateReviewPersonFilter(){
   if(!isManager)return;
   const prev=sel.value||'ALL';
   sel.innerHTML='<option value="ALL">همه کارشناسان</option>'+
-    team.map(m=>'<option value="'+esc(m.name)+'">'+esc(m.name)+'</option>').join('');
+    team.filter(m=>m.name!=='شریفی').map(m=>'<option value="'+esc(m.name)+'">'+esc(m.name)+'</option>').join('');
   sel.value=(prev==='ALL'||team.some(m=>m.name===prev))?prev:'ALL';
 }
 
