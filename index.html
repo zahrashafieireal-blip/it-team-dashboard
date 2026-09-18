@@ -1981,41 +1981,74 @@ function updatePaginationUI(totalPages, start, end) {
 function changeItemsPerPage(v) { itemsPerPage = parseInt(v); currentPage = 1; renderTable(); }
 
 /* ============ ورود ============ */
+/* ============ مدیریت رمز عبور ============ */
+function getUserPassword(user) {
+    if (!user) return '1';
+    const key = 'it_dashboard_password_' + encodeURIComponent(user.name);
+    const saved = localStorage.getItem(key);
+    return saved !== null ? saved : '1';
+}
+
+function setUserPassword(user, password) {
+    if (!user) return;
+    const key = 'it_dashboard_password_' + encodeURIComponent(user.name);
+    localStorage.setItem(key, password);
+}
+
 function login() {
     const pass = document.getElementById('passwordInput').value;
     const selectedName = document.getElementById('userSelect').value;
-    if (pass === '1' || pass === '') {
-        const user = users.find(u => u.name === selectedName);
-        if (!user) return;
-        currentUser = user.name;
-        document.getElementById('headerName').innerText = user.name;
-        document.getElementById('headerRole').innerText = user.role;
-        updateHeaderAvatar();
+    const user = users.find(u => u.name === selectedName);
 
-        const loginScreen = document.getElementById('loginScreen');
-        loginScreen.style.display = '';
-        loginScreen.classList.add('hidden');
-
-        document.getElementById('mainApp').classList.remove('hidden');
-        document.getElementById('zoomControl').classList.remove('hidden');
-        document.getElementById('loginError').classList.add('hidden');
-
-        currentStatFilter = 'all';
-        currentFilterExpert = 'همه کارشناسان';
-        currentFilterStatus = 'همه وضعیت‌ها';
-        currentSearchTerm = '';
-        currentPage = 1;
-        document.getElementById('filterExpert').value = 'همه کارشناسان';
-        document.getElementById('filterStatus').value = 'همه وضعیت‌ها';
-        document.getElementById('searchInput').value = '';
-        updateStatButtonsUI();
-
-        updateStats();
-        renderTable();
-    } else {
+    if (!user) {
+        document.getElementById('loginError').innerText = 'لطفاً یک کاربر را انتخاب کنید.';
         document.getElementById('loginError').classList.remove('hidden');
+        return;
     }
+
+    if (pass !== getUserPassword(user)) {
+        document.getElementById('loginError').innerText = 'رمز عبور اشتباه است!';
+        document.getElementById('loginError').classList.remove('hidden');
+        document.getElementById('passwordInput').select();
+        return;
+    }
+
+    currentUser = user.name;
+    document.getElementById('headerName').innerText = user.name;
+    document.getElementById('headerRole').innerText = user.role;
+    updateHeaderAvatar();
+
+    const loginScreen = document.getElementById('loginScreen');
+    loginScreen.style.display = '';
+    loginScreen.classList.add('hidden');
+
+    document.getElementById('mainApp').classList.remove('hidden');
+    document.getElementById('zoomControl').classList.remove('hidden');
+    document.getElementById('loginError').classList.add('hidden');
+    document.getElementById('passwordInput').value = '';
+
+    currentStatFilter = 'all';
+    currentFilterExpert = 'همه کارشناسان';
+    currentFilterStatus = 'همه وضعیت‌ها';
+    currentSearchTerm = '';
+    currentPage = 1;
+    document.getElementById('filterExpert').value = 'همه کارشناسان';
+    document.getElementById('filterStatus').value = 'همه وضعیت‌ها';
+    document.getElementById('searchInput').value = '';
+    updateStatButtonsUI();
+
+    updateStats();
+    renderTable();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const passwordInput = document.getElementById('passwordInput');
+    if (passwordInput) {
+        passwordInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') login();
+        });
+    }
+});
 
 /* ============ خروج ============ */
 function logout() {
@@ -2272,10 +2305,16 @@ function changePassword() {
     const current = document.getElementById('currentPass').value;
     const newPass = document.getElementById('newPass').value;
     const confirmP = document.getElementById('confirmPass').value;
-    if (current !== '1') { alert('رمز عبور فعلی اشتباه است! (پیش‌فرض: 1)'); return; }
+    const user = users.find(u => u.name === currentUser);
+
+    if (!user) { alert('کاربر واردشده مشخص نیست.'); return; }
+    if (current !== getUserPassword(user)) { alert('رمز عبور فعلی اشتباه است!'); return; }
     if (!newPass || !confirmP) { alert('لطفاً رمز عبور جدید را وارد کنید.'); return; }
     if (newPass !== confirmP) { alert('رمز عبور جدید و تکرار آن یکسان نیستند!'); return; }
-    alert('رمز عبور با موفقیت تغییر یافت.');
+    if (newPass.length < 1) { alert('رمز عبور نمی‌تواند خالی باشد.'); return; }
+
+    setUserPassword(user, newPass);
+    alert('رمز عبور با موفقیت تغییر یافت. از این پس باید با رمز جدید وارد شوید.');
     closeChangePasswordModal();
 }
 
@@ -2360,6 +2399,7 @@ function addMember() {
     if (users.some(u => u.name === name)) { alert('این عضو قبلاً ثبت شده است.'); return; }
     const colors = ['#1e5631','#2e7d32','#0369a1','#7c3aed','#b45309','#be123c','#0891b2','#9333ea'];
     users.push({ name, role, color: colors[users.length % colors.length] });
+    setUserPassword(users[users.length - 1], '1');
     refreshUserSelect(); refreshExpertFilter(); refreshNewTaskExpertSelect(); refreshHeyatPersonSelect();
     updateStats(); renderMembersList(); closeAddMemberForm();
     alert(`عضو «${name}» با موفقیت اضافه شد`);
