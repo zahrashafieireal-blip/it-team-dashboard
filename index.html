@@ -1,231 +1,269 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#116b52">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="icon" href="app-icon-512.png">
-<title>داشبورد عملکرد تیم فناوری اطلاعات</title>
-<style>
-*{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:#f3f7f5;color:#17352d;font-family:Tahoma,Arial,sans-serif;font-size:14px}
-button,input,select,textarea{font:inherit;max-width:100%}button{cursor:pointer;border:0}.app{width:100%;max-width:1050px;margin:auto;overflow-x:hidden}
-header{background:#116b52;color:#fff;padding:22px 14px 26px;border-radius:0 0 24px 24px;text-align:center}header h1{margin:0;font-size:22px}
-main{padding:12px}.panel{display:none;background:#fff;border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 4px 16px #0000000c;max-width:100%;overflow:hidden}.panel.active{display:block}
-.cardgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:#fff;border-radius:16px;padding:16px 9px;min-height:118px;box-shadow:0 3px 14px #0000000b;text-align:center;min-width:0}.card .ico{font-size:32px}.card h3{margin:7px 0 0;font-size:14px;line-height:1.5}
-.userbox{background:#fff;border-radius:18px;padding:15px;margin-bottom:13px;box-shadow:0 3px 14px #0000000b}
-label{display:block;margin:9px 0 5px;font-weight:bold;font-size:13px}input,select,textarea{width:100%;border:1px solid #d8e1dd;border-radius:10px;padding:9px;background:#fff;font-size:13px}textarea{min-height:85px}
-.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.primary,.secondary,.danger{padding:9px 12px;border-radius:10px;font-size:13px}.primary{background:#116b52;color:#fff}.secondary{background:#e7f1ed;color:#116b52}.danger{background:#fbe7e7;color:#a62929}
-table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:7px 5px;border:1px solid #dfe7e3;text-align:right}th{background:#edf4f1}
-.tablewrap{width:100%;max-width:100%;overflow-x:auto}.done{background:#e7f0ff}.progress{background:#e8f7eb}.deadline{background:#ffe7e7}.waiting{background:#fff8df}
-.badges{display:flex;gap:5px;flex-wrap:wrap}.badge{background:#edf4f1;border-radius:18px;padding:5px 8px;font-size:11px}.empty{text-align:center;padding:20px;color:#75847f}
-.teamitem{display:flex;justify-content:space-between;align-items:center;gap:7px;background:#f7faf8;border:1px solid #e2ebe7;padding:9px;border-radius:11px;margin:6px 0;font-size:13px}
-.small{font-size:11px;color:#687873}.hidden{display:none!important}.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.back{background:#c62828!important;color:#fff!important;font-weight:bold;padding:10px 15px;border-radius:11px}
-.modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;z-index:50;padding:15px}.modal.show{display:flex}.modalbox{background:#fff;border-radius:20px;width:min(420px,96vw);padding:18px;max-height:90vh;overflow:auto}
-.calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.calhead button{background:#edf4f1;border-radius:10px;padding:9px 14px}.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.weekdays{font-weight:bold;margin-bottom:6px}.days button{border:0;background:#f4f6f5;height:38px;border-radius:9px}.days button.sel{background:#116b52;color:#fff}.closecal{width:100%;margin-top:12px;padding:10px;background:#eee;border-radius:10px}
-body.login-active{background:linear-gradient(135deg,#cfe2f6,#8fb5dc,#4f78a9,#173f73)}body.login-active header{display:none!important}
-body.login-active main{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:0!important}
-body.login-active #login.panel{display:block!important;background:transparent;box-shadow:none;padding:20px!important}
-.login-modern-wrap{width:100%;display:flex;align-items:center;justify-content:center;padding:12px}.login-modern-card{width:min(630px,100%);background:rgba(255,255,255,.97);border-radius:30px;box-shadow:0 24px 65px rgba(20,52,88,.25);padding:34px 40px 30px;text-align:center}
-.login-modern-logo{width:86px;height:86px;margin:0 auto 18px;border-radius:50%;background:#eef8ef;display:flex;align-items:center;justify-content:center;overflow:hidden}.login-modern-logo img{width:76px;height:76px;object-fit:contain}
-.login-modern-brand h2{margin:0 0 8px;color:#102f56;font-size:24px;font-weight:900}.login-modern-line{width:72px;height:4px;border-radius:5px;background:#123f73;margin:18px auto 25px}
-.login-modern-field{margin-top:14px}.login-modern-field select,.login-modern-field input{width:100%;height:60px;border:1.5px solid #cbd5e1;border-radius:15px;background:#fff;padding:0 20px;font-size:16px;outline:none}
-.login-modern-btn{width:100%;height:60px;margin-top:24px;border:0;border-radius:16px;background:linear-gradient(135deg,#76c893,#3fa66a,#237a4b);color:#fff;font-size:17px;font-weight:900;cursor:pointer}
-.profile-dashboard-card{display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1.08fr);gap:18px;align-items:center;padding:18px!important;background:linear-gradient(135deg,#eefaf5,#fff);direction:ltr}
-.profile-actions{display:flex;flex-direction:column;gap:10px;width:100%;order:1;direction:rtl}.profile-actions button{width:100%;min-height:58px;border-radius:18px;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;gap:12px}
-.home-register-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(135deg,#13785f,#0e654f);color:#fff!important;padding:9px 14px;border-radius:12px;font-weight:800;font-size:12px;box-shadow:0 4px 10px #116b5230}
-.profile-divider{width:1px;height:150px;background:#8dc8b3;order:2}.profile-identity{display:flex;align-items:center;gap:16px;direction:rtl;order:3;justify-content:flex-end}.profile-text{text-align:right;flex:1}.profile-text h2{margin:0 0 8px!important;font-size:26px!important;color:#123c30!important}
-.profile-role{display:inline-flex;align-items:center;gap:8px;background:#e3f3ed;color:#14644e;border-radius:20px;padding:8px 13px;font-size:15px;font-weight:800}
-.quick-actions{display:flex;gap:6px;overflow-x:auto;padding:2px 0 9px}.quick-btn{flex:0 0 auto;background:#e9f2ee;color:#116b52;border:1px solid #d5e4de;border-radius:18px;padding:7px 10px;font-size:11px;cursor:pointer}
-.task-overview-filters{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0 12px}.overview-filter{border:1px solid #dfe8e5;background:#f7faf9;border-radius:14px;padding:11px 12px;text-align:right;display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:inherit;color:#21433a;font-size:13px;cursor:pointer}.overview-filter .radio{width:18px;height:18px;border:2px solid #aabbb5;border-radius:50%;display:inline-flex;flex:0 0 18px}.overview-filter.active{background:#e8f4f0;border-color:#13785f}.overview-filter b{min-width:28px;text-align:center;border-radius:10px;background:#e5efec;padding:4px 6px}.overview-filter.active b{background:#13785f;color:#fff}
-.task-overview-list{display:flex;flex-direction:column;gap:7px}.overview-task-row{width:100%;border:1px solid #e4ebe9;background:#fff;border-radius:13px;padding:10px;text-align:right;font-family:inherit;color:#1e332e;cursor:pointer}.overview-task-row span,.overview-task-row strong,.overview-task-row small{display:block}.overview-task-row span{font-size:12px;color:#60736d;margin-bottom:4px}.overview-task-row strong{font-size:13px;line-height:1.7}.overview-task-row small{font-size:11px;color:#70807b;margin-top:4px}.task-row-actions{display:flex;gap:7px;margin-top:9px}.task-row-actions button{width:auto!important;min-width:78px;padding:7px 11px;border-radius:10px}
-.archive-shell{display:block}.archive-detail-pane,.archive-center,.archive-sidebar{background:#fff;border:1px solid #e1e6eb;border-radius:16px}.archive-detail-pane{padding:14px}.archive-center{padding:12px}.archive-sidebar{padding:12px;background:#f7fafc;display:flex;flex-direction:column;gap:7px}
-.archive-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.archive-stat{border:1px solid #cfdce9;border-radius:14px;padding:11px;text-align:center}.archive-stat.group{background:#eaf3ff;color:#123f7a}.archive-stat.mine{background:#edf8f1;color:#155b3f}.archive-stat>b{font-size:32px;display:inline-block;margin-left:10px}.archive-stat>span{font-size:16px;font-weight:800}.archive-stat>div{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}.archive-stat i{font-style:normal;background:rgba(255,255,255,.45);border-radius:11px;padding:6px;font-size:16px}.archive-stat small,.archive-stat em{display:block;font-size:10px;font-style:normal}.archive-stat em{font-size:17px;font-weight:900}
-.archive-table{min-width:900px!important}.archive-table th{background:#edf3f8!important}.archive-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 4px;font-size:12px}
-.archive-search{position:relative;margin-top:2px}.archive-search input{height:44px;border:1px solid #cbd5df;border-radius:10px;padding:8px 42px 8px 12px;font-size:13px}.archive-search span{position:absolute;right:14px;top:5px;font-size:29px;color:#102f56}
-.archive-user{display:flex;align-items:center;gap:10px;padding:4px 4px 10px;border-bottom:1px solid #dbe3ea}.archive-user-avatar{width:48px;height:48px;border-radius:50%;border:4px solid #fff;background:#e6edf4;display:grid;place-items:center;color:#16324f;font-size:25px}.archive-user b,.archive-user span{display:block}.archive-user b{font-size:18px}.archive-user span{font-size:12px;color:#40556a;margin-top:3px}
-.archive-nav{width:100%;min-height:52px;border:1px solid #e0e6ec;border-radius:12px;background:#fff;color:#102f56;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:13px;padding:8px;cursor:pointer}.archive-nav.add{background:#0d8062;color:#fff;border-color:#0d8062;font-size:15px;box-shadow:0 4px 10px #0d80622c}.archive-nav.active{background:#dbe9ff;border-color:#a9c8f2}.archive-nav.logout{background:#e53935;color:#fff;border-color:#e53935;margin-top:auto}
-.archive-empty-detail{padding:30px 12px;text-align:center;color:#778494;border:1px dashed #ccd5de;border-radius:12px}.archive-desc{font-weight:700;line-height:1.7;min-width:220px}
-.detail-summary-card{background:#f7f9fb;border:1px solid #dce3ea;border-radius:13px;padding:12px;margin-top:10px}.detail-summary-card h3{margin:0 0 10px;font-size:15px}.detail-meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.detail-meta-grid>div{background:#fff;border:1px solid #e3e8ee;border-radius:9px;padding:8px}.detail-meta-grid b{display:block;font-size:10px;color:#39495b;margin-bottom:4px}.detail-meta-grid span{font-size:11px}.detail-description{margin-top:8px;background:#eef3f8;border-radius:10px;padding:9px}.detail-description p{margin:4px 0 0;font-size:11px;line-height:1.8}
-.bottom-nav{display:none}
-.mobile-task-list{display:none}
-.mobile-task-card{background:#fff;border:1px solid #e0e8e4;border-radius:13px;padding:10px;margin-bottom:8px}
-.task-card-head{display:flex;justify-content:space-between;font-size:10px;color:#667771}
-.task-card-title{font-weight:800;font-size:13px;line-height:1.7;margin:7px 0}
-.task-card-meta{display:flex;justify-content:space-between;font-size:10px;color:#51635d;flex-wrap:wrap}
-@media(min-width:751px){body.archive-active{background:#f2f5f8!important;padding:10px!important}body.archive-active .archive-shell{display:grid;grid-template-columns:27% minmax(0,1fr) 18%;gap:10px;direction:ltr;min-height:calc(100vh - 20px)}body.archive-active .archive-detail-pane{grid-column:1;direction:rtl}body.archive-active .archive-center{grid-column:2;direction:rtl}body.archive-active .archive-sidebar{grid-column:3;direction:rtl}}
-@media(max-width:650px){header h1{font-size:19px!important}main{padding:8px!important}.panel{padding:10px!important;border-radius:14px}.cardgrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}.card{min-height:88px!important;padding:10px 6px!important}.card .ico{font-size:25px!important}.card h3{font-size:11px!important}input,select,textarea{font-size:12px!important}table{font-size:10px!important}.desktop-task-table{display:none}.mobile-task-list{display:block}.bottom-nav{display:grid;position:fixed;z-index:50;bottom:0;right:0;left:0;height:60px;background:#fff;border-top:1px solid #dfe8e4;grid-template-columns:repeat(5,1fr);box-shadow:0 -3px 14px #00000010}.bottom-nav button{border:0;background:transparent;color:#53655f;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.bottom-nav span{font-size:8px}body{padding-bottom:66px}.profile-dashboard-card{grid-template-columns:minmax(0,1fr) 1px minmax(0,1.08fr)!important;gap:10px!important;padding:14px 12px!important}.profile-actions button{min-height:49px!important;font-size:13px!important}.profile-divider{height:126px!important}.profile-text h2{font-size:20px!important}.profile-role{font-size:12px!important;padding:7px 9px!important}.detail-meta-grid{grid-template-columns:1fr 1fr!important}.detail-roles{grid-template-columns:1fr!important}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>داشبورد مدیریت تسک</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Vazirmatn', sans-serif; background-color: #F8FAFC; font-size: 13px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .table-scroll::-webkit-scrollbar { height: 6px; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    </style>
 </head>
-<body class="login-active">
-<div class="app">
-<header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1></header>
-<main>
-<section id="login" class="panel active">
-<div class="login-modern-wrap"><div class="login-modern-card">
-<div class="login-modern-logo"><img src="app-icon-512.png" alt="لوگو"></div>
-<div class="login-modern-brand"><h2>داشبورد مدیریت عملکرد تیم فناوری اطلاعات</h2><div class="login-modern-line"></div></div>
-<div class="login-modern-field"><select id="userSelect"></select></div>
-<div class="login-modern-field"><input id="loginPassword" type="password" placeholder="رمز عبور"></div>
-<button class="login-modern-btn" type="button" onclick="enterApp()">ورود به سامانه</button>
-</div></div>
-</section>
+<body class="pb-20 text-gray-800">
 
-<section id="home" class="panel">
-<div class="userbox profile-dashboard-card"><div class="profile-actions"><button class="home-register-btn" type="button" onclick="showPanel('add');prepareActivityOwner()"><span style="font-size:24px">＋</span><span>ثبت تسک جدید</span></button></div><div class="profile-divider"></div><div class="profile-identity"><div class="profile-text"><h2 id="welcome">کارتابل</h2><div id="currentUserRole" class="profile-role">کاربر</div></div></div></div>
-<div class="userbox"><div style="font-weight:800;font-size:14px;margin-bottom:7px">📋 نمای کلی تسک‌های گروه</div><div id="taskOverviewFilters" class="task-overview-filters"></div><div id="taskOverviewList" class="task-overview-list"></div></div>
-<div class="quick-actions"><button class="quick-btn" onclick="showTaskView('overdue')">⏰ ددلاین گذشته</button><button class="quick-btn" onclick="showTaskView('current')">🔄 تسک‌های جاری</button><button class="quick-btn" onclick="showTaskView('reviewed')">⭐ ارزیابی‌شده</button></div>
-<div class="cardgrid">
-<button class="card" onclick="showPanel('today');renderToday()"><div class="ico">📋</div><h3>فعالیت‌های امروز</h3></button>
-<button class="card" onclick="showPanel('reports');initReports()"><div class="ico">📊</div><h3>گزارش‌گیری</h3></button>
-<button class="card" onclick="showPanel('team');renderTeam()"><div class="ico">👥</div><h3>اعضای گروه</h3></button>
-<button class="card" onclick="showPanel('meetings');renderMeetings()"><div class="ico">🏛️</div><h3>نوبت هیئت عمومی</h3></button>
-<button class="card" onclick="showPanel('archive');renderArchive()"><div class="ico">🗂️</div><h3>آرشیو فعالیت‌ها</h3></button>
-<button class="card" onclick="showPanel('reviews');renderReviews()"><div class="ico">📋✓</div><h3>ارزیابی توسط مدیر</h3></button>
-<button class="card" onclick="showPanel('settings');renderSettings()"><div class="ico">⚙️</div><h3>تنظیمات</h3></button>
-</div></section>
+<header class="bg-white p-3 shadow-sm flex justify-between items-center sticky top-0 z-40">
+    <div class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center border border-gray-300">
+            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+        </div>
+        <div>
+            <h1 class="font-bold text-gray-800 text-sm">خانم شفیعی</h1>
+            <p class="text-[10px] text-gray-500">پشتیبان سامانه</p>
+        </div>
+    </div>
+    <button onclick="toggleMenu()" class="p-2 bg-gray-50 rounded-lg border border-gray-200">
+        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+</header>
 
-<section id="groupTasks" class="panel"><div class="topline"><h2 id="taskViewTitle">📋 تسک‌ها</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="groupTaskStats" class="badges"></div><div id="groupTaskCards" class="mobile-task-list"></div><div class="tablewrap desktop-task-table"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>شرح</th><th>وضعیت</th><th>ارزیابی</th><th>عملیات</th></tr></thead><tbody id="groupTaskBody"></tbody></table></div></section>
+<div id="sidebar" class="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+    <div class="p-4 bg-[#2E7D32] text-white flex justify-between items-center">
+        <h2 class="font-bold text-sm">منوی اصلی</h2>
+        <button onclick="toggleMenu()" class="text-white">✕</button>
+    </div>
+    <div class="p-3">
+        <button class="w-full bg-[#2E7D32] text-white py-2 rounded-lg font-bold flex items-center justify-center gap-2 mb-4 text-sm">
+            <span>➕</span> ثبت تسک جدید
+        </button>
+        <ul class="space-y-1 text-xs text-gray-700">
+            <li class="flex items-center gap-2 p-2.5 bg-[#E3F2FD] text-blue-800 rounded-lg cursor-pointer font-bold">📁 آرشیو فعالیت‌ها</li>
+            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">📊 گزارش‌گیری تسک‌ها</li>
+            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">📋 انجام ارزیابی تسک‌ها</li>
+            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">👥 حذف و اضافه اعضای گروه</li>
+            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">🏛️ نوبت‌های هیئت عمومی</li>
+            <li class="flex items-center gap-2 p-2.5 hover:bg-gray-50 rounded-lg cursor-pointer">🔒 تغییر رمز</li>
+        </ul>
+        <button class="w-full bg-red-600 text-white py-2 rounded-lg font-bold flex items-center justify-center gap-2 mt-6 text-sm">
+            <span>🚪</span> خروج
+        </button>
+    </div>
+</div>
+<div id="overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
 
-<section id="add" class="panel"><div class="topline"><h2 id="activityFormTitle">➕ ثبت تسک جدید</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
-<label>تاریخ</label><div class="actions" style="margin:0"><input id="aDate"><button class="secondary" type="button" onclick="openCalendar('aDate')">📅</button></div>
-<label>کارشناس</label><select id="aOwner"></select><label>نوع</label><select id="aType"><option>تسک</option><option>نامه</option><option>پشتیبانی</option><option>جلسه</option><option>پیگیری</option><option>پروژه</option><option>سخت‌افزار</option><option>سایر</option></select>
-<label>شرح</label><textarea id="aDesc"></textarea><label>وضعیت</label><select id="aStatus"><option>انجام شد</option><option>در حال انجام</option><option>منتظر پاسخ</option><option>لغو شد</option></select>
-<label>مکاتبه</label><select id="aCorr"><option>خیر</option><option>بله</option></select><label>واحد</label><input id="aUnit"><label>یادداشت</label><textarea id="aNotes"></textarea>
-<div class="actions"><button class="primary" onclick="saveActivity()">💾 ثبت فعالیت</button><button id="activityCancelEditBtn" class="danger hidden" onclick="cancelEditActivity()">لغو ویرایش</button><button class="secondary" onclick="clearActivityForm()">پاک کردن</button></div></section>
+<main class="p-3 space-y-3">
 
-<section id="today" class="panel"><div class="topline"><h2>📋 فعالیت‌های امروز</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="todayContent"></div></section>
+    <div class="grid grid-cols-2 gap-3">
+        <div class="bg-blue-50 rounded-xl p-3 border border-blue-100 flex flex-col items-center relative overflow-hidden">
+            <div class="absolute top-2 right-2 text-blue-300 text-2xl">📋</div>
+            <div class="text-blue-800 font-bold mb-1 text-xs">کل تسک‌های گروه</div>
+            <div class="text-3xl font-black text-blue-600 mb-3">۶۵</div>
+            <div class="flex justify-between w-full text-[9px] font-bold">
+                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-blue-200">
+                    <span>⏱</span><span>معوق</span><span class="text-blue-600">۱</span>
+                </div>
+                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-blue-200">
+                    <span>✅</span><span>مختومه</span><span class="text-blue-600">۲۲</span>
+                </div>
+                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-blue-200">
+                    <span>🔄</span><span>جاری</span><span class="text-blue-600">۴۲</span>
+                </div>
+            </div>
+        </div>
 
-<section id="reports" class="panel"><div class="topline"><h2>📊 گزارش‌گیری</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div>
-<div class="userbox"><h3 style="margin-top:0">تنظیم گزارش</h3><label>نوع گزارش</label><select id="reportType" onchange="renderReportControls()"><option value="daily">روزانه</option><option value="monthly">ماهانه</option></select><div id="reportDateControls"></div><label>کارشناس</label><select id="reportPerson"></select><div class="actions"><button class="primary" onclick="renderReport()">🔎 نمایش گزارش</button></div></div>
-<div id="reportStats"></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>مسئول</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr></thead><tbody id="reportBody"></tbody></table></div><div class="actions"><button class="primary" onclick="exportReport()">📊 Excel</button></div></section>
+        <div class="bg-green-50 rounded-xl p-3 border border-green-100 flex flex-col items-center relative overflow-hidden">
+            <div class="absolute top-2 right-2 text-green-300 text-2xl">👤</div>
+            <div class="text-green-800 font-bold mb-1 text-xs">تسک‌های من</div>
+            <div class="text-3xl font-black text-green-600 mb-3">۴۷</div>
+            <div class="flex justify-between w-full text-[9px] font-bold">
+                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-green-200">
+                    <span>⏱</span><span>معوق</span><span class="text-green-600">۱</span>
+                </div>
+                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-green-200">
+                    <span>✅</span><span>مختومه</span><span class="text-green-600">۱۷</span>
+                </div>
+                <div class="bg-white px-1.5 py-1 rounded flex flex-col items-center w-[30%] border border-green-200">
+                    <span>🔄</span><span>جاری</span><span class="text-green-600">۲۹</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<section id="team" class="panel"><div class="topline"><h2>👥 اعضای گروه</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div class="actions"><button class="primary" onclick="toggleTeamAdd(true)">➕ افزودن</button></div>
-<div id="teamAdd" class="userbox hidden"><label>نام</label><input id="newName"><label>سمت</label><input id="newRole"><div class="actions"><button class="primary" onclick="addMember()">ثبت</button><button class="secondary" onclick="toggleTeamAdd(false)">انصراف</button></div></div><div id="teamList"></div></section>
+    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
+        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
+            همه کارشناسان <span class="text-[10px]">▼</span>
+        </button>
+        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
+            همه نوع‌ها <span class="text-[10px]">▼</span>
+        </button>
+        <button class="whitespace-nowrap bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm">
+            همه وضعیت‌ها <span class="text-[10px]">▼</span>
+        </button>
+        <button class="whitespace-nowrap bg-[#E3F2FD] border border-blue-300 text-blue-700 px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold shadow-sm">
+            فیلترها <span>🔽</span>
+        </button>
+    </div>
 
-<section id="meetings" class="panel"><div class="topline"><h2>🏛️ هیئت عمومی</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><label>تاریخ</label><div class="actions" style="margin:0"><input id="mDate"><button class="secondary" onclick="openCalendar('mDate')">📅</button></div><label>کارشناس</label><select id="mPerson"></select><div class="actions"><button class="primary" onclick="saveMeeting()">💾 ثبت</button></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>حضور</th><th>—</th></tr></thead><tbody id="meetingBody"></tbody></table></div></section>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto table-scroll">
+            <table class="w-full text-right text-[10px] whitespace-nowrap">
+                <thead class="bg-gray-50 text-gray-600 border-b border-gray-200">
+                    <tr>
+                        <th class="p-2 font-bold text-center">#</th>
+                        <th class="p-2 font-bold text-center">کارشناس</th>
+                        <th class="p-2 font-bold text-right">عنوان / شرح تسک</th>
+                        <th class="p-2 font-bold text-center">نوع</th>
+                        <th class="p-2 font-bold text-center">تاریخ تیکت</th>
+                        <th class="p-2 font-bold text-center">مهلت انجام</th>
+                        <th class="p-2 font-bold text-center">مهلت باقی‌مانده</th>
+                        <th class="p-2 font-bold text-center">وضعیت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="openDetails('ارسال گزارش ماهانه به اداره کل', 'TK-1405-3356', 'آقای عطاریان', 'تامه')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <td class="p-2 text-center text-gray-500">۱</td>
+                        <td class="p-2 text-center">آقای عطاریان</td>
+                        <td class="p-2 font-bold">ارسال گزارش ماهانه به اداره کل</td>
+                        <td class="p-2 text-center text-gray-500">تامه</td>
+                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۲۰</td>
+                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۷/۱۰</td>
+                        <td class="p-2 text-center text-orange-600 font-bold">۱۲ روز مانده</td>
+                        <td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td>
+                    </tr>
+                    <tr onclick="openDetails('بررسی مشکل دسترسی کاربران', 'TK-1405-3355', 'خانم شفیعی', 'تیکت')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <td class="p-2 text-center text-gray-500">۲</td>
+                        <td class="p-2 text-center">خانم شفیعی</td>
+                        <td class="p-2 font-bold">بررسی مشکل دسترسی کاربران</td>
+                        <td class="p-2 text-center text-gray-500">تیکت</td>
+                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۱۶</td>
+                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۲۶</td>
+                        <td class="p-2 text-center text-red-600 font-bold">مهلت گذشته</td>
+                        <td class="p-2 text-center"><span class="bg-red-100 text-red-700 px-2 py-1 rounded">معوق</span></td>
+                    </tr>
+                    <tr onclick="openDetails('تهیه مستندات فنی', 'TK-1405-3340', 'آقای عطاریان', 'تسک')" class="border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <td class="p-2 text-center text-gray-500">۳</td>
+                        <td class="p-2 text-center">آقای عطاریان</td>
+                        <td class="p-2 font-bold">تهیه مستندات فنی</td>
+                        <td class="p-2 text-center text-gray-500">تسک</td>
+                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۲۵</td>
+                        <td class="p-2 text-center text-gray-500">۱۴۰۵/۰۶/۳۰</td>
+                        <td class="p-2 text-center text-orange-600 font-bold">۳ روز مانده</td>
+                        <td class="p-2 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">جاری</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="p-2 bg-gray-50 border-t border-gray-200 flex justify-between items-center text-[10px] text-gray-500">
+            <span>نمایش ۱ تا ۸ از ۱۰ مورد</span>
+            <div class="flex gap-1">
+                <button class="w-6 h-6 flex items-center justify-center bg-[#2E7D32] text-white rounded">۱</button>
+                <button class="w-6 h-6 flex items-center justify-center bg-white border rounded">۲</button>
+                <button class="w-6 h-6 flex items-center justify-center bg-white border rounded">۳</button>
+            </div>
+        </div>
+    </div>
+</main>
 
-<section id="archive" class="panel"><div class="archive-shell">
-<aside class="archive-detail-pane"><div class="topline"><h2>جزئیات تسک</h2></div><div id="archiveDetailActions" class="actions"></div><div id="archiveDetailContent"><div class="archive-empty-detail">یک تسک را انتخاب کنید.</div></div></aside>
-<div class="archive-center"><div class="archive-stats"><div class="archive-stat group"><b id="archiveGroupCount">۰</b><span>کل تسک‌های گروه</span><div><i>◷<small>معوق</small><em id="archiveGroupOverdue">۰</em></i><i>✓<small>مختومه</small><em id="archiveGroupDone">۰</em></i><i>↻<small>جاری</small><em id="archiveGroupCurrent">۰</em></i></div></div><div class="archive-stat mine"><b id="archiveMineCount">۰</b><span>تسک‌های من</span><div><i>◷<small>معوق</small><em id="archiveMineOverdue">۰</em></i><i>✓<small>مختومه</small><em id="archiveMineDone">۰</em></i><i>↻<small>جاری</small><em id="archiveMineCurrent">۰</em></i></div></div></div>
-<div id="archiveFilter"></div><div class="tablewrap"><table class="archive-table"><thead><tr><th>#</th><th>کارشناس</th><th>تاریخ ثبت</th><th>عنوان</th><th>نوع</th><th>شماره</th><th>مهلت</th><th>باقی‌مانده</th></tr></thead><tbody id="archiveBody"></tbody></table></div><div class="archive-footer"><span id="archiveCountText"></span></div><div class="archive-search"><input id="archiveSearch" placeholder="جستجو..." oninput="renderArchive()"><span>⌕</span></div></div>
-<aside class="archive-sidebar"><div class="archive-user"><div class="archive-user-avatar">●</div><div><b id="archiveUserName">کاربر</b><span id="archiveUserRole">—</span></div></div><button class="archive-nav add" onclick="showPanel('add');prepareActivityOwner()">＋ ثبت تسک جدید</button><button class="archive-nav active" onclick="showPanel('archive');renderArchive()">▣ آرشیو</button><button class="archive-nav" onclick="showPanel('reports');initReports()">▥ گزارش‌گیری</button><button class="archive-nav" onclick="showPanel('reviews');renderReviews()">▤ ارزیابی</button><button class="archive-nav" onclick="showPanel('team');renderTeam()">♣ اعضای گروه</button><button class="archive-nav" onclick="showPanel('meetings');renderMeetings()">♜ جلسات</button><button class="archive-nav" onclick="showPanel('settings');renderSettings()">🔒 رمز</button><button class="archive-nav logout" onclick="logout()">⇥ خروج</button></aside>
-</div></section>
+<div class="fixed bottom-0 left-0 right-0 bg-white p-3 border-t border-gray-200 z-30">
+    <div class="relative">
+        <input type="text" placeholder="جستجو در عنوان، شماره تیکت، مکان، کارشناس..." class="w-full bg-gray-100 rounded-lg py-2.5 pr-10 pl-4 text-xs focus:outline-none focus:ring-1 focus:ring-green-500 border border-gray-200">
+        <svg class="w-4 h-4 text-gray-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+    </div>
+</div>
 
-<section id="reviews" class="panel"><div class="topline"><h2>📋✓ ارزیابی توسط مدیر</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div id="reviewContent"></div></section>
-<section id="settings" class="panel"><div class="topline"><h2>⚙️ تنظیمات</h2><button class="back" onclick="showPanel('home')">↩️ بازگشت</button></div><div class="actions"><button class="primary" onclick="backup()">📤 پشتیبان</button><button class="danger" onclick="resetData()">حذف اطلاعات</button></div>
-<div class="userbox" style="margin-top:14px"><h3 style="margin-top:0">🔐 تغییر رمز</h3><label>رمز فعلی</label><input id="oldPassword" type="password"><label>رمز جدید</label><input id="newPassword" type="password"><label>تکرار</label><input id="confirmPassword" type="password"><div class="actions"><button class="primary" onclick="changePassword()">🔑 تغییر</button></div></div></section>
-</main></div>
+<div id="detailsModal" class="fixed inset-0 bg-white z-50 transform translate-y-full transition-transform duration-300 flex flex-col hidden">
+    <div class="bg-gray-50 p-3 border-b flex justify-between items-center">
+        <h2 class="font-bold text-sm text-gray-800">جزئیات تسک</h2>
+        <button onclick="closeDetails()" class="p-1 bg-gray-200 rounded-full text-gray-600">✕</button>
+    </div>
+    <div class="p-4 overflow-y-auto flex-1 space-y-4 text-xs">
+        <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+            <h3 id="modalTitle" class="font-bold text-sm text-gray-800 mb-1">عنوان تسک</h3>
+            <p id="modalMeta" class="text-gray-500 text-[10px]">کد تسک: - | کارشناس: - | نوع: -</p>
+        </div>
 
-<nav class="bottom-nav"><button onclick="showPanel('home');renderHome()">🏠<span>خانه</span></button><button onclick="showTaskView('all')">📋<span>تسک‌ها</span></button><button onclick="showPanel('reports');initReports()">📊<span>گزارش</span></button><button onclick="showPanel('archive');renderArchive()">🗂️<span>آرشیو</span></button><button onclick="showPanel('settings');renderSettings()">⚙️<span>تنظیمات</span></button></nav>
+        <div class="border border-blue-200 rounded-lg overflow-hidden">
+            <div class="bg-blue-50 p-2 font-bold text-blue-800 flex items-center gap-1">
+                <span>👤</span> بخش کارشناس
+            </div>
+            <div class="p-3 space-y-2">
+                <p class="text-gray-500">آخرین اقدام / پیگیری:</p>
+                <textarea class="w-full border border-gray-300 rounded p-2 text-xs focus:ring-1 focus:ring-blue-500" rows="3" placeholder="گزارش آماده شده و برای بازبینی ارسال شد..."></textarea>
+                <div class="flex justify-between items-center text-[10px] text-gray-500">
+                    <span>تاریخ اقدام: ۱۴۰۵/۰۶/۲۸</span>
+                    <span>وضعیت: <span class="bg-yellow-100 text-yellow-700 px-1 rounded">در حال بررسی</span></span>
+                </div>
+                <button class="w-full bg-[#2E7D32] text-white py-2 rounded-lg font-bold mt-2">ثبت اقدام</button>
+            </div>
+        </div>
 
-<div id="calModal" class="modal" onclick="if(event.target===this)closeCalendar()"><div class="modalbox"><div class="calhead"><button onclick="changeMonth(-1)">‹</button><b id="calTitle"></b><button onclick="changeMonth(1)">›</button></div><div class="weekdays"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div><div id="calDays" class="days"></div><button class="closecal" onclick="closeCalendar()">بستن</button></div></div>
+        <div class="border border-orange-200 rounded-lg overflow-hidden">
+            <div class="bg-orange-50 p-2 font-bold text-orange-800 flex items-center gap-1">
+                <span>👤</span> بخش مدیر
+            </div>
+            <div class="p-3 space-y-2">
+                <div class="flex justify-between items-center text-[10px] text-gray-500">
+                    <span>نظر مدیر:</span>
+                    <span>وضعیت: <span class="bg-gray-100 px-1 rounded">در حال بررسی</span></span>
+                </div>
+                <textarea class="w-full border border-gray-300 rounded p-2 text-xs focus:ring-1 focus:ring-orange-500" rows="2" placeholder="نظر خود را وارد کنید..."></textarea>
+                <div class="flex justify-between items-center text-[10px] text-gray-500">
+                    <span>تاریخ نظر: ۱۴۰۵/۰۶/۲۷</span>
+                </div>
+                <button class="w-full bg-[#2E7D32] text-white py-2 rounded-lg font-bold mt-2">ثبت نظر مدیر</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-'use strict';
-var KEY='it_dashboard_v6',TEAMKEY=KEY+'_team',MEETKEY=KEY+'_meetings',MANAGERPASSKEY=KEY+'_manager_password',SEEDEDKEY=KEY+'_seeded';
-var DEFAULT_TEAM=[{name:'شریفی',role:'مدیر دپارتمان فناوری اطلاعات',password:'1'},{name:'دری',role:'کارشناس برنامه نویسی',password:'1'},{name:'عینی',role:'کارشناس سخت افزار و دیتابیس',password:'1'},{name:'عطاریان',role:'کارشناس شبکه',password:'1'},{name:'شفیعی',role:'پشتیبان سمپ',password:'1'}];
-var ROLE_BY_USER={'شریفی':'مدیر دپارتمان فناوری اطلاعات','دری':'کارشناس برنامه نویسی','عینی':'کارشناس سخت افزار و دیتابیس','عطاریان':'کارشناس شبکه','شفیعی':'پشتیبان سمپ'};
-function safeJSON(k,f){try{var r=localStorage.getItem(k);return r?JSON.parse(r):f}catch(e){return f}}
-var team=safeJSON(TEAMKEY,null);
-if(!Array.isArray(team)||!team.length){team=DEFAULT_TEAM.slice()}else{team=team.filter(function(x){return x&&x.name}).map(function(x){return Object.assign({},x,{password:x.password||'1',role:ROLE_BY_USER[x.name]||x.role||'کاربر'})})}
-DEFAULT_TEAM.forEach(function(d){var ex=team.filter(function(x){return x.name===d.name})[0];if(ex){ex.role=d.role}else if(!team.some(function(x){return x.name===d.name})){team.push(Object.assign({},d))}});
-var managerPassword=localStorage.getItem(MANAGERPASSKEY)||'1',data=safeJSON(KEY,[]),meetings=safeJSON(MEETKEY,[]);
-if(!Array.isArray(data))data=[];if(!Array.isArray(meetings))meetings=[];
-var currentUser='',calTarget='',calY=1405,calM=1,editingActivityId=null,selectedTaskId=null,selectedOverviewKind='all';
-var jmonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'],fa='۰۱۲۳۴۵۶۷۸۹';
-function faDigits(v){return String(v==null?'':v).replace(/[0-9]/g,function(d){return fa[+d]})}
-function enDigits(v){return String(v==null?'':v).replace(/[۰-۹]/g,function(d){return String(fa.indexOf(d))})}
-function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function pad(n){return String(n).padStart(2,'0')}function today(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
-function normG(v){var s=String(v==null?'':v).trim();if(/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/.test(s)){var p=s.split('-');return p[0]+'-'+pad(p[1])+'-'+pad(p[2])}return s}
-function addDaysG(g,n){var p=normG(g).split('-').map(Number);if(p.length!==3)return '';var d=new Date(p[0],p[1]-1,p[2]);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
-function taskDL(x){if(!x||x.type!=='تسک'||!x.date)return '';return addDaysG(normG(x.date),20)}
-function taskDLTxt(x){var dl=taskDL(x);if(!dl)return '';var a=new Date(normG(today())+'T00:00:00'),b=new Date(dl+'T00:00:00'),d=Math.round((b-a)/86400000);if(d>0)return '⏳ '+faDigits(d)+' روز مانده';if(d===0)return '⏰ امروز';return '⚠️ '+faDigits(-d)+' روز گذشته'}
-function taskDLLabel(x){var dl=taskDL(x);if(!dl)return x&&x.deadline?fmtDate(x.deadline):'—';return faDigits(fmtDate(dl))+' — '+taskDLTxt(x)}
-function div(a,b){return Math.floor(a/b)}
-function g2j(gy,gm,gd){var m=[0,31,28,31,30,31,30,31,31,30,31,30,31],jy,days;gy-=1600;gm--;gd--;days=365*gy+div(gy+3,4)-div(gy+99,100)+div(gy+399,400);for(var i=0;i<gm;i++)days+=m[i];if(gm>1&&((gy+1600)%4===0&&((gy+1600)%100!==0||(gy+1600)%400===0)))days++;days+=gd;var jd=days-79,jn=div(jd,12053);jd%=12053;jy=979+33*jn+4*div(jd,1461);jd%=1461;if(jd>=366){jy+=div(jd-1,365);jd=(jd-1)%365}var jm=jd<186?1+div(jd,31):7+div(jd-186,30),jdd=1+(jd<186?jd%31:(jd-186)%30);return [jy,jm,jdd]}
-function j2g(jy,jm,jd){var gy=jy-979,jd0v=365*gy+div(gy,33)*8+div((gy%33)+3,4);for(var i=1;i<jm;i++)jd0v+=i<=6?31:30;jd0v+=jd-1;jd0v+=79;var g2=1600+400*div(jd0v,146097);jd0v%=146097;var leap=true;if(jd0v>=36525){jd0v--;g2+=100*div(jd0v,36524);jd0v%=36524;if(jd0v>=365)jd0v++;else leap=false}g2+=4*div(jd0v,1461);jd0v%=1461;if(jd0v>=366){leap=false;jd0v--;g2+=div(jd0v,365);jd0v%=365}var gd=jd0v+1,md=[31,leap?29:28,31,30,31,30,31,31,30,31,30,31],gm=0;while(gd>md[gm]){gd-=md[gm];gm++}return [g2,gm+1,gd]}
-function jStr2G(s){var r=enDigits(String(s||'')).trim().replace(/-/g,'/'),p=r.split('/').map(Number);if(p.length!==3||!p.every(Number.isInteger)||!isValidDate(r))return '';var g=j2g(p[0],p[1],p[2]);return g[0]+'-'+pad(g[1])+'-'+pad(g[2])}
-function gStr2J(s){var r=String(s||'').trim();if(!/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/.test(r))return '';var p=r.split('-').map(Number),j=g2j(p[0],p[1],p[2]);return j[0]+'/'+pad(j[1])+'/'+pad(j[2])}
-function daysInJMonth(y,m){if(m<=6)return 31;if(m<=11)return 30;var g1=j2g(y,12,1),g2=j2g(y+1,1,1),a=new Date(g1[0],g1[1]-1,g1[2]),b=new Date(g2[0],g2[1]-1,g2[2]);return Math.round((b-a)/86400000)===366?30:29}
-function isValidDate(s){var r=enDigits(s).trim().replace(/-/g,'/'),p=r.split('/').map(Number);if(p.length!==3||!p.every(Number.isInteger))return false;var y=p[0],m=p[1],d=p[2];if(y<1200||y>1600||m<1||m>12)return false;return d>=1&&d<=daysInJMonth(y,m)}
-function fmtDate(v){if(!v)return '';var s=String(v);return /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(s)?faDigits(gStr2J(s)):faDigits(s)}
-function openCalendar(id){calTarget=id;var input=document.getElementById(id),s=input&&input.value?input.value.trim():'';if(!isValidDate(s)){var j=g2j(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());calY=j[0];calM=j[1]}else{var p=enDigits(s).replace(/-/g,'/').split('/').map(Number);calY=p[0];calM=p[1]}renderCalendar();document.getElementById('calModal').classList.add('show')}
-function closeCalendar(){document.getElementById('calModal').classList.remove('show');calTarget=''}function changeMonth(d){calM+=d;if(calM<1){calM=12;calY--}if(calM>12){calM=1;calY++}renderCalendar()}
-function selectCalDay(y,m,d){var input=document.getElementById(calTarget);if(input)input.value=faDigits(y+'/'+pad(m)+'/'+pad(d));closeCalendar()}
-function renderCalendar(){var title=document.getElementById('calTitle'),days=document.getElementById('calDays');if(!title||!days)return;title.textContent=faDigits(calY)+' '+jmonths[calM-1];var g=j2g(calY,calM,1),dw=new Date(g[0],g[1]-1,g[2]).getDay(),off=(dw+1)%7,cnt=daysInJMonth(calY,calM),h='';for(var i=0;i<off;i++)h+='<span></span>';for(var d=1;d<=cnt;d++)h+='<button type="button" onclick="selectCalDay('+calY+','+calM+','+d+')">'+faDigits(d)+'</button>';days.innerHTML=h}
-function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings));localStorage.setItem(MANAGERPASSKEY,managerPassword)}
-function ownerData(){return currentUser==='مدیر'?data:data.filter(function(x){return x.owner===currentUser})}
-function groupTasks(){return data.filter(function(x){return x&&team.some(function(m){return m.name===x.owner})})}
-function fillSelectors(){var us=document.getElementById('userSelect'),ao=document.getElementById('aOwner'),mp=document.getElementById('mPerson');if(!us)return;var h='<option value="">انتخاب کنید...</option>';team.filter(function(x){return x.name!=='شریفی'}).forEach(function(x){h+='<option value="'+esc(x.name)+'">'+(x.name==='شفیعی'?'خانم شفیعی':'آقای '+esc(x.name))+' — '+esc(x.role)+'</option>'});h+='<option value="مدیر">آقای شریفی — مدیر دپارتمان</option>';us.innerHTML=h;if(ao){var h2='';team.filter(function(x){return x.name!=='شریفی'}).forEach(function(x){h2+='<option value="'+esc(x.name)+'">'+esc(x.name)+'</option>'});ao.innerHTML=h2}if(mp){var h3='';team.filter(function(x){return x.name!=='شریفی'}).forEach(function(x){h3+='<option>'+esc(x.name)+'</option>'});mp.innerHTML=h3}}
-function getUserRole(u){return ROLE_BY_USER[u]||'کاربر'}
-function renderUser(){var n=currentUser==='مدیر'?'آقای شریفی':(currentUser==='شفیعی'?'خانم شفیعی':'آقای '+currentUser);document.getElementById('welcome').textContent=n;document.getElementById('currentUserRole').textContent=getUserRole(currentUser)}
-function enterApp(){var u=String(document.getElementById('userSelect').value||'').trim(),p=String(document.getElementById('loginPassword').value||'').trim();if(!u){alert('نام کاربری را انتخاب کنید');return}var ap='';if(u==='مدیر')ap=String(managerPassword||'1');else{var acc=team.find(function(x){return x.name===u});if(!acc){alert('کاربر پیدا نشد');return}ap=String(acc.password||'1').trim()||'1'}if(p!==ap){alert('رمز نادرست');return}currentUser=u;document.getElementById('loginPassword').value='';renderUser();showPanel('home');renderHome()}
-function logout(){currentUser='';showPanel('login');document.getElementById('loginPassword').value=''}
-function showPanel(id){document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});document.getElementById(id).classList.add('active');document.body.classList.toggle('login-active',id==='login');document.body.classList.toggle('archive-active',id==='archive');window.scrollTo(0,0)}
-function renderHome(){renderUser();renderTaskOverview(groupTasks(),normG(today()))}
-function renderTaskOverview(tasks,tg){var f=document.getElementById('taskOverviewFilters');if(!f)return;var list=document.getElementById('taskOverviewList'),defs=[];if(currentUser&&currentUser!=='مدیر')defs.push(['my','👤','تسک‌های من',tasks.filter(function(x){return x.owner===currentUser}).length]);defs.push(['all','📋','کل تسک‌ها',tasks.length]);defs.push(['current','🔄','تسک‌های جاری',tasks.filter(function(x){return x.status!=='انجام شد'&&x.status!=='لغو شد'}).length]);defs.push(['completed','✅','پایان‌یافته',tasks.filter(function(x){return x.status==='انجام شد'}).length]);defs.push(['overdue','⏰','ددلاین گذشته',tasks.filter(function(x){return x.deadline&&normG(x.deadline)<tg&&x.status!=='انجام شد'&&x.status!=='لغو شد'}).length]);defs.push(['reviewed','⭐','ارزیابی‌شده',tasks.filter(function(x){return x.managerApproval&&x.managerApproval!=='در انتظار بررسی'}).length]);var h='';defs.forEach(function(d){h+='<button type="button" class="overview-filter '+(selectedOverviewKind===d[0]?'active':'')+'" onclick="toggleOverviewKind(\''+d[0]+'\')"><span class="filter-label"><span class="radio"></span><span>'+d[1]+' '+d[2]+'</span></span><b>'+faDigits(d[3])+'</b></button>'});f.innerHTML=h;if(!list)return;var k=selectedOverviewKind,sel=[],add=function(arr){arr.forEach(function(x){if(!sel.some(function(y){return y.id===x.id}))sel.push(x)})};if(k==='my')add(tasks.filter(function(x){return x.owner===currentUser}));if(k==='all')add(tasks);if(k==='current')add(tasks.filter(function(x){return x.status!=='انجام شد'&&x.status!=='لغو شد'}));if(k==='completed')add(tasks.filter(function(x){return x.status==='انجام شد'}));if(k==='overdue')add(tasks.filter(function(x){return x.deadline&&normG(x.deadline)<tg&&x.status!=='انجام شد'&&x.status!=='لغو شد'}));if(k==='reviewed')add(tasks.filter(function(x){return x.managerApproval&&x.managerApproval!=='در انتظار بررسی'}));sel.sort(function(a,b){return normG(b.date).localeCompare(normG(a.date))});var h2='<div class="badges"><span class="badge">تعداد: '+faDigits(sel.length)+'</span></div>';sel.forEach(function(x){var id=String(x.id);h2+='<div class="overview-task-row" onclick="showActivityDetail(\''+esc(id)+'\')"><span><b>'+esc(x.owner)+'</b> · '+fmtDate(x.date)+'</span><strong>'+esc(x.desc)+'</strong><small>'+esc(x.status)+(x.deadline?' · ددلاین: '+fmtDate(x.deadline):'')+'</small><div class="task-row-actions" onclick="event.stopPropagation()"><button class="secondary" onclick="editActivity(\''+esc(id)+'\')">✏️ ویرایش</button><button class="danger" onclick="deleteActivity(\''+esc(id)+'\')">🗑️ حذف</button></div></div>'});list.innerHTML=h2}
-function toggleOverviewKind(k){selectedOverviewKind=k;renderTaskOverview(groupTasks(),normG(today()))}
-function rowClass(x){var t=normG(today());if(x.deadline&&normG(x.deadline)<t&&x.status!=='انجام شد')return 'deadline';if(x.status==='انجام شد')return 'done';if(x.status==='در حال انجام')return 'progress';return 'waiting'}
-function renderToday(){var t=normG(today()),a=ownerData().filter(function(x){return normG(x.date)===t}),h='<div class="badges"><span class="badge">تاریخ: '+fmtDate(t)+'</span><span class="badge">تعداد: '+faDigits(a.length)+'</span></div><div class="tablewrap"><table><thead><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th></tr></thead><tbody>';if(a.length)a.forEach(function(x){h+='<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.type)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td></tr>'});else h+='<tr><td colspan="5" class="empty">داده‌ای نیست</td></tr>';h+='</tbody></table></div>';document.getElementById('todayContent').innerHTML=h}
-function showTaskView(kind){
-  var arr=data,tg=normG(today());
-  if(kind==='current')arr=data.filter(function(x){return x.status!=='انجام شد'&&x.status!=='لغو شد'});
-  else if(kind==='completed')arr=data.filter(function(x){return x.status==='انجام شد'});
-  else if(kind==='overdue')arr=data.filter(function(x){return x.deadline&&normG(x.deadline)<tg&&x.status!=='انجام شد'&&x.status!=='لغو شد'});
-  else if(kind==='reviewed')arr=data.filter(function(x){return x.managerApproval&&x.managerApproval!=='در انتظار بررسی'});
-  var titles={all:'📋 کل تسک‌ها',current:'🔄 تسک‌های جاری',completed:'✅ پایان‌یافته',overdue:'⏰ ددلاین گذشته',reviewed:'⭐ ارزیابی‌شده'};
-  document.getElementById('taskViewTitle').textContent=titles[kind]||titles.all;
-  document.getElementById('groupTaskStats').innerHTML='<span class="badge">تعداد: '+faDigits(arr.length)+'</span>';
-  var cards=document.getElementById('groupTaskCards');
-  if(cards){
-    var ch='';
-    arr.forEach(function(x){
-      var canEdit=currentUser==='مدیر'||x.owner===currentUser;
-      ch+='<article class="mobile-task-card '+rowClass(x)+'"><div class="task-card-head"><span>'+fmtDate(x.date)+'</span><strong>'+esc(x.owner)+'</strong></div><div class="task-card-title">'+esc(x.desc)+'</div><div class="task-card-meta"><span>'+esc(x.status)+'</span><span>'+(x.deadline?'⏰ '+fmtDate(x.deadline):'بدون ددلاین')+'</span></div>'+(canEdit?'<div class="task-row-actions"><button class="secondary" onclick="editActivity(\''+esc(String(x.id))+'\')">✏️ ویرایش</button><button class="danger" onclick="deleteActivity(\''+esc(String(x.id))+'\')">🗑️ حذف</button></div>':'')+'</article>';
-    });
-    cards.innerHTML=ch||'<div class="empty">موردی نیست</div>';
-  }
-  var body=document.getElementById('groupTaskBody');
-  if(!arr.length)body.innerHTML='<tr><td colspan="6" class="empty">موردی نیست</td></tr>';
-  else{
-    var h='';
-    arr.forEach(function(x){
-      var canEdit=currentUser==='مدیر'||x.owner===currentUser;
-      h+='<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td><td>'+(canEdit?'<button class="secondary" onclick="editActivity(\''+esc(String(x.id))+'\')">✏️</button> <button class="danger" onclick="deleteActivity(\''+esc(String(x.id))+'\')">🗑️</button>':'—')+'</td></tr>';
-    });
-    body.innerHTML=h;
-  }
-  showPanel('groupTasks');
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if (sidebar.classList.contains('translate-x-full')) {
+        sidebar.classList.remove('translate-x-full');
+        sidebar.classList.add('translate-x-0');
+        overlay.classList.remove('hidden');
+    } else {
+        sidebar.classList.add('translate-x-full');
+        sidebar.classList.remove('translate-x-0');
+        overlay.classList.add('hidden');
+    }
 }
-function prepareActivityOwner(){var ao=document.getElementById('aOwner');if(!ao)return;if(currentUser&&currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true}else ao.disabled=false}
-function clearActivityForm(){editingActivityId=null;prepareActivityOwner();['aDesc','aUnit','aNotes'].forEach(function(id){var e=document.getElementById(id);if(e)e.value=''});var ad=document.getElementById('aDate');if(ad)ad.value=gStr2J(today());document.getElementById('aCorr').value='خیر';document.getElementById('aType').value='تسک';document.getElementById('aStatus').value='انجام شد';document.getElementById('activityFormTitle').textContent='➕ ثبت تسک جدید';document.getElementById('activityCancelEditBtn').classList.add('hidden')}
-function saveActivity(){var dv=document.getElementById('aDate').value.trim();if(!isValidDate(dv)){alert('تاریخ معتبر نیست');return}var g=jStr2G(dv),owner=document.getElementById('aOwner').value;if(currentUser!=='مدیر'&&owner!==currentUser){alert('فقط به نام خودتان');return}var payload={owner:owner,date:normG(g),type:document.getElementById('aType').value,desc:document.getElementById('aDesc').value.trim(),status:document.getElementById('aStatus').value,correspondence:document.getElementById('aCorr').value,unit:document.getElementById('aUnit').value.trim(),notes:document.getElementById('aNotes').value.trim(),deadline:''};if(payload.type==='تسک')payload.deadline=addDaysG(normG(g),20);if(!payload.desc){alert('شرح را وارد کنید');return}if(editingActivityId!==null){var idx=data.findIndex(function(a){return String(a.id)===String(editingActivityId)});if(idx<0){alert('پیدا نشد');return}Object.assign(data[idx],payload);save();clearActivityForm();renderArchive();renderHome();alert('ویرایش شد');showPanel('home');return}payload.id=Date.now();payload.managerApproval='در انتظار بررسی';payload.managerScore='';payload.managerComment='';payload.reviewedAt='';data.push(payload);save();clearActivityForm();renderHome();alert('ثبت شد');showPanel('home')}
-function editActivity(id){var x=data.find(function(a){return String(a.id)===String(id)});if(!x){alert('پیدا نشد');return}if(currentUser!=='مدیر'&&x.owner!==currentUser){alert('فقط تسک‌های خودتان');return}editingActivityId=x.id;showPanel('add');prepareActivityOwner();document.getElementById('aDate').value=gStr2J(x.date);document.getElementById('aOwner').value=x.owner;document.getElementById('aType').value=x.type;document.getElementById('aDesc').value=x.desc;document.getElementById('aStatus').value=x.status;document.getElementById('aCorr').value=x.correspondence||'خیر';document.getElementById('aUnit').value=x.unit||'';document.getElementById('aNotes').value=x.notes||'';document.getElementById('activityFormTitle').textContent='✏️ ویرایش';document.getElementById('activityCancelEditBtn').classList.remove('hidden')}
-function cancelEditActivity(){clearActivityForm();showPanel('home')}
-function deleteActivity(id){var idx=data.findIndex(function(a){return String(a.id)===String(id)});if(idx<0){alert('پیدا نشد');return false}var x=data[idx];if(currentUser!=='مدیر'&&x.owner!==currentUser){alert('فقط تسک‌های خودتان');return false}if(!confirm('حذف شود؟'))return false;data.splice(idx,1);save();renderArchive();renderHome();return true}
-function showActivityDetail(id){selectedTaskId=String(id);var x=data.find(function(a){return String(a.id)===String(id)});if(!x)return;var canEdit=currentUser==='مدیر'||x.owner===currentUser,h='<div class="detail-summary-card"><h3>'+esc(x.desc)+'</h3><div class="detail-meta-grid"><div><b>کارشناس</b><span>'+esc(x.owner)+'</span></div><div><b>نوع</b><span>'+esc(x.type)+'</span></div><div><b>تاریخ</b><span>'+fmtDate(x.date)+'</span></div><div><b>مهلت</b><span>'+(x.deadline?fmtDate(x.deadline):'—')+'</span></div><div><b>وضعیت</b><span>'+esc(x.status)+'</span></div><div><b>ارزیابی</b><span>'+esc(x.managerApproval||'در انتظار بررسی')+'</span></div></div><div class="detail-description"><b>یادداشت</b><p>'+esc(x.notes||x.desc||'—')+'</p></div></div>';document.getElementById('archiveDetailContent').innerHTML=h;document.getElementById('archiveDetailActions').innerHTML=canEdit?'<button class="primary" onclick="editActivity(\''+esc(String(x.id))+'\')">✏️ ویرایش</button><button class="danger" onclick="deleteActivity(\''+esc(String(x.id))+'\')">🗑️ حذف</button>':''}
-function renderArchive(){var f=document.getElementById('archiveFilter');if(!f)return;f.innerHTML='<div style="padding:8px;background:#f5f7fa;border-radius:8px;margin-bottom:8px"><select id="archiveType" onchange="renderArchive()" style="width:100%;padding:6px"><option value="">همه نوع‌ها</option><option value="تسک">تسک</option><option value="نامه">نامه</option><option value="پشتیبانی">پشتیبانی</option><option value="جلسه">جلسه</option><option value="پیگیری">پیگیری</option><option value="پروژه">پروژه</option><option value="سخت‌افزار">سخت‌افزار</option><option value="سایر">سایر</option></select></div>';var arr=ownerData(),typ='';var old=document.getElementById('archiveType');if(old)typ=old.value;if(typ)arr=arr.filter(function(x){return x.type===typ});var q=(document.getElementById('archiveSearch')?document.getElementById('archiveSearch').value:'').toLowerCase();if(q)arr=arr.filter(function(x){return (String(x.desc||'')+String(x.owner||'')).toLowerCase().indexOf(q)>=0});arr.sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''))});var h='',i=1;arr.forEach(function(x){h+='<tr class="'+rowClass(x)+'" onclick="showActivityDetail(\''+esc(String(x.id))+'\')"><td>'+faDigits(i++)+'</td><td>'+esc(x.owner)+'</td><td>'+fmtDate(x.date)+'</td><td class="archive-desc">'+esc(x.desc)+'</td><td>'+esc(x.type)+'</td><td>'+esc(x.letter||'—')+'</td><td>'+(x.deadline?fmtDate(x.deadline):'—')+'</td><td>'+taskDLLabel(x)+'</td></tr>'});if(!arr.length)h='<tr><td colspan="8" class="empty">داده‌ای نیست</td></tr>';document.getElementById('archiveBody').innerHTML=h;document.getElementById('archiveCountText').textContent='نمایش '+faDigits(arr.length)+' مورد';document.getElementById('archiveUserName').textContent=currentUser==='مدیر'?'آقای شریفی':(currentUser==='شفیعی'?'خانم شفیعی':'آقای '+currentUser);document.getElementById('archiveUserRole').textContent=getUserRole(currentUser);var all=groupTasks(),mine=ownerData(),tg=normG(today()),ov=all.filter(function(x){return x.deadline&&normG(x.deadline)<tg&&x.status!=='انجام شد'&&x.status!=='لغو شد'}).length,dn=all.filter(function(x){return x.status==='انجام شد'}).length,cu=all.length-ov-dn;document.getElementById('archiveGroupCount').textContent=faDigits(all.length);document.getElementById('archiveGroupOverdue').textContent=faDigits(ov);document.getElementById('archiveGroupDone').textContent=faDigits(dn);document.getElementById('archiveGroupCurrent').textContent=faDigits(cu);document.getElementById('archiveMineCount').textContent=faDigits(mine.length);document.getElementById('archiveMineOverdue').textContent=faDigits(mine.filter(function(x){return x.deadline&&normG(x.deadline)<tg&&x.status!=='انجام شد'&&x.status!=='لغو شد'}).length);document.getElementById('archiveMineDone').textContent=faDigits(mine.filter(function(x){return x.status==='انجام شد'}).length);document.getElementById('archiveMineCurrent').textContent=faDigits(mine.filter(function(x){return x.status!=='انجام شد'&&x.status!=='لغو شد'&&!(x.deadline&&normG(x.deadline)<tg)}).length);if(arr.length)showActivityDetail(String(arr[0].id))}
-function renderTeam(){var canEdit=currentUser==='مدیر',h='';team.forEach(function(x,i){h+='<div class="teamitem"><div><b>'+esc(x.name)+'</b><div class="small">'+esc(x.role)+'</div></div>'+(canEdit&&x.name!=='شریفی'?'<button class="danger" onclick="removeMember('+i+')">حذف</button>':'')+'</div>'});document.getElementById('teamList').innerHTML=h;document.getElementById('teamAdd').classList.add('hidden')}
-function toggleTeamAdd(v){document.getElementById('teamAdd').classList.toggle('hidden',!v)}
-function addMember(){if(currentUser!=='مدیر'){alert('فقط مدیر');return}var n=document.getElementById('newName').value.trim(),r=document.getElementById('newRole').value.trim()||'کارشناس';if(!n)return alert('نام را وارد کنید');if(team.some(function(x){return x.name===n}))return alert('قبلاً ثبت شده');team.push({name:n,role:r,password:'1'});save();document.getElementById('newName').value='';document.getElementById('newRole').value='';toggleTeamAdd(false);renderTeam();fillSelectors();alert('اضافه شد')}
-function removeMember(i){if(currentUser!=='مدیر')return;var n=team[i].name;if(n==='شریفی')return alert('مدیر حذف نمی‌شود');if(!confirm('حذف شود؟'))return;team.splice(i,1);save();renderTeam();fillSelectors();renderHome()}
-function renderMeetings(){var h='';meetings.forEach(function(m,i){h+='<tr><td>'+fmtDate(m.date)+'</td><td>'+esc(m.person)+'</td><td><input type="checkbox" '+(m.attended?'checked':'')+' onchange="meetings['+i+'].attended=this.checked;save()"></td><td><button class="danger" onclick="deleteMeeting('+i+')">🗑️</button></td></tr>'});if(!meetings.length)h='<tr><td colspan="4" class="empty">خالی</td></tr>';document.getElementById('meetingBody').innerHTML=h}
-function saveMeeting(){var d=document.getElementById('mDate').value.trim();if(!isValidDate(d))return alert('تاریخ معتبر نیست');meetings.push({id:Date.now(),date:jStr2G(d),person:document.getElementById('mPerson').value,attended:false});save();document.getElementById('mDate').value='';renderMeetings();alert('ثبت شد')}
-function deleteMeeting(i){if(currentUser!=='مدیر')return;if(!confirm('حذف شود؟'))return;meetings.splice(i,1);save();renderMeetings()}
-function renderReviews(){var box=document.getElementById('reviewContent');if(!box)return;if(currentUser==='مدیر'){var p=data.filter(function(x){return (x.managerApproval||'در انتظار بررسی')==='در انتظار بررسی'}),h='';p.forEach(function(x){h+='<div class="userbox"><div><b>'+esc(x.owner)+'</b> — '+fmtDate(x.date)+'</div><p>'+esc(x.desc)+'</p><label>وضعیت</label><select id="ap'+x.id+'"><option>در انتظار بررسی</option><option>تأیید شد</option><option>نیاز به اصلاح</option></select><button class="primary" onclick="saveReview('+x.id+')">ذخیره</button></div>'});box.innerHTML=h||'<div class="empty">موردی نیست</div>';return}var mine=data.filter(function(x){return x.owner===currentUser}),h2='';mine.forEach(function(x){h2+='<div class="userbox"><div><b>'+fmtDate(x.date)+'</b> — '+esc(x.type)+'</div><p>'+esc(x.desc)+'</p><div class="badges"><span class="badge">'+esc(x.managerApproval||'در انتظار بررسی')+'</span></div></div>'});box.innerHTML=h2||'<div class="empty">موردی نیست</div>'}
-function saveReview(id){var x=data.find(function(a){return String(a.id)===String(id)});if(!x)return;x.managerApproval=document.getElementById('ap'+id).value;if(x.managerApproval==='در انتظار بررسی')return alert('وضعیت را مشخص کنید');x.reviewedAt=today();save();alert('ثبت شد');renderReviews();renderHome()}
-function renderSettings(){}
-function changePassword(){if(!currentUser)return alert('ابتدا وارد شوید');var o=document.getElementById('oldPassword').value,n=document.getElementById('newPassword').value,c=document.getElementById('confirmPassword').value,ap=currentUser==='مدیر'?managerPassword:(team.find(function(x){return x.name===currentUser})||{}).password||'1';if(o!==ap)return alert('رمز فعلی نادرست');if(!n)return alert('رمز جدید را وارد کنید');if(n!==c)return alert('تکرار نادرست');if(currentUser==='مدیر')managerPassword=n;else{var m=team.find(function(x){return x.name===currentUser});if(m)m.password=n}save();document.getElementById('oldPassword').value='';document.getElementById('newPassword').value='';document.getElementById('confirmPassword').value='';alert('تغییر کرد')}
-function backup(){var p={version:2,data:data,team:team,meetings:meetings,managerPassword:managerPassword},b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup.json';a.click()}
-function resetData(){if(!confirm('حذف شوند؟'))return;data=[];save();renderHome()}
-function exportReport(){var rows=[['تاریخ','مسئول','نوع','شرح','وضعیت','Deadline']],body=document.querySelectorAll('#reportBody tr');body.forEach(function(tr){var cells=tr.querySelectorAll('td');if(cells.length===6)rows.push(Array.from(cells).map(function(c){return c.innerText.trim()}))});var csv='\ufeff'+rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"'}).join(',')}).join('\n'),blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='report.csv';a.click()}
-function initReports(){var p=document.getElementById('reportPerson');if(p){var h='';if(currentUser==='مدیر'){h='<option value="">همه</option>';team.forEach(function(x){h+='<option value="'+esc(x.name)+'">'+esc(x.name)+'</option>'})}else h='<option value="'+esc(currentUser)+'">'+esc(currentUser)+'</option>';p.innerHTML=h}renderReportControls();renderReport()}
-function renderReportControls(){var box=document.getElementById('reportDateControls');if(!box)return;var t=document.getElementById('reportType').value;if(t==='daily')box.innerHTML='<label>تاریخ</label><div class="actions" style="margin:0"><input id="reportDate" value="'+faDigits(gStr2J(today()))+'"><button class="secondary" onclick="openCalendar(\'reportDate\')">📅</button></div>';else if(t==='monthly')box.innerHTML='<label>ماه</label><input id="reportMonth" value="'+faDigits(gStr2J(today()).substring(0,7))+'">';else box.innerHTML=''}
-function renderReport(){var t=document.getElementById('reportType').value,person=document.getElementById('reportPerson').value,arr=ownerData(),rng=null;if(t==='daily'){var d=document.getElementById('reportDate').value.trim();if(isValidDate(d)){var g=normG(jStr2G(d));rng=[g,g]}}else if(t==='monthly'){var m=document.getElementById('reportMonth').value.trim(),parts=enDigits(m).split('/');if(parts.length>=2){var a=j2g(+parts[0],+parts[1],1),n=+parts[1]===12?j2g(+parts[0]+1,1,1):j2g(+parts[0],+parts[1]+1,1),last=new Date(n[0],n[1]-1,n[2]-1);rng=[a[0]+'-'+pad(a[1])+'-'+pad(a[2]),last.getFullYear()+'-'+pad(last.getMonth()+1)+'-'+pad(last.getDate())]}}if(!rng){document.getElementById('reportStats').innerHTML='';document.getElementById('reportBody').innerHTML='<tr><td colspan="6" class="empty">تاریخ معتبر نیست</td></tr>';return}arr=arr.filter(function(x){var d=normG(x.date);return d>=rng[0]&&d<=rng[1]&&(!person||x.owner===person)});var h='';arr.forEach(function(x){h+='<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.type)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+taskDLLabel(x)+'</td></tr>'});if(!arr.length)h='<tr><td colspan="6" class="empty">موردی نیست</td></tr>';document.getElementById('reportBody').innerHTML=h;document.getElementById('reportStats').innerHTML='<div class="badges"><span class="badge">تعداد: '+faDigits(arr.length)+'</span></div>'}
-function seedDemo(){if(localStorage.getItem(SEEDEDKEY)==='1')return;if(data.length){localStorage.setItem(SEEDEDKEY,'1');return}data.push({id:10001,owner:'شفیعی',date:'2026-09-16',type:'تسک',desc:'پیگیری گزارش ماشین نویسان',status:'در حال انجام',correspondence:'خیر',unit:'پشتیبان سمپ',notes:'',deadline:'',managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});data.push({id:10002,owner:'عطاریان',date:'2026-09-16',type:'تسک',desc:'راه‌اندازی توکن — آقای منتظری',status:'در حال انجام',correspondence:'خیر',unit:'کارشناس شبکه',notes:'',deadline:'',managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''});localStorage.setItem(SEEDEDKEY,'1');save()}
-function init(){try{seedDemo();fillSelectors();clearActivityForm();renderHome();renderTeam();renderMeetings()}catch(e){console.error('init',e)}}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+
+function openDetails(title, code, expert, type) {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalMeta').innerText =
+        `کد تسک: ${code} | کارشناس: ${expert} | نوع: ${type}`;
+
+    const modal = document.getElementById('detailsModal');
+    modal.classList.remove('hidden');
+
+    setTimeout(() => {
+        modal.classList.remove('translate-y-full');
+        modal.classList.add('translate-y-0');
+    }, 10);
+}
+
+function closeDetails() {
+    const modal = document.getElementById('detailsModal');
+    modal.classList.add('translate-y-full');
+    modal.classList.remove('translate-y-0');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
 </script>
-</body></html>
+</body>
+</html>
