@@ -122,7 +122,8 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   .card h3 { font-size:10px !important; }
   .card b, .mini-card>b { font-size:15px !important; }
 }
-  <body class="login-active">
+</style>
+<body class="login-active">
 <div class="app">
 <header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1></header>
 <main>
@@ -307,7 +308,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
 <div class="weekdays"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div>
 <div id="calDays" class="days"></div><button class="closecal" onclick="closeCalendar()">بستن</button>
 </div></div>
-  <script>
+<script>
 const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings', MANAGERPASSKEY=KEY+'_manager_password', SEEDEDKEY=KEY+'_seeded';
 function migrateLegacyStorage(){
   const legacyKeys=['it_dashboard_v1','it_dashboard_v2','it_dashboard_v3','it_dashboard_v4','it_dashboard_v5'];
@@ -686,9 +687,7 @@ function showTaskView(kind){
  showPanel('groupTasks');
 }
 </script>
-       
-</style>
-<script>
+  <script>
 let reportReady=false;
 function initReports(){
   const type=document.getElementById('reportType');
@@ -1243,9 +1242,9 @@ function printHTML(content){
   w.document.write(printHead+content+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
-</script>
+  </script>
 
-<script>
+  <script>
 function seedDemo(){
  if(localStorage.getItem(SEEDEDKEY)==='1')return;
  if(data.length){localStorage.setItem(SEEDEDKEY,'1');return;}
@@ -1289,3 +1288,4 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <link rel="stylesheet" href="mobile-ux.css">
 <script src="mobile-ux.js"></script>
 </body></html>
+  
