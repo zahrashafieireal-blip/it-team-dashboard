@@ -122,397 +122,7 @@ th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; w
   .card h3 { font-size:10px !important; }
   .card b, .mini-card>b { font-size:15px !important; }
 }
-</style>
-
-<style id="professional-cleanup">
-.compact-filter{background:#f7faf8;border:1px solid #e4ece8;border-radius:12px;padding:9px;margin:8px 0}
-.filter-row{display:flex;gap:6px;align-items:center}.filter-row>*{flex:1;min-width:0}.compact-row{margin:8px 0}
-.conditional-fields{background:#f8fbf9;border-radius:10px;padding:0 8px 8px;margin-top:5px}.compact-actions{margin:0;gap:4px}.compact-actions button{padding:6px 8px!important}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.detail-grid>div{background:#f5f9f7;border-radius:10px;padding:8px}.detail-grid span,.detail-block>span{display:block;font-size:10px;color:#687873;margin-bottom:3px}.detail-grid b{font-size:11px;overflow-wrap:anywhere}
-.detail-block{background:#f8fbf9;border-radius:11px;padding:10px;margin-top:8px}.detail-block p{margin:5px 0 0;font-size:11px;line-height:1.8;overflow-wrap:anywhere}
-@media(max-width:380px){.detail-grid{grid-template-columns:1fr}.filter-row{flex-wrap:wrap}.filter-row>*{flex-basis:100%}}
-</style>
-
-<style id="final-ui-polish">
-.compact-filter{margin:8px 0}.compact-filter .filter-row{width:100%}.compact-filter select,.compact-filter button{min-width:0}
-.detail-grid{max-height:45vh;overflow:auto}
-@media(max-width:650px){.management-box{margin-top:8px}.compact-filter{padding:8px}.compact-filter .filter-row{flex-wrap:nowrap}.compact-filter select,.compact-filter button{font-size:11px!important;padding:8px 7px!important}}
-</style>
-<style id="task-deadline-20day">.task-deadline-info{font-size:10px;color:#116b52;font-weight:700;margin-top:5px;line-height:1.6}</style>
-<style id="modern-login-final">
-html,body{min-height:100%;}
-body.login-active{background:linear-gradient(135deg,#cfe2f6 0%,#8fb5dc 34%,#4f78a9 67%,#173f73 100%);position:relative;overflow-x:hidden;}
-body.login-active:before,body.login-active:after{content:"";position:fixed;z-index:0;border-radius:50%;pointer-events:none;filter:blur(1px);}
-body.login-active:before{width:75vw;height:75vw;max-width:900px;max-height:900px;left:-18vw;top:-25vw;background:radial-gradient(circle,rgba(255,255,255,.34),rgba(255,255,255,0) 68%);}
-body.login-active:after{width:80vw;height:80vw;max-width:1000px;max-height:1000px;right:-25vw;bottom:-35vw;background:radial-gradient(circle,rgba(11,47,91,.28),rgba(11,47,91,0) 70%);}
-.login-active .app{max-width:none;min-height:100vh;min-height:100dvh;position:relative;z-index:1;}
-.login-active header{display:none!important;}
-.login-active main{padding:0!important;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;}
-.login-active #login.panel{display:block!important;width:100%;max-width:none;padding:20px!important;margin:0;background:transparent;box-shadow:none;border-radius:0;overflow:visible;}
-.login-modern-wrap{width:100%;display:flex;align-items:center;justify-content:center;padding:12px;}
-.login-modern-card{width:min(630px,100%);background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.75);border-radius:30px;box-shadow:0 24px 65px rgba(20,52,88,.25);padding:34px 40px 30px;text-align:center;}
-.login-modern-logo{width:86px;height:86px;margin:0 auto 18px;border-radius:50%;background:linear-gradient(145deg,#eef8ef,#d7efd8);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(39,112,65,.14);overflow:hidden;}
-.login-modern-logo img{width:76px;height:76px;object-fit:contain;display:block;}
-.login-modern-brand h2{margin:0 0 8px;color:#102f56;font-size:27px;font-weight:900;line-height:1.55;}
-.login-modern-brand p{margin:0;color:#314e70;font-size:16px;}
-.login-modern-line{width:72px;height:4px;border-radius:5px;background:#123f73;margin:18px auto 25px;}
-.login-modern-field{position:relative;margin-top:14px;}
-.login-modern-field select,.login-modern-field input{width:100%;height:62px;border:1.5px solid #cbd5e1;border-radius:15px;background:#fff;color:#142f50;padding:0 20px;font-size:17px;outline:none;box-shadow:0 3px 10px rgba(24,56,91,.04);}
-.login-modern-field select{padding-right:48px;}
-.login-modern-field select:focus,.login-modern-field input:focus{border-color:#2f6297;box-shadow:0 0 0 4px rgba(47,98,151,.10);}
-.login-password-wrap input{padding-left:58px;}
-.login-eye{position:absolute;left:12px;top:10px;width:42px;height:42px;border-radius:10px;background:transparent;color:#314e70;font-size:22px;line-height:42px;padding:0;}
-.login-modern-btn{width:100%;height:62px;margin-top:24px;border:0;border-radius:16px;background:linear-gradient(135deg,#76c893 0%,#3fa66a 52%,#237a4b 100%);color:#fff;font-size:18px;font-weight:900;letter-spacing:.1px;box-shadow:0 12px 24px rgba(63,166,106,.25),inset 0 1px 0 rgba(255,255,255,.28);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;}
-.login-modern-btn:hover{filter:brightness(1.03);box-shadow:0 14px 28px rgba(63,166,106,.30),inset 0 1px 0 rgba(255,255,255,.30);}
-.login-modern-btn:focus-visible{outline:3px solid rgba(118,200,147,.35);outline-offset:3px;}
-.login-modern-btn:active{transform:translateY(1px);}
-
-@media(max-width:650px){.login-active main{padding:0!important}.login-active #login.panel{padding:10px!important}.login-modern-wrap{padding:8px}.login-modern-card{padding:26px 20px 22px;border-radius:24px}.login-modern-logo{width:70px;height:70px;font-size:33px;margin-bottom:14px}.login-modern-brand h2{font-size:20px}.login-modern-brand p{font-size:13px}.login-modern-line{margin:14px auto 20px}.login-modern-field select,.login-modern-field input{height:56px;font-size:15px}.login-modern-btn{height:58px;font-size:16px;margin-top:20px}}
-</style>
-
-<style id="new-task-top-left">
-.home-title-row{position:relative;min-height:44px;padding-left:0;}
-.home-title-main{width:100%;display:block;}
-.home-title-main h2{padding-left:145px;}
-.home-register-btn{position:absolute;left:0;top:0;z-index:2;padding:10px 15px;border-radius:13px;background:linear-gradient(135deg,#13785f,#0b5d49);box-shadow:0 5px 14px rgba(17,107,82,.22);font-size:12px;}
-@media(max-width:650px){
- .home-title-row{min-height:42px;}
- .home-title-main h2{padding-left:132px;font-size:16px;}
- .home-register-btn{left:0;top:0;padding:9px 11px;font-size:11px;}
-}
-@media(max-width:380px){
- .home-title-main h2{padding-left:120px;font-size:14px;}
- .home-register-btn{padding:8px 9px;font-size:10px;}
-}
-</style>
-<style id="home-actions-vertical-left">
-.home-title-row{position:relative;min-height:132px!important;padding-left:0!important;align-items:flex-start!important;}
-.home-title-main{width:100%!important;display:block!important;}
-.home-title-main h2{padding-left:145px!important;}
-.home-header-actions{position:absolute!important;left:0!important;top:0!important;margin:0!important;width:auto!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:7px!important;flex-wrap:nowrap!important;}
-.home-header-actions .home-register-btn,.home-header-actions .home-action-btn{position:static!important;order:initial!important;width:auto!important;}
-@media(max-width:650px){
- .home-title-row{min-height:126px!important;}
- .home-title-main h2{padding-left:132px!important;font-size:16px;}
- .home-header-actions{left:0!important;top:0!important;}
-}
-@media(max-width:380px){
- .home-title-row{min-height:120px!important;}
- .home-title-main h2{padding-left:120px!important;font-size:14px;}
-}
-</style>
-
-<style id="dynamic-profile-card">
-.profile-dashboard-card{position:relative;display:grid;grid-template-columns:minmax(260px,1fr) 1px minmax(0,1.35fr);gap:22px;align-items:center;padding:22px 24px!important;border:1px solid #e1eee8;background:linear-gradient(135deg,#eefaf5 0%,#ffffff 58%,#f4fbf8 100%);box-shadow:0 12px 30px rgba(17,107,82,.09);overflow:hidden}
-.profile-dashboard-card:before{content:"";position:absolute;left:-80px;top:-100px;width:430px;height:330px;border-radius:50%;background:rgba(171,231,210,.18);pointer-events:none}
-.profile-actions{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px;width:100%}
-.profile-actions button{width:100%;min-height:58px;border-radius:18px;border:1px solid transparent;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;gap:12px;transition:transform .15s,box-shadow .15s}
-.profile-actions button:active{transform:scale(.985)}
-.profile-main-action{min-height:66px!important;border-radius:19px!important;font-size:18px!important;box-shadow:0 8px 18px rgba(17,107,82,.18)!important}
-.profile-main-action .plus{font-size:30px;line-height:1;font-weight:400}
-.profile-action{background:rgba(255,255,255,.8);color:#174d3d;border-color:#b9d9cc!important;box-shadow:0 4px 12px rgba(17,107,82,.05)}
-.profile-password .action-icon{background:#e6f4ee;border-radius:12px;padding:7px 10px}
-.profile-logout{background:#fff0f1!important;color:#c51f2d!important;border-color:#f3b9bf!important}
-.profile-logout .action-icon{font-size:27px;font-weight:900}
-.profile-divider{position:relative;z-index:1;width:1px;height:150px;background:linear-gradient(to bottom,transparent,#8dc8b3,transparent)}
-.profile-identity{position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-start;gap:28px;direction:rtl;min-width:0;padding-right:8px}
-.profile-text{min-width:0;text-align:right;flex:1}
-.profile-text h2{margin:0 0 12px!important;font-size:31px!important;line-height:1.35!important;color:#123c30!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.profile-role{display:inline-flex;align-items:center;gap:8px;background:#e3f3ed;color:#14644e;border-radius:20px;padding:9px 18px;font-size:17px;font-weight:800;line-height:1.3;max-width:100%}
-.profile-role:before{content:"👤";font-size:19px}
-.profile-avatar{width:145px;height:145px;flex:0 0 145px;border-radius:50%;background:#dff1eb;border:9px solid #fff;box-shadow:0 7px 20px rgba(17,107,82,.16);position:relative;overflow:hidden}
-.profile-avatar:after{content:"";position:absolute;right:2px;bottom:3px;width:27px;height:27px;border-radius:50%;background:#18c45a;border:4px solid #fff;z-index:8}
-.avatar-head{position:absolute;width:55px;height:68px;border-radius:45% 45% 48% 48%;background:#f3b083;left:36px;top:30px;z-index:3}
-.avatar-hair{position:absolute;width:68px;height:54px;border-radius:50% 50% 25% 25%;background:#182c2b;left:30px;top:18px;z-index:4}
-.avatar-body{position:absolute;width:110px;height:70px;border-radius:55% 55% 0 0;background:#276f5c;left:18px;bottom:-5px;z-index:2}
-.avatar-shirt{background:#233c49}.avatar-glasses{position:absolute;left:31px;top:56px;width:73px;height:20px;z-index:6}.avatar-glasses:before,.avatar-glasses:after{content:"";position:absolute;top:0;width:28px;height:15px;border:3px solid #263938;border-radius:6px;background:rgba(255,255,255,.12)}.avatar-glasses:before{left:1px}.avatar-glasses:after{right:1px}.avatar-glasses i{position:absolute;left:28px;top:6px;width:17px;height:3px;background:#263938}.avatar-beard{position:absolute;width:47px;height:28px;left:40px;top:76px;border-radius:10px 10px 45% 45%;background:#283735;z-index:5}.avatar-beard:before{content:"";position:absolute;width:33px;height:18px;left:7px;top:-7px;border-radius:50%;background:#f3b083}
-.avatar-hijab{position:absolute;inset:12px 16px 8px;border-radius:45% 45% 34% 34%;background:#1b252b;z-index:4}.avatar-hijab .face{position:absolute;width:55px;height:68px;border-radius:45% 45% 48% 48%;background:#f3b083;left:27px;top:25px}.avatar-hijab:after{content:"";position:absolute;left:7px;right:7px;bottom:-2px;height:52px;border-radius:45% 45% 25% 25%;background:#162126}
-@media(max-width:650px){.profile-dashboard-card{grid-template-columns:minmax(0,1fr) 1px minmax(0,1.15fr);gap:12px;padding:16px 12px!important}.profile-actions button{min-height:50px;font-size:13px;border-radius:15px}.profile-main-action{min-height:57px!important;font-size:15px!important}.profile-main-action .plus{font-size:25px}.profile-divider{height:125px}.profile-identity{gap:10px;padding-right:0}.profile-text h2{font-size:20px!important;margin-bottom:8px!important}.profile-role{font-size:12px;padding:7px 10px}.profile-avatar{width:92px;height:92px;flex-basis:92px;border-width:6px}.avatar-head{width:37px;height:45px;left:23px;top:21px}.avatar-hair{width:46px;height:36px;left:18px;top:12px}.avatar-body{width:70px;height:46px;left:11px}.avatar-glasses{left:19px;top:37px;width:49px;height:14px}.avatar-glasses:before,.avatar-glasses:after{width:19px;height:10px;border-width:2px}.avatar-glasses:after{right:1px}.avatar-glasses i{left:20px;top:4px;width:10px;height:2px}.avatar-beard{width:32px;height:20px;left:30px;top:50px}.avatar-beard:before{width:23px;height:12px;left:5px;top:-5px}.avatar-hijab{inset:8px 10px 5px}.avatar-hijab .face{width:37px;height:45px;left:17px;top:17px}.avatar-hijab:after{left:4px;right:4px;height:34px}.profile-avatar:after{width:20px;height:20px;border-width:3px;right:0;bottom:0}}
-@media(max-width:380px){.profile-dashboard-card{gap:8px;padding:12px 9px!important}.profile-actions button{font-size:11px;min-height:45px}.profile-main-action{font-size:13px!important}.profile-role{font-size:10px;padding:6px 7px}.profile-text h2{font-size:17px!important}.profile-avatar{width:78px;height:78px;flex-basis:78px}}
-</style>
-
-<style id="final-profile-ui-v3">
-/* Final profile/header alignment based on approved mobile mockup */
-header{
-  padding:34px 14px 30px !important;
-  min-height:112px;
-  box-sizing:border-box;
-}
-header h1{
-  color:#d9e0df !important;
-  font-weight:800 !important;
-  font-size:21px !important;
-  line-height:1.6 !important;
-  margin:0 !important;
-  text-align:center !important;
-}
-header p{display:none !important;}
-
-.profile-dashboard-card{
-  direction:ltr !important;
-  grid-template-columns:minmax(0,0.92fr) 1px minmax(0,1.08fr) !important;
-  align-items:center !important;
-  gap:18px !important;
-  padding:18px 18px !important;
-}
-.profile-actions{
-  direction:rtl !important;
-  width:100% !important;
-  order:1 !important;
-}
-.profile-divider{order:2 !important;}
-.profile-identity{
-  direction:rtl !important;
-  order:3 !important;
-  justify-content:flex-start !important;
-  gap:16px !important;
-  padding:0 !important;
-}
-.profile-text{
-  text-align:right !important;
-  flex:1 1 auto !important;
-  min-width:0 !important;
-}
-.profile-text h2{
-  white-space:normal !important;
-  overflow:visible !important;
-  text-overflow:clip !important;
-  font-size:26px !important;
-  line-height:1.35 !important;
-  margin:0 0 8px !important;
-}
-.profile-role{
-  white-space:normal !important;
-  font-size:15px !important;
-  line-height:1.35 !important;
-  padding:8px 13px !important;
-  justify-content:center !important;
-}
-.profile-avatar{
-  order:2 !important;
-  flex:0 0 118px !important;
-  width:118px !important;
-  height:118px !important;
-}
-
-@media(max-width:650px){
-  header{
-    padding:30px 12px 27px !important;
-    min-height:105px !important;
-  }
-  header h1{
-    font-size:19px !important;
-    line-height:1.55 !important;
-  }
-  .profile-dashboard-card{
-    direction:ltr !important;
-    grid-template-columns:minmax(0,1fr) 1px minmax(0,1.08fr) !important;
-    gap:10px !important;
-    padding:14px 12px !important;
-  }
-  .profile-actions{gap:9px !important;}
-  .profile-actions button{
-    min-height:49px !important;
-    font-size:13px !important;
-    border-radius:15px !important;
-  }
-  .profile-main-action{
-    min-height:57px !important;
-    font-size:15px !important;
-  }
-  .profile-main-action .plus{font-size:27px !important;}
-  .profile-divider{height:126px !important;}
-  .profile-identity{
-    gap:9px !important;
-    padding:0 !important;
-  }
-  .profile-avatar{
-    flex:0 0 94px !important;
-    width:94px !important;
-    height:94px !important;
-    border-width:6px !important;
-  }
-  .profile-text h2{
-    font-size:20px !important;
-    line-height:1.35 !important;
-    margin-bottom:7px !important;
-  }
-  .profile-role{
-    font-size:12px !important;
-    padding:7px 9px !important;
-    line-height:1.35 !important;
-  }
-}
-@media(max-width:380px){
-  header{padding:27px 10px 24px !important;min-height:98px !important;}
-  header h1{font-size:17px !important;}
-  .profile-dashboard-card{gap:7px !important;padding:11px 9px !important;}
-  .profile-actions{gap:7px !important;}
-  .profile-actions button{min-height:44px !important;font-size:11px !important;}
-  .profile-main-action{min-height:51px !important;font-size:13px !important;}
-  .profile-avatar{flex-basis:82px !important;width:82px !important;height:82px !important;}
-  .profile-text h2{font-size:17px !important;}
-  .profile-role{font-size:10px !important;padding:6px 7px !important;}
-}
-</style>
-
-
-<style id="no-user-avatar-final">
-/* مشخصات کاربر بدون آواتار */
-.profile-identity{justify-content:flex-end!important;}
-.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
-.profile-avatar{display:none!important;}
-</style>
-<style id="final-archive-photo-match">
-@media(min-width:751px){
-  body{background:#f1f5f8;color:#10213b}.app{max-width:none!important;width:100%!important}.archive-workspace{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important}.archive-shell{display:grid;grid-template-columns:27% minmax(0,1fr) 18%;gap:10px;direction:ltr;min-height:calc(100vh - 24px)}.archive-detail-pane,.archive-center,.archive-sidebar{background:#fff;border:1px solid #e1e6eb;border-radius:16px;box-shadow:0 4px 18px rgba(20,35,55,.06)}.archive-detail-pane{grid-column:1;direction:rtl;padding:14px;overflow:auto}.archive-center{grid-column:2;direction:rtl;padding:12px;min-width:0}.archive-sidebar{grid-column:3;direction:rtl;padding:12px;background:#f7fafc;display:flex;flex-direction:column;gap:7px}.archive-detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.archive-detail-head h2{margin:0;font-size:23px;color:#0e213b}.archive-detail-head span{font-size:24px}.archive-detail-pane .actions{margin:0 0 8px}.archive-detail-pane .primary,.archive-detail-pane .danger{font-size:12px;padding:8px 12px}.archive-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.archive-stat{border:1px solid #cfdce9;border-radius:14px;padding:11px;text-align:center}.archive-stat.group{background:#eaf3ff;color:#123f7a}.archive-stat.mine{background:#edf8f1;color:#155b3f}.archive-stat>b{font-size:32px;display:inline-block;margin-left:10px}.archive-stat>span{font-size:16px;font-weight:800}.archive-stat>div{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}.archive-stat i{font-style:normal;background:rgba(255,255,255,.45);border-radius:11px;padding:6px;font-size:16px}.archive-stat small,.archive-stat em{display:block;font-size:10px;font-style:normal}.archive-stat em{font-size:17px;font-weight:900}.archive-filter-clean{margin:8px 0!important;background:#f5f7fa!important;border-color:#dbe2ea!important}.archive-table{min-width:900px!important}.archive-table th,.archive-table td{background:#fff!important;color:#10213b!important}.archive-table th{background:#edf3f8!important}.archive-table td:nth-child(5),.archive-table td:nth-child(8){color:#10213b!important}.archive-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 4px;font-size:12px}.pagination-static b{background:#102f56;color:#fff;border-radius:8px;padding:7px 11px}.archive-search{position:relative;margin-top:2px}.archive-search input{height:44px;border:1px solid #cbd5df;border-radius:10px;padding:8px 42px 8px 12px;background:#fff;font-size:13px}.archive-search span{position:absolute;right:14px;top:5px;font-size:29px;color:#102f56}.archive-user{display:flex;align-items:center;gap:10px;padding:4px 4px 10px;border-bottom:1px solid #dbe3ea}.archive-user-avatar{width:48px;height:48px;border-radius:50%;border:4px solid #fff;background:#e6edf4;box-shadow:0 2px 8px #0002;display:grid;place-items:center;color:#16324f;font-size:25px}.archive-user b,.archive-user span{display:block}.archive-user b{font-size:18px}.archive-user span{font-size:12px;color:#40556a;margin-top:3px}.archive-nav{width:100%;min-height:52px;border:1px solid #e0e6ec;border-radius:12px;background:#fff;color:#102f56;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:13px;padding:8px}.archive-nav.add{background:#0d8062;color:#fff;border-color:#0d8062;font-size:15px;box-shadow:0 4px 10px #0d80622c}.archive-nav.active{background:#dbe9ff;border-color:#a9c8f2}.archive-nav.logout{background:#e53935;color:#fff;border-color:#e53935;margin-top:auto}.archive-empty-detail{padding:30px 12px;text-align:center;color:#778494;border:1px dashed #ccd5de;border-radius:12px}.archive-detail-pane .detail-summary-card,.archive-detail-pane .detail-description,.archive-detail-pane .detail-block,.archive-detail-pane .role-card{background:#fff!important;border-color:#d9e0e7!important}.archive-detail-pane .role-title{background:#edf3f8!important;color:#20334a!important}.archive-detail-pane .role-manager .role-title{background:#edf3f8!important}.archive-detail-pane .history-btn{background:#dcecff!important;border-color:#c3d8ef!important;color:#183153!important}.archive-detail-pane .role-manager{margin-top:10px}.archive-detail-pane .detail-roles{gap:9px}.archive-detail-pane .detail-summary-card h3{font-size:14px}.archive-detail-pane .detail-meta-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:750px){.archive-shell{display:flex;flex-direction:column}.archive-detail-pane{order:1}.archive-center{order:2}.archive-sidebar{order:3}.archive-nav{min-height:48px}.archive-stat>b{font-size:25px}}
-</style>
-<style id="archive-header-clean">
-body.archive-active header{display:none!important}body.archive-active main{padding:8px!important}body.archive-active .app{max-width:none!important}
-</style>
-
-<style id="final-reference-responsive-v6">
-/* Final reference layout: only Add and Logout carry strong color. */
-.archive-detail-pane .primary,
-.archive-detail-pane .secondary,
-.archive-detail-pane .danger,
-.archive-detail-pane button,
-.archive-detail-pane .history-btn{
-  background:#fff!important;color:#10213b!important;border-color:#cfd6de!important;box-shadow:none!important;
-}
-.archive-detail-pane .role-title,
-.archive-detail-pane .role-manager .role-title,
-.archive-detail-pane .role-user .role-title,
-.archive-detail-pane .role-expert .role-title{
-  background:#edf1f5!important;color:#20334a!important;border-color:#d9e0e7!important;
-}
-.archive-detail-pane .history-btn{background:#dcecff!important;border-color:#c3d8ef!important;color:#183153!important}
-.archive-sidebar .archive-nav:not(.add):not(.logout){background:#fff!important;color:#102f56!important;border-color:#e0e6ec!important;box-shadow:none!important}
-.archive-sidebar .archive-nav.active{background:#dbe9ff!important;border-color:#a9c8f2!important}
-.archive-sidebar .archive-nav.add{background:#0d8062!important;color:#fff!important;border-color:#0d8062!important}
-.archive-sidebar .archive-nav.logout{background:#e53935!important;color:#fff!important;border-color:#e53935!important}
-.archive-search{order:10}
-@media (max-width:750px){
-  body.archive-active{overflow-x:hidden}
-  body.archive-active main{padding:6px!important}
-  .archive-shell{display:flex!important;flex-direction:column!important;gap:9px!important;min-height:0!important}
-  .archive-sidebar{order:1!important;padding:9px!important;gap:6px!important;position:relative!important}
-  .archive-center{order:2!important;padding:9px!important;overflow:hidden!important}
-  .archive-detail-pane{order:3!important;padding:10px!important;max-height:none!important;overflow:visible!important}
-  .archive-user{padding:4px 4px 8px!important}
-  .archive-user-avatar{width:42px!important;height:42px!important;font-size:22px!important}
-  .archive-user b{font-size:16px!important}
-  .archive-user span{font-size:11px!important}
-  .archive-nav{min-height:48px!important;font-size:12px!important;padding:7px!important}
-  .archive-nav.add{font-size:14px!important;min-height:52px!important}
-  .archive-nav.logout{margin-top:0!important}
-  .archive-stats{grid-template-columns:1fr 1fr!important;gap:7px!important}
-  .archive-stat{padding:8px 5px!important}
-  .archive-stat>b{font-size:26px!important;margin-left:5px!important}
-  .archive-stat>span{font-size:12px!important}
-  .archive-stat>div{gap:4px!important}
-  .archive-stat i{padding:5px 2px!important;font-size:13px!important}
-  .archive-stat small{font-size:8px!important}
-  .archive-stat em{font-size:14px!important}
-  .archive-filter-clean{overflow-x:auto!important}
-  .archive-table{min-width:860px!important;font-size:11px!important}
-  .archive-table th,.archive-table td{padding:7px 5px!important}
-  .archive-footer{font-size:11px!important;gap:8px!important;flex-wrap:wrap!important}
-  .archive-search input{height:42px!important;font-size:12px!important}
-  .archive-detail-head h2{font-size:20px!important}
-  .archive-detail-pane .detail-meta-grid{grid-template-columns:1fr 1fr!important}
-}
-@media (max-width:430px){
-  .archive-stats{grid-template-columns:1fr!important}
-  .archive-stat>b{font-size:24px!important}
-  .archive-filter-clean{padding:7px!important}
-  .archive-detail-pane .detail-meta-grid{grid-template-columns:1fr!important}
-  .archive-detail-pane .actions{gap:6px!important}
-  .archive-detail-pane .actions button{min-height:42px!important}
-}
-</style>
-
-<style id="final-approved-reference-v8">
-/* Approved final reference: neutral details, green add, red logout, compact RTL layout. */
-body.archive-active{background:#f1f5f8!important;color:#10213b!important}
-body.archive-active .archive-detail-pane,
-body.archive-active .archive-center,
-body.archive-active .archive-sidebar{border-color:#dfe5eb!important;box-shadow:0 4px 18px rgba(20,35,55,.055)!important}
-body.archive-active .archive-detail-pane .actions button,
-body.archive-active .archive-detail-pane .primary,
-body.archive-active .archive-detail-pane .secondary,
-body.archive-active .archive-detail-pane .danger{background:#fff!important;color:#10213b!important;border:1px solid #cfd6de!important;box-shadow:none!important}
-body.archive-active .archive-detail-pane .role-title{background:#edf1f5!important;color:#20334a!important}
-body.archive-active .archive-detail-pane .history-btn{background:#dcecff!important;color:#183153!important;border-color:#c3d8ef!important}
-body.archive-active .archive-sidebar .archive-nav:not(.add):not(.logout){background:#fff!important;color:#102f56!important;border-color:#e0e6ec!important;box-shadow:none!important}
-body.archive-active .archive-sidebar .archive-nav.active{background:#dbe9ff!important;border-color:#a9c8f2!important}
-body.archive-active .archive-sidebar .archive-nav.add{background:#0d8062!important;color:#fff!important;border-color:#0d8062!important}
-body.archive-active .archive-sidebar .archive-nav.logout{background:#e53935!important;color:#fff!important;border-color:#e53935!important}
-body.archive-active .archive-table th{background:#edf3f8!important;color:#10213b!important}
-body.archive-active .archive-table td{background:#fff!important;color:#10213b!important}
-body.archive-active .archive-table td:nth-child(5),
-body.archive-active .archive-table td:nth-child(8){background:#fff!important;color:#10213b!important}
-body.archive-active .bottom-nav{display:none!important}
-@media(max-width:750px){
- body.archive-active main{padding:6px!important}
- body.archive-active .archive-shell{display:flex!important;flex-direction:column!important;gap:9px!important}
- body.archive-active .archive-sidebar{order:1!important}
- body.archive-active .archive-center{order:2!important}
- body.archive-active .archive-detail-pane{order:3!important}
- body.archive-active .archive-table{min-width:820px!important}
- body.archive-active .archive-search{margin-top:6px!important}
-}
-</style>
-
-<style id="final-user-reference-override">
-/* Reference screen: clean 3-column desktop workspace */
-@media (min-width:751px){
-  body.archive-active{
-    background:#f2f5f8!important;
-    padding:10px!important;
-  }
-  body.archive-active .archive-shell{
-    grid-template-columns:27% minmax(0,1fr) 18%!important;
-    gap:10px!important;
-    min-height:calc(100vh - 20px)!important;
-  }
-  body.archive-active .archive-detail-pane,
-  body.archive-active .archive-center,
-  body.archive-active .archive-sidebar{
-    border-radius:14px!important;
-  }
-  body.archive-active .archive-sidebar{
-    padding:12px!important;
-    background:#f7fafc!important;
-  }
-  body.archive-active .archive-nav{
-    min-height:52px!important;
-    border-radius:11px!important;
-    font-size:13px!important;
-  }
-  body.archive-active .archive-nav.add{
-    min-height:58px!important;
-    font-size:15px!important;
-  }
-  body.archive-active .archive-nav.logout{
-    min-height:54px!important;
-  }
-  body.archive-active .archive-center{
-    padding:12px!important;
-  }
-  body.archive-active .archive-detail-pane{
-    padding:12px!important;
-  }
-  body.archive-active .archive-table{
-    min-width:900px!important;
-  }
-}
-</style>
-
-</head>
-<body class="login-active">
+  <body class="login-active">
 <div class="app">
 <header><h1>داشبورد عملکرد تیم فناوری اطلاعات</h1></header>
 <main>
@@ -557,7 +167,6 @@ body.archive-active .bottom-nav{display:none!important}
   <div class="small" style="margin:6px 0 10px">یک یا چند مورد را انتخاب کنید تا لیست مربوط به آنها نمایش داده شود.</div>
   <div id="taskOverviewFilters" class="task-overview-filters"></div>
   <div id="taskOverviewList" class="task-overview-list"></div>
-  
 </div>
 <div class="quick-actions">
   <button class="quick-btn" onclick="showTaskView('overdue')">⏰ ددلاین گذشته</button>
@@ -698,29 +307,24 @@ body.archive-active .bottom-nav{display:none!important}
 <div class="weekdays"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div>
 <div id="calDays" class="days"></div><button class="closecal" onclick="closeCalendar()">بستن</button>
 </div></div>
-
-<script>
+  <script>
 const KEY='it_dashboard_v6', TEAMKEY=KEY+'_team', MEETKEY=KEY+'_meetings', MANAGERPASSKEY=KEY+'_manager_password', SEEDEDKEY=KEY+'_seeded';
-// مهاجرت امن اطلاعات نسخه‌های قبلی: داده‌های موجود روی همین مرورگر حفظ می‌شوند.
 function migrateLegacyStorage(){
   const legacyKeys=['it_dashboard_v1','it_dashboard_v2','it_dashboard_v3','it_dashboard_v4','it_dashboard_v5'];
   try{
     if(!localStorage.getItem(KEY)){
-      for(const k of legacyKeys){
-        const raw=localStorage.getItem(k);
-        if(raw){ localStorage.setItem(KEY,raw); break; }
-      }
+      for(const k of legacyKeys){const raw=localStorage.getItem(k);if(raw){localStorage.setItem(KEY,raw);break;}}
     }
     if(!localStorage.getItem(TEAMKEY)){
-      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_team'); if(raw){localStorage.setItem(TEAMKEY,raw); break;} }
+      for(const k of legacyKeys){const raw=localStorage.getItem(k+'_team');if(raw){localStorage.setItem(TEAMKEY,raw);break;}}
     }
     if(!localStorage.getItem(MEETKEY)){
-      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_meetings'); if(raw){localStorage.setItem(MEETKEY,raw); break;} }
+      for(const k of legacyKeys){const raw=localStorage.getItem(k+'_meetings');if(raw){localStorage.setItem(MEETKEY,raw);break;}}
     }
     if(!localStorage.getItem(MANAGERPASSKEY)){
-      for(const k of legacyKeys){ const raw=localStorage.getItem(k+'_manager_password'); if(raw){localStorage.setItem(MANAGERPASSKEY,raw); break;} }
+      for(const k of legacyKeys){const raw=localStorage.getItem(k+'_manager_password');if(raw){localStorage.setItem(MANAGERPASSKEY,raw);break;}}
     }
-  }catch(e){ console.warn('Storage migration skipped:',e); }
+  }catch(e){console.warn('Storage migration skipped:',e);}
 }
 migrateLegacyStorage();
 const DEFAULT_TEAM=[
@@ -731,14 +335,15 @@ const DEFAULT_TEAM=[
 {name:'شفیعی',role:'پشتیبان سمپ',password:'1'}];
 const ROLE_BY_USER={'شریفی':'مدیر دپارتمان فناوری اطلاعات','دری':'کارشناس برنامه نویسی','عینی':'کارشناس سخت افزار و دیتابیس','عطاریان':'کارشناس شبکه','شفیعی':'پشتیبان سمپ'};
 function safeJSON(key,fallback){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback}catch(e){return fallback}}
-let team=safeJSON(TEAMKEY,null); if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x})); else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1',role:ROLE_BY_USER[x.name]||x.role||'کاربر'}));
-// همگام‌سازی نقش‌های پیش‌فرض بدون تغییر رمز عبور یا نام کاربری موجود
+let team=safeJSON(TEAMKEY,null);
+if(!Array.isArray(team)||!team.length)team=DEFAULT_TEAM.map(x=>({...x}));
+else team=team.filter(x=>x&&x.name).map(x=>Object.assign({},x,{password:x.password||'1',role:ROLE_BY_USER[x.name]||x.role||'کاربر'}));
 DEFAULT_TEAM.forEach(def=>{const existing=team.find(x=>x.name===def.name);if(existing){existing.role=def.role}else if(!team.some(x=>x.name===def.name)){team.push({...def})}});
 team=team.filter(x=>x&&x.name!=='ابراهیمی');
 team.forEach(x=>{if(ROLE_BY_USER[x.name])x.role=ROLE_BY_USER[x.name]});
 let managerPassword=localStorage.getItem(MANAGERPASSKEY)||'1';
-let data=safeJSON(KEY,[]); if(!Array.isArray(data))data=[];
-// Repair legacy task records: every task gets a stable id so old tasks can be opened, edited and deleted.
+let data=safeJSON(KEY,[]);
+if(!Array.isArray(data))data=[];
 let __taskIdsRepaired=false;
 data=data.map((x,i)=>{
   if(!x || typeof x!=='object') return x;
@@ -749,27 +354,23 @@ data=data.map((x,i)=>{
   return x;
 });
 if(__taskIdsRepaired){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
-let meetings=safeJSON(MEETKEY,[]); if(!Array.isArray(meetings))meetings=[];
+let meetings=safeJSON(MEETKEY,[]);
+if(!Array.isArray(meetings))meetings=[];
 let currentUser='', calTarget='', calY=1405, calM=1;
 const jmonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 const fa='۰۱۲۳۴۵۶۷۸۹';
-
 function faDigits(v){return String(v??'').replace(/\d/g,d=>fa[d])}
 function enDigits(v){return String(v??'').replace(/[۰-۹]/g,d=>String(fa.indexOf(d)))}
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function pad(n){return String(n).padStart(2,'0')}
-function today(){
- let d=new Date();
- return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
-}
+function today(){let d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function normalizeStoredDate(v){
  let s=String(v??'').trim();
- if(/^\\d{4}-\\d{1,2}-\\d{1,2}$/.test(s)){
+ if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)){
    let p=s.split('-'); return p[0]+'-'+pad(p[1])+'-'+pad(p[2]);
  }
  return s;
 }
-
 function addDaysToGDate(g,days){
   const p=normalizeStoredDate(g).split('-').map(Number);
   if(p.length!==3||p.some(n=>!Number.isFinite(n)))return '';
@@ -798,8 +399,6 @@ function applyTwentyDayDeadlines(){
   data.forEach(x=>{if(x && team.some(m=>m.name===x.owner) && x.type==='تسک' && x.date){const dl=taskDeadline(x);if(dl&&x.deadline!==dl){x.deadline=dl;changed=true;}}});
   if(changed)save();
 }
-
-// Jalali conversion (Gregorian <-> Jalali)
 function div(a,b){return Math.floor(a/b)}
 function g2j(gy,gm,gd){
  let gdm=[0,31,28,31,30,31,30,31,31,30,31,30,31], jy, days;
@@ -853,7 +452,6 @@ function canonicalStoredDate(v){
 function jDaysInMonth(y,m){
   if(m<=6)return 31;
   if(m<=11)return 30;
-  // Check the last day of Esfand by conversion instead of relying on a hard-coded leap rule.
   const g1=j2g(y,12,1), g2=j2g(y+1,1,1);
   const a=new Date(g1[0],g1[1]-1,g1[2]);
   const b=new Date(g2[0],g2[1]-1,g2[2]);
@@ -903,7 +501,7 @@ function renderCalendar(){
   title.textContent=faDigits(calY)+' '+jmonths[calM-1];
   const g=j2g(calY,calM,1);
   const firstDow=new Date(g[0],g[1]-1,g[2]).getDay();
-  const offset=(firstDow+1)%7; // Saturday-first Persian week
+  const offset=(firstDow+1)%7;
   const count=jDaysInMonth(calY,calM);
   let html='';
   for(let i=0;i<offset;i++)html+='<span class="emptyday"></span>';
@@ -915,12 +513,10 @@ function renderCalendar(){
   }
   days.innerHTML=html;
 }
-
 function save(){localStorage.setItem(KEY,JSON.stringify(data));localStorage.setItem(TEAMKEY,JSON.stringify(team));localStorage.setItem(MEETKEY,JSON.stringify(meetings));localStorage.setItem(MANAGERPASSKEY,managerPassword)}
 function members(){return team.map(x=>x.name)}
 function ownerData(){return currentUser==='مدیر'?data:data.filter(x=>x.owner===currentUser)}
 function groupTasks(){return data.filter(x=>x&&team.some(m=>m.name===x.owner));}
-
 function fillSelectors(){
  const us=document.getElementById('userSelect'),ao=document.getElementById('aOwner'),mp=document.getElementById('mPerson');
  if(!us)return;
@@ -929,13 +525,7 @@ function fillSelectors(){
  if(ao){ao.innerHTML=team.filter(x=>x.name!=='شریفی').map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join(''); if(currentUser && currentUser!=='مدیر'){ao.value=currentUser;ao.disabled=true;}else{ao.disabled=false;}}
  if(mp)mp.innerHTML=team.filter(x=>x.name!=='شریفی').map(x=>`<option>${esc(x.name)}</option>`).join('');
 }
-const USER_ROLES={
- 'مدیر':'مدیر دپارتمان فناوری اطلاعات',
- 'دری':'کارشناس برنامه نویسی',
- 'عینی':'کارشناس سخت افزار و دیتابیس',
- 'عطاریان':'کارشناس شبکه',
- 'شفیعی':'پشتیبان سمپ'
-};
+const USER_ROLES={'مدیر':'مدیر دپارتمان فناوری اطلاعات','دری':'کارشناس برنامه نویسی','عینی':'کارشناس سخت افزار و دیتابیس','عطاریان':'کارشناس شبکه','شفیعی':'پشتیبان سمپ'};
 function getUserRole(u){return USER_ROLES[u]||((team.find(x=>x.name===u)||{}).role)||'کاربر'}
 function avatarMarkup(u){
  const shirt=u==='ابراهیمی'?' avatar-shirt':'';
@@ -955,14 +545,14 @@ function ensureLoginReady(){
  us.disabled=false;
  const pw=document.getElementById('loginPassword'); if(pw)pw.disabled=false;
 }
-function toggleLoginPassword(){const p=document.getElementById('loginPassword');if(!p)return;p.type=p.type==='password'?'text':'password';} function enterApp(){
+function toggleLoginPassword(){const p=document.getElementById('loginPassword');if(!p)return;p.type=p.type==='password'?'text':'password';}
+function enterApp(){
  const userEl=document.getElementById('userSelect');
  const passEl=document.getElementById('loginPassword');
  if(!userEl||!passEl){alert('خطا در فرم ورود. صفحه را یک‌بار بازخوانی کنید.');return}
  const u=String(userEl.value||'').trim();
  const p=String(passEl.value||'').trim();
  if(!u){alert('لطفاً نام کاربری را انتخاب کنید.');return}
- // Always resolve the account from the current team list so edits/imports do not break login.
  let accountPass='';
  if(u==='مدیر') accountPass=String(managerPassword||'1');
  else {
@@ -1002,7 +592,6 @@ function renderHome(){
    tp.innerHTML=team.map(m=>{const mt=data.filter(x=>x.owner===m.name),done=mt.filter(x=>x.status==='انجام شد').length,ov=mt.filter(x=>x.deadline&&normalizeStoredDate(x.deadline)<todayG&&x.status!=='انجام شد'&&x.status!=='لغو شد').length,p=mt.length?Math.round(done/mt.length*100):0;return `<div class="member-performance"><div><b>${esc(m.name)}</b><span>${faDigits(mt.length)} تسک</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${faDigits(p)}٪ پایان‌یافته · ${faDigits(ov)} عقب‌افتاده</small></div>`}).join('') || '<div class="attention-empty">عضوی ثبت نشده است.</div>';
  }
 }
-
 let selectedOverviewKind='all';
 function decorateTaskDeadlineTexts(){
   document.querySelectorAll('[data-task-id]').forEach(el=>{
@@ -1010,15 +599,6 @@ function decorateTaskDeadlineTexts(){
     let info=el.querySelector('.task-deadline-info'); if(!info){info=document.createElement('div');info.className='task-deadline-info';el.appendChild(info);}
     info.textContent='ددلاین: '+taskDeadlineLabel(x);
   });
-}
-
-function renderMyTasks(tasks){
- const list=document.getElementById('myTasksList');
- if(!list)return;
- const arr=[...tasks].sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
- if(!arr.length){list.innerHTML='<div class="attention-empty">هنوز تسکی به نام شما ثبت نشده است.</div>';return;}
- list.innerHTML=`<div class="badges"><span class="badge">تعداد تسک‌های من: ${faDigits(arr.length)}</span></div>`+arr.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick='showActivityDetail(${id})'><span><b>${fmtDate(x.date)}</b> · ${esc(x.type||'تسک')}</span><strong>${esc(x.desc)}</strong><small>وضعیت: ${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div></div>`}).join('');
-  decorateTaskDeadlineTexts();
 }
 function renderTaskOverview(tasks, todayG){
  const filters=document.getElementById('taskOverviewFilters');
@@ -1046,12 +626,7 @@ function renderTaskOverview(tasks, todayG){
  selected.sort((a,b)=>normalizeStoredDate(b.date).localeCompare(normalizeStoredDate(a.date)));
  list.innerHTML=`<div class="badges"><span class="badge">تعداد نمایش: ${faDigits(selected.length)}</span></div>`+selected.map(x=>{const id=JSON.stringify(String(x.id));return `<div class="overview-task-row" data-task-id="${esc(String(x.id))}" onclick='showActivityDetail(${id})'><span><b>${esc(x.owner)}</b> · ${fmtDate(x.date)}</span><strong>${esc(x.desc)}</strong><small>${esc(x.status)}${x.deadline?' · ددلاین: '+fmtDate(x.deadline):''}</small><div class="task-row-actions" onclick="event.stopPropagation()"><button type="button" class="secondary" data-task-action="edit" data-task-id="${esc(String(x.id))}">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="${esc(String(x.id))}">🗑️ حذف</button></div></div>`}).join('');
 }
-function toggleOverviewKind(kind){
- selectedOverviewKind=kind;
- const tasks=groupTasks();
- renderTaskOverview(tasks,normalizeStoredDate(today()));
-}
-
+function toggleOverviewKind(kind){selectedOverviewKind=kind;const tasks=groupTasks();renderTaskOverview(tasks,normalizeStoredDate(today()));}
 function rowClass(x){
   const t=normalizeStoredDate(today());
   if(x.deadline && normalizeStoredDate(x.deadline)<t && x.status!=='انجام شد')return 'deadline';
@@ -1086,10 +661,7 @@ function setCurrentWeek(){
  document.getElementById('weekEnd').value=faDigits(r[1]);
  renderWeekly();
 }
-function weekOptions(){
- // Kept for backward compatibility with older calls; the weekly report now uses a free Persian date range.
- setCurrentWeek();
-}
+function weekOptions(){setCurrentWeek();}
 function showTaskView(kind){
  const tasks=data; let arr=tasks;
  const todayG=normalizeStoredDate(today());
@@ -1113,6 +685,10 @@ function showTaskView(kind){
  document.getElementById('groupTaskBody').innerHTML=arr.length?arr.map(x=>{const id=JSON.stringify(String(x.id));const attrId=esc(String(x.id));const canEdit=currentUser==='مدیر'||normalizeOwnerName(x.owner)===normalizeOwnerName(currentUser);return '<tr class="'+rowClass(x)+'"><td>'+fmtDate(x.date)+'</td><td>'+esc(x.owner)+'</td><td>'+esc(x.desc)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.managerApproval||'در انتظار بررسی')+'</td><td>'+(canEdit?'<div class="actions compact-actions"><button type="button" class="secondary" data-task-action="edit" data-task-id="'+attrId+'">✏️ ویرایش</button><button type="button" class="danger" data-task-action="delete" data-task-id="'+attrId+'">🗑️ حذف</button></div>':'—')+'</td></tr>'}).join(''):'<tr><td colspan="6" class="empty">موردی برای نمایش وجود ندارد.</td></tr>';
  showPanel('groupTasks');
 }
+</script>
+       
+</style>
+<script>
 let reportReady=false;
 function initReports(){
   const type=document.getElementById('reportType');
@@ -1233,16 +809,8 @@ function renderWeekly(){
  const ws=document.getElementById('weekStart')?.value.trim()||'', we=document.getElementById('weekEnd')?.value.trim()||'';
  const a=validDate(ws)?normalizeStoredDate(jstrToG(ws)):'';
  const b=validDate(we)?normalizeStoredDate(jstrToG(we)):'';
- if(!a||!b){
-   document.getElementById('weeklyStats').innerHTML='<div class="empty">لطفاً تاریخ ابتدای و انتهای هفته را با تقویم فارسی انتخاب کنید.</div>';
-   document.getElementById('weeklyBody').innerHTML='<tr><td colspan="7" class="empty">بازه گزارش هنوز انتخاب نشده است.</td></tr>';
-   return;
- }
- if(a>b){
-   document.getElementById('weeklyStats').innerHTML='<div class="empty">تاریخ انتهای هفته باید مساوی یا بعد از ابتدای هفته باشد.</div>';
-   document.getElementById('weeklyBody').innerHTML='<tr><td colspan="7" class="empty">بازه تاریخ نامعتبر است.</td></tr>';
-   return;
- }
+ if(!a||!b){document.getElementById('weeklyStats').innerHTML='<div class="empty">لطفاً تاریخ ابتدای و انتهای هفته را با تقویم فارسی انتخاب کنید.</div>';document.getElementById('weeklyBody').innerHTML='<tr><td colspan="7" class="empty">بازه گزارش هنوز انتخاب نشده است.</td></tr>';return;}
+ if(a>b){document.getElementById('weeklyStats').innerHTML='<div class="empty">تاریخ انتهای هفته باید مساوی یا بعد از ابتدای هفته باشد.</div>';document.getElementById('weeklyBody').innerHTML='<tr><td colspan="7" class="empty">بازه تاریخ نامعتبر است.</td></tr>';return;}
  let arr=ownerData().filter(x=>{let d=normalizeStoredDate(x.date);return d>=a&&d<=b});
  document.getElementById('weeklyStats').innerHTML='<div class="badges"><span class="badge">بازه: '+fmtDate(a)+' تا '+fmtDate(b)+'</span><span class="badge">کل: '+faDigits(arr.length)+'</span><span class="badge">انجام‌شده: '+faDigits(arr.filter(x=>x.status==='انجام شد').length)+'</span></div>';
  document.getElementById('weeklyBody').innerHTML=activityRows(arr);
@@ -1339,7 +907,6 @@ function editActivity(id){
  if(idx<0){alert('این فعالیت پیدا نشد.');return}
  const x=data[idx];
  if(currentUser!=='مدیر' && normalizeOwnerName(x.owner)!==normalizeOwnerName(currentUser)){alert('هر کارشناس فقط می‌تواند فعالیت‌های ثبت‌شده توسط خودش را ویرایش کند.');return}
- // Keep the original stored id type so saveActivity can update the exact legacy record.
  editingActivityId=x.id;
  showPanel('add');
  prepareActivityOwner();
@@ -1362,8 +929,6 @@ function editActivity(id){
 function cancelEditActivity(){clearActivityForm();showPanel('home');}
 window.editActivity=editActivity;
 window.editActivityById=editActivityById;
-
-
 function renderSearch(){
   let q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();
   const typ=document.getElementById('searchType')?.value||'';
@@ -1416,17 +981,8 @@ function confirmDeleteFromDetail(){
   const index=findActivityIndex(selectedTaskId);
   if(index<0){alert('تسک موردنظر پیدا نشد.');return false;}
   const item=data[index];
-  const details=[
-    'شرح: '+String(item?.desc||'—'),
-    'مسئول: '+String(item?.owner||'—'),
-    'تاریخ: '+String(item?.date||'—'),
-    'نوع: '+String(item?.type||'تسک'),
-    'وضعیت: '+String(item?.status||'—'),
-    item?.deadline?'ددلاین: '+String(item.deadline):''
-  ].filter(Boolean).join('\n');
-  if(window.confirm('تأیید مشخصات تسک\n\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟')){
-    return deleteActivity(selectedTaskId);
-  }
+  const details=['شرح: '+String(item?.desc||'—'),'مسئول: '+String(item?.owner||'—'),'تاریخ: '+String(item?.date||'—'),'نوع: '+String(item?.type||'تسک'),'وضعیت: '+String(item?.status||'—'),item?.deadline?'ددلاین: '+String(item.deadline):''].filter(Boolean).join('\n');
+  if(window.confirm('تأیید مشخصات تسک\n\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟')){return deleteActivity(selectedTaskId);}
   return false;
 }
 window.confirmDeleteFromDetail=confirmDeleteFromDetail;
@@ -1500,26 +1056,16 @@ function saveDetailManagerReview(){
   x.managerHistory.push({date,status,comment});
   save(); showActivityDetail(selectedTaskId); if(typeof renderReviews==='function')renderReviews(); if(typeof renderHome==='function')renderHome(); alert('نظر مدیر با موفقیت ثبت شد.');
 }
-
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
-function normalizeOwnerName(v){
-  return String(v??'').trim().replace(/^آقای\s+/,'').replace(/^خانم\s+/,'');
-}
+function normalizeOwnerName(v){return String(v??'').trim().replace(/^آقای\s+/,'').replace(/^خانم\s+/,'');}
 function findActivityIndex(ref){
   const wanted=String(ref??'').trim();
-  if(wanted){
-    const byId=data.findIndex(t=>String(t?.id??'').trim()===wanted);
-    if(byId!==-1)return byId;
-  }
-  // Legacy fallback: allow the array index as a reference.
+  if(wanted){const byId=data.findIndex(t=>String(t?.id??'').trim()===wanted);if(byId!==-1)return byId;}
   const n=Number(ref);
   if(Number.isInteger(n) && n>=0 && n<data.length)return n;
   return -1;
 }
-function getActivityForRef(ref){
-  const i=findActivityIndex(ref);
-  return i>=0?data[i]:null;
-}
+function getActivityForRef(ref){const i=findActivityIndex(ref);return i>=0?data[i]:null;}
 function deleteActivityFromButton(ref){return deleteActivity(ref);}
 function editActivityById(ref){ return editActivity(ref); }
 window.editActivityById=editActivityById;
@@ -1533,18 +1079,8 @@ function deleteActivityRecord(latest,index){
   const item=latest[index];
   const user=normalizeOwnerName(currentUser);
   const owner=normalizeOwnerName(item?.owner);
-  if(currentUser!=='مدیر' && owner!==user){
-    alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');
-    return false;
-  }
-  const details=[
-    'شرح: '+String(item?.desc||'—'),
-    'مسئول: '+String(item?.owner||'—'),
-    'تاریخ: '+String(item?.date||'—'),
-    'نوع: '+String(item?.type||'تسک'),
-    'وضعیت: '+String(item?.status||'—'),
-    item?.deadline?'ددلاین: '+String(item.deadline):''
-  ].filter(Boolean).join('\n');
+  if(currentUser!=='مدیر' && owner!==user){alert('شما فقط می‌توانید تسک‌های خودتان را حذف کنید.');return false;}
+  const details=['شرح: '+String(item?.desc||'—'),'مسئول: '+String(item?.owner||'—'),'تاریخ: '+String(item?.date||'—'),'نوع: '+String(item?.type||'تسک'),'وضعیت: '+String(item?.status||'—'),item?.deadline?'ددلاین: '+String(item.deadline):''].filter(Boolean).join('\n');
   if(!window.confirm('تأیید مشخصات تسک\n\n'+details+'\n\nآیا از حذف این تسک مطمئن هستید؟'))return false;
   latest.splice(index,1);
   data=latest;
@@ -1559,7 +1095,6 @@ function deleteActivityRecord(latest,index){
 }
 window.deleteActivity=deleteActivity;
 window.deleteActivityById=deleteActivity;
-// Robust task action delegation for desktop, mobile and WebView.
 document.addEventListener('click',function(ev){
   const btn=ev.target && ev.target.closest ? ev.target.closest('[data-task-action]') : null;
   if(!btn)return;
@@ -1570,7 +1105,6 @@ document.addEventListener('click',function(ev){
   if(action==='edit'){ if(document.getElementById('detailModal')?.classList.contains('show')) closeDetail(); editActivityById(ref); }
   else if(action==='delete') deleteActivityById(ref);
 });
-
 function renderTeam(){
   fillSelectors();
   const canEdit=currentUser==='مدیر';
@@ -1593,16 +1127,13 @@ function removeMember(i){if(currentUser!=='مدیر'){alert('فقط مدیر م�
  alert('عضو «'+name+'» با موفقیت حذف شد.');
 }
 function deleteSelectedMember(){if(currentUser!=='مدیر'){alert('فقط مدیر می‌تواند اعضای گروه را حذف کند.');return}if(!team.length){alert('عضوی وجود ندارد.');return}let n=prompt('نام کارشناس برای حذف را وارد کنید:\n'+team.map(x=>x.name).join('، '));if(!n)return;let i=team.findIndex(x=>x.name.trim()===n.trim());if(i<0){alert('نام پیدا نشد.');return}removeMember(i)}
-
 function saveMeeting(){let d=document.getElementById('mDate').value.trim();if(!d){alert('لطفاً تاریخ جلسه را انتخاب یا وارد کنید.');return}if(!validDate(d)){alert('تاریخ واردشده معتبر نیست. لطفاً از تقویم فارسی یک تاریخ انتخاب کنید.');return}let g=jstrToG(d);let dt=new Date(g+'T12:00:00');if(dt.getDay()!==2&&!confirm('این تاریخ سه‌شنبه نیست. با این حال ثبت شود؟'))return;meetings.push({id:Date.now(),date:g,person:document.getElementById('mPerson').value,attended:false});save();document.getElementById('mDate').value='';renderMeetings();alert('نوبت جلسه ثبت شد.')}
 function renderMeetings(){let tb=document.getElementById('meetingBody');if(!meetings.length){tb.innerHTML='<tr><td colspan="4" class="empty">هنوز نوبتی ثبت نشده است.</td></tr>';return}tb.innerHTML=meetings.map((m,i)=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td style="text-align:center"><input type="checkbox" ${m.attended?'checked':''} onchange="toggleAttendance(${i},this.checked)" style="width:20px;height:20px"></td><td><button class="danger" onclick="deleteMeeting(${i})">🗑️ حذف</button></td></tr>`).join('')}
 function toggleAttendance(i,v){if(!meetings[i])return;meetings[i].attended=!!v;localStorage.setItem(MEETKEY,JSON.stringify(meetings))}
 function deleteMeeting(i){if(currentUser!=='مدیر'){alert('فقط مدیر می‌تواند نوبت‌های هیئت عمومی را حذف کند.');return}if(!meetings[i])return;const m=meetings[i];if(!confirm('نوبت هیئت عمومی برای «'+m.person+'» در تاریخ «'+fmtDate(m.date)+'» حذف شود؟'))return;meetings.splice(i,1);save();renderMeetings();}
 function exportMeetings(){let rows=[['تاریخ','کارشناس','شرکت کرده'],...meetings.map(m=>[fmtDate(m.date),m.person,m.attended?'بله':'خیر'])];downloadCSV(rows,'آرشیو_هیئت_عمومی.csv')}
 function printMeetings(){let rows=meetings.map(m=>`<tr><td>${fmtDate(m.date)}</td><td>${esc(m.person)}</td><td>${m.attended?'بله':'خیر'}</td></tr>`).join('');printHTML('<h2>آرشیو شرکت در جلسات هیئت عمومی</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>شرکت کرده</th></tr>'+rows+'</table>')}
-
 function reviewAllowed(){return currentUser==='مدیر'}
-
 function updateReviewPersonFilter(){
   const card=document.getElementById('reviewPersonFilterCard');
   const sel=document.getElementById('reviewPersonFilter');
@@ -1611,22 +1142,16 @@ function updateReviewPersonFilter(){
   card.style.display=isManager?'block':'none';
   if(!isManager)return;
   const prev=sel.value||'ALL';
-  sel.innerHTML='<option value="ALL">همه کارشناسان</option>'+
-    team.filter(m=>m.name!=='شریفی').map(m=>'<option value="'+esc(m.name)+'">'+esc(m.name)+'</option>').join('');
+  sel.innerHTML='<option value="ALL">همه کارشناسان</option>'+team.filter(m=>m.name!=='شریفی').map(m=>'<option value="'+esc(m.name)+'">'+esc(m.name)+'</option>').join('');
   sel.value=(prev==='ALL'||team.some(m=>m.name===prev))?prev:'ALL';
 }
-
 function renderReviews(){
   updateReviewPersonFilter();
   const box=document.getElementById('reviewContent');
   if(!box)return;
-
   if(currentUser==='مدیر'){
     const reviewPerson=(document.getElementById('reviewPersonFilter')||{}).value||'ALL';
-    const pending=data.filter(x=>
-      (x.managerApproval||'در انتظار بررسی')==='در انتظار بررسی' &&
-      (reviewPerson==='ALL'||x.owner===reviewPerson)
-    );
+    const pending=data.filter(x=>(x.managerApproval||'در انتظار بررسی')==='در انتظار بررسی' && (reviewPerson==='ALL'||x.owner===reviewPerson));
     box.innerHTML=pending.map(x=>`<div class="userbox">
       <div><b>${esc(x.owner)}</b> — ${fmtDate(x.date)}</div>
       <p>${esc(x.desc)}</p>
@@ -1647,44 +1172,16 @@ function renderReviews(){
     </div>`).join('')||'<div class="empty">هیچ فعالیتی در انتظار ارزیابی مدیر نیست.</div>';
     return;
   }
-
   const mine=data.filter(x=>x.owner===currentUser);
-  if(!mine.length){
-    box.innerHTML='<div class="empty">هنوز فعالیتی برای نمایش وجود ندارد.</div>';
-    return;
-  }
-
+  if(!mine.length){box.innerHTML='<div class="empty">هنوز فعالیتی برای نمایش وجود ندارد.</div>';return;}
   let cards=mine.map(x=>{
-    const score=x.managerScore
-      ? '<span class="badge">امتیاز: '+faDigits(x.managerScore)+' از ۵</span>'
-      : '<span class="badge">امتیاز: ثبت نشده</span>';
-    const comment=x.managerComment
-      ? esc(x.managerComment)
-      : '<span class="small">هنوز نظری ثبت نشده است.</span>';
-    const reviewed=x.reviewedAt
-      ? '<div class="small" style="margin-top:8px">تاریخ ارزیابی: '+fmtDate(x.reviewedAt)+'</div>'
-      : '';
-    return '<div class="userbox">'+
-      '<div><b>'+fmtDate(x.date)+'</b> — '+esc(x.type)+'</div>'+
-      '<p>'+esc(x.desc)+'</p>'+
-      '<div class="badges">'+
-        '<span class="badge">وضعیت فعالیت: '+esc(x.status)+'</span>'+
-        '<span class="badge">نظر مدیر: '+esc(x.managerApproval||'در انتظار بررسی')+'</span>'+
-        score+
-      '</div>'+
-      '<div style="margin-top:12px;background:#f5f9f7;border-radius:12px;padding:12px">'+
-        '<b>نظر مدیر:</b><div style="margin-top:7px">'+comment+'</div>'+
-      '</div>'+reviewed+
-    '</div>';
+    const score=x.managerScore?'<span class="badge">امتیاز: '+faDigits(x.managerScore)+' از ۵</span>':'<span class="badge">امتیاز: ثبت نشده</span>';
+    const comment=x.managerComment?esc(x.managerComment):'<span class="small">هنوز نظری ثبت نشده است.</span>';
+    const reviewed=x.reviewedAt?'<div class="small" style="margin-top:8px">تاریخ ارزیابی: '+fmtDate(x.reviewedAt)+'</div>':'';
+    return '<div class="userbox">'+'<div><b>'+fmtDate(x.date)+'</b> — '+esc(x.type)+'</div>'+'<p>'+esc(x.desc)+'</p>'+'<div class="badges">'+'<span class="badge">وضعیت فعالیت: '+esc(x.status)+'</span>'+'<span class="badge">نظر مدیر: '+esc(x.managerApproval||'در انتظار بررسی')+'</span>'+score+'</div>'+'<div style="margin-top:12px;background:#f5f9f7;border-radius:12px;padding:12px">'+'<b>نظر مدیر:</b><div style="margin-top:7px">'+comment+'</div>'+'</div>'+reviewed+'</div>';
   }).join('');
-
-  box.innerHTML=
-    '<div class="userbox">'+
-      '<h3>ارزیابی مدیر برای '+esc(currentUser)+'</h3>'+
-      '<div class="small">در این بخش فقط ارزیابی‌های مربوط به فعالیت‌های خودتان نمایش داده می‌شود.</div>'+
-    '</div>'+cards;
+  box.innerHTML='<div class="userbox">'+'<h3>ارزیابی مدیر برای '+esc(currentUser)+'</h3>'+'<div class="small">در این بخش فقط ارزیابی‌های مربوط به فعالیت‌های خودتان نمایش داده می‌شود.</div>'+'</div>'+cards;
 }
-
 function saveReview(id){
   if(currentUser!=='مدیر')return;
   let x=data.find(a=>String(a.id)===String(id));if(!x)return;
@@ -1699,11 +1196,7 @@ function saveReview(id){
   renderHome();
 }
 function renderSettings(){document.getElementById('settingsContent').innerHTML=`<div class="settings-account">حساب فعال: <b>${esc(currentUser||'—')}</b></div>`}
-function openChangePassword(){
- showPanel('settings');
- renderSettings();
- setTimeout(()=>{const el=document.getElementById('oldPassword'); if(el) el.focus()},50);
-}
+function openChangePassword(){showPanel('settings');renderSettings();setTimeout(()=>{const el=document.getElementById('oldPassword'); if(el) el.focus()},50);}
 function changePassword(){
  if(!currentUser){alert('ابتدا وارد حساب خود شوید.');return}
  const oldP=document.getElementById('oldPassword').value, newP=document.getElementById('newPassword').value, confirmP=document.getElementById('confirmPassword').value;
@@ -1740,7 +1233,6 @@ function restore(file){
   r.readAsText(file);
 }
 function resetData(){if(!confirm('فعالیت‌ها و ارزیابی‌ها حذف شوند؟ اعضای گروه و آرشیو هیئت عمومی باقی می‌مانند.'))return;data=[];localStorage.setItem(SEEDEDKEY,'1');save();renderSettings();renderHome()}
-
 function downloadCSV(rows,name){let csv='\uFEFF'+rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function exportActivities(kind){let arr=ownerData();if(kind==='week'){let ws=document.getElementById('weekStart')?.value.trim()||'',we=document.getElementById('weekEnd')?.value.trim()||'',a=validDate(ws)?jstrToG(ws):'',b=validDate(we)?jstrToG(we):'';if(!a||!b||a>b){alert('ابتدا و انتهای هفته را به‌درستی انتخاب کنید.');return}arr=arr.filter(x=>normalizeStoredDate(x.date)>=normalizeStoredDate(a)&&normalizeStoredDate(x.date)<=normalizeStoredDate(b))}else if(kind==='month'){const p=enDigits(document.getElementById('monthSelect')?.value||'').split('/').map(Number);if(p.length!==2){alert('ماه گزارش را انتخاب کنید.');return}const a0=j2g(p[0],p[1],1),n=p[1]===12?j2g(p[0]+1,1,1):j2g(p[0],p[1]+1,1),last=new Date(n[0],n[1]-1,n[2]-1),a=a0[0]+'-'+pad(a0[1])+'-'+pad(a0[2]),b=last.getFullYear()+'-'+pad(last.getMonth()+1)+'-'+pad(last.getDate());arr=arr.filter(x=>normalizeStoredDate(x.date)>=a&&normalizeStoredDate(x.date)<=b)}let rows=[['تاریخ','کارشناس','نوع','شرح فعالیت','وضعیت','مکاتبه','شماره نامه','تاریخ نامه','واحد','Deadline'],...arr.map(x=>[fmtDate(x.date),x.owner,x.type,x.desc,x.status,x.correspondence,x.letter,fmtDate(x.letterDate),x.unit,fmtDate(x.deadline)])];downloadCSV(rows,'گزارش_فعالیت.csv')}
 function printActivities(kind){let arr=ownerData();if(kind==='week'){let ws=document.getElementById('weekStart')?.value.trim()||'',we=document.getElementById('weekEnd')?.value.trim()||'',a=validDate(ws)?jstrToG(ws):'',b=validDate(we)?jstrToG(we):'';if(!a||!b||a>b){alert('ابتدا و انتهای هفته را به‌درستی انتخاب کنید.');return}arr=arr.filter(x=>normalizeStoredDate(x.date)>=normalizeStoredDate(a)&&normalizeStoredDate(x.date)<=normalizeStoredDate(b))}if(kind==='month'){const p=enDigits(document.getElementById('monthSelect')?.value||'').split('/').map(Number);if(p.length!==2){alert('ماه گزارش را انتخاب کنید.');return}const a0=j2g(p[0],p[1],1),n=p[1]===12?j2g(p[0]+1,1,1):j2g(p[0],p[1]+1,1),last=new Date(n[0],n[1]-1,n[2]-1),a=a0[0]+'-'+pad(a0[1])+'-'+pad(a0[2]),b=last.getFullYear()+'-'+pad(last.getMonth()+1)+'-'+pad(last.getDate());arr=arr.filter(x=>normalizeStoredDate(x.date)>=a&&normalizeStoredDate(x.date)<=b)}let rows=arr.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.owner)}</td><td>${esc(x.type)}</td><td>${esc(x.desc)}</td><td>${esc(x.status)}</td><td>${fmtDate(x.deadline)}</td></tr>`).join('');printHTML('<h2>گزارش فعالیت</h2><table><tr><th>تاریخ</th><th>کارشناس</th><th>نوع</th><th>شرح</th><th>وضعیت</th><th>Deadline</th></tr>'+rows+'</table>')}
@@ -1751,6 +1243,9 @@ function printHTML(content){
   w.document.write(printHead+content+'</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
+</script>
+
+<script>
 function seedDemo(){
  if(localStorage.getItem(SEEDEDKEY)==='1')return;
  if(data.length){localStorage.setItem(SEEDEDKEY,'1');return;}
@@ -1759,11 +1254,12 @@ function seedDemo(){
  'دری':[['2026-09-09', 'تسک', 'پیگیری گزارش ماشین نویسان', 'در حال انجام'], ['2026-09-09', 'تسک', 'آمار ماهانه', 'انجام شد'], ['2026-08-24', 'تسک', 'ضرائب مالی', 'انجام شد'], ['2026-08-31', 'پروژه', 'طراحی و معماری', 'انجام شد'], ['2026-09-05', 'پروژه', 'شناخت ساختار دیتابیس', 'انجام شد'], ['2026-09-12', 'پروژه', 'پیاده سازی ساختار دیتابیس', 'در حال انجام'], ['2026-09-09', 'پروژه', 'توسعه کد', 'در حال انجام'], ['2026-09-09', 'پروژه', 'تست برنامه نویس، تستر و پایلوت', 'منتظر پاسخ'], ['2026-09-09', 'پروژه', 'پیاده سازی نهایی', 'منتظر پاسخ'], ['2026-09-09', 'تسک', 'چارت مصور', 'در حال انجام'], ['2026-09-09', 'تسک', 'مهاجرت رایورز به پرگار', 'در حال انجام'], ['2026-09-09', 'تسک', 'اتوماسیون گردش نامه و مستندات', 'در حال انجام']],
  'عینی':[['2026-08-05','سخت‌افزار','بررسی وضعیت تجهیزات سرور و ثبت نیازهای تعمیراتی','انجام شد'],['2026-08-10','پروژه','بررسی ساختار پایگاه داده پروژه آماری','در حال انجام'],['2026-08-16','پشتیبانی','رفع مشکل اتصال ایستگاه کاری به پایگاه داده','انجام شد'],['2026-08-22','جلسه','جلسه هماهنگی برای بهینه‌سازی بانک اطلاعاتی','انجام شد'],['2026-08-31','تسک','تهیه گزارش وضعیت فضای ذخیره‌سازی و پشتیبان‌گیری','در حال انجام']],
  'عطاریان':[["2026-09-16","تسک","راه‌اندازی توکن — آقای منتظری","در حال انجام"],["2026-09-16","تسک","راه‌اندازی توکن — آقای سید کریمی","انجام شد"],["2026-09-16","تسک","راه‌اندازی توکن — آقای درخشان‌نیا","انجام شد"],["2026-09-16","تسک","راه‌اندازی توکن — آقای مرتضوی","انجام شد"],["2026-09-16","تسک","راه‌اندازی توکن — آقای انصاری","در حال انجام"],["2026-09-16","تسک","راه‌اندازی توکن — جناب آقای هادیان و جناب آقای بختیاری","انجام شد"],["2026-09-16","تسک","راه‌اندازی توکن — آقای رستگار","در حال انجام"],["2026-09-16","تسک","ماشین مجازی","انجام شد"],["2026-09-16","تسک","سرور آرشیو الکترونیک","انجام شد"],["2026-09-16","تسک","تجهیز قضات به سیستم","در حال انجام"],["2026-09-16","تسک","زمان‌بندی شیفت همکاران جهت هیئت عمومی","انجام شد"],["2026-09-16","تسک","ماشین 73 — راه‌اندازی فایل اشتراکی قسمت منابع انسانی","انجام شد"],["2026-09-16","تسک","منابع انسانی","در حال انجام"],["2026-09-16","تسک","ارسال مجدد پیرنگ به دفتر معاونین","در حال انجام"],["2026-09-16","تسک","ارسال تیکت به مرکز آمار","انجام شد"],["2026-09-16","تسک","تهیه و تنظیم گزارش جامع از عملکرد تجهیز قضات","انجام شد"],["2026-09-16","تسک","پاسخگویی به کلیه تماس‌های ورودی","در حال انجام"],["2026-09-16","تسک","حضور حضوری در دفتر معاونین و گفت‌وگو با مدیران دفاتر","انجام شد"],["2026-09-16","تسک","پیگیری تحویل لپ‌تاپ برای آقای درخشان‌نیا","در حال انجام"]]};
- let id=10000;Object.entries(specs).forEach(([o,arr])=>arr.forEach((x,i)=>data.push({id:id++,owner:o,date:x[0],type:x[1],desc:x[2],status:x[3],correspondence:i%2?'خیر':'بله',letter:i%2?'':String(100+i),letterDate:i%2?'':x[0],unit:team.find(t=>t.name===o)?.role||'فناوری اطلاعات',deadline:x[3]==='انجام شد'?'':(['2026-08-12','2026-08-14','2026-08-27','2026-08-29','2026-08-10','2026-08-13','2026-08-31'].includes(x[0])?'2026-09-05':''),notes:'اطلاعات کاملاً ساختگی و صرفاً برای آزمایش برنامه',managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''})));meetings=[{id:1,date:'2026-08-04',person:'شفیعی',attended:true},{id:2,date:'2026-08-11',person:'دری',attended:true},{id:3,date:'2026-08-18',person:'عینی',attended:false},{id:4,date:'2026-08-25',person:'عطاریان',attended:true}];localStorage.setItem(SEEDEDKEY,'1');save()
+ let id=10000;Object.entries(specs).forEach(([o,arr])=>arr.forEach((x,i)=>data.push({id:id++,owner:o,date:x[0],type:x[1],desc:x[2],status:x[3],correspondence:i%2?'خیر':'بله',letter:i%2?'':String(100+i),letterDate:i%2?'':x[0],unit:team.find(t=>t.name===o)?.role||'فناوری اطلاعات',deadline:x[3]==='انجام شد'?'':(['2026-08-12','2026-08-14','2026-08-27','2026-08-29','2026-08-10','2026-08-13','2026-08-31'].includes(x[0])?'2026-09-05':''),notes:'اطلاعات کاملاً ساختگی و صرفاً برای آزمایش برنامه',managerApproval:'در انتظار بررسی',managerScore:'',managerComment:'',reviewedAt:''})));
+ meetings=[{id:1,date:'2026-08-04',person:'شفیعی',attended:true},{id:2,date:'2026-08-11',person:'دری',attended:true},{id:3,date:'2026-08-18',person:'عینی',attended:false},{id:4,date:'2026-08-25',person:'عطاریان',attended:true}];
+ localStorage.setItem(SEEDEDKEY,'1');save();
 }
-
 function importRealAttarianReport(){
-  const real=[{"id":20000,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای منتظری","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"سخت مورد نیاز کامل؛ با جناب آقای هاشمی و خانم یزدانی صحبت شد و در صف راه‌اندازی توکن است. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20001,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای سید کریمی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"با هماهنگی با مهندس فراهانی توکن نصب و راه‌اندازی شد. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20002,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای درخشان‌نیا","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"راه‌اندازی و تحویل و توضیح داده شد به مدیر دفتر و قرار شد ایشان سامانه‌های مورد نظر را جهت بازگشایی برای مهندس شریفی پیام کنند. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20003,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای مرتضوی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"طبق آخرین تیکت، آدرس IP سامانه‌های رایورز و راهکار که فعلاً مورد تأیید مرکز آمار هستند به مرکز اعلام شد جهت بازگشایی. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20004,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای انصاری","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"با ایشان شخصاً صحبت شد و اعلام کردند آمادگی کامل دارند و لپ‌تاپ هم دارند. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20005,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — جناب آقای هادیان و جناب آقای بختیاری","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"این دو مدیر اعلام کردند که فعلاً نیازی به راه‌اندازی توکن ندارند. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20006,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای رستگار","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"قرار شد برای ایشان لپ‌تاپ تهیه شود؛ سپس به بنده اعلام بفرمایند جهت انجام هماهنگی با مرکز آمار. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20007,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ماشین مجازی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"سرور آماده به کار است. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20008,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"سرور آرشیو الکترونیک","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"مشکل متصدی سامانه بایگانی راکد حل گردید. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20009,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"تجهیز قضات به سیستم","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"در حال پیگیری و انجام است. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20010,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"زمان‌بندی شیفت همکاران جهت هیئت عمومی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"شیفت‌بندی برای مهرماه انجام شد. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20011,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ماشین 73 — راه‌اندازی فایل اشتراکی قسمت منابع انسانی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"راه‌اندازی کامل شد. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20012,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"منابع انسانی","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"وضعیت ثبت‌شده در گزارش: ۵۰٪. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20013,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ارسال مجدد پیرنگ به دفتر معاونین","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"ارسال مجدد پیرنگ به دفتر معاونین جهت تکمیل اقلام مورد نیاز برای راه‌اندازی توکن؛ در حال پیگیری و انجام است. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20014,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ارسال تیکت به مرکز آمار","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"تیکت به شماره ۰۹۲۵۶۸۹ به واحد امنیت مرکز زده شد جهت بازگشایی سامانه‌های مورد نیاز آقای مرتضوی از اداره نظارت؛ پیگیری انجام شده است. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20015,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"تهیه و تنظیم گزارش جامع از عملکرد تجهیز قضات","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"یک گزارش جامع با همکاری آقای ابراهیمی و دیگر دوستان تهیه و تنظیم شد از وضعیت آموزش و سیستم‌های راه‌اندازی‌شده برای قضات دیوان عالی. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20016,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"پاسخگویی به کلیه تماس‌های ورودی","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"تمامی مشکلات کاربران در حد توان پاسخ داده شده و کار باز فعلاً نداریم؛ در حال انجام است. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20017,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"حضور حضوری در دفتر معاونین و گفت‌وگو با مدیران دفاتر","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"به‌صورت حضوری در دفتر معاونین حضور به عمل آمد و با مدیران دفاترشان صحبت شد. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20018,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"پیگیری تحویل لپ‌تاپ برای آقای درخشان‌نیا","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"با آقای صادقی تماس مجدد گرفته شد و ایشان هم با آقای رستگار تماس گرفتند جهت تحویل لپ‌تاپ مورد نظر برای استفاده آقای درخشان‌نیا. | منبع: گزارش کار عطاریان‌پور، ۲۵ شهریور ۱۴۰۵","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""}];
+  const real=[{"id":20000,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای منتظری","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"سخت مورد نیاز کامل؛ با جناب آقای هاشمی و خانم یزدانی صحبت شد و در صف راه‌اندازی توکن است.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20001,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای سید کریمی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"با هماهنگی با مهندس فراهانی توکن نصب و راه‌اندازی شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20002,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای درخشان‌نیا","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"راه‌اندازی و تحویل و توضیح داده شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20003,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای مرتضوی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"آدرس IP سامانه‌ها اعلام شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20004,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای انصاری","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"آمادگی کامل دارند.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20005,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — هادیان و بختیاری","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"نیاز ندارند.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20006,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"راه‌اندازی توکن — آقای رستگار","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"در انتظار لپ‌تاپ.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20007,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ماشین مجازی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"سرور آماده است.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20008,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"سرور آرشیو الکترونیک","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"مشکل حل شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20009,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"تجهیز قضات به سیستم","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"در حال پیگیری.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20010,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"زمان‌بندی شیفت همکاران جهت هیئت عمومی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"شیفت‌بندی مهرماه انجام شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20011,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ماشین 73 — فایل اشتراکی منابع انسانی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"راه‌اندازی کامل شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20012,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"منابع انسانی","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"۵۰٪ پیشرفت.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20013,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ارسال مجدد پیرنگ به دفتر معاونین","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"در حال پیگیری.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20014,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"ارسال تیکت به مرکز آمار","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"تیکت ارسال شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20015,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"تهیه گزارش جامع تجهیز قضات","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"گزارش تهیه شد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20016,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"پاسخگویی به تماس‌های ورودی","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"در جریان.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20017,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"حضور در دفتر معاونین","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"حضور به عمل آمد.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":20018,"owner":"عطاریان","date":"2026-09-16","type":"تسک","desc":"پیگیری تحویل لپ‌تاپ درخشان‌نیا","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان شبکه و ساپورت فنی","deadline":"","notes":"در جریان.","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""}];
   const fake=data.filter(x=>x.owner==='عطاریان' && String(x.notes||'').includes('اطلاعات کاملاً ساختگی'));
   if(!fake.length) return;
   const fakeIds=new Set(fake.map(x=>x.id));
@@ -1771,9 +1267,8 @@ function importRealAttarianReport(){
   data.push(...real);
   save();
 }
-
 function importRealDorryReport(){
-  const real=[{"id": 21000, "owner": "دری", "date": "2026-09-09", "type": "تسک", "desc": "پیگیری گزارش ماشین نویسان", "status": "در حال انجام", "correspondence": "بله", "letter": "8949", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "", "notes": "شماره نامه 8949؛ اقدامات: تماس با آقای ترکاشووند | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21001, "owner": "دری", "date": "2026-09-09", "type": "تسک", "desc": "آمار ماهانه", "status": "انجام شد", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "", "notes": "گزارش 040804 و 03 مانده؛ وضعیت: اتمام | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21002, "owner": "دری", "date": "2026-08-24", "type": "تسک", "desc": "ضرائب مالی", "status": "انجام شد", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "2026-08-26", "notes": "شروع 02/06/1405؛ پایان 04/06/1405؛ 3 روز کاری؛ اقدامات: مصاحبه با خانم یقوبی و آقای سیدگنجی | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21003, "owner": "دری", "date": "2026-08-31", "type": "پروژه", "desc": "طراحی و معماری", "status": "انجام شد", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "2026-09-02", "notes": "شروع 09/06/1405؛ پایان 11/06/1405؛ 3 روز کاری؛ اقدامات: ایجاد چارت و بررسی | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21004, "owner": "دری", "date": "2026-09-05", "type": "پروژه", "desc": "شناخت ساختار دیتابیس", "status": "انجام شد", "correspondence": "بله", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "2026-09-09", "notes": "جلوتر از برنامه؛ شروع 14/06/1405؛ پایان 18/06/1405؛ 5 روز کاری؛ دیتابیس ساخته شد | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21005, "owner": "دری", "date": "2026-09-12", "type": "پروژه", "desc": "پیاده سازی ساختار دیتابیس", "status": "در حال انجام", "correspondence": "بله", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "2026-09-30", "notes": "جلوتر از برنامه؛ شروع 21/06/1405؛ پایان 08/07/1405؛ 15 روز کاری؛ به دلیل عدم آشنایی با پیاده‌سازی وب‌فرم و MVC، امید به پیاده‌سازی در این تاریخ | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21006, "owner": "دری", "date": "2026-09-09", "type": "پروژه", "desc": "توسعه کد", "status": "در حال انجام", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "", "notes": "Run 1405/06/18؛ در حال یادگیری MVC و توسعه کد همزمان | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21007, "owner": "دری", "date": "2026-09-09", "type": "پروژه", "desc": "تست برنامه نویس، تستر و پایلوت", "status": "منتظر پاسخ", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "2026-10-03", "notes": "waiting؛ شروع 11/07/1405؛ پایان 14/07/1405؛ 4 روز کاری | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21008, "owner": "دری", "date": "2026-09-09", "type": "پروژه", "desc": "پیاده سازی نهایی", "status": "منتظر پاسخ", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "2026-10-14", "notes": "waiting؛ شروع 15/07/1405؛ پایان 22/07/1405؛ 6 روز کاری | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21009, "owner": "دری", "date": "2026-09-09", "type": "تسک", "desc": "چارت مصور", "status": "در حال انجام", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "", "notes": "فعلاً دارای اولویت نیست | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21010, "owner": "دری", "date": "2026-09-09", "type": "تسک", "desc": "مهاجرت رایورز به پرگار", "status": "در حال انجام", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "", "notes": "در انتظار اقدام از طرف مرکز آمار هستیم | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}, {"id": 21011, "owner": "دری", "date": "2026-09-09", "type": "تسک", "desc": "اتوماسیون گردش نامه و مستندات", "status": "در حال انجام", "correspondence": "خیر", "letter": "", "letterDate": "", "unit": "طراح نرم‌افزار", "deadline": "", "notes": "فعلاً دارای اولویت نیست | منبع: گزارش کار آقای دری، ۱۸ شهریور ۱۴۰۵", "managerApproval": "در انتظار بررسی", "managerScore": "", "managerComment": "", "reviewedAt": ""}];
+  const real=[{"id":21000,"owner":"دری","date":"2026-09-09","type":"تسک","desc":"پیگیری گزارش ماشین نویسان","status":"در حال انجام","correspondence":"بله","letter":"8949","letterDate":"","unit":"طراح نرم‌افزار","deadline":"","notes":"شماره نامه 8949","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21001,"owner":"دری","date":"2026-09-09","type":"تسک","desc":"آمار ماهانه","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"","notes":"اتمام","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21002,"owner":"دری","date":"2026-08-24","type":"تسک","desc":"ضرائب مالی","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"2026-08-26","notes":"۳ روز کاری","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21003,"owner":"دری","date":"2026-08-31","type":"پروژه","desc":"طراحی و معماری","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"2026-09-02","notes":"ایجاد چارت","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21004,"owner":"دری","date":"2026-09-05","type":"پروژه","desc":"شناخت ساختار دیتابیس","status":"انجام شد","correspondence":"بله","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"2026-09-09","notes":"دیتابیس ساخته شد","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21005,"owner":"دری","date":"2026-09-12","type":"پروژه","desc":"پیاده سازی ساختار دیتابیس","status":"در حال انجام","correspondence":"بله","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"2026-09-30","notes":"۱۵ روز کاری","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21006,"owner":"دری","date":"2026-09-09","type":"پروژه","desc":"توسعه کد","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"","notes":"در حال یادگیری MVC","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21007,"owner":"دری","date":"2026-09-09","type":"پروژه","desc":"تست برنامه نویس، تستر و پایلوت","status":"منتظر پاسخ","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"2026-10-03","notes":"در انتظار","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21008,"owner":"دری","date":"2026-09-09","type":"پروژه","desc":"پیاده سازی نهایی","status":"منتظر پاسخ","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"2026-10-14","notes":"در انتظار","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21009,"owner":"دری","date":"2026-09-09","type":"تسک","desc":"چارت مصور","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"","notes":"اولویت پایین","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21010,"owner":"دری","date":"2026-09-09","type":"تسک","desc":"مهاجرت رایورز به پرگار","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"","notes":"در انتظار مرکز آمار","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":21011,"owner":"دری","date":"2026-09-09","type":"تسک","desc":"اتوماسیون گردش نامه و مستندات","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"طراح نرم‌افزار","deadline":"","notes":"اولویت پایین","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""}];
   const fake=data.filter(x=>x.owner==='دری' && String(x.notes||'').includes('اطلاعات کاملاً ساختگی'));
   if(!fake.length) return;
   const fakeIds=new Set(fake.map(x=>x.id));
@@ -1781,152 +1276,16 @@ function importRealDorryReport(){
   data.push(...real);
   save();
 }
-
-
-function importRealShafieiReport(){
-  const real=[{"id":22000,"owner":"شفیعی","date":"2026-09-16","type":"تسک","desc":"پدر خصوص ارجاع الکترونیک : ایلوت: یک شعبه با موضوع خانواده","status":"در حال انجام","correspondence":"خیر","letter":"4750","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 4750 | اقدامات: 1-پیگیری های مکرر با کارشناسان مافا انجام شده(کتبی و شفاهی) و متاسفانه تا کنون پاسخ عملیاتی دریافت نشده است.(مافا=شوشتری) 2-هماهنگی لازم با مدیر سمپ استان خراسان رضوی(خانم تکلو)  انجام شده-طبق آخرین بررسی مشخص گردید درگاه دریافت پرونده های الکترونیکی دیوانعالی بازگشایی نشده و دچار مشکلات زیرساختی است050603- | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22001,"owner":"شفیعی","date":"2026-09-16","type":"تسک","desc":"ارجاع هوشمند : بعد از برگزاری شورای معاونین و کسب تکلیف","status":"منتظر پاسخ","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"اقدامات: برخی عناوین کیفری اجرایی شده(Postpond)---  درانتظار هماهنگی های لازم توسط آقای هادیان-با آقای درخشان نیا و فراهانی مذاکره شد و نامه معرفی به مافا زده شد050603- | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22002,"owner":"شفیعی","date":"2026-09-16","type":"سایر","desc":"در دست اقدام","status":"در حال انجام","correspondence":"خیر","letter":"922506 - 915412","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 922506 - 915412 | اقدامات: به علت فراهم نبودن دسترسی به سمپ تستی فرایند به تعویق افتاده است.(شوشتری) POSTPONDE - دسترسی به سمپ تستی ایجاد شد050603- | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22003,"owner":"شفیعی","date":"2026-09-16","type":"تسک","desc":"اآرشیو الکترونیک: پیوست اوراق در سمپ/ اسکنر تخصیص داده شده به شعبه 11(پایلوت)","status":"در حال انجام","correspondence":"خیر","letter":"921187","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 921187 | اقدامات: رفع مشکل از سوی آقای حاتمی(کارشناس مافا) باید صورت پذیرد که متاسفانه علیرغم تماس های متعدد و همچنین ثبت تسک در پیرنگ تا کنون نتیجه ای حاصل نشده است.(problem: باز نشدن لینک مربوط به پیوست فایل در chrome) مشکل فایروال- تسک به آقای شوشتری ارسال شده است 050603 - تیکت پیگیری ثبت شده مجددا 1504/06/24 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22004,"owner":"شفیعی","date":"2026-09-16","type":"نامه","desc":"اشتباه در ثبت سه گانه با موضوع فرجام خواهی- ثبت علت طرح حل اختلاف به جای فرجام خواهی تهیه گزارش جامع مشکل و راهکار آن","status":"منتظر پاسخ","correspondence":"بله","letter":"نامه از طریق معاونت نظارت ارسال شده به مافا","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: نامه از طریق معاونت نظارت ارسال شده به مافا | اقدامات: مکاتبه با مافا/ در انتظار پاسخ | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22005,"owner":"شفیعی","date":"2026-08-29","type":"نامه","desc":"ارجاع الکترونیک پرونده-حل اختلاف دیوان عدالت","status":"در حال انجام","correspondence":"بله","letter":"(شماره نامه مرتبط)4396-تسک 0920209","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: (شماره نامه مرتبط)4396-تسک 0920209 | اقدامات: تسک زده شده در حال بررسی- شماره تسک | تاریخ گزارش: کد 0007  در لیست عنوان موضوع پرونده مشاهده نمی شود. آخرین پیگیری تسک 1405/06/07 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22006,"owner":"شفیعی","date":"2026-09-16","type":"نامه","desc":"ایجاد دسترسی کشوری -معاون قضایی","status":"در حال انجام","correspondence":"بله","letter":"(شماره نامه)4097","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: (شماره نامه)4097 | اقدامات: مکاتبه شده با مافا | تاریخ گزارش: فاقد تسک | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22007,"owner":"شفیعی","date":"2026-09-16","type":"نامه","desc":"ارجاع پرونده های موضوع فرجام خواهی خانواده کد مورد نظر(09000) غیر فعال شده است","status":"در حال انجام","correspondence":"بله","letter":"922891","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 922891 | اقدامات: خانم شفیعی، به مافا دسترسی ارسال نماید 050603-تسک دقیقتر توضیح داده شود 050614 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22008,"owner":"شفیعی","date":"2026-08-29","type":"نامه","desc":"تغییر فرایند ارجاع پرونده ها به شعب دیوانعالی(درخصوص شماره بایگانی اختصاصی)","status":"انجام شد","correspondence":"بله","letter":"921143","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 921143 | اقدامات: خانم شفیعی، تکلیف تسک را روشن نماید | تاریخ گزارش: خاتمه 1405/06/07 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22009,"owner":"شفیعی","date":"2026-08-29","type":"نامه","desc":"مشکل نقص در اطلاعات دفتر بازداشتی(پرونده های زندانی دار)","status":"در حال انجام","correspondence":"بله","letter":"923532","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 923532 | اقدامات: خانم شفیعی، پیگیری نماید | تاریخ گزارش: نیاز به ارسال مجدد رمز شخصی 1405/06/07 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22010,"owner":"شفیعی","date":"2026-08-29","type":"نامه","desc":"دریافت خطا در هنگام مشاهده مدارک پرونده(تصمیم نهایی)","status":"انجام شد","correspondence":"بله","letter":"917668","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 917668 | اقدامات: خانم شفیعی، تکلیف تسک را روشن نماید | تاریخ گزارش: خاتمه 1405/06/07 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22011,"owner":"شفیعی","date":"2026-09-16","type":"تسک","desc":"مشکل سه گانه سازی","status":"انجام شد","correspondence":"خیر","letter":"914430","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 914430 | اقدامات: نسبت به سه گانه جریانی  باید تصمیم نهایی جدیدی ثبت و آمار گردد. | تاریخ گزارش: خاتمه | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22012,"owner":"شفیعی","date":"2026-08-29","type":"تسک","desc":"ایجاد دسترسی سامانه«پانیذ»برای مدیران شعب دیوانعالی(پیرو تیکت شماره 0917664)","status":"انجام شد","correspondence":"خیر","letter":"917677","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 917677 | تاریخ گزارش: خاتمه 1405/06/07 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22013,"owner":"شفیعی","date":"2026-09-16","type":"تسک","desc":"ایجاد یک آیتم برای اعمال ضرایب پرونده ها هنگام ثبت در شعب","status":"انجام شد","correspondence":"خیر","letter":"917680","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 917680 | تاریخ گزارش: خاتمه | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22014,"owner":"شفیعی","date":"2026-08-29","type":"تسک","desc":"خطای در مراحل سه گانه های تصمیم نهایی(خواسته یا اتهام غیرفعال انتخاب شده)-شعبه25","status":"انجام شد","correspondence":"خیر","letter":"919479","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 919479 | تاریخ گزارش: خاتمه 1405/06/07 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22015,"owner":"شفیعی","date":"2026-08-29","type":"تسک","desc":"بررسی امکان اضافه کردن مستندات اسکن شده به پرونده های جاری در شعب دیوان عالی","status":"انجام شد","correspondence":"خیر","letter":"920711","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 920711 | اقدامات: خاتمه 1405/06/07 | تاریخ گزارش: خاتمه 1405/06/07 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22016,"owner":"شفیعی","date":"2026-09-18","type":"نامه","desc":"نامه : رفع نواقص ارجاع الکترونیکی پرونده های تجمیع احکام قم و سمنان","status":"در حال انجام","correspondence":"بله","letter":"","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"تاریخ گزارش: 1405/06/27 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22017,"owner":"شفیعی","date":"2026-09-16","type":"تسک","desc":"ویرایش دادنامه پرونده ای که در بایگانی راکد است(برگشت از آمار)","status":"انجام شد","correspondence":"خیر","letter":"923153-0925058","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 923153-0925058 | اقدامات: شعبه 21 و 42 | تاریخ گزارش: خاتمه 1405/06/25 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22018,"owner":"شفیعی","date":"2026-09-16","type":"پیگیری","desc":"مشکل کپی برداری از پرونده های واصله","status":"منتظر پاسخ","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"اقدامات: بررسی و مشخص شدن پرتکرارترین استان در ارتکاب اشتباه کپی برداری | تاریخ گزارش: منتظر پاسخ از آقای طاهرخانی | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22019,"owner":"شفیعی","date":"2026-09-16","type":"تسک","desc":"شماره بایگانی پرونده 0501722-شعبه 45/ عدم امکان پیوست اسناد","status":"انجام شد","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"اقدامات: خانم محمدی : مجدد براساس 1-دفتر ثبت اعتراض و اختلاف کپی برداری انجام شود 2- تیک پرونده جدید ایجاد نشود زده شود 3- رکورد جدید | تاریخ گزارش: خاتمه | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22020,"owner":"شفیعی","date":"2026-09-16","type":"نامه","desc":"درخواست ایجاد  کدگزارش آماری جهت ارجاع الکترونیک پرونده به دیوان عالی کشور","status":"در حال انجام","correspondence":"بله","letter":"","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"تاریخ گزارش: 1405/06/25 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22021,"owner":"شفیعی","date":"2026-09-16","type":"نامه","desc":"درخصوص رعایت نکات لازم در فرآیند ارجاع الکترونیک پرونده از شعب","status":"در حال انجام","correspondence":"بله","letter":"","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"تاریخ گزارش: 1405/06/25 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22022,"owner":"شفیعی","date":"2026-08-10","type":"تسک","desc":"درخواست اصلاح نحوه ثبت اطلاعات دفتر بازداشتی‌های پرونده در مافا","status":"در حال انجام","correspondence":"خیر","letter":"","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"تاریخ گزارش: 1405/05/19 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22023,"owner":"شفیعی","date":"2026-07-21","type":"نامه","desc":"ایجاد دسترسی معاون محترم قضایی دیوانعالی به پرونده‌ها در سامانه CMS در سطح کل کشور","status":"در حال انجام","correspondence":"بله","letter":"8976","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 8976 | اقدامات: نامه پیرو ثبت شد برای نامه ای در سال 1404 با شماره 8976 فرستاده شده بود | تاریخ گزارش: 1405/04/30 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""},{"id":22024,"owner":"شفیعی","date":"2026-07-18","type":"سایر","desc":"نامه در کارتابل کارشناسان معاونت سامانه های مافاست و پاسخی دریافت نشده","status":"در حال انجام","correspondence":"خیر","letter":"3798","letterDate":"","unit":"پشتیبان سمپ","deadline":"","notes":"شماره/مرجع: 3798 | اقدامات: آخرین پیگیری 1405/06/25 | تاریخ گزارش: 1405/04/27 | منبع: گزارش کار شفیعی، فایل final25-6--1405.xlsx","managerApproval":"در انتظار بررسی","managerScore":"","managerComment":"","reviewedAt":""}];
-  if(localStorage.getItem('realShafieiImported_v1')==='1') return;
-  const fake=data.filter(x=>x.owner==='شفیعی' && String(x.notes||'').includes('اطلاعات کاملاً ساختگی'));
-  const fakeIds=new Set(fake.map(x=>x.id));
-  data=data.filter(x=>!fakeIds.has(x.id) && !(x.owner==='شفیعی' && Number(x.id)>=22000 && Number(x.id)<23000));
-  data.push(...real);
-  localStorage.setItem('realShafieiImported_v1','1');
-  save();
-}
-
 function init(){
- try{seedDemo();importRealAttarianReport();importRealDorryReport();importRealShafieiReport();applyTwentyDayDeadlines();fillSelectors();weekOptions();
- const ad=document.getElementById('aDate'); if(ad)ad.value=gToJ(today());
- const ao=document.getElementById('aOwner'); if(ao)ao.value=currentUser||team[0]?.name||'';
- renderHome();renderTeam();renderMeetings();ensureLoginReady();
+ try{
+   seedDemo();importRealAttarianReport();importRealDorryReport();applyTwentyDayDeadlines();fillSelectors();weekOptions();
+   const ad=document.getElementById('aDate'); if(ad)ad.value=gToJ(today());
+   const ao=document.getElementById('aOwner'); if(ao)ao.value=currentUser||team[0]?.name||'';
+   renderHome();renderTeam();renderMeetings();ensureLoginReady();
  }catch(e){console.error('Dashboard init error:',e);ensureLoginReady();}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-
 </script>
-<style id="mobile-final-fix">
-/* Mobile-first layout: compact, RTL, no page-level horizontal scrolling */
-html, body { width:100%; max-width:100%; overflow-x:hidden; }
-body { font-size:13px; }
-.app { width:100%; max-width:720px; margin:0 auto; overflow-x:hidden; }
-header { padding:14px 12px !important; }
-header h1 { font-size:20px !important; line-height:1.55; }
-header p { font-size:11px !important; line-height:1.7; }
-main { width:100%; padding:8px !important; }
-.panel { width:100%; padding:10px !important; margin-bottom:10px; border-radius:14px; }
-.topline { gap:7px; flex-wrap:wrap; }
-.topline h2 { font-size:17px; line-height:1.5; margin:0; }
-.cardgrid { width:100%; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:7px !important; }
-.card { width:100%; min-width:0; min-height:88px !important; padding:10px 6px !important; border-radius:13px; }
-.card .ico { font-size:25px !important; line-height:1.1; }
-.card h3 { font-size:11px !important; line-height:1.45 !important; margin:5px 0 2px !important; overflow-wrap:anywhere; }
-.card b, .mini-card>b { font-size:17px !important; line-height:1.2; }
-.taskcards .mini-card:nth-child(5) { grid-column:1 / -1; }
-.taskcards .mini-card:nth-child(5) h3 { font-size:11px !important; }
-.userbox { width:100%; padding:11px !important; margin-bottom:10px; }
-label { font-size:11px !important; margin:7px 0 4px; }
-input, select, textarea { width:100%; max-width:100%; font-size:12px !important; padding:8px !important; }
-textarea { min-height:75px; }
-.actions { gap:6px; }
-.primary, .secondary, .danger, .back, .logout-btn { font-size:11px !important; padding:8px 10px !important; max-width:100%; }
-.stats { gap:6px !important; margin:8px 0; }
-.stat { padding:8px 5px !important; }
-.stat b { font-size:17px !important; }
-.small, .badge { font-size:10px !important; }
-.teamitem { font-size:11px !important; padding:8px !important; }
-.tablewrap { width:100%; max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-table { width:100%; font-size:10px !important; table-layout:fixed; }
-th, td { padding:5px 4px !important; line-height:1.55; overflow-wrap:anywhere; word-break:break-word; }
-/* Keep wide reports usable without widening the whole app */
-.tablewrap table { min-width:560px; }
-.days button, .blank { height:32px !important; font-size:11px !important; }
-.weekdays, .days { gap:3px !important; }
-.calhead button { padding:7px 9px !important; font-size:11px !important; }
-
-@media (min-width:651px) {
-  .app { max-width:1050px; }
-}
-@media (max-width:380px) {
-  header h1 { font-size:18px !important; }
-  main { padding:6px !important; }
-  .panel { padding:8px !important; }
-  .cardgrid { gap:5px !important; }
-  .card { min-height:82px !important; padding:8px 4px !important; }
-  .card .ico { font-size:22px !important; }
-  .card h3 { font-size:10px !important; }
-  .card b, .mini-card>b { font-size:15px !important; }
-}
-
-/* v2 mobile clarity */
-.attention-box{background:#fff;border:1px solid #e3ebe7;border-radius:14px;padding:11px;margin:9px 0;box-shadow:0 2px 10px #00000008}
-.attention-title{font-weight:800;font-size:14px;margin-bottom:7px}
-.attention-list{display:grid;gap:6px}.attention-item{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;border:0;border-radius:10px;padding:9px 10px;text-align:right;font-size:11px;color:#17352d}.attention-item b{font-size:10px;white-space:nowrap}.overdue-att{background:#fff0f0;color:#a62929}.current-att{background:#eef5ff;color:#245b9a}.reviewed-att{background:#fff8df;color:#806000}.attention-empty{font-size:11px;color:#5f716b;padding:5px}
-.quick-actions{display:flex;gap:6px;overflow-x:auto;padding:2px 0 9px;scrollbar-width:none}.quick-actions::-webkit-scrollbar{display:none}.quick-btn{flex:0 0 auto;background:#e9f2ee;color:#116b52;border:1px solid #d5e4de;border-radius:18px;padding:7px 10px;font-size:10px}
-.mobile-task-list{display:none}.mobile-task-card{background:#fff;border:1px solid #e0e8e4;border-radius:13px;padding:10px;margin-bottom:8px;box-shadow:0 2px 9px #00000008}.task-card-head{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#667771}.task-card-title{font-weight:800;font-size:13px;line-height:1.7;margin:7px 0}.task-card-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:10px;color:#51635d}.task-card-review{font-size:10px;margin-top:7px;padding-top:7px;border-top:1px solid #edf1ef;color:#5d6d68}.mobile-task-card.deadline{border-right:4px solid #c62828}.mobile-task-card.done{border-right:4px solid #2e7d32}.mobile-task-card.progress{border-right:4px solid #2f6fb0}
-@media(max-width:650px){.desktop-task-table{display:none}.mobile-task-list{display:block}.attention-title{font-size:13px}.quick-actions{margin-bottom:2px}.userbox .topline{align-items:flex-start}.userbox .topline .actions{width:100%;justify-content:flex-end}.userbox .topline .actions button{flex:0 1 auto}.topline h2{max-width:100%;overflow-wrap:anywhere}.modalbox{max-height:90vh;overflow:auto}}
-@media(max-width:380px){.attention-box{padding:9px}.attention-item{padding:8px;font-size:10px}.quick-btn{font-size:9px;padding:6px 9px}.mobile-task-card{padding:9px}.task-card-title{font-size:12px}}
-
-/* Professional mobile management layer */
-.management-box{background:#fff;border:1px solid #e1eae6;border-radius:14px;padding:11px;margin:9px 0;box-shadow:0 2px 10px #00000008}.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}.kpi{background:#f5f8f7;border-radius:11px;padding:8px 4px;text-align:center;min-width:0;border:0;font:inherit;color:inherit;width:100%}.kpi-clickable{cursor:pointer}.kpi-clickable:active{transform:scale(.98)}.kpi b{display:block;font-size:16px}.kpi span{display:block;font-size:9px;margin-top:3px;color:#60716b}.team-performance{display:grid;gap:7px}.member-performance{background:#f9fbfa;border:1px solid #e7eeeb;border-radius:11px;padding:8px}.member-performance>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:10px}.member-performance span,.member-performance small{color:#687a73;font-size:9px}.bar{height:6px;background:#e5ece9;border-radius:9px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:#116b52;border-radius:9px}.bottom-nav{display:none}
-@media(max-width:650px){body{padding-bottom:66px}.bottom-nav{position:fixed;z-index:50;bottom:0;right:0;left:0;height:60px;background:#fff;border-top:1px solid #dfe8e4;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -3px 14px #00000010}.bottom-nav button{border:0;background:transparent;color:#53655f;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.bottom-nav span{font-size:8px}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.management-box{padding:9px}.member-performance{padding:7px}}
-@media(min-width:651px){.bottom-nav{display:none!important}}
-</style>
-
-<style id="professional-cleanup">
-.compact-filter{background:#f7faf8;border:1px solid #e4ece8;border-radius:12px;padding:9px;margin:8px 0}
-.filter-row{display:flex;gap:6px;align-items:center}.filter-row>*{flex:1;min-width:0}.compact-row{margin:8px 0}
-.conditional-fields{background:#f8fbf9;border-radius:10px;padding:0 8px 8px;margin-top:5px}.compact-actions{margin:0;gap:4px}.compact-actions button{padding:6px 8px!important}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.detail-grid>div{background:#f5f9f7;border-radius:10px;padding:8px}.detail-grid span,.detail-block>span{display:block;font-size:10px;color:#687873;margin-bottom:3px}.detail-grid b{font-size:11px;overflow-wrap:anywhere}
-.detail-block{background:#f8fbf9;border-radius:11px;padding:10px;margin-top:8px}.detail-block p{margin:5px 0 0;font-size:11px;line-height:1.8;overflow-wrap:anywhere}
-@media(max-width:380px){.detail-grid{grid-template-columns:1fr}.filter-row{flex-wrap:wrap}.filter-row>*{flex-basis:100%}}
-</style>
-
-<style id="final-ui-polish">
-.compact-filter{margin:8px 0}.compact-filter .filter-row{width:100%}.compact-filter select,.compact-filter button{min-width:0}
-.detail-grid{max-height:45vh;overflow:auto}
-@media(max-width:650px){.management-box{margin-top:8px}.compact-filter{padding:8px}.compact-filter .filter-row{flex-wrap:nowrap}.compact-filter select,.compact-filter button{font-size:11px!important;padding:8px 7px!important}}
-</style>
-
-<style id="new-task-top-left">
-.home-title-row{position:relative;min-height:44px;padding-left:0;}
-.home-title-main{width:100%;display:block;}
-.home-title-main h2{padding-left:145px;}
-.home-register-btn{position:absolute;left:0;top:0;z-index:2;padding:10px 15px;border-radius:13px;background:linear-gradient(135deg,#13785f,#0b5d49);box-shadow:0 5px 14px rgba(17,107,82,.22);font-size:12px;}
-@media(max-width:650px){
- .home-title-row{min-height:42px;}
- .home-title-main h2{padding-left:132px;font-size:16px;}
- .home-register-btn{left:0;top:0;padding:9px 11px;font-size:11px;}
-}
-@media(max-width:380px){
- .home-title-main h2{padding-left:120px;font-size:14px;}
- .home-register-btn{padding:8px 9px;font-size:10px;}
-}
-</style>
-
-<style id="no-user-avatar-final">
-/* مشخصات کاربر بدون آواتار */
-.profile-identity{justify-content:flex-end!important;}
-.profile-text{width:100%!important;max-width:100%!important;text-align:right!important;}
-.profile-avatar{display:none!important;}
-</style>
-
-<nav id="bottomNav" class="bottom-nav">
-  <button type="button" onclick="showPanel('home');renderHome()">🏠<span>خانه</span></button>
-  <button type="button" onclick="showTaskView('all')">📋<span>تسک‌ها</span></button>
-  <button type="button" onclick="showPanel('reports');initReports()">📊<span>گزارش</span></button>
-  <button type="button" onclick="showPanel('meetings');renderMeetings()">📅<span>جلسات</span></button>
-  <button type="button" onclick="showPanel('settings');renderSettings()">⚙️<span>تنظیمات</span></button>
-</nav>
-<style id="task-edit-delete-actions">
-.overview-task-row{position:relative;}
-.task-row-actions{display:flex;gap:7px;margin-top:9px;justify-content:flex-start;align-items:center;}
-.task-row-actions button{width:auto!important;min-width:78px;padding:7px 11px;border-radius:10px;font-family:inherit;cursor:pointer;}
-.mobile-task-card .task-row-actions{margin-top:10px;}
-
-/* Final visual layout matching approved mockup */
-.archive-table{min-width:900px}.archive-table th{white-space:nowrap}.archive-table td{vertical-align:middle}.archive-click-row{cursor:pointer}.archive-click-row:hover{background:#f4f8fc}.archive-desc{font-weight:700;line-height:1.7;min-width:220px}.ref-cell{display:flex;flex-direction:column;gap:3px;line-height:1.35}.ref-cell small{font-size:10px;color:#6b7785}.archive-filter-clean{background:#f5f7fa;border-color:#dbe2ea}.detail-summary-card{background:#f7f9fb;border:1px solid #dce3ea;border-radius:13px;padding:12px;margin-top:10px}.detail-summary-card h3{margin:0 0 10px;font-size:15px}.detail-meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.detail-meta-grid>div{background:#fff;border:1px solid #e3e8ee;border-radius:9px;padding:8px}.detail-meta-grid b,.role-card label{display:block;font-size:10px;color:#39495b;margin-bottom:4px}.detail-meta-grid span{font-size:11px}.detail-description{margin-top:8px;background:#eef3f8;border-radius:10px;padding:9px}.detail-description p{margin:4px 0 0;font-size:11px;line-height:1.8}.detail-roles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.role-card{border:1px solid #d8dfe7;border-radius:13px;padding:10px}.role-expert{background:#f7f8fa}.role-manager{background:#e9edf2}.role-title{display:flex;align-items:center;justify-content:space-between;padding:7px 8px;border-radius:9px;margin-bottom:9px;background:#dfe4ea;color:#20334a}.role-expert .role-title{background:#edf0f3}.role-title b{font-size:13px}.role-card textarea,.role-card input,.role-card select{width:100%;box-sizing:border-box}.role-card textarea{min-height:72px}.role-fields,.manager-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.role-btn{width:100%;border:0;border-radius:8px;padding:9px;margin-top:8px;color:#fff;font-weight:800;cursor:pointer}.expert-btn{background:#287d5a}.manager-btn{background:#183153}.history-btn{width:100%;margin-top:8px;border:1px solid #cbd5df;background:#dfeaf5;color:#183153;border-radius:8px;padding:8px;text-align:right;font-weight:800;cursor:pointer}.history-list{margin-top:6px;border-radius:8px;background:#f7f9fb;border:1px solid #d8e0e8;padding:6px}.history-list>div{display:flex;gap:8px;padding:6px 3px;border-bottom:1px solid #e3e8ed;font-size:10px;line-height:1.7}.history-list>div:last-child{border-bottom:0}.history-list b{white-space:nowrap;color:#183153}.history-empty{color:#7a8794}.hidden{display:none!important}
-@media(max-width:750px){.detail-meta-grid{grid-template-columns:1fr 1fr}.detail-roles{grid-template-columns:1fr}.archive-table{min-width:900px}}
-
-.date-picker-inline{display:flex;align-items:center;gap:6px;width:100%}.date-picker-inline input{flex:1;min-width:0}.date-picker-btn{width:42px;height:42px;border:1px solid #d6dde5;border-radius:10px;background:#fff;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center}.date-picker-btn:hover{background:#f5f7f9}
-</style>
+<link rel="stylesheet" href="mobile-ux.css">
+<script src="mobile-ux.js"></script>
 </body></html>
